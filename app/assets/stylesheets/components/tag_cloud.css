@@ -1,0 +1,25 @@
+/* TagCloud — weighted Web 2.0 sidebar widget. Periwinkle, off the brand accent;
+   per-tag font-size/opacity are set inline (they scale with weight).
+   Mirrors design_system/components/discovery/TagCloud.jsx. */
+.c-tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 11px;
+  line-height: 1.4;
+}
+
+.c-tag-cloud__tag {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-regular);
+  color: var(--periwinkle);
+  text-decoration: none;
+}
+
+.c-tag-cloud__tag--heavy {
+  font-weight: var(--fw-semibold);
+}
+
+.c-tag-cloud__tag:hover {
+  text-decoration: underline;
+}
