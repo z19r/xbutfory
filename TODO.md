@@ -167,7 +167,7 @@ redirect with "coming soon" toast). **Needs design direction before building.**
 ## Engineering quality & guardrails
 
 - [ ] Categories N+1: `categories_controller` / tiles run per-category count + sample queries. Use `counter_cache` (`entries_count` exists on categories) and/or `includes`/grouped counts.
-- [ ] Keep business logic OUT of controllers (user rule). Audit `PagesController#sort_entries` — move sort/filter resolution to model scopes / a query object if it grows.
+- [x] Keep business logic OUT of controllers (user rule). Extracted feed search/category/sort + sponsor placement into `FeedQuery` (app/queries/feed_query.rb); `PagesController#home` now just resolves params and delegates. Unit tests in test/queries/feed_query_test.rb.
 - [ ] Maintain ≥80% test coverage. Add tests for: detail formula card + vote wiring, submit tier flip + create with name/tier, categories reseed hues, theme switcher, token-undefined guard.
 - [ ] Accessibility: vote button + visit link as independent targets on detail; 44px hit targets; honor `prefers-reduced-motion` (kill pulse/fireworks/transforms).
 - [ ] Commit after each build prompt (conventional, present-tense).
