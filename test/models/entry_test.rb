@@ -54,4 +54,22 @@ class EntryTest < ActiveSupport::TestCase
     entry = Entry.create!(x: "New", y: "thing", submitter: "tester")
     assert_equal 0, entry.votes_count
   end
+
+  test "search scope matches on x" do
+    Entry.create!(x: "UniqueProduct", y: "trees", submitter: "t")
+    results = Entry.search("UniqueProduct")
+    assert results.any? { |e| e.x == "UniqueProduct" }
+  end
+
+  test "search scope matches on y" do
+    Entry.create!(x: "Something", y: "UniqueNiche", submitter: "t")
+    results = Entry.search("UniqueNiche")
+    assert results.any? { |e| e.y == "UniqueNiche" }
+  end
+
+  test "search scope is case-insensitive" do
+    Entry.create!(x: "CaseTest", y: "example", submitter: "t")
+    results = Entry.search("casetest")
+    assert results.any? { |e| e.x == "CaseTest" }
+  end
 end

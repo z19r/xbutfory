@@ -18,7 +18,7 @@ export default class extends Controller {
       const data = await response.json()
       this.countTarget.textContent = data.votes_count
       this.votedValue = data.voted
-      this.buttonTarget.classList.toggle("c-entry-card__vote-btn--voted", data.voted)
+      this.buttonTarget.classList.toggle("c-card__vote--on", data.voted)
     }
   }
 }

@@ -15,4 +15,6 @@ Rails.application.routes.draw do
   resources :submissions, only: [:create]
   get "categories", to: "categories#index"
   post "entries/:entry_id/vote", to: "votes#create", as: :entry_vote
+  get "sign_in", to: "sessions#new", as: :sign_in
+  get "sign_up", to: "registrations#new", as: :sign_up
 end

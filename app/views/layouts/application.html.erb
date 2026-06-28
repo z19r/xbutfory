@@ -27,10 +27,10 @@
     <%= render UtilityBarComponent.new %>
     <%= render MastheadComponent.new do |masthead| %>
       <% masthead.with_search_slot do %>
-        <%= render SearchInputComponent.new %>
+        <%= render SearchInputComponent.new(value: params[:q].to_s) %>
       <% end %>
     <% end %>
-    <%= render NavTabsComponent.new %>
+    <%= render NavTabsComponent.new(active: content_for(:nav_tab) || "latest") %>
 
     <main class="l-content">
       <%= yield %>

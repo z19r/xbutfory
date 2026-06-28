@@ -1,4 +1,6 @@
 class VotesController < ApplicationController
+  skip_forgery_protection
+
   def create
     entry = Entry.find(params[:entry_id])
     voter_ip = request.remote_ip

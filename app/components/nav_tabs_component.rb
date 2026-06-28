@@ -1,17 +1,15 @@
 class NavTabsComponent < ViewComponent::Base
-  Tab = Data.define(:label, :key)
+  Tab = Data.define(:label, :key, :path)
 
-  TABS = [
-    Tab.new(label: "Latest", key: "latest"),
-    Tab.new(label: "Trending", key: "trending"),
-    Tab.new(label: "Top Voted", key: "top"),
-    Tab.new(label: "Categories", key: "categories"),
-    Tab.new(label: "Random", key: "random"),
-    Tab.new(label: "Submit", key: "submit")
-  ].freeze
-
-  def initialize(active: "latest", tabs: TABS)
+  def initialize(active: "latest")
     @active = active
-    @tabs = tabs
+    @tabs = [
+      Tab.new(label: "Latest", key: "latest", path: "/"),
+      Tab.new(label: "Trending", key: "trending", path: "/?sort=trending"),
+      Tab.new(label: "Top Voted", key: "top", path: "/?sort=top"),
+      Tab.new(label: "Categories", key: "categories", path: "/categories"),
+      Tab.new(label: "Random", key: "random", path: "/?sort=random"),
+      Tab.new(label: "Submit", key: "submit", path: "/submit")
+    ]
   end
 end

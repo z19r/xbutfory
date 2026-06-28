@@ -1,3 +1,10 @@
+<% if @sort == "trending" %>
+  <% content_for :nav_tab, "trending" %>
+<% elsif @sort == "top" %>
+  <% content_for :nav_tab, "top" %>
+<% elsif @sort == "random" %>
+  <% content_for :nav_tab, "random" %>
+<% end %>
 <section class="l-hero">
   <div class="l-issue">
     <span class="l-live">●</span>
@@ -25,7 +32,7 @@
       SortToggleComponent::Option.new(label: "Newest", key: "newest"),
       SortToggleComponent::Option.new(label: "Top", key: "top")
     ],
-    active: "newest"
+    active: @sort
   ) %>
 </div>
 
@@ -44,7 +51,8 @@
       stamp: entry.stamp,
       sponsored: entry.sponsored,
       category: entry.category,
-      category_label: entry.category&.titleize
+      category_label: entry.category&.titleize,
+      entry_id: entry.id
     ) %>
   <% end %>
 

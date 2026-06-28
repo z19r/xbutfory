@@ -1,11 +1,11 @@
-<div class="<%= card_classes %>">
+<div class="<%= card_classes %>" data-controller="vote" data-vote-entry-id-value="<%= @entry_id %>" data-vote-voted-value="<%= @voted %>">
   <% if pinned? %>
     <div class="c-card__ribbon"><span>★ PINNED SPONSOR</span><span class="c-card__ribbon-r2">FEATURED PLACEMENT</span></div>
   <% end %>
   <div class="c-card__row">
-    <button class="<%= vote_classes %>" aria-label="Vote for <%= @x %> but for <%= @y %>">
+    <button class="<%= vote_classes %>" aria-label="Vote for <%= @x %> but for <%= @y %>" data-vote-target="button" data-action="click->vote#toggle">
       <span class="c-card__caret">▲</span>
-      <span class="c-card__num"><%= @votes %></span>
+      <span class="c-card__num" data-vote-target="count"><%= @votes %></span>
       <span class="c-card__vlbl">VOTES</span>
     </button>
     <div class="c-card__body">

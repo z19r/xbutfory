@@ -1,5 +1,5 @@
 class EntryCardComponent < ViewComponent::Base
-  def initialize(x:, y:, votes:, description:, submitter:, ago:, url: "#", slug: nil, index: nil, category: nil, category_label: nil, stamp: nil, sponsored: nil, voted: false)
+  def initialize(x:, y:, votes:, description:, submitter:, ago:, url: "#", slug: nil, index: nil, category: nil, category_label: nil, stamp: nil, sponsored: nil, voted: false, entry_id: nil)
     @x = x
     @y = y
     @votes = votes
@@ -14,6 +14,7 @@ class EntryCardComponent < ViewComponent::Base
     @stamp = stamp
     @sponsored = sponsored
     @voted = voted
+    @entry_id = entry_id
   end
 
   def detail_path

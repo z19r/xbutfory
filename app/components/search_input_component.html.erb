@@ -1,4 +1,4 @@
-<div class="c-search-input">
+<div class="c-search-input" data-controller="search-filter">
   <span class="c-search-input__icon" aria-hidden="true">⚲</span>
   <input
     type="text"
@@ -6,5 +6,7 @@
     placeholder="<%= @placeholder %>"
     value="<%= @value %>"
     autocomplete="off"
+    data-search-filter-target="input"
+    data-action="input->search-filter#search"
   >
 </div>
