@@ -20,13 +20,13 @@ class TagCloudComponentTest < ViewComponent::TestCase
   end
 
   test "size and opacity scale with weight" do
-    render_inline(TagCloudComponent.new(tags: [{ label: "x", weight: 5 }]))
+    render_inline(TagCloudComponent.new(tags: [ { label: "x", weight: 5 } ]))
     # 11 + 5*2.6 = 24.0px ; 0.6 + 5*0.08 = 1.0
     assert_selector "a.c-tag-cloud__tag[style*='font-size: 24.0px']"
   end
 
   test "bare strings default to weight 3" do
-    render_inline(TagCloudComponent.new(tags: [{ label: "mid" }]))
+    render_inline(TagCloudComponent.new(tags: [ { label: "mid" } ]))
     # 11 + 3*2.6 = 18.8px
     assert_selector "a.c-tag-cloud__tag[style*='font-size: 18.8px']"
   end

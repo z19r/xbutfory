@@ -56,16 +56,19 @@ class AccountsController < ApplicationController
     user.entries.update_all(user_id: legacy.id, status: "withdrawn") if legacy
     user.destroy
     sign_out
-    redirect_to root_path, notice: "Your account is gone. Your listings have been withdrawn."
+    redirect_to root_path,
+                notice:
+                  "Your account is gone. Your listings have been withdrawn."
   end
 
   STATUS_FILTERS = %w[all live pending needs_edits withdrawn].freeze
 
   def submissions
     scope = current_user.entries
-    @counts = STATUS_FILTERS.index_with do |status|
-      status == "all" ? scope.count : scope.where(status: status).count
-    end
+    @counts =
+      STATUS_FILTERS.index_with do |status|
+        status == "all" ? scope.count : scope.where(status: status).count
+      end
     @filter = STATUS_FILTERS.include?(params[:status]) ? params[:status] : "all"
     @entries = scope.order(created_at: :desc)
     @entries = @entries.where(status: @filter) unless @filter == "all"

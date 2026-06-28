@@ -1,5 +1,21 @@
 class EntryCardComponent < ViewComponent::Base
-  def initialize(x:, y:, votes:, description:, submitter:, ago:, url: "#", slug: nil, index: nil, category: nil, category_label: nil, stamp: nil, sponsored: nil, voted: false, entry_id: nil)
+  def initialize(
+    x:,
+    y:,
+    votes:,
+    description:,
+    submitter:,
+    ago:,
+    url: "#",
+    slug: nil,
+    index: nil,
+    category: nil,
+    category_label: nil,
+    stamp: nil,
+    sponsored: nil,
+    voted: false,
+    entry_id: nil
+  )
     @x = x
     @y = y
     @votes = votes

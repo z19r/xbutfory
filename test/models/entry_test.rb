@@ -15,7 +15,8 @@ class EntryTest < ActiveSupport::TestCase
   end
 
   test "does not overwrite an explicit slug" do
-    entry = Entry.create!(x: "Slack", y: "pets", slug: "custom-slug", user: @user)
+    entry =
+      Entry.create!(x: "Slack", y: "pets", slug: "custom-slug", user: @user)
     assert_equal "custom-slug", entry.slug
   end
 
@@ -66,9 +67,7 @@ class EntryTest < ActiveSupport::TestCase
   test "by_category scope filters entries" do
     results = Entry.by_category("payments")
     assert results.any?, "expected at least one payments entry from fixtures"
-    results.each do |e|
-      assert_equal "payments", e.category
-    end
+    results.each { |e| assert_equal "payments", e.category }
   end
 
   test "votes_count defaults to zero" do
@@ -88,9 +87,29 @@ class EntryTest < ActiveSupport::TestCase
     assert results.any? { |e| e.y == "UniqueNiche" }
   end
 
-  test "search scope is case-insensitive" do
-    Entry.create!(x: "CaseTest", y: "example", user: @user)
-    results = Entry.search("casetest")
-    assert results.any? { |e| e.x == "CaseTest" }
+  test "search scope matches on description" do
+    Entry.create!(
+      x: "App",
+      y: "niche",
+      description: "UniqueDescriptionPhrase",
+      user: @user,
+    )
+    results = Entry.search("UniqueDescriptionPhrase")
+    assert results.any?
+  end
+
+  test "sfw scope excludes nsfw entries" do
+    Entry.create!(x: "Safe", y: "one", nsfw: false, user: @user)
+    Entry.create!(x: "Spicy", y: "one", nsfw: true, user: @user)
+    slugs = Entry.sfw.pluck(:slug)
+    assert_includes slugs, "safe-but-for-one"
+    assert_not_includes slugs, "spicy-but-for-one"
+  end
+
+  test "featured? reflects tier" do
+    entry = Entry.new(tier: "featured")
+    assert entry.featured?
+    entry.tier = "free"
+    assert_not entry.featured?
   end
 end

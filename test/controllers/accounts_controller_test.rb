@@ -20,7 +20,11 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
   test "updating the profile saves display name and bio" do
     sign_in_as(users(:member))
-    patch account_profile_path, params: { display_name: "Renamed", bio: "Builder of things." }
+    patch account_profile_path,
+          params: {
+            display_name: "Renamed",
+            bio: "Builder of things."
+          }
     assert_redirected_to account_settings_path
     users(:member).reload.tap do |u|
       assert_equal "Renamed", u.display_name
@@ -30,16 +34,33 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
   test "changing the password requires the current password" do
     sign_in_as(users(:member))
-    patch account_security_path, params: { current_password: "wrong", password: "newsecret", password_confirmation: "newsecret" }
+    patch account_security_path,
+          params: {
+            current_password: "wrong",
+            password: "newsecret",
+            password_confirmation: "newsecret"
+          }
     assert_response :unprocessable_entity
     assert users(:member).reload.authenticate("password"), "password unchanged"
   end
 
   test "changing the password works with the current password" do
     sign_in_as(users(:member))
-    patch account_security_path, params: { current_password: "password", password: "newsecret", password_confirmation: "newsecret" }
+    patch account_security_path,
+          params: {
+            current_password: "password",
+            password: "newsecret",
+            password_confirmation: "newsecret"
+          }
     assert_redirected_to account_settings_path
     assert users(:member).reload.authenticate("newsecret")
+  end
+
+  test "updating email without changing password" do
+    sign_in_as(users(:member))
+    patch account_security_path, params: { email: "renamed@example.com" }
+    assert_redirected_to account_settings_path
+    assert_equal "renamed@example.com", users(:member).reload.email
   end
 
   test "updating notifications toggles preferences" do

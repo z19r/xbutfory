@@ -6,11 +6,16 @@ class TagCloudComponent < ViewComponent::Base
   Tag = Data.define(:label, :weight, :href)
 
   def initialize(tags:)
-    @tags = tags.map do |t|
-      next t if t.is_a?(Tag)
+    @tags =
+      tags.map do |t|
+        next t if t.is_a?(Tag)
 
-      Tag.new(label: t[:label], weight: (t[:weight] || 3), href: t[:href] || "#")
-    end
+        Tag.new(
+          label: t[:label],
+          weight: (t[:weight] || 3),
+          href: t[:href] || "#",
+        )
+      end
   end
 
   # font-size 11 + weight*2.6 ; opacity 0.6 + weight*0.08 — straight from the JSX.

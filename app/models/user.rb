@@ -9,9 +9,15 @@ class User < ApplicationRecord
 
   before_validation :normalize_handle, :normalize_email, :ensure_api_key
 
-  validates :handle, presence: true,
-                     format: { with: HANDLE_FORMAT, message: "must be 3–20 lowercase letters, numbers or underscores" },
-                     uniqueness: { case_sensitive: false }
+  validates :handle,
+            presence: true,
+            format: {
+              with: HANDLE_FORMAT,
+              message: "must be 3–20 lowercase letters, numbers or underscores"
+            },
+            uniqueness: {
+              case_sensitive: false
+            }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :api_key, presence: true, uniqueness: true
 

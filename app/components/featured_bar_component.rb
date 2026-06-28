@@ -4,7 +4,7 @@
 class FeaturedBarComponent < ViewComponent::Base
   def initialize(
     label: "AS FEATURED ON",
-    badges: ["Digg", "del.icio.us", "MetaFilter", "Daring Fireball"],
+    badges: [ "Digg", "del.icio.us", "MetaFilter", "Daring Fireball" ],
     note: "valid XHTML 1.0 · RSS 2.0",
     gel: true
   )

@@ -1,4 +1,7 @@
 ENV["RAILS_ENV"] ||= "test"
+
+require_relative "support/simplecov" if ENV["COVERAGE"]
+
 require_relative "../config/environment"
 require "rails/test_help"
 
@@ -6,6 +9,14 @@ module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
+
+    if ENV["COVERAGE"]
+      parallelize_setup do |worker|
+        SimpleCov.command_name("minitest-#{worker}")
+      end
+
+      parallelize_teardown { |_worker| SimpleCov.result }
+    end
 
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all

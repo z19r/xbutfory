@@ -5,8 +5,19 @@ class FormFieldComponent < ViewComponent::Base
   renders_one :trailing
   renders_one :label_aside
 
-  def initialize(label: nil, hint: nil, error: nil, prefix: nil, as: :input, mono: false,
-                 name: nil, type: "text", value: nil, id: nil, **input_attrs)
+  def initialize(
+    label: nil,
+    hint: nil,
+    error: nil,
+    prefix: nil,
+    as: :input,
+    mono: false,
+    name: nil,
+    type: "text",
+    value: nil,
+    id: nil,
+    **input_attrs
+  )
     @label = label
     @hint = hint
     @error = error
@@ -31,7 +42,7 @@ class FormFieldComponent < ViewComponent::Base
   end
 
   def root_classes
-    classes = ["c-field"]
+    classes = [ "c-field" ]
     classes << "c-field--error" if error?
     classes << "c-field--textarea" if textarea?
     classes << "c-field--mono" if @mono
@@ -39,7 +50,7 @@ class FormFieldComponent < ViewComponent::Base
   end
 
   def input_classes
-    classes = ["c-field__input"]
+    classes = [ "c-field__input" ]
     classes << "c-field__input--prefixed" if @prefix
     classes << "c-field__input--trailing" if trailing?
     classes.join(" ")
@@ -59,6 +70,6 @@ class FormFieldComponent < ViewComponent::Base
   def default_id
     return nil unless @label
 
-    "f-#{@label.to_s.downcase.gsub(/[^a-z0-9]+/, '-').delete_suffix('-')}"
+    "f-#{@label.to_s.downcase.gsub(/[^a-z0-9]+/, "-").delete_suffix("-")}"
   end
 end

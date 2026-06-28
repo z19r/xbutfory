@@ -3,10 +3,18 @@ class PagesController < ApplicationController
     @sort = params[:sort].presence || "newest"
     @query = params[:q].presence
     @after_dark = cookies[:after_dark] == "1"
-    @filter_category = Category.find_by(slug: params[:category]) if params[:category].present?
+    @filter_category = Category.find_by(slug: params[:category]) if params[
+      :category
+    ].present?
 
     base = @after_dark ? Entry.all : Entry.sfw
-    @entries = FeedQuery.new(scope: base, sort: @sort, query: @query, category: @filter_category).entries
+    @entries =
+      FeedQuery.new(
+        scope: base,
+        sort: @sort,
+        query: @query,
+        category: @filter_category,
+      ).entries
 
     @new_today = Entry.where(created_at: Date.current.all_day).count
     @total_entries = Entry.count
@@ -25,7 +33,11 @@ class PagesController < ApplicationController
 
     stats.map do |s|
       weight = max.zero? ? 3 : (1 + (s[:count] * 4.0 / max)).round.clamp(1, 5)
-      { label: s[:category].name.downcase, weight: weight, href: root_path(category: s[:category].slug) }
+      {
+        label: s[:category].name.downcase,
+        weight: weight,
+        href: root_path(category: s[:category].slug)
+      }
     end
   end
 end

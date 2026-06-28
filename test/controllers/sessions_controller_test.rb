@@ -15,7 +15,11 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "valid credentials start a session" do
-    post sign_in_path, params: { email: users(:member).email, password: "password" }
+    post sign_in_path,
+         params: {
+           email: users(:member).email,
+           password: "password"
+         }
     assert_redirected_to root_path
     # a gated action now succeeds without bouncing
     get new_submission_path
@@ -23,12 +27,27 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "bad credentials are rejected" do
-    post sign_in_path, params: { email: users(:member).email, password: "wrong" }
+    post sign_in_path,
+         params: {
+           email: users(:member).email,
+           password: "wrong"
+         }
     assert_redirected_to sign_in_path
     follow_redirect!
     # still gated
     get new_submission_path
     assert_redirected_to sign_in_path
+  end
+
+  test "return_to sends the member back after sign-in" do
+    get new_submission_path
+    assert_redirected_to sign_in_path
+    post sign_in_path,
+         params: {
+           email: users(:member).email,
+           password: "password"
+         }
+    assert_redirected_to new_submission_path
   end
 
   test "sign out ends the session" do

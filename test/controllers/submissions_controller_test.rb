@@ -15,10 +15,17 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
   test "creating a valid entry redirects to detail and is owned by the member" do
     sign_in_as(users(:member))
     assert_difference "Entry.count", 1 do
-      post submissions_path, params: {
-        entry: { x: "TestApp", y: "unit tests", name: "Tester", description: "A test entry.",
-                 category: "saas", tier: "free" }
-      }
+      post submissions_path,
+           params: {
+             entry: {
+               x: "TestApp",
+               y: "unit tests",
+               name: "Tester",
+               description: "A test entry.",
+               category: "saas",
+               tier: "free"
+             }
+           }
     end
     entry = Entry.find_by(x: "TestApp")
     assert_redirected_to entry_path(slug: "testapp-but-for-unit-tests")
@@ -42,7 +49,14 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
 
   test "featured tier returns a payment-coming-soon notice" do
     sign_in_as(users(:member))
-    post submissions_path, params: { entry: { x: "Fancy", y: "yachts", tier: "featured" } }
+    post submissions_path,
+         params: {
+           entry: {
+             x: "Fancy",
+             y: "yachts",
+             tier: "featured"
+           }
+         }
     follow_redirect!
     assert_match(/payment/i, flash[:notice].to_s)
   end
@@ -77,7 +91,12 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     member = users(:member)
     entry = member.entries.create!(x: "Fix", y: "me", status: "needs_edits")
     sign_in_as(member)
-    patch submission_path(entry), params: { entry: { description: "Now improved." } }
+    patch submission_path(entry),
+          params: {
+            entry: {
+              description: "Now improved."
+            }
+          }
     assert_redirected_to manage_submissions_path
     entry.reload
     assert_equal "Now improved.", entry.description

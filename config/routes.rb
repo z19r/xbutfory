@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get "feed.xml", to: "feeds#show", as: :feed, format: false
   get "entry/:slug", to: "entries#show", as: :entry
   get "submit", to: "submissions#new", as: :new_submission
-  resources :submissions, only: [:create, :edit, :update]
+  resources :submissions, only: [ :create, :edit, :update ]
   patch "submissions/:id/status", to: "submissions#transition", as: :submission_status
   get "categories", to: "categories#index"
   post "entries/:entry_id/vote", to: "votes#create", as: :entry_vote

@@ -8,13 +8,13 @@ class ReworkVotesPerUser < ActiveRecord::Migration[8.1]
     remove_index :votes, name: "index_votes_on_entry_id_and_voter_ip"
     remove_column :votes, :voter_ip
     add_reference :votes, :user, null: false, foreign_key: true
-    add_index :votes, [:user_id, :entry_id], unique: true
+    add_index :votes, [ :user_id, :entry_id ], unique: true
   end
 
   def down
-    remove_index :votes, column: [:user_id, :entry_id]
+    remove_index :votes, column: [ :user_id, :entry_id ]
     remove_reference :votes, :user, foreign_key: true
     add_column :votes, :voter_ip, :string, null: false, default: ""
-    add_index :votes, [:entry_id, :voter_ip], unique: true, name: "index_votes_on_entry_id_and_voter_ip"
+    add_index :votes, [ :entry_id, :voter_ip ], unique: true, name: "index_votes_on_entry_id_and_voter_ip"
   end
 end

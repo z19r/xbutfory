@@ -9,12 +9,20 @@ class Category < ApplicationRecord
   def self.with_stats(include_nsfw: false)
     scope = include_nsfw ? Entry.all : Entry.sfw
     counts = scope.group(:category).count
-    samples = scope.where.not(name: [nil, ""]).order(votes_count: :desc).to_a
-      .group_by(&:category)
-      .transform_values { |entries| entries.first(3).map(&:name).join(" · ") }
+    samples =
+      scope
+        .where.not(name: [ nil, "" ])
+        .order(votes_count: :desc)
+        .to_a
+        .group_by(&:category)
+        .transform_values { |entries| entries.first(3).map(&:name).join(" · ") }
 
     order(:name).map do |category|
-      { category: category, count: counts[category.slug].to_i, sample: samples[category.slug] }
+      {
+        category: category,
+        count: counts[category.slug].to_i,
+        sample: samples[category.slug]
+      }
     end
   end
 

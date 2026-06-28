@@ -24,12 +24,34 @@ class FeedQueryTest < ActiveSupport::TestCase
   test "top sort orders organic rows by votes" do
     feed = FeedQuery.new(scope: Entry.all, sort: "top").entries
     organic = feed.reject(&:sponsored)
-    assert_equal organic.map(&:votes_count), organic.map(&:votes_count).sort.reverse
+    assert_equal organic.map(&:votes_count),
+                 organic.map(&:votes_count).sort.reverse
   end
 
   test "respects the supplied scope so NSFW can be excluded" do
     sfw = FeedQuery.new(scope: Entry.sfw).entries
     all = FeedQuery.new(scope: Entry.all).entries
     assert_operator all.size, :>=, sfw.size
+  end
+
+  test "filters by category slug" do
+    feed = FeedQuery.new(scope: Entry.all, category: categories(:one)).entries
+    feed.each { |e| assert_equal "saas", e.category }
+    assert_includes slugs(feed), "notion-but-for-recipes"
+  end
+
+  test "random sort still returns entries" do
+    feed = FeedQuery.new(scope: Entry.all, sort: "random").entries
+    assert feed.any?
+  end
+
+  test "appends spotlight at end when feed is shorter than spotlight slot" do
+    user = users(:member)
+    only = Entry.create!(x: "Only", y: "one", user: user)
+    spotlight =
+      Entry.create!(x: "Spot", y: "light", sponsored: "spotlight", user: user)
+    scope = Entry.where(id: [ only.id, spotlight.id ])
+    feed = FeedQuery.new(scope: scope).entries
+    assert_equal spotlight, feed.last
   end
 end

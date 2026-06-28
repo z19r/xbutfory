@@ -6,8 +6,15 @@
 # When `interactive:` is set it carries the home easter egg (the cycling Y), matching
 # the original masthead behavior (logo-y Stimulus controller).
 class WordmarkComponent < ViewComponent::Base
-  def initialize(size: nil, responsive: false, accent_y: true, ghost: false,
-                 beta: false, beta_label: "BETA", interactive: false)
+  def initialize(
+    size: nil,
+    responsive: false,
+    accent_y: true,
+    ghost: false,
+    beta: false,
+    beta_label: "BETA",
+    interactive: false
+  )
     @size = size
     @responsive = responsive
     @accent_y = accent_y
@@ -18,7 +25,7 @@ class WordmarkComponent < ViewComponent::Base
   end
 
   def root_classes
-    classes = ["c-wordmark"]
+    classes = [ "c-wordmark" ]
     classes << "c-wordmark--responsive" if @responsive
     classes.join(" ")
   end
