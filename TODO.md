@@ -126,8 +126,8 @@ Reference: `CategoriesScreen.jsx`, `categories.html`. Files: `app/views/categori
 ## P2 — Home polish & sponsored placements
 
 - [x] **REGRESSION FIXED** (commit 647fbef): restored home hero issue dateline + `<i>newly launched</i>` italic; added regression tests.
-- [ ] Verify/complete sponsored card variants on the feed: PINNED (ribbon "★ PINNED SPONSOR / Learn more →", `--sponsor-tint` wash, `--shadow-pin`) and SPOTLIGHT (`--shadow-sponsor` magenta glow, SPONSORED tag in `--sponsor-tag`)
-- [ ] Confirm pinned sponsor renders at top, spotlight mid-feed (per reference ORG/PINNED/SPOTLIGHT logic)
+- [x] Verify/complete sponsored card variants on the feed: PINNED (ribbon "★ PINNED SPONSOR / Learn more →", `--sponsor-tint` wash, `--shadow-pin`) and SPOTLIGHT (`--shadow-sponsor` magenta glow, SPONSORED tag in `--sponsor-tag`) — component + CSS already complete
+- [x] Confirm pinned sponsor renders at top, spotlight mid-feed (commit 5658cae): controller `arrange_feed` pins to top, drops spotlight after 2 organic rows, numbering skips the pinned slot; placement tests added
 - [x] Re-verify card category-tag hues after 0.2 reseed
 - [x] Wordmark colors (X ink, but accent, for ink, Y accent, . ink)
 - [x] Hero dek copy + `<code>` chip
