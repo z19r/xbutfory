@@ -37,4 +37,49 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_match(/payment/i, flash[:notice].to_s)
   end
+
+  test "withdrawing a live listing" do
+    member = users(:member)
+    entry = member.entries.create!(x: "Wd", y: "x", status: "live")
+    sign_in_as(member)
+    patch submission_status_path(entry, to: "withdrawn")
+    assert_redirected_to manage_submissions_path
+    assert entry.reload.withdrawn?
+  end
+
+  test "restoring a withdrawn listing" do
+    member = users(:member)
+    entry = member.entries.create!(x: "Wd2", y: "x", status: "withdrawn")
+    sign_in_as(member)
+    patch submission_status_path(entry, to: "live")
+    assert entry.reload.live?
+  end
+
+  test "a disallowed transition is rejected and leaves the status untouched" do
+    member = users(:member)
+    entry = member.entries.create!(x: "Lv", y: "x", status: "live")
+    sign_in_as(member)
+    patch submission_status_path(entry, to: "live") # live -> live not allowed
+    assert_redirected_to manage_submissions_path
+    assert entry.reload.live?
+  end
+
+  test "editing a needs_edits listing resubmits it as pending" do
+    member = users(:member)
+    entry = member.entries.create!(x: "Fix", y: "me", status: "needs_edits")
+    sign_in_as(member)
+    patch submission_path(entry), params: { entry: { description: "Now improved." } }
+    assert_redirected_to manage_submissions_path
+    entry.reload
+    assert_equal "Now improved.", entry.description
+    assert entry.pending?
+  end
+
+  test "cannot transition another member's listing" do
+    other = entries(:one) # owned by apt_4b
+    sign_in_as(users(:member))
+    patch submission_status_path(other, to: "withdrawn")
+    assert_response :not_found
+    assert other.reload.live?, "another member's listing is untouched"
+  end
 end

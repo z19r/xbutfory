@@ -16,7 +16,48 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  def edit
+    @entry = own_entry
+  end
+
+  def update
+    @entry = own_entry
+    was_needs_edits = @entry.needs_edits?
+    if @entry.update(entry_params)
+      @entry.update(status: "pending") if was_needs_edits # "edit & resubmit"
+      redirect_to manage_submissions_path, notice: "Listing updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  # Status transitions from the manage screen (withdraw / cancel / restore).
+  TRANSITIONS = { "withdrawn" => %w[live pending needs_edits], "live" => %w[withdrawn] }.freeze
+
+  def transition
+    entry = own_entry
+    target = params[:to]
+    if TRANSITIONS[target]&.include?(entry.status)
+      entry.update!(status: target)
+      redirect_to manage_submissions_path, notice: transition_notice(target)
+    else
+      redirect_to manage_submissions_path, alert: "That status change isn't allowed."
+    end
+  end
+
   private
+
+  def own_entry
+    current_user.entries.find(params[:id])
+  end
+
+  def transition_notice(target)
+    case target
+    when "withdrawn" then "Listing withdrawn."
+    when "live" then "Listing restored."
+    else "Listing updated."
+    end
+  end
 
   def load_categories
     @categories = Category.order(:name)

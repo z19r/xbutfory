@@ -59,6 +59,32 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal old_key, users(:member).reload.api_key
   end
 
+  test "manage submissions requires a session" do
+    get manage_submissions_path
+    assert_redirected_to sign_in_path
+  end
+
+  test "manage submissions lists the member's own listings" do
+    member = users(:member)
+    member.entries.create!(x: "Mine", y: "tests", status: "live")
+    member.entries.create!(x: "Draft", y: "review", status: "pending")
+    sign_in_as(member)
+    get manage_submissions_path
+    assert_response :success
+    assert_select ".c-sub", 2
+    assert_select ".l-manage__pill--active", text: /All/
+  end
+
+  test "manage submissions filters by status" do
+    member = users(:member)
+    member.entries.create!(x: "Liveone", y: "a", status: "live")
+    member.entries.create!(x: "Pendone", y: "b", status: "pending")
+    sign_in_as(member)
+    get manage_submissions_path(status: "pending")
+    assert_select ".c-sub", 1
+    assert_select ".c-sub__title", text: /Pendone/
+  end
+
   test "deleting the account withdraws listings to legacy and ends the session" do
     member = users(:member)
     owned = member.entries.create!(x: "Doomed", y: "deletion")
