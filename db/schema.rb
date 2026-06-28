@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_28_091240) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_28_100002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,14 +32,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_091240) do
     t.text "description"
     t.string "name"
     t.boolean "nsfw", default: false, null: false
+    t.text "reviewer_note"
     t.string "slug", null: false
     t.string "sponsored"
     t.string "stamp"
+    t.string "status", default: "live", null: false
     t.string "submitter", null: false
     t.string "tagline"
     t.string "tier", default: "free", null: false
     t.datetime "updated_at", null: false
     t.string "url"
+    t.bigint "user_id", null: false
     t.integer "votes_count", default: 0, null: false
     t.text "why"
     t.string "x", null: false
@@ -47,16 +50,38 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_091240) do
     t.index ["category"], name: "index_entries_on_category"
     t.index ["created_at"], name: "index_entries_on_created_at"
     t.index ["slug"], name: "index_entries_on_slug", unique: true
+    t.index ["user_id"], name: "index_entries_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "api_key", null: false
+    t.string "avatar_url"
+    t.text "bio"
+    t.datetime "created_at", null: false
+    t.boolean "digest_opt_in", default: true, null: false
+    t.string "display_name"
+    t.string "email", null: false
+    t.string "handle", null: false
+    t.boolean "milestone_notifications", default: true, null: false
+    t.string "password_digest", null: false
+    t.boolean "reply_notifications", default: true, null: false
+    t.datetime "updated_at", null: false
+    t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
+    t.index "lower((handle)::text)", name: "index_users_on_lower_handle", unique: true
+    t.index ["api_key"], name: "index_users_on_api_key", unique: true
   end
 
   create_table "votes", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "entry_id", null: false
     t.datetime "updated_at", null: false
-    t.string "voter_ip", null: false
-    t.index ["entry_id", "voter_ip"], name: "index_votes_on_entry_id_and_voter_ip", unique: true
+    t.bigint "user_id", null: false
     t.index ["entry_id"], name: "index_votes_on_entry_id"
+    t.index ["user_id", "entry_id"], name: "index_votes_on_user_id_and_entry_id", unique: true
+    t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
+  add_foreign_key "entries", "users"
   add_foreign_key "votes", "entries"
+  add_foreign_key "votes", "users"
 end

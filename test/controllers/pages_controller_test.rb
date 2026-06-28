@@ -78,14 +78,14 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "hides nsfw entries by default" do
-    nsfw_entry = Entry.create!(x: "TestNSFW", y: "hidden", submitter: "t", nsfw: true)
+    nsfw_entry = Entry.create!(x: "TestNSFW", y: "hidden", submitter: "t", nsfw: true, user: users(:member))
     get root_url
     assert_response :success
     assert_select ".c-card", minimum: 1
   end
 
   test "shows nsfw entries when after_dark cookie is set" do
-    Entry.create!(x: "TestNSFW", y: "visible", submitter: "t", nsfw: true)
+    Entry.create!(x: "TestNSFW", y: "visible", submitter: "t", nsfw: true, user: users(:member))
     cookies[:after_dark] = "1"
     get root_url
     assert_response :success

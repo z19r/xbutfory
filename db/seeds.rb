@@ -92,10 +92,26 @@ entries_data = [
     submitter: "hotdesk", category: "dating", votes_count: 312, nsfw: true }
 ]
 
+# Members own every submission. Seed the placeholder "legacy" owner (the migration's
+# backfill target) plus one user per submitter handle. Dev password for all: "password".
+SEED_PASSWORD = "password"
+
+users_by_handle = {}
+(["legacy"] + entries_data.map { |attrs| attrs[:submitter] }).uniq.each do |handle|
+  user = User.find_or_initialize_by(handle: handle)
+  user.display_name ||= handle.tr("_", " ").split.map(&:capitalize).join(" ")
+  user.email ||= "#{handle}@xbutfory.example"
+  user.password = SEED_PASSWORD if user.new_record?
+  user.save!
+  users_by_handle[handle] = user
+end
+
 entries_data.each_with_index do |attrs, i|
   entry = Entry.find_or_initialize_by(slug: "#{attrs[:x]}-but-for-#{attrs[:y]}".parameterize)
-  entry.update!(attrs)
+  entry.assign_attributes(attrs)
+  entry.user = users_by_handle.fetch(attrs[:submitter])
+  entry.save!
   entry.update_columns(created_at: (entries_data.length - i).hours.ago) if entry.created_at > 1.hour.ago
 end
 
-puts "Seeded #{Category.count} categories and #{Entry.count} entries."
+puts "Seeded #{User.count} users, #{Category.count} categories and #{Entry.count} entries."

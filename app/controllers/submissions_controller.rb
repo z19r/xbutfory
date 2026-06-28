@@ -1,4 +1,5 @@
 class SubmissionsController < ApplicationController
+  before_action :require_authentication
   before_action :load_categories
 
   def new
@@ -6,7 +7,8 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    @entry = Entry.new(entry_params)
+    @entry = current_user.entries.new(entry_params)
+    @entry.submitter = current_user.handle # byline is the @handle (column dropped in Phase E)
     if @entry.save
       redirect_to entry_path(slug: @entry.slug), notice: submission_notice(@entry)
     else
@@ -21,7 +23,7 @@ class SubmissionsController < ApplicationController
   end
 
   def entry_params
-    params.require(:entry).permit(:x, :y, :name, :description, :url, :submitter, :category, :tier)
+    params.require(:entry).permit(:x, :y, :name, :description, :url, :category, :tier)
   end
 
   def submission_notice(entry)

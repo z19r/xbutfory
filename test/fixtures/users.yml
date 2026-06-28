@@ -1,0 +1,50 @@
+<% password = BCrypt::Password.create("password") %>
+
+apt_4b:
+  handle: apt_4b
+  display_name: Apartment 4B
+  email: apt_4b@example.com
+  password_digest: <%= password %>
+  api_key: <%= SecureRandom.hex(24) %>
+
+squeezed_ceo:
+  handle: squeezed_ceo
+  display_name: Squeezed CEO
+  email: squeezed_ceo@example.com
+  password_digest: <%= password %>
+  api_key: <%= SecureRandom.hex(24) %>
+
+hungrybuilder:
+  handle: hungrybuilder
+  display_name: Hungry Builder
+  email: hungrybuilder@example.com
+  password_digest: <%= password %>
+  api_key: <%= SecureRandom.hex(24) %>
+
+altar_ego:
+  handle: altar_ego
+  display_name: Altar Ego
+  email: altar_ego@example.com
+  password_digest: <%= password %>
+  api_key: <%= SecureRandom.hex(24) %>
+
+floor_four:
+  handle: floor_four
+  display_name: Floor Four
+  email: floor_four@example.com
+  password_digest: <%= password %>
+  api_key: <%= SecureRandom.hex(24) %>
+
+member:
+  handle: member
+  display_name: A Member
+  email: member@example.com
+  password_digest: <%= password %>
+  api_key: <%= SecureRandom.hex(24) %>
+
+legacy:
+  handle: legacy
+  display_name: The Archive
+  email: legacy@xbutfory.example
+  password_digest: <%= password %>
+  api_key: <%= SecureRandom.hex(24) %>

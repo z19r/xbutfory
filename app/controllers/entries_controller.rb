@@ -4,7 +4,7 @@ class EntriesController < ApplicationController
   def show
     @entry = Entry.find_by!(slug: params[:slug])
     @category = Category.find_by(slug: @entry.category)
-    @voted = @entry.votes.exists?(voter_ip: request.remote_ip)
+    @voted = user_signed_in? && @entry.votes.exists?(user: current_user)
   end
 
   private

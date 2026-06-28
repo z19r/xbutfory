@@ -18,7 +18,7 @@ gem "stimulus-rails"
 gem "view_component"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -52,6 +52,12 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem "solargraph", require: false
+
+  # Prettier Ruby formatter (via @prettier/plugin-ruby)
+  gem "prettier_print", require: false
+  gem "syntax_tree", require: false
 end
 
 group :development do

@@ -1,7 +1,11 @@
 class Entry < ApplicationRecord
+  belongs_to :user
   has_many :votes, dependent: :destroy
 
   TIERS = %w[free featured].freeze
+
+  # Lifecycle of a listing (see MIGRATION.md). DB-backed string enum, default live.
+  enum :status, { live: "live", pending: "pending", needs_edits: "needs_edits", withdrawn: "withdrawn" }, default: "live"
 
   validates :x, :y, :slug, presence: true
   validates :slug, uniqueness: true

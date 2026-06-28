@@ -3,6 +3,7 @@ one:
   'y': the building you live in
   description: Swipe on your neighbors.
   url: https://example.com
+  user: apt_4b
   submitter: apt_4b
   category: dating
   stamp: new
@@ -14,6 +15,7 @@ two:
   'y': lemonade stands
   description: Payments for kids.
   url: https://example.com
+  user: squeezed_ceo
   submitter: squeezed_ceo
   category: payments
   votes_count: 287
@@ -24,6 +26,7 @@ three:
   'y': recipes
   description: Relational data for dinner parties.
   url: https://example.com
+  user: hungrybuilder
   submitter: hungrybuilder
   category: saas
   votes_count: 150
@@ -34,6 +37,7 @@ pinned_sponsor:
   'y': wedding planning
   description: Issue tracking for seating-chart crises.
   url: https://example.com
+  user: altar_ego
   submitter: altar_ego
   category: saas
   sponsored: pinned
@@ -45,6 +49,7 @@ spotlight_sponsor:
   'y': your elevator
   description: A channel for every floor of your building.
   url: https://example.com
+  user: floor_four
   submitter: floor_four
   category: dating
   sponsored: spotlight

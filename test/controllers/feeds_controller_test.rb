@@ -16,7 +16,7 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
 
   test "the feed omits NSFW entries" do
     Entry.create!(x: "Secret", y: "after dark", slug: "secret-but-for-after-dark",
-                  description: "hidden", submitter: "ghost", nsfw: true)
+                  description: "hidden", submitter: "ghost", nsfw: true, user: users(:member))
     get "/feed.xml"
     assert_select "entry > title", text: "Secret but for after dark", count: 0
   end

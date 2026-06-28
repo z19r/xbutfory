@@ -1,13 +1,21 @@
 require "test_helper"
 
 class EntryTest < ActiveSupport::TestCase
+  setup { @user = users(:member) }
+
+  test "belongs to a user (submissions are account-bound)" do
+    entry = Entry.new(x: "Acme", y: "ants")
+    assert_not entry.valid?
+    assert_includes entry.errors[:user], "must exist"
+  end
+
   test "generates slug from x and y on create" do
-    entry = Entry.create!(x: "Slack", y: "pets", submitter: "tester")
+    entry = Entry.create!(x: "Slack", y: "pets", user: @user)
     assert_equal "slack-but-for-pets", entry.slug
   end
 
   test "does not overwrite an explicit slug" do
-    entry = Entry.create!(x: "Slack", y: "pets", submitter: "tester", slug: "custom-slug")
+    entry = Entry.create!(x: "Slack", y: "pets", slug: "custom-slug", user: @user)
     assert_equal "custom-slug", entry.slug
   end
 
@@ -18,21 +26,22 @@ class EntryTest < ActiveSupport::TestCase
     assert_includes entry.errors[:y], "can't be blank"
   end
 
-  test "submitter is optional and defaults to anonymous" do
-    entry = Entry.create!(x: "Acme", y: "ants")
-    assert_equal "anonymous", entry.submitter
+  test "status defaults to live" do
+    entry = Entry.create!(x: "Acme", y: "ants", user: @user)
+    assert entry.live?
+    assert_equal "live", entry.status
   end
 
   test "tier defaults to free and rejects unknown tiers" do
-    entry = Entry.create!(x: "Acme", y: "bees")
+    entry = Entry.create!(x: "Acme", y: "bees", user: @user)
     assert_equal "free", entry.tier
     entry.tier = "platinum"
     assert_not entry.valid?
   end
 
   test "enforces unique slugs" do
-    Entry.create!(x: "Slack", y: "pets", submitter: "a")
-    duplicate = Entry.new(x: "Slack", y: "pets", submitter: "b")
+    Entry.create!(x: "Slack", y: "pets", user: @user)
+    duplicate = Entry.new(x: "Slack", y: "pets", user: @user)
     assert_not duplicate.valid?
     assert_includes duplicate.errors[:slug], "has already been taken"
   end
@@ -63,24 +72,24 @@ class EntryTest < ActiveSupport::TestCase
   end
 
   test "votes_count defaults to zero" do
-    entry = Entry.create!(x: "New", y: "thing", submitter: "tester")
+    entry = Entry.create!(x: "New", y: "thing", user: @user)
     assert_equal 0, entry.votes_count
   end
 
   test "search scope matches on x" do
-    Entry.create!(x: "UniqueProduct", y: "trees", submitter: "t")
+    Entry.create!(x: "UniqueProduct", y: "trees", user: @user)
     results = Entry.search("UniqueProduct")
     assert results.any? { |e| e.x == "UniqueProduct" }
   end
 
   test "search scope matches on y" do
-    Entry.create!(x: "Something", y: "UniqueNiche", submitter: "t")
+    Entry.create!(x: "Something", y: "UniqueNiche", user: @user)
     results = Entry.search("UniqueNiche")
     assert results.any? { |e| e.y == "UniqueNiche" }
   end
 
   test "search scope is case-insensitive" do
-    Entry.create!(x: "CaseTest", y: "example", submitter: "t")
+    Entry.create!(x: "CaseTest", y: "example", user: @user)
     results = Entry.search("casetest")
     assert results.any? { |e| e.x == "CaseTest" }
   end

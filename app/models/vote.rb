@@ -1,6 +1,7 @@
 class Vote < ApplicationRecord
+  belongs_to :user
   belongs_to :entry, counter_cache: true
 
-  validates :voter_ip, presence: true
-  validates :voter_ip, uniqueness: { scope: :entry_id }
+  # One vote per member per entry.
+  validates :user_id, uniqueness: { scope: :entry_id }
 end
