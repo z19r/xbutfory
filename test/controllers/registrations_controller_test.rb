@@ -1,11 +1,11 @@
 require "test_helper"
 
 class RegistrationsControllerTest < ActionDispatch::IntegrationTest
-  test "sign up screen bounces home for now (built in Phase D)" do
+  test "create account screen renders for signed-out visitors" do
     get sign_up_url
-    assert_redirected_to root_url
-    follow_redirect!
     assert_response :success
+    assert_select "form[action='/sign_up']"
+    assert_select ".c-auth-card__title", text: "Claim your handle."
   end
 
   test "creating an account signs the new member in" do

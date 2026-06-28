@@ -1,7 +1,8 @@
 class SessionsController < ApplicationController
+  layout "auth"
+
   def new
-    # The full sign-in screen is built in Phase D; for now bounce home.
-    redirect_to root_path, notice: "Sign-in screen coming soon."
+    redirect_to(root_path) and return if user_signed_in?
   end
 
   def create

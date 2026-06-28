@@ -1,0 +1,61 @@
+<% content_for :title, "Create account — XbutforY" %>
+<div class="c-auth c-auth--wide">
+  <div class="c-auth__mark">
+    <%= link_to root_path, class: "c-auth__wordmark", "aria-label": "XbutforY — home" do %>
+      <%= render WordmarkComponent.new(size: 34, accent_y: false) %>
+    <% end %>
+  </div>
+
+  <div class="c-auth-card">
+    <div class="c-auth-card__eyebrow">JOIN THE INDEX</div>
+    <h1 class="c-auth-card__title">Claim your handle.</h1>
+    <p class="c-auth-card__lede">One account, one byline. Everything you submit is stamped with your <span class="c-auth-card__handle">@handle</span>.</p>
+
+    <%= form_with url: sign_up_path, method: :post, class: "c-auth-form" do %>
+      <span data-controller="handle-preview">
+        <%= render FormFieldComponent.new(
+          label: "Handle", name: "handle", prefix: "@", mono: true,
+          value: params[:handle], placeholder: "apt_4b",
+          hint: "Public & permanent. This is your byline on every listing — choose wisely.",
+          autocapitalize: "off", autocomplete: "off", spellcheck: "false", required: true,
+          data: { handle_preview_target: "input", action: "input->handle-preview#check" }
+        ) do |field| %>
+          <% field.with_label_aside do %>
+            <span class="c-field__aside c-handle-status" data-handle-preview-target="status"></span>
+          <% end %>
+        <% end %>
+      </span>
+
+      <%= render FormFieldComponent.new(
+        label: "Display name", name: "display_name", value: params[:display_name],
+        placeholder: "Apartment 4B", autocomplete: "nickname"
+      ) %>
+
+      <%= render FormFieldComponent.new(
+        label: "Email", name: "email", type: "email", value: params[:email],
+        placeholder: "you@domain.com", autocomplete: "email", required: true
+      ) %>
+
+      <span data-controller="password-toggle">
+        <%= render FormFieldComponent.new(
+          label: "Password", name: "password", type: "password",
+          placeholder: "at least 8 characters", autocomplete: "new-password", required: true,
+          data: { password_toggle_target: "input" }
+        ) do |field| %>
+          <% field.with_trailing do %>
+            <button type="button" class="c-auth-form__reveal" data-action="password-toggle#toggle" data-password-toggle-target="button">SHOW</button>
+          <% end %>
+        <% end %>
+      </span>
+
+      <label class="c-auth-form__agree">
+        <input type="checkbox" name="agree" required>
+        <span>I agree to keep my submissions real, on-topic, and genuinely <i>“X but for Y.”</i></span>
+      </label>
+
+      <%= render ButtonComponent.new(variant: "primary", gel: true, trailing_arrow: true, type: "submit") do %>Create account<% end %>
+    <% end %>
+
+    <p class="c-auth-card__signin">Already a member? <%= link_to "Sign in →", sign_in_path, class: "c-auth-card__signin-link" %></p>
+  </div>
+</div>

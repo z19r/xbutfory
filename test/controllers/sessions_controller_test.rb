@@ -1,11 +1,17 @@
 require "test_helper"
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
-  test "sign in screen bounces home for now (built in Phase D)" do
+  test "sign in screen renders for signed-out visitors" do
     get sign_in_url
-    assert_redirected_to root_url
-    follow_redirect!
     assert_response :success
+    assert_select "form[action='/sign_in']"
+    assert_select ".c-auth-card__title", text: "Welcome back."
+  end
+
+  test "sign in screen redirects members who are already signed in" do
+    sign_in_as(users(:member))
+    get sign_in_url
+    assert_redirected_to root_path
   end
 
   test "valid credentials start a session" do

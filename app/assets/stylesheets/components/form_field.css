@@ -1,0 +1,109 @@
+/* FormField — labeled inset field for auth + settings forms.
+   Mirrors design_system/components/forms/FormField.jsx. */
+.c-field {
+  display: block;
+}
+
+.c-field__labelrow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+
+.c-field__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.c-field__error {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent);
+}
+
+.c-field__control {
+  position: relative;
+  display: block;
+}
+
+.c-field__prefix {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+.c-field--textarea .c-field__prefix {
+  top: 12px;
+  transform: none;
+}
+
+.c-field__input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 13px;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-input);
+  box-shadow: var(--shadow-inset);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.c-field__input--prefixed {
+  padding-left: 30px;
+}
+
+.c-field__input--trailing {
+  padding-right: 52px;
+}
+
+.c-field__aside {
+  font-family: var(--font-sans);
+}
+
+.c-field--mono .c-field__input {
+  font-family: var(--font-mono);
+}
+
+.c-field__input:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+textarea.c-field__input {
+  min-height: 78px;
+  resize: vertical;
+}
+
+.c-field--error .c-field__input {
+  border-color: var(--accent);
+}
+
+.c-field__trailing {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.c-field__hint {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: var(--fw-light);
+  color: var(--text-soft);
+}

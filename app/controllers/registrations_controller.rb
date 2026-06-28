@@ -1,7 +1,8 @@
 class RegistrationsController < ApplicationController
+  layout "auth"
+
   def new
-    # The full create-account screen is built in Phase D; for now bounce home.
-    redirect_to root_path, notice: "Account creation coming soon."
+    redirect_to(root_path) and return if user_signed_in?
   end
 
   def create
