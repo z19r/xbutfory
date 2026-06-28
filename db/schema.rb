@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_28_085737) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_28_090313) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -30,14 +30,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_085737) do
     t.string "category"
     t.datetime "created_at", null: false
     t.text "description"
+    t.string "name"
     t.boolean "nsfw", default: false, null: false
     t.string "slug", null: false
     t.string "sponsored"
     t.string "stamp"
     t.string "submitter", null: false
+    t.string "tagline"
     t.datetime "updated_at", null: false
     t.string "url"
     t.integer "votes_count", default: 0, null: false
+    t.text "why"
     t.string "x", null: false
     t.string "y", null: false
     t.index ["category"], name: "index_entries_on_category"

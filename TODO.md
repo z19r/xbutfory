@@ -32,7 +32,14 @@ Component CSS referenced ~20 undefined custom properties; styles silently droppe
 
 ## P1 — Screens that are materially incomplete
 
-### 1.1 Detail screen (`/entry/:slug`) — ~half missing
+### 1.1 Detail screen (`/entry/:slug`) — ✅ DONE (commit: P1.1)
+All items below complete: model fields added + backfilled; two-column split; formula
+meta-card (THE FORMULA / CATEGORY / STATUS ● Live & launched); THE PITCH + WHY IT WORKS;
+tagline; 74px vote column with "votes" label; vote button wired to vote_controller (with
+configurable active class + milestone toasts); editorial back link; ink Visit button;
+.6em italic connector; CodeChip removed; friendly 404. Tests added.
+
+<details><summary>original checklist (all done)</summary>
 Reference: `design_system/ui_kits/directory/detail.html`. Files: `app/views/entries/show.html.erb`,
 `app/assets/stylesheets/components/detail.css`, `app/controllers/entries_controller.rb`, `app/models/entry.rb`.
 
@@ -56,6 +63,7 @@ Layout & structure:
 - [ ] Right col: **formula meta-card** (brand-sacred) — `--shadow-card` floating card with: `THE FORMULA` → `X × Y`, `CATEGORY` → full label, `STATUS` → `● Live & launched`
 - [ ] Remove the extraneous CodeChip (not in reference)
 - [ ] `entries#show` — friendly 404 for bad slug
+</details>
 
 ### 1.2 Submit screen (`/submit`) — monetization & brand violations
 Reference: `design_system/ui_kits/directory/submit.html`, `SubmitPreview.prompt.md`.

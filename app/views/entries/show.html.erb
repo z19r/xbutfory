@@ -1,38 +1,65 @@
-<div class="l-detail">
-  <div class="l-detail__vote">
-    <button class="c-entry-card__vote-btn" aria-label="Vote for <%= @entry.title %>">
-      <span class="c-entry-card__vote-caret">▲</span>
-      <span class="c-entry-card__vote-count"><%= @entry.votes_count %></span>
-    </button>
-  </div>
+<% content_for :title, "#{@entry.title} — XbutforY" %>
 
-  <div class="l-detail__content">
-    <% if @entry.category %>
-      <%= render TagComponent.new(label: @entry.category.titleize, category: @entry.category) %>
-    <% end %>
+<article class="c-detail" data-controller="vote" data-vote-entry-id-value="<%= @entry.id %>" data-vote-voted-value="<%= @voted %>" data-vote-active-class="c-detail__vbtn--on">
+  <%= link_to "← All entries", root_path, class: "c-detail__back" %>
 
-    <h1 class="l-detail__title"><%= @entry.x %> <em>but for</em> <%= @entry.y %></h1>
-
-    <%= render CodeChipComponent.new(x: @entry.x, y: @entry.y) %>
-
-    <p class="l-detail__description"><%= @entry.description %></p>
-
-    <div class="l-detail__meta">
-      <span class="l-detail__submitter">submitted by @<%= @entry.submitter %></span>
-      <span class="l-detail__ago"><%= time_ago_in_words(@entry.created_at) %> ago</span>
+  <div class="c-detail__head">
+    <div class="c-detail__vcol">
+      <button class="c-detail__vbtn <%= 'c-detail__vbtn--on' if @voted %>" data-vote-target="button" data-action="click->vote#toggle" aria-label="Upvote <%= @entry.title %>">
+        <span class="c-detail__caret">&#9650;</span>
+      </button>
+      <div class="c-detail__vnum" data-vote-target="count"><%= @entry.votes_count %></div>
+      <div class="c-detail__vlbl">votes</div>
     </div>
 
-    <div class="l-detail__actions">
-      <% if @entry.url.present? %>
-        <%= link_to "Visit site ↗", @entry.url, class: "c-btn c-btn--primary c-btn--lg", target: "_blank", rel: "noopener" %>
-      <% end %>
-      <%= link_to "← Back to index", root_path, class: "c-btn c-btn--secondary c-btn--md" %>
-    </div>
-
-    <% if @entry.stamp.present? %>
-      <div class="l-detail__stamp">
-        <%= render StampComponent.new(variant: @entry.stamp) %>
+    <div class="c-detail__lead">
+      <div class="c-detail__badgerow">
+        <% if @entry.category.present? %>
+          <span class="c-detail__badge" style="color: var(--cat-<%= @entry.category %>); border-color: color-mix(in srgb, var(--cat-<%= @entry.category %>) 45%, transparent)"><%= (@category&.short_code || @entry.category).upcase %></span>
+        <% end %>
+        <span class="c-detail__when">submitted <%= time_ago_in_words(@entry.created_at) %> ago</span>
       </div>
-    <% end %>
+
+      <h1 class="c-detail__title"><%= @entry.x %><span class="c-detail__conn"> but for </span><%= @entry.y %></h1>
+
+      <% if @entry.tagline.present? %>
+        <div class="c-detail__tagline"><%= @entry.tagline %></div>
+      <% end %>
+
+      <div class="c-detail__acts">
+        <%= link_to "Visit #{@entry.name.presence || 'site'} ↗", @entry.url.presence || "#", class: "c-detail__visit", target: "_blank", rel: "noopener" %>
+        <span class="c-detail__by">by @<%= @entry.submitter %></span>
+      </div>
+    </div>
   </div>
-</div>
+
+  <div class="c-detail__split">
+    <div class="c-detail__body">
+      <% if @entry.description.present? %>
+        <div class="c-detail__klbl">The Pitch</div>
+        <p class="c-detail__pitch"><%= @entry.description %></p>
+      <% end %>
+      <% if @entry.why.present? %>
+        <div class="c-detail__klbl">Why It Works</div>
+        <p class="c-detail__why"><%= @entry.why %></p>
+      <% end %>
+    </div>
+
+    <aside class="c-detail__meta-card">
+      <div class="c-detail__mc">
+        <div class="c-detail__mck">The Formula</div>
+        <div class="c-detail__mcv"><%= @entry.x %> &times; <%= @entry.y %></div>
+      </div>
+      <% if @category %>
+        <div class="c-detail__mc">
+          <div class="c-detail__mck">Category</div>
+          <div class="c-detail__mcv"><%= @category.name %></div>
+        </div>
+      <% end %>
+      <div class="c-detail__mc">
+        <div class="c-detail__mck">Status</div>
+        <div class="c-detail__mcv c-detail__status"><span class="c-detail__status-dot"></span> Live &amp; launched</div>
+      </div>
+    </aside>
+  </div>
+</article>
