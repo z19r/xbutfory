@@ -2,9 +2,9 @@ default:
     @echo "Available commands:"
     @just --list
 
-# Start Rails server
+# Start the dev stack (overmind via Procfile.dev)
 dev:
-    @bin/rails server
+    @bin/dev
 
 # Run all tests
 test *paths:
@@ -47,6 +47,6 @@ install:
     @bundle install
     @just migrate
 
-# Run Rails server on a specific port
+# Run the dev stack on a specific port
 dev-port port="3000":
-    @bin/rails server -p {{port}}
+    @PORT={{port}} bin/dev

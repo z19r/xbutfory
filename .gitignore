@@ -53,3 +53,6 @@
 .whetstone/
 .aider.conventions.md
 .windsurfrules
+
+# Overmind dev process manager socket
+.overmind.sock
