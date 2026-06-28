@@ -17,9 +17,9 @@
   --space-20: 90px;
 
   /* Layout */
-  --content-max: 1040px;      /* the single centered editorial column (calm pages) */
-  --content-max-wide: 1200px; /* the wider maximal-home shell (feed + sidebar) */
-  --shell-max: var(--content-max); /* current chrome width; the home bumps it to wide */
+  --content-max: 1040px;      /* the calm centered editorial column (inner reading width) */
+  --content-max-wide: 1200px; /* the maximal shell — feed + sidebar */
+  --shell-max: var(--content-max-wide); /* chrome width, global: maximal is the default look */
   --page-gutter: 24px;        /* horizontal page padding */
   --card-pad-y:  20px;
   --card-pad-x:  22px;
