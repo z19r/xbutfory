@@ -14,10 +14,17 @@ class UtilityBarComponentTest < ViewComponent::TestCase
     assert_selector "[data-action='click->after-dark#toggle']"
   end
 
-  test "renders sign in and create account links" do
+  test "renders sign in and create account links when signed out" do
     render_inline(UtilityBarComponent.new)
     assert_selector "a[href='/sign_in']", text: "Sign in"
     assert_selector "a[href='/sign_up']", text: "Create account"
+    assert_no_selector ".c-account-menu"
+  end
+
+  test "swaps the links for the account menu when signed in" do
+    render_inline(UtilityBarComponent.new(current_user: users(:member)))
+    assert_selector ".c-account-menu__handle", text: "@member"
+    assert_no_selector "a[href='/sign_in']"
   end
 
   test "renders one accent swatch per theme option, wired to the theme controller" do

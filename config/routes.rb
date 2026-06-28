@@ -21,4 +21,7 @@ Rails.application.routes.draw do
   delete "sign_out", to: "sessions#destroy", as: :sign_out
   get "sign_up", to: "registrations#new", as: :sign_up
   post "sign_up", to: "registrations#create"
+
+  get "account", to: "accounts#settings", as: :account_settings
+  get "account/submissions", to: "accounts#submissions", as: :manage_submissions
 end

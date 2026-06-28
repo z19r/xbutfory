@@ -27,7 +27,7 @@
   </head>
 
   <body class="<%= content_for(:body_class) %>">
-    <%= render UtilityBarComponent.new(active_accent: accent[:key]) %>
+    <%= render UtilityBarComponent.new(active_accent: accent[:key], current_user: current_user) %>
     <%= render MastheadComponent.new do |masthead| %>
       <% masthead.with_search_slot do %>
         <%= render SearchInputComponent.new(value: params[:q].to_s) %>

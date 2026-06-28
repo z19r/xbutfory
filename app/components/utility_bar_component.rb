@@ -19,12 +19,13 @@ class UtilityBarComponent < ViewComponent::Base
     ACCENTS.find { |a| a[:key] == key } || ACCENTS.first
   end
 
-  def initialize(issue: "est. 2026 — vol. 1, issue 26", active_accent: DEFAULT_ACCENT)
+  def initialize(issue: "est. 2026 — vol. 1, issue 26", active_accent: DEFAULT_ACCENT, current_user: nil)
     @issue = issue
     @active_accent = self.class.resolve_accent(active_accent)[:key]
+    @current_user = current_user
   end
 
-  attr_reader :issue, :active_accent
+  attr_reader :issue, :active_accent, :current_user
 
   def accents = ACCENTS
 

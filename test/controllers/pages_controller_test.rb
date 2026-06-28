@@ -8,6 +8,19 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".c-card", minimum: 1
   end
 
+  test "utility bar shows the account menu when signed in" do
+    sign_in_as(users(:member))
+    get root_url
+    assert_select ".c-account-menu__handle", text: "@member"
+    assert_select "a[href='/sign_in']", count: 0
+  end
+
+  test "utility bar shows sign-in links when signed out" do
+    get root_url
+    assert_select "a[href='/sign_in']"
+    assert_select ".c-account-menu", count: 0
+  end
+
   test "home renders the maximal shell: wide body, sidebar rail and featured strip" do
     get root_url
     assert_select "body.is-home"

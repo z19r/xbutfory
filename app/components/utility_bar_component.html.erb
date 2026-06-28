@@ -23,8 +23,12 @@
       <span data-controller="after-dark">
         <button class="c-utility-bar__after-dark" data-after-dark-target="button" data-action="click->after-dark#toggle">🌙 After Dark</button>
       </span>
-      <a href="/sign_in" class="c-utility-bar__link">Sign in</a>
-      <a href="/sign_up" class="c-utility-bar__link c-utility-bar__link--strong">Create account</a>
+      <% if current_user %>
+        <%= render AccountMenuComponent.new(handle: current_user.handle) %>
+      <% else %>
+        <a href="/sign_in" class="c-utility-bar__link">Sign in</a>
+        <a href="/sign_up" class="c-utility-bar__link c-utility-bar__link--strong">Create account</a>
+      <% end %>
     </span>
   </div>
 </div>
