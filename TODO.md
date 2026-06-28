@@ -147,7 +147,7 @@ Reference: `CategoriesScreen.jsx`, `categories.html`. Files: `app/views/categori
 - [x] Rotating search placeholders — `placeholder-rotator` Stimulus controller cycles a server-supplied phrase set every ~3.4s; backs off on focus/typing, honors reduced-motion. Component tests added.
 - [x] Vote milestone toasts (5 → 🏆, 12 → 🔥) in `vote_controller` — already wired; copy aligned verbatim to the prototype's ground-truth strings.
 - [x] Footer scramble easter egg — hidden 🔮 button (opacity .18) wired to `scramble` Stimulus controller; shuffles every entry's Y text node, toasts, restores on second press. Component test added.
-- [ ] Idle toast ("still there?") after inactivity
+- [x] Idle toast ("still there?") after inactivity — `idle-toast` Stimulus controller on the home hero; fires after 55s of no pointer/key/scroll activity, resets on any input, once per idle spell. Copy matches the prototype.
 - [x] RSS — built a real `/feed.xml` (Atom): `FeedsController#show` + `show.atom.builder` over latest 50 SFW entries; `<link rel=alternate>` autodiscovery in the head. The RSS button's advertised URL now resolves. Request tests added.
 
 ---

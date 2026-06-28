@@ -30,4 +30,9 @@ class PagesFeedPlacementTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".c-card--pinned", false
   end
+
+  test "the home hero arms the idle-toast easter egg" do
+    get root_url
+    assert_select ".l-hero[data-controller~='idle-toast']"
+  end
 end
