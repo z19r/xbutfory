@@ -19,4 +19,28 @@ class UtilityBarComponentTest < ViewComponent::TestCase
     assert_selector "a[href='/sign_in']", text: "Sign in"
     assert_selector "a[href='/sign_up']", text: "Create account"
   end
+
+  test "renders one accent swatch per theme option, wired to the theme controller" do
+    render_inline(UtilityBarComponent.new)
+    assert_selector "[data-controller='theme']"
+    assert_selector ".c-utility-bar__swatch", count: UtilityBarComponent::ACCENTS.size
+    assert_selector "[data-action='click->theme#select']", count: UtilityBarComponent::ACCENTS.size
+  end
+
+  test "marks the magenta swatch active by default" do
+    render_inline(UtilityBarComponent.new)
+    assert_selector ".c-utility-bar__swatch--on[aria-pressed='true']", count: 1
+    assert_selector ".c-utility-bar__swatch--on[data-theme-key-param='magenta']"
+  end
+
+  test "marks the requested accent active when one is supplied" do
+    render_inline(UtilityBarComponent.new(active_accent: "teal"))
+    assert_selector ".c-utility-bar__swatch--on[data-theme-key-param='teal']"
+    assert_selector ".c-utility-bar__swatch--on[data-theme-key-param='magenta']", count: 0
+  end
+
+  test "resolve_accent falls back to the default for unknown keys" do
+    assert_equal "magenta", UtilityBarComponent.resolve_accent("bogus")[:key]
+    assert_equal "teal", UtilityBarComponent.resolve_accent("teal")[:key]
+  end
 end

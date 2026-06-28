@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<% accent = UtilityBarComponent.resolve_accent(cookies[:accent]) %>
+<html style="--accent: var(--accent-<%= accent[:key] %>)">
   <head>
     <title><%= content_for(:title) || "XbutforY" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -24,7 +25,7 @@
   </head>
 
   <body>
-    <%= render UtilityBarComponent.new %>
+    <%= render UtilityBarComponent.new(active_accent: accent[:key]) %>
     <%= render MastheadComponent.new do |masthead| %>
       <% masthead.with_search_slot do %>
         <%= render SearchInputComponent.new(value: params[:q].to_s) %>

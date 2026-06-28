@@ -8,7 +8,8 @@ class CssTokenTest < ActiveSupport::TestCase
 
   # Custom properties legitimately defined outside tokens/ (component-local). Keep empty
   # unless a component intentionally defines and consumes its own scoped variable.
-  ALLOWLIST = %w[].freeze
+  # --swatch is set inline on each accent button in utility_bar; the stylesheet only consumes it.
+  ALLOWLIST = %w[--swatch].freeze
 
   def defined_tokens
     Dir[CSS_ROOT.join("tokens/*.css")].flat_map do |file|
