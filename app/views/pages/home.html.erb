@@ -56,7 +56,7 @@
           y: entry.y,
           votes: entry.votes_count,
           description: entry.description,
-          submitter: entry.submitter,
+          submitter: entry.user.handle,
           ago: time_ago_in_words(entry.created_at) + " ago",
           url: entry.url.presence || "#",
           slug: entry.slug,

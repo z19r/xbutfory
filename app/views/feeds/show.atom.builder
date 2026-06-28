@@ -13,7 +13,7 @@ atom_feed(language: "en-US") do |feed|
     ) do |item|
       item.title(entry.title)
       item.content(entry.description.to_s, type: "html")
-      item.author { |author| author.name("@#{entry.submitter}") }
+      item.author { |author| author.name("@#{entry.user.handle}") }
     end
   end
 end

@@ -5,6 +5,8 @@
   <h1 class="c-submit__title">Submit a Site</h1>
   <p class="c-submit__dek">Free to list in the directory. $1.99 buys a featured homepage spot.</p>
 
+  <div class="c-submit__posting">Posting as <span class="c-submit__posting-handle">@<%= current_user.handle %></span> — this is the byline on your listing.</div>
+
   <% if @entry.errors.any? %>
     <div class="c-submit__errors">
       <strong><%= pluralize(@entry.errors.count, "thing") %> to fix:</strong>
@@ -52,11 +54,6 @@
     </div>
 
     <div class="c-submit__field">
-      <%= f.label :submitter, "Your handle (optional)", class: "c-submit__label" %>
-      <%= f.text_field :submitter, class: "c-submit__input", placeholder: "@you", autocomplete: "off" %>
-    </div>
-
-    <div class="c-submit__field">
       <span class="c-submit__label">Listing type</span>
       <div class="c-submit__tiers">
         <label class="c-submit__tier">
@@ -75,6 +72,6 @@
     </div>
 
     <%= f.submit (@entry.featured? ? "Launch for $1.99 →" : "Submit for free →"), class: "c-submit__cta", data: { tier_target: "cta" } %>
-    <p class="c-submit__fine">no account needed &middot; no spam &middot; takes 30 seconds</p>
+    <p class="c-submit__fine">tied to your handle &middot; no spam &middot; takes 30 seconds</p>
   <% end %>
 </section>

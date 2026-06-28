@@ -23,12 +23,21 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     entry = Entry.find_by(x: "TestApp")
     assert_redirected_to entry_path(slug: "testapp-but-for-unit-tests")
     assert_equal users(:member), entry.user
-    assert_equal "member", entry.submitter, "byline is the signed-in @handle"
+    assert_equal "member", entry.user.handle, "byline is the signed-in @handle"
   end
 
   test "submit is gated behind a session" do
     get new_submission_path
     assert_redirected_to sign_in_path
+  end
+
+  test "invalid submission re-renders the form" do
+    sign_in_as(users(:member))
+    assert_no_difference "Entry.count" do
+      post submissions_path, params: { entry: { x: "", y: "" } }
+    end
+    assert_response :unprocessable_entity
+    assert_select ".c-submit__title", text: "Submit a Site"
   end
 
   test "featured tier returns a payment-coming-soon notice" do

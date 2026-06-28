@@ -8,9 +8,9 @@ class SubmissionsController < ApplicationController
 
   def create
     @entry = current_user.entries.new(entry_params)
-    @entry.submitter = current_user.handle # byline is the @handle (column dropped in Phase E)
     if @entry.save
-      redirect_to entry_path(slug: @entry.slug), notice: submission_notice(@entry)
+      redirect_to entry_path(slug: @entry.slug),
+                  notice: submission_notice(@entry)
     else
       render :new, status: :unprocessable_entity
     end
@@ -32,7 +32,10 @@ class SubmissionsController < ApplicationController
   end
 
   # Status transitions from the manage screen (withdraw / cancel / restore).
-  TRANSITIONS = { "withdrawn" => %w[live pending needs_edits], "live" => %w[withdrawn] }.freeze
+  TRANSITIONS = {
+    "withdrawn" => %w[live pending needs_edits],
+    "live" => %w[withdrawn]
+  }.freeze
 
   def transition
     entry = own_entry
@@ -41,7 +44,8 @@ class SubmissionsController < ApplicationController
       entry.update!(status: target)
       redirect_to manage_submissions_path, notice: transition_notice(target)
     else
-      redirect_to manage_submissions_path, alert: "That status change isn't allowed."
+      redirect_to manage_submissions_path,
+                  alert: "That status change isn't allowed."
     end
   end
 
@@ -53,9 +57,12 @@ class SubmissionsController < ApplicationController
 
   def transition_notice(target)
     case target
-    when "withdrawn" then "Listing withdrawn."
-    when "live" then "Listing restored."
-    else "Listing updated."
+    when "withdrawn"
+      "Listing withdrawn."
+    when "live"
+      "Listing restored."
+    else
+      "Listing updated."
     end
   end
 
@@ -64,7 +71,15 @@ class SubmissionsController < ApplicationController
   end
 
   def entry_params
-    params.require(:entry).permit(:x, :y, :name, :description, :url, :category, :tier)
+    params.require(:entry).permit(
+      :x,
+      :y,
+      :name,
+      :description,
+      :url,
+      :category,
+      :tier,
+    )
   end
 
   def submission_notice(entry)

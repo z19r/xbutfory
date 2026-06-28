@@ -97,7 +97,7 @@ entries_data = [
 SEED_PASSWORD = "password"
 
 users_by_handle = {}
-(["legacy"] + entries_data.map { |attrs| attrs[:submitter] }).uniq.each do |handle|
+([ "legacy" ] + entries_data.map { |attrs| attrs[:submitter] }).uniq.each do |handle|
   user = User.find_or_initialize_by(handle: handle)
   user.display_name ||= handle.tr("_", " ").split.map(&:capitalize).join(" ")
   user.email ||= "#{handle}@xbutfory.example"
@@ -108,7 +108,7 @@ end
 
 entries_data.each_with_index do |attrs, i|
   entry = Entry.find_or_initialize_by(slug: "#{attrs[:x]}-but-for-#{attrs[:y]}".parameterize)
-  entry.assign_attributes(attrs)
+  entry.assign_attributes(attrs.except(:submitter)) # submitter column dropped; still used for user mapping
   entry.user = users_by_handle.fetch(attrs[:submitter])
   entry.save!
   entry.update_columns(created_at: (entries_data.length - i).hours.ago) if entry.created_at > 1.hour.ago

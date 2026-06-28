@@ -26,6 +26,7 @@ class FeedQuery
   private
 
   def arrange(scope)
+    scope = scope.includes(:user) # byline reads user.handle — avoid N+1
     pinned = scope.where(sponsored: "pinned").first
     spotlight = scope.where(sponsored: "spotlight").first
     organic = sort(scope.where(sponsored: nil)).limit(ORGANIC_LIMIT).to_a
@@ -42,9 +43,12 @@ class FeedQuery
 
   def sort(scope)
     case @sort
-    when "top", "trending" then scope.trending
-    when "random" then scope.order("RANDOM()")
-    else scope.latest
+    when "top", "trending"
+      scope.trending
+    when "random"
+      scope.order("RANDOM()")
+    else
+      scope.latest
     end
   end
 end

@@ -3,6 +3,24 @@
   margin: 0 auto;
 }
 
+/* "Posting as @handle" banner — replaces the old "no account needed" line. */
+.c-submit__posting {
+  margin: 16px 0 6px;
+  padding: 11px 14px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-input);
+  background: var(--surface-sunken);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-body);
+}
+
+.c-submit__posting-handle {
+  font-family: var(--font-mono);
+  font-weight: var(--fw-bold);
+  color: var(--accent);
+}
+
 .c-submit__title {
   font-family: var(--font-display);
   font-weight: 700;

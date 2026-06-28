@@ -28,7 +28,7 @@
 
       <div class="c-detail__acts">
         <%= link_to "Visit #{@entry.name.presence || 'site'} ↗", @entry.url.presence || "#", class: "c-detail__visit", target: "_blank", rel: "noopener" %>
-        <span class="c-detail__by">by @<%= @entry.submitter %></span>
+        <span class="c-detail__by">by @<%= @entry.user.handle %></span>
       </div>
     </div>
   </div>
