@@ -1,34 +1,42 @@
-<article class="<%= card_classes %>">
-  <div class="c-entry-card__vote">
+<div class="<%= card_classes %>">
+  <% if pinned? %>
+    <div class="c-card__ribbon"><span>★ PINNED SPONSOR</span><span class="c-card__ribbon-r2">FEATURED PLACEMENT</span></div>
+  <% end %>
+  <div class="c-card__row">
     <button class="<%= vote_classes %>" aria-label="Vote for <%= @x %> but for <%= @y %>">
-      <span class="c-entry-card__vote-caret">▲</span>
-      <span class="c-entry-card__vote-count"><%= @votes %></span>
+      <span class="c-card__caret">▲</span>
+      <span class="c-card__num"><%= @votes %></span>
+      <span class="c-card__vlbl">VOTES</span>
     </button>
-  </div>
-
-  <div class="c-entry-card__body">
-    <div class="c-entry-card__header">
-      <% if @index %>
-        <span class="c-entry-card__index">#<%= @index %></span>
-      <% end %>
-      <h3 class="c-entry-card__title"><%= link_to detail_path, class: "c-entry-card__title-link" do %><%= @x %> <em>but for</em> <%= @y %><% end %></h3>
-      <% if @stamp %>
-        <%= render StampComponent.new(variant: @stamp) %>
-      <% end %>
+    <div class="c-card__body">
+      <div class="c-card__titlerow">
+        <% unless pinned? %>
+          <% if @index %>
+            <span class="c-card__idx">#<%= @index.to_s.rjust(3, '0') %></span>
+          <% end %>
+        <% end %>
+        <span class="c-card__title">
+          <% if @slug %>
+            <%= link_to detail_path, class: "c-card__title-link" do %><%= @x %><span class="c-card__conn"> but for </span><%= @y %><% end %>
+          <% else %>
+            <%= @x %><span class="c-card__conn"> but for </span><%= @y %>
+          <% end %>
+        </span>
+        <% if @stamp %>
+          <%= render StampComponent.new(variant: @stamp) %>
+        <% end %>
+      </div>
+      <p class="c-card__desc"><%= @description %></p>
+      <div class="c-card__foot">
+        <% if spotlight? %>
+          <span class="c-card__tag c-card__tag--spon">SPONSORED</span>
+        <% end %>
+        <% if @category_label %>
+          <span class="c-card__tag" style="color: var(--cat-<%= @category %>); border-color: color-mix(in srgb, var(--cat-<%= @category %>) 45%, transparent)"><%= @category_label.upcase %></span>
+        <% end %>
+        <span class="c-card__meta">submitted by @<%= @submitter %> · <%= @ago %></span>
+        <%= link_to "visit site →", @url, class: "c-card__visit #{'c-card__visit--spon' if @sponsored}", target: "_blank", rel: "noopener" %>
+      </div>
     </div>
-
-    <p class="c-entry-card__description"><%= @description %></p>
-
-    <div class="c-entry-card__meta">
-      <% if @category_label %>
-        <%= render TagComponent.new(label: @category_label, category: @category) %>
-      <% end %>
-      <span class="c-entry-card__submitter">@<%= @submitter %></span>
-      <span class="c-entry-card__ago"><%= @ago %></span>
-    </div>
   </div>
-
-  <div class="c-entry-card__action">
-    <%= link_to "visit site ↗", @url, class: "c-entry-card__visit-link", target: "_blank", rel: "noopener" %>
-  </div>
-</article>
+</div>

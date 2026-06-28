@@ -1,6 +1,25 @@
-<%= render StatBlockComponent.new(new_today: @new_today, total_entries: @total_entries, total_votes: @total_votes) %>
+<section class="l-hero">
+  <div class="l-issue">
+    <span class="l-live">●</span>
+    VOL. 01 &middot; ISSUE <%= Date.current.yday %> &middot; <%= Date.current.strftime("%b %Y").upcase %>
+  </div>
+  <h2 class="l-dek">
+    A hand-curated index of <i>newly launched</i> websites that follow the <span class="l-chip">X but for Y</span> formula.
+  </h2>
+  <div class="l-rule"></div>
 
-<div class="l-feed-controls">
+  <%= render StatBlockComponent.new(
+    new_today: @new_today,
+    total_entries: @total_entries,
+    categories_count: @categories_count
+  ) %>
+</section>
+
+<div class="l-feedhead">
+  <div>
+    <h2 class="l-feedhead__title">Latest Submissions</h2>
+    <div class="l-feedhead__sub">SHOWING 1&ndash;<%= @entries.size %> OF <%= @total_entries %></div>
+  </div>
   <%= render SortToggleComponent.new(
     options: [
       SortToggleComponent::Option.new(label: "Newest", key: "newest"),

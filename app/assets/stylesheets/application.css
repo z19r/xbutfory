@@ -1,6 +1,4 @@
-/* XbutforY — main stylesheet
-   Token files (fonts, colors, typography, spacing, effects) are served
-   individually by Propshaft. This file holds base/reset styles. */
+/* XbutforY — main stylesheet */
 
 *,
 *::before,
@@ -8,22 +6,24 @@
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-weight: var(--fw-body);
-  font-size: var(--text-body);
-  line-height: var(--lh-body);
-  color: var(--ink);
-  background-color: var(--paper);
-  background-image: var(--grain);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.22; }
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
+body {
   margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  background-color: var(--paper);
+  background-image: var(--bloom-layer);
+  background-repeat: no-repeat, no-repeat, repeat, repeat, repeat;
+  background-size: 100% 940px, 100% 720px, 17px 17px, 17px 17px, 160px 160px;
+  background-position: top center, top left, 0 0, 8.5px 8.5px, top left;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {

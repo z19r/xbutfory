@@ -1,22 +1,20 @@
-<header class="c-masthead">
-  <p class="c-masthead__eyebrow">The Directory Of</p>
-  <h1 class="c-masthead__wordmark">Xbutfor<span class="c-masthead__wordmark-y">Y.</span></h1>
-  <p class="c-masthead__dek"><%= @dek %></p>
-  <div class="c-masthead__spectral-rule"></div>
-  <div class="c-masthead__actions">
-    <div class="c-masthead__search-slot">
+<header>
+  <div class="c-masthead">
+    <div class="c-masthead__eyebrow">THE DIRECTORY OF</div>
+    <div class="c-masthead__mark">X<span class="c-masthead__mark-y">but</span>forY.</div>
+    <div class="c-masthead__actions">
       <% if search_slot? %>
         <%= search_slot %>
       <% else %>
         <div class="c-masthead__search-placeholder"></div>
       <% end %>
-    </div>
-    <div class="c-masthead__action-buttons">
-      <button class="c-masthead__rss-btn" aria-label="RSS feed">📡</button>
+      <button class="c-btn c-btn--rss">📡 RSS</button>
       <% if submit_slot? %>
         <%= submit_slot %>
       <% else %>
-        <%= link_to "Submit", "#", class: "c-masthead__submit-btn" %>
+        <%= link_to new_submission_path, class: "c-btn c-btn--submit" do %>
+          <span style="font-size:17px;margin-top:-1px">+</span> Submit a Site
+        <% end %>
       <% end %>
     </div>
   </div>

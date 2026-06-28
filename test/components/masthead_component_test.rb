@@ -1,20 +1,15 @@
 require "test_helper"
 
 class MastheadComponentTest < ViewComponent::TestCase
-  test "renders wordmark with accent Y" do
+  test "renders wordmark" do
     render_inline(MastheadComponent.new)
-    assert_selector ".c-masthead__wordmark", text: /Xbutfor/
-    assert_selector ".c-masthead__wordmark-y", text: "Y."
+    assert_selector ".c-masthead__mark", text: /Xbutfor/
+    assert_selector ".c-masthead__mark-y", text: "but"
   end
 
   test "renders eyebrow" do
     render_inline(MastheadComponent.new)
-    assert_selector ".c-masthead__eyebrow", text: "The Directory Of"
-  end
-
-  test "renders dek" do
-    render_inline(MastheadComponent.new(dek: "Test dek"))
-    assert_selector ".c-masthead__dek", text: "Test dek"
+    assert_selector ".c-masthead__eyebrow", text: "THE DIRECTORY OF"
   end
 
   test "renders search slot" do

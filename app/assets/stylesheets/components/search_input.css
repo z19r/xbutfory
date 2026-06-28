@@ -1,6 +1,7 @@
 .c-search-input {
+  flex: 1;
+  min-width: 220px;
   position: relative;
-  width: 100%;
 }
 
 .c-search-input__icon {
@@ -9,21 +10,21 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: 16px;
-  color: var(--text-muted);
+  color: var(--text-faint);
   pointer-events: none;
 }
 
 .c-search-input__field {
   width: 100%;
+  padding: 11px 14px 11px 38px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-input);
+  border-radius: 8px;
+  box-shadow: var(--shadow-inset);
   font-family: var(--font-sans);
   font-size: 14px;
-  padding: 10px 14px 10px 38px;
-  border: 1.5px solid var(--border-default);
-  border-radius: var(--radius-soft);
-  background: var(--paper);
   color: var(--ink);
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .c-search-input__field::placeholder {

@@ -4,8 +4,10 @@ class NavTabsComponent < ViewComponent::Base
   TABS = [
     Tab.new(label: "Latest", key: "latest"),
     Tab.new(label: "Trending", key: "trending"),
-    Tab.new(label: "Top", key: "top"),
-    Tab.new(label: "Categories", key: "categories")
+    Tab.new(label: "Top Voted", key: "top"),
+    Tab.new(label: "Categories", key: "categories"),
+    Tab.new(label: "Random", key: "random"),
+    Tab.new(label: "Submit", key: "submit")
   ].freeze
 
   def initialize(active: "latest", tabs: TABS)

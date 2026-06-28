@@ -3,7 +3,7 @@ require "test_helper"
 class NavTabsComponentTest < ViewComponent::TestCase
   test "renders all default tabs" do
     render_inline(NavTabsComponent.new)
-    assert_selector ".c-nav-tabs__tab", count: 4
+    assert_selector ".c-nav-tabs__tab", count: 6
     assert_selector ".c-nav-tabs__tab", text: "Latest"
     assert_selector ".c-nav-tabs__tab", text: "Categories"
   end

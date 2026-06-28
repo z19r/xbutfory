@@ -25,15 +25,15 @@ class EntryCardComponent < ViewComponent::Base
   def spotlight? = @sponsored == "spotlight"
 
   def card_classes
-    classes = ["c-entry-card"]
-    classes << "c-entry-card--pinned" if pinned?
-    classes << "c-entry-card--spotlight" if spotlight?
-    classes.join(" ")
+    base = "c-card"
+    base += " c-card--pinned" if pinned?
+    base += " c-card--spotlight" if spotlight?
+    base
   end
 
   def vote_classes
-    classes = ["c-entry-card__vote-btn"]
-    classes << "c-entry-card__vote-btn--voted" if @voted
-    classes.join(" ")
+    base = "c-card__vote"
+    base += " c-card__vote--on" if @voted
+    base
   end
 end

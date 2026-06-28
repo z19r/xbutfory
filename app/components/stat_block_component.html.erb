@@ -1,14 +1,10 @@
-<div class="c-stat-block">
-  <div class="c-stat-block__stat">
-    <span class="c-stat-block__number"><%= @new_today %></span>
-    <span class="c-stat-block__label">New Today</span>
+<div class="c-stats">
+  <div>
+    <div class="c-stats__label">IN THE INDEX</div>
+    <div class="c-stats__number"><%= @total_entries %></div>
   </div>
-  <div class="c-stat-block__stat">
-    <span class="c-stat-block__number"><%= @total_entries %></span>
-    <span class="c-stat-block__label">Total Entries</span>
-  </div>
-  <div class="c-stat-block__stat">
-    <span class="c-stat-block__number"><%= @total_votes %></span>
-    <span class="c-stat-block__label">Total Votes</span>
+  <div class="c-stats__side">
+    <span class="c-stats__accent"><span class="c-stats__live">●</span> <%= @new_today %> new today</span>
+    <span class="c-stats__muted"><%= @categories_count %> categories · voted by humans</span>
   </div>
 </div>

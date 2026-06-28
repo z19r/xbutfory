@@ -1,12 +1,15 @@
-<div class="c-sort-toggle" role="radiogroup">
-  <% @options.each do |opt| %>
-    <button
-      class="c-sort-toggle__option <%= 'c-sort-toggle__option--active' if opt.key == @active %>"
-      role="radio"
-      aria-checked="<%= opt.key == @active %>"
-      data-sort-key="<%= opt.key %>"
-    >
-      <%= opt.label %>
-    </button>
-  <% end %>
+<div class="c-sort" role="radiogroup">
+  <span class="c-sort__label">SORT</span>
+  <div class="c-sort__rail">
+    <% @options.each do |opt| %>
+      <button
+        class="c-sort__seg <%= 'c-sort__seg--active' if opt.key == @active %>"
+        role="radio"
+        aria-checked="<%= opt.key == @active %>"
+        data-sort-key="<%= opt.key %>"
+      >
+        <%= opt.label %>
+      </button>
+    <% end %>
+  </div>
 </div>

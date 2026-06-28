@@ -6,7 +6,7 @@ class EntryCardComponentTest < ViewComponent::TestCase
       x: "Tinder", y: "dogs", votes: 42, description: "Test.",
       submitter: "tester", ago: "2h ago"
     ))
-    assert_selector ".c-entry-card__title", text: /Tinder.*but for.*dogs/
+    assert_selector ".c-card__title", text: /Tinder.*but for.*dogs/
   end
 
   test "renders vote count" do
@@ -14,7 +14,7 @@ class EntryCardComponentTest < ViewComponent::TestCase
       x: "Slack", y: "cats", votes: 123, description: "Test.",
       submitter: "tester", ago: "1h ago"
     ))
-    assert_selector ".c-entry-card__vote-count", text: "123"
+    assert_selector ".c-card__num", text: "123"
   end
 
   test "renders stamp when provided" do
@@ -31,7 +31,7 @@ class EntryCardComponentTest < ViewComponent::TestCase
       submitter: "tester", ago: "now",
       category: "fintech", category_label: "Fintech"
     ))
-    assert_selector ".c-tag", text: "Fintech"
+    assert_selector ".c-card__tag", text: "FINTECH"
   end
 
   test "adds sponsored class for pinned entries" do
@@ -39,7 +39,7 @@ class EntryCardComponentTest < ViewComponent::TestCase
       x: "A", y: "B", votes: 0, description: "Test.",
       submitter: "tester", ago: "now", sponsored: "pinned"
     ))
-    assert_selector ".c-entry-card--pinned"
+    assert_selector ".c-card--pinned"
   end
 
   test "adds voted class when voted" do
@@ -47,7 +47,7 @@ class EntryCardComponentTest < ViewComponent::TestCase
       x: "A", y: "B", votes: 0, description: "Test.",
       submitter: "tester", ago: "now", voted: true
     ))
-    assert_selector ".c-entry-card__vote-btn--voted"
+    assert_selector ".c-card__vote--on"
   end
 
   test "links title to detail when slug provided" do
@@ -55,6 +55,6 @@ class EntryCardComponentTest < ViewComponent::TestCase
       x: "A", y: "B", votes: 0, description: "Test.",
       submitter: "tester", ago: "now", slug: "a-but-for-b"
     ))
-    assert_selector "a.c-entry-card__title-link[href='/entry/a-but-for-b']"
+    assert_selector "a.c-card__title-link[href='/entry/a-but-for-b']"
   end
 end

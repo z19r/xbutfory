@@ -34,9 +34,9 @@
 
     <main class="l-content">
       <%= yield %>
-    </main>
 
-    <%= render FooterComponent.new %>
+      <%= render FooterComponent.new %>
+    </main>
 
     <% if flash[:notice] %>
       <%= render ToastComponent.new(message: flash[:notice]) %>

@@ -1,5 +1,5 @@
 class SearchInputComponent < ViewComponent::Base
-  def initialize(placeholder: "Search the index…", value: "")
+  def initialize(placeholder: "Try “Tinder but for…”", value: "")
     @placeholder = placeholder
     @value = value
   end

@@ -1,17 +1,92 @@
 .l-content {
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: var(--space-lg) var(--page-gutter);
+  padding: 34px var(--page-gutter) 90px;
 }
 
-.l-feed-controls {
+/* hero */
+.l-hero { margin-bottom: 0; }
+
+.l-issue {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  color: var(--text-muted);
+}
+
+.l-live {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.l-dek {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.5vw, 40px);
+  font-weight: 500;
+  margin: 14px 0 0;
+  line-height: 1.2;
+  letter-spacing: -.005em;
+  max-width: 880px;
+  text-wrap: pretty;
+}
+
+.l-dek i { font-style: italic; }
+
+.l-chip {
+  font-family: var(--font-mono);
+  font-size: .64em;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-input);
+  border-radius: 4px;
+  padding: 2px 9px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.l-rule {
+  height: 3px;
+  width: clamp(150px, 26%, 240px);
+  margin-top: 20px;
+  border-radius: 2px;
+  background: var(--spectral);
+}
+
+/* feed header */
+.l-feedhead {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: var(--space-md);
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+  padding-bottom: 13px;
+  border-bottom: 2px solid var(--ink);
 }
 
+.l-feedhead__title {
+  font-family: var(--font-display);
+  font-size: 27px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+}
+
+.l-feedhead__sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 7px;
+}
+
+/* feed */
 .l-feed {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
