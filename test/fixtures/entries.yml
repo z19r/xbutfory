@@ -4,7 +4,7 @@ one:
   description: Swipe on your neighbors.
   url: https://example.com
   submitter: apt_4b
-  category: consumer
+  category: dating
   stamp: new
   votes_count: 342
   slug: tinder-but-for-the-building-you-live-in
@@ -15,6 +15,6 @@ two:
   description: Payments for kids.
   url: https://example.com
   submitter: squeezed_ceo
-  category: fintech
+  category: payments
   votes_count: 287
   slug: stripe-but-for-lemonade-stands

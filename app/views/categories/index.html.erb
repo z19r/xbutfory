@@ -42,6 +42,7 @@
         slug: cat.slug,
         count: Entry.by_category(cat.slug).count,
         color_token: cat.color_token,
+        short_code: cat.short_code,
         sample: sample_entry ? "#{sample_entry.x} but for #{sample_entry.y}" : nil
       ) %>
     <% end %>

@@ -44,9 +44,10 @@ class EntryTest < ActiveSupport::TestCase
   end
 
   test "by_category scope filters entries" do
-    consumer_entries = Entry.by_category("consumer")
-    consumer_entries.each do |e|
-      assert_equal "consumer", e.category
+    results = Entry.by_category("payments")
+    assert results.any?, "expected at least one payments entry from fixtures"
+    results.each do |e|
+      assert_equal "payments", e.category
     end
   end
 

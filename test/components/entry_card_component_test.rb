@@ -29,9 +29,9 @@ class EntryCardComponentTest < ViewComponent::TestCase
     render_inline(EntryCardComponent.new(
       x: "A", y: "B", votes: 0, description: "Test.",
       submitter: "tester", ago: "now",
-      category: "fintech", category_label: "Fintech"
+      category: "payments", category_label: "Payments"
     ))
-    assert_selector ".c-card__tag", text: "FINTECH"
+    assert_selector ".c-card__tag", text: "PAYMENTS"
   end
 
   test "adds sponsored class for pinned entries" do

@@ -20,19 +20,13 @@ Component CSS referenced ~20 undefined custom properties; styles silently droppe
 - [x] Guard test `test/assets/css_token_test.rb` — fails on any undefined `var(--x)`. Passing.
 - Note: a few no-design-reference values (focus-ring alpha, ghost-formula color, submit gutter) logged in ZTODO for sign-off.
 
-### 0.2 Reseed category taxonomy to match the design  ⚠️ HIGH IMPACT
-DB categories (`saas, dev-tools, consumer, ai-ml, fintech, health, community`) do **not**
-match the design's 7 (`dating, crm, discovery, saas, payments, social, logistics`). Only
-`cat-saas` resolves to a real hue; the other 6 chips/tags render uncolored site-wide.
-- [ ] Rewrite `db/seeds.rb` categories to the design 7 with correct `color_token`s:
-      `cat-dating #B5472D`, `cat-crm #2B5BA8`, `cat-discovery #2A7A56`, `cat-saas #6A3D9E`,
-      `cat-payments #1B8080`, `cat-social #A07A18`, `cat-logistics #9B5523`
-- [ ] Add curated names + short codes: Dating & Hookups (DATING), CRM & Sales (CRM),
-      Metasearch & Discovery (DISCOVER), SaaS & Productivity (SAAS),
-      Payments & Finance (FINANCE), Social & Links (SOCIAL), Logistics & Services (SERVICES)
-- [ ] Remap every seeded entry's `category` to one of the 7
-- [ ] Store `short_code` as data (don't derive from slug — slug-upcasing can't produce FINANCE/DISCOVER/SERVICES). Add `short_code` column to categories OR a constant map.
-- [ ] `db:seed:replant` and verify card tags + tiles are colored
+### 0.2 Reseed category taxonomy to match the design  ✅ DONE (commit: P0.2)
+- [x] `db/seeds.rb` categories rewritten to the design 7 with correct `color_token`s
+- [x] Curated names + short codes (DATING/CRM/DISCOVER/SAAS/FINANCE/SOCIAL/SERVICES)
+- [x] All 19 seeded entries remapped to the 7 categories (every category has ≥1 entry)
+- [x] Added `short_code` column to categories; tile uses it (falls back to derived)
+- [x] Updated fixtures + tests off the old slugs; reseeded; verified tags + tiles colored
+- Note: home shows 5 hues by default because the NSFW dating/crm entries are hidden (correct).
 
 ---
 
