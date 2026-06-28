@@ -1,13 +1,13 @@
 .c-empty-state {
   text-align: center;
-  padding: var(--space-section) var(--page-gutter);
+  padding: 70px var(--page-gutter);
 }
 
 .c-empty-state__formula {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: 25px;
   font-weight: 700;
-  color: var(--border-default);
+  color: var(--placeholder);
   margin: 0 0 6px;
 }
 
@@ -20,5 +20,5 @@
   font-family: var(--font-sans);
   font-size: 14px;
   color: var(--text-muted);
-  margin: 0 0 var(--space-md);
+  margin: 0 0 var(--space-6);
 }

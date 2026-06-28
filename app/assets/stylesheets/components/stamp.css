@@ -17,11 +17,11 @@
 }
 
 .c-stamp--sponsored {
-  color: var(--sponsored);
-  border-color: var(--sponsored);
+  color: var(--sponsor);
+  border-color: var(--sponsor);
 }
 
 .c-stamp--featured {
   color: var(--text-muted);
-  border-color: var(--border-default);
+  border-color: var(--border-rule);
 }

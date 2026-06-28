@@ -34,6 +34,7 @@
   --accent:           #E11D8F; /* default: hot magenta-pink (brand) */
   --on-accent:        #FFFFFF;
   --accent-shadow:    rgba(176,20,110,0.50); /* magenta glow under primary buttons */
+  --focus-ring:       rgba(201,59,27,0.20); /* input focus ring (accent @ 20%; no design spec) */
 
   /* Curated accent options (the directory ships a theme switch) */
   --accent-magenta:   #E11D8F; /* default */

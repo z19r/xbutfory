@@ -11,25 +11,14 @@
 
 ## P0 — Foundation (cross-cutting; these silently break everything downstream)
 
-### 0.1 Reconcile phantom CSS tokens  ⚠️ HIGH IMPACT
-Component CSS references ~20 custom properties that **do not exist** in `tokens/*.css`.
-With no fallback, those declarations are invalid and silently dropped — large parts of
-the styling never apply. Map each phantom token to the real one and fix every usage.
-
-Mapping (phantom → real):
-- [ ] `--border-default` → `--border-input`
-- [ ] `--text-secondary` → `--text-body` (descriptions) / `--text-muted` (labels) — pick per use
-- [ ] `--font-serif` → `--font-display`
-- [ ] `--type-section` → `--type-h2` (27px)
-- [ ] `--type-detail-title` → add `--type-detail: clamp(28px,4.6vw,50px)` to typography.css, then use it
-- [ ] `--space-xxs/xs/sm/md/lg/xl/section` → numbered scale (`--space-1..20`); audit each call site for the intended px and map (e.g. md→`--space-6` 16px, lg→`--space-10` 24px, section→`--space-20` 90px)
-- [ ] `--radius-soft` → `--radius-input` (8px)
-- [ ] `--radius-sharp` → `--radius-tag` (4px) or `--radius-stamp` (3px) per element
-- [ ] `--surface-code` → `--surface-sunken`
-- [ ] `--sponsored` → `--sponsor`
-- [ ] `--focus-ring` → define `--focus-ring` in effects.css (accent glow) OR replace with inline accent box-shadow
-- [ ] Files to sweep: `submit_form.css`, `detail.css`, `categories.css`, `category_tile.css`, `submit_preview.css`, `code_chip.css`, `tag.css`, `stamp.css`, `empty_state.css`, `search_input.css` (grep `var(--…)` and diff against defined tokens)
-- [ ] Add a guard test / rake task: fail if any `var(--x)` in app CSS is undefined in tokens
+### 0.1 Reconcile phantom CSS tokens  ✅ DONE (commit: P0.1)
+Component CSS referenced ~20 undefined custom properties; styles silently dropped. Fixed.
+- [x] Added 3 tokens: `--type-section: 42px`, `--type-detail-title: clamp(28px,4.6vw,50px)` (typography.css); `--focus-ring: rgba(201,59,27,0.20)` (colors.css)
+- [x] 1:1 renames applied: `--font-serif`→`--font-display`, `--surface-code`→`--surface-sunken`, `--sponsored`→`--sponsor`, `--radius-soft`→`--radius-input`, `--radius-sharp`→`--radius-tag`
+- [x] Context-dependent applied per call site: `--text-secondary`→`--text-muted`/`--text-body`/`--text-soft`; `--border-default`→`--border-input`/`--border-rule`/`--placeholder`; `--space-*`→numbered scale per line
+- [x] All 10 files swept (submit_form, detail, categories, category_tile, submit_preview, code_chip, tag, stamp, empty_state, search_input)
+- [x] Guard test `test/assets/css_token_test.rb` — fails on any undefined `var(--x)`. Passing.
+- Note: a few no-design-reference values (focus-ring alpha, ghost-formula color, submit gutter) logged in ZTODO for sign-off.
 
 ### 0.2 Reseed category taxonomy to match the design  ⚠️ HIGH IMPACT
 DB categories (`saas, dev-tools, consumer, ai-ml, fintech, health, community`) do **not**
@@ -166,9 +155,12 @@ redirect with "coming soon" toast). **Needs design direction before building.**
 
 ---
 
-## Decisions needed from user (the `[?]` items)
-1. Submit $1.99 featured tier — real payment (Stripe) or stub for now?
-2. Categories sample text — source-app list (reference) or live "X but for Y" (current)?
-3. Keep the net-new category filtered-feed view (not in reference)?
-4. RSS — build a real feed or keep the toast stub?
-5. Auth/accounts — design first, or skip until later? (No design exists.)
+## Decisions — RESOLVED (see ZTODO.md for the open/overridable ones)
+1. Submit $1.99 featured tier → **stub now** (Stripe later). Record tier, "payment coming soon".
+2. Categories sample text → **source apps** (top entries' product names). [override in ZTODO]
+3. Category filtering → **filter the home feed via a "filtered: NAME ✕" chip** (prototype
+   behavior); drop the separate sub-page. [override in ZTODO]
+4. RSS → **real `/feed.xml`** (native Rails) **+** keep the toast.
+5. Auth/accounts → **blocked** pending designs (user supplying). Tracked in ZTODO.
+
+> Questions/designs for the user live in **ZTODO.md**. This file is my execution backlog.

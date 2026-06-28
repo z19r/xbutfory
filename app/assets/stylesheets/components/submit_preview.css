@@ -2,7 +2,7 @@
   background: var(--surface-card);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  padding: var(--space-lg);
+  padding: var(--space-8);
   text-align: center;
 }
 
@@ -13,11 +13,11 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-3);
 }
 
 .c-submit-preview__formula {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: 28px;
   line-height: 1.2;
@@ -31,5 +31,5 @@
 }
 
 .c-submit-preview__formula--placeholder {
-  color: var(--border-default);
+  color: var(--placeholder);
 }

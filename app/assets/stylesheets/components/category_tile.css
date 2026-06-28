@@ -1,8 +1,8 @@
 .c-category-tile {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xxs);
-  padding: var(--space-md);
+  gap: var(--space-2);
+  padding: var(--space-7);
   background: var(--surface-card);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
@@ -27,12 +27,12 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 3px 8px;
-  border-radius: var(--radius-sharp);
+  border-radius: var(--radius-tag);
   border: 1.5px solid;
 }
 
 .c-category-tile__name {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: 19px;
   color: var(--ink);
@@ -50,7 +50,7 @@
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 300;
-  color: var(--text-secondary);
+  color: var(--text-soft);
   margin: 0;
   line-height: 1.4;
 }

@@ -17,6 +17,8 @@
   --type-stat:       clamp(46px, 6.6vw, 66px); /* big index number, 700, line-height .82 */
   --type-hero:       clamp(26px, 3.5vw, 40px); /* hero dek, weight 500, line-height 1.2 */
   --type-h2:         27px;                      /* section headers, 700 */
+  --type-section:    42px;                      /* submit page h1, 700 */
+  --type-detail-title: clamp(28px, 4.6vw, 50px); /* entry detail title, 700, lh 1.06 */
   --type-card-title: 21px;                      /* "X but for Y" entry title, 700 */
   --type-tile-title: 19px;                      /* category tile name, 600 */
 

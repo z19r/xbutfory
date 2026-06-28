@@ -1,23 +1,23 @@
 .l-categories__heading {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--type-section);
-  margin: 0 0 var(--space-xs);
+  font-size: var(--type-h2);
+  margin: 0 0 var(--space-3);
 }
 
 .l-categories__dek {
   font-family: var(--font-sans);
   font-size: 14px;
-  color: var(--text-secondary);
-  margin: 0 0 var(--space-lg);
+  color: var(--text-muted);
+  margin: 0 0 var(--space-7);
 }
 
 .l-categories__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--space-md);
+  gap: var(--space-5);
 }
 
 .l-categories__back {
-  margin-top: var(--space-lg);
+  margin-top: var(--space-7);
 }
