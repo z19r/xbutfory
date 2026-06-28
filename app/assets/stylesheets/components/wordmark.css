@@ -1,0 +1,70 @@
+/* Wordmark — the live typographic "XbutforY." lockup.
+   Size is driven by --wm-size so the corner BetaBurst scales with it.
+   Mirrors design_system/components/brand/Wordmark.jsx. */
+.c-wordmark {
+  --wm-size: 66px;
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--wm-size);
+  line-height: 0.9;
+  letter-spacing: -0.014em;
+  color: var(--ink);
+}
+
+/* Masthead lockup: clamp to the broadsheet's responsive headline size. */
+.c-wordmark--responsive {
+  --wm-size: clamp(44px, 6.6vw, 66px);
+}
+
+.c-wordmark[role="link"] {
+  cursor: pointer;
+}
+
+.c-wordmark__ghost {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(3px, 7px);
+  color: var(--ink);
+  opacity: 0.07;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+}
+
+.c-wordmark__mark {
+  position: relative;
+  white-space: nowrap;
+}
+
+.c-wordmark__accent {
+  color: var(--accent);
+}
+
+/* The dot stays ink (broadsheet convention). */
+.c-wordmark__dot {
+  color: var(--ink);
+}
+
+.c-wordmark__y {
+  cursor: pointer;
+}
+
+/* Corner BetaBurst, scaled and positioned off the wordmark size.
+   Reuses .c-beta-burst__fill / __sheen / __label for the star visuals. */
+.c-wordmark__burst {
+  position: absolute;
+  width: calc(var(--wm-size) * 1.18);
+  height: calc(var(--wm-size) * 1.18);
+  top: calc(var(--wm-size) * -0.22);
+  right: calc(var(--wm-size) * -0.32);
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+.c-wordmark__burst .c-beta-burst__label {
+  font-size: calc(var(--wm-size) * 1.18 * 0.27);
+  transform: rotate(-19deg);
+}

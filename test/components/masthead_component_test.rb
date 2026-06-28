@@ -1,12 +1,11 @@
 require "test_helper"
 
 class MastheadComponentTest < ViewComponent::TestCase
-  test "renders wordmark with correct colors" do
+  test "renders the maximal wordmark lockup (ghost + beta)" do
     render_inline(MastheadComponent.new)
-    assert_selector ".c-masthead__mark", text: /Xbutfor/
-    assert_selector ".c-masthead__mark-accent", text: "but"
-    assert_selector ".c-masthead__mark-y", text: "Y"
-    assert_selector ".c-masthead__mark-dot", text: "."
+    assert_selector ".c-masthead__mark .c-wordmark", text: /Xbutfor/
+    assert_selector ".c-wordmark__ghost", text: "XbutforY."
+    assert_selector ".c-beta-burst__label", text: "BETA"
   end
 
   test "Y has logo-y stimulus controller" do

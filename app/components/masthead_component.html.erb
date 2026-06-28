@@ -1,7 +1,9 @@
 <header>
   <div class="c-masthead">
     <div class="c-masthead__eyebrow">THE DIRECTORY OF</div>
-    <div class="c-masthead__mark" data-controller="logo-y" data-action="click->logo-y#goHome">X<span class="c-masthead__mark-accent">but</span>for<span class="c-masthead__mark-accent c-masthead__mark-y" data-logo-y-target="letter" data-action="click->logo-y#cycle:stop">Y</span><span class="c-masthead__mark-dot">.</span></div>
+    <div class="c-masthead__mark">
+      <%= render WordmarkComponent.new(responsive: true, ghost: true, beta: true, interactive: true) %>
+    </div>
     <div class="c-masthead__actions">
       <% if search_slot? %>
         <%= search_slot %>

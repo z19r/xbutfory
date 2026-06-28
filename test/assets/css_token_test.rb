@@ -9,7 +9,8 @@ class CssTokenTest < ActiveSupport::TestCase
   # Custom properties legitimately defined outside tokens/ (component-local). Keep empty
   # unless a component intentionally defines and consumes its own scoped variable.
   # --swatch is set inline on each accent button in utility_bar; the stylesheet only consumes it.
-  ALLOWLIST = %w[--swatch].freeze
+  # --wm-size is the wordmark's own size knob (set in .c-wordmark, scaled into the BetaBurst).
+  ALLOWLIST = %w[--swatch --wm-size].freeze
 
   def defined_tokens
     Dir[CSS_ROOT.join("tokens/*.css")].flat_map do |file|

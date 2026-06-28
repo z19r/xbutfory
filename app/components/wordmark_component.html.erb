@@ -1,0 +1,13 @@
+<span class="<%= root_classes %>"<%= " style=\"#{root_style}\"".html_safe if root_style %><% if interactive? %> data-controller="logo-y" data-action="click->logo-y#goHome" role="link" tabindex="0" aria-label="XbutforY — home"<% end %>>
+  <% if @ghost %>
+    <span class="c-wordmark__ghost" aria-hidden="true">XbutforY.</span>
+  <% end %>
+  <span class="c-wordmark__mark">X<span class="c-wordmark__accent">but</span>for<span class="<%= "c-wordmark__accent" if y_accent? %><%= " c-wordmark__y" if interactive? %>"<% if interactive? %> data-logo-y-target="letter" data-action="click->logo-y#cycle:stop"<% end %>>Y</span><span class="c-wordmark__dot">.</span></span>
+  <% if @beta %>
+    <span class="c-wordmark__burst" aria-hidden="true">
+      <span class="c-beta-burst__fill"></span>
+      <span class="c-beta-burst__sheen"></span>
+      <span class="c-beta-burst__label"><%= @beta_label %></span>
+    </span>
+  <% end %>
+</span>

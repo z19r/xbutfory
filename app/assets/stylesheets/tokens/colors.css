@@ -71,4 +71,29 @@
   /* Hero bloom — two warm radials that fade into the paper */
   --bloom-rose:  rgba(205,92,72,0.15);
   --bloom-amber: rgba(222,150,88,0.10);
+
+  /* ---- Maximal mode (Y2K) chrome ----
+     Fixed, non-themeable decorative surfaces for the maximal look (see
+     readme.md "Maximal mode"). Periwinkle is DELIBERATELY off the brand accent;
+     the beta golds belong only to the BetaBurst starburst. Not driven by --accent. */
+  /* Periwinkle gel navigation (GlossyNav) */
+  --gel-nav:           linear-gradient(180deg, #CBDCF5, #A8C0E9 55%, #8FB0E2);
+  --gel-nav-top:       #E2EAF8; /* top hairline */
+  --gel-nav-bottom:    #6E8FC6; /* bottom hairline */
+  --gel-nav-sheen:     rgba(255, 255, 255, 0.65);
+  --gel-nav-drop:      rgba(40, 70, 120, 0.16);
+  --gel-tab-active:    linear-gradient(180deg, #fff, #EAF0FB); /* raised active tab */
+  --gel-tab-border:    #B7C8E6;
+  --gel-tab-shadow:    rgba(40, 70, 120, 0.18);
+  --gel-tab-ink:       #233A63; /* active tab text */
+  --gel-tab-ink-idle:  #3A4E70; /* idle tab text */
+  --gel-nav-note:      #3A5C8C; /* right-aligned count */
+  /* Periwinkle for the weighted tag cloud (== --cat-crm, kept separate for intent) */
+  --periwinkle:        #2B5BA8;
+  /* BetaBurst starburst golds */
+  --beta-gold-1:       #FFC24B;
+  --beta-gold-2:       #F08A1D;
+  --beta-gold-3:       #D2670E;
+  --beta-gold-shadow:  rgba(120, 60, 0, 0.4);
+  --beta-label-shadow: rgba(140, 70, 0, 0.55);
 }
