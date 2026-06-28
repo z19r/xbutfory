@@ -1,0 +1,174 @@
+# XbutforY — Build Plan & TODO
+
+> Living plan. Reconciles the current Rails implementation against the design system
+> (`design_system/ui_kits/directory/*.html`, `design_system/tokens/*.css`,
+> `design_system/components/**`). Ordered by priority. Check items off as completed;
+> add new findings under the right section. The design files are the ground truth.
+
+**Status legend:** `[ ]` todo · `[~]` in progress · `[x]` done · `[?]` needs a decision
+
+---
+
+## P0 — Foundation (cross-cutting; these silently break everything downstream)
+
+### 0.1 Reconcile phantom CSS tokens  ⚠️ HIGH IMPACT
+Component CSS references ~20 custom properties that **do not exist** in `tokens/*.css`.
+With no fallback, those declarations are invalid and silently dropped — large parts of
+the styling never apply. Map each phantom token to the real one and fix every usage.
+
+Mapping (phantom → real):
+- [ ] `--border-default` → `--border-input`
+- [ ] `--text-secondary` → `--text-body` (descriptions) / `--text-muted` (labels) — pick per use
+- [ ] `--font-serif` → `--font-display`
+- [ ] `--type-section` → `--type-h2` (27px)
+- [ ] `--type-detail-title` → add `--type-detail: clamp(28px,4.6vw,50px)` to typography.css, then use it
+- [ ] `--space-xxs/xs/sm/md/lg/xl/section` → numbered scale (`--space-1..20`); audit each call site for the intended px and map (e.g. md→`--space-6` 16px, lg→`--space-10` 24px, section→`--space-20` 90px)
+- [ ] `--radius-soft` → `--radius-input` (8px)
+- [ ] `--radius-sharp` → `--radius-tag` (4px) or `--radius-stamp` (3px) per element
+- [ ] `--surface-code` → `--surface-sunken`
+- [ ] `--sponsored` → `--sponsor`
+- [ ] `--focus-ring` → define `--focus-ring` in effects.css (accent glow) OR replace with inline accent box-shadow
+- [ ] Files to sweep: `submit_form.css`, `detail.css`, `categories.css`, `category_tile.css`, `submit_preview.css`, `code_chip.css`, `tag.css`, `stamp.css`, `empty_state.css`, `search_input.css` (grep `var(--…)` and diff against defined tokens)
+- [ ] Add a guard test / rake task: fail if any `var(--x)` in app CSS is undefined in tokens
+
+### 0.2 Reseed category taxonomy to match the design  ⚠️ HIGH IMPACT
+DB categories (`saas, dev-tools, consumer, ai-ml, fintech, health, community`) do **not**
+match the design's 7 (`dating, crm, discovery, saas, payments, social, logistics`). Only
+`cat-saas` resolves to a real hue; the other 6 chips/tags render uncolored site-wide.
+- [ ] Rewrite `db/seeds.rb` categories to the design 7 with correct `color_token`s:
+      `cat-dating #B5472D`, `cat-crm #2B5BA8`, `cat-discovery #2A7A56`, `cat-saas #6A3D9E`,
+      `cat-payments #1B8080`, `cat-social #A07A18`, `cat-logistics #9B5523`
+- [ ] Add curated names + short codes: Dating & Hookups (DATING), CRM & Sales (CRM),
+      Metasearch & Discovery (DISCOVER), SaaS & Productivity (SAAS),
+      Payments & Finance (FINANCE), Social & Links (SOCIAL), Logistics & Services (SERVICES)
+- [ ] Remap every seeded entry's `category` to one of the 7
+- [ ] Store `short_code` as data (don't derive from slug — slug-upcasing can't produce FINANCE/DISCOVER/SERVICES). Add `short_code` column to categories OR a constant map.
+- [ ] `db:seed:replant` and verify card tags + tiles are colored
+
+---
+
+## P1 — Screens that are materially incomplete
+
+### 1.1 Detail screen (`/entry/:slug`) — ~half missing
+Reference: `design_system/ui_kits/directory/detail.html`. Files: `app/views/entries/show.html.erb`,
+`app/assets/stylesheets/components/detail.css`, `app/controllers/entries_controller.rb`, `app/models/entry.rb`.
+
+Model/data:
+- [ ] Add `tagline:string` (italic one-liner under title)
+- [ ] Add `why:text` ("why it works" — distinct from `description`/pitch)
+- [ ] Add `name:string` (product name, e.g. "Floormate") — used by Visit button + meta
+- [ ] (Optional) status concept — for now hardcode "● Live & launched"; revisit if needed
+- [ ] Backfill these fields in seeds
+
+Layout & structure:
+- [ ] Two-column split: `grid-template-columns: 1fr 220px; gap: 48px`
+- [ ] Editorial back link at TOP: mono 10px uppercase `← All entries` (`.back`), not a secondary button
+- [ ] Vote column: 74px wide, `2px solid var(--border-rule)` button, `--type` 34px count, "votes" label below
+- [ ] Wire vote button to `vote_controller` (currently DEAD — stale `c-entry-card__vote-btn` classes, no Stimulus). Reuse the home card's data-attributes + entry-id.
+- [ ] Badge row: category badge + "submitted N ago" timestamp inline
+- [ ] Title: `clamp(28px,4.6vw,50px)`, line-height 1.06; italic connector `.conn` at `.6em`, `--text-soft`, weight 400
+- [ ] Tagline under title: 17px italic weight 300 `--text-muted`
+- [ ] Actions: ink-black Visit button (`background:var(--ink); color:var(--on-dark); padding:11px 22px`) + "by @user"
+- [ ] Left col: "THE PITCH" eyebrow label + pitch (17px, line-height 1.8, weight 300) + "WHY IT WORKS" label + why body (15px, line-height 1.7, `--text-body-soft`)
+- [ ] Right col: **formula meta-card** (brand-sacred) — `--shadow-card` floating card with: `THE FORMULA` → `X × Y`, `CATEGORY` → full label, `STATUS` → `● Live & launched`
+- [ ] Remove the extraneous CodeChip (not in reference)
+- [ ] `entries#show` — friendly 404 for bad slug
+
+### 1.2 Submit screen (`/submit`) — monetization & brand violations
+Reference: `design_system/ui_kits/directory/submit.html`, `SubmitPreview.prompt.md`.
+Files: `app/views/submissions/new.html.erb`, `app/components/submit_preview_component.*`,
+`app/components/submit_form_component.*`, `submit_form.css`, `submit_preview.css`,
+`submit_preview_controller.js`, `submissions_controller.rb`, `app/models/entry.rb`.
+
+Monetization (biggest gap):
+- [ ] Add listing-tier selector: Free (Indexed within 24h) vs Featured — $1.99 (Homepage spot + boost)
+- [ ] CTA flips with tier: ink "Submit for free →" ↔ accent "Launch for $1.99 →"
+- [ ] Add `tier` (or reuse `sponsored`) column; wire into create. Stimulus controller for the flip (extend `submit_preview` or new `tier_controller`)
+- [?] Payment flow for $1.99 — out of scope for now? Decide: stub vs real (Stripe). Likely stub + "coming soon" until decided.
+
+Preview (brand law):
+- [ ] Change preview from solid floating card → **dashed draft well**: `border:1.5px dashed var(--placeholder)`, `background:var(--surface-sunken)`, left-aligned, no `--shadow-card`
+- [ ] Connector `.conn` `.66em` italic `--text-soft`
+- [ ] Fix stale-preview bug: on `render :new` after validation failure, seed preview with submitted x/y
+
+Fields & layout:
+- [ ] Single centered 600px column; preview INLINE between Y and Product-name (not sticky sidebar)
+- [ ] Add Product name field (+ `name` column from 1.1)
+- [ ] Make `submitter` optional (reference: "no account needed"); remove presence validation OR drop the field
+- [ ] Footer micro-copy: "no account needed · no spam · takes 30 seconds" (mono 10px `--text-faint`, centered)
+- [ ] Title "Submit a Site" (42px serif 700); dek with pricing message ("Free to list… $1.99 buys a featured homepage spot.", weight 300 `--text-muted`)
+- [ ] Inputs: add `--shadow-inset`, `1px var(--border-input)`, `--surface-card`, 15px, padding 11px 14px
+- [ ] Labels 9px (`--type-micro`)
+- [ ] Pitch field: "One-line pitch (optional)", rows=2
+
+### 1.3 Categories screen (`/categories`)
+Reference: `CategoriesScreen.jsx`, `categories.html`. Files: `app/views/categories/index.html.erb`,
+`category_tile_component.*`, `categories.css`, `category_tile.css`, `categories_controller.rb`.
+(Depends on 0.2 reseed.)
+- [ ] Add issue dateline + live dot eyebrow above heading (`VOL. 01 · ISSUE 26 · JUN 2026`)
+- [ ] Heading "Browse by Category" serif `--type-h2` (27px) 700; wrap in block with `border-bottom:2px solid var(--ink)` (brand ink rule)
+- [ ] Dek → mono 11px `--text-muted`: "7 categories · pick one to filter the index"
+- [ ] Grid `minmax(240px,1fr)`, gap 14px
+- [ ] Tile resting shadow `--shadow-tile` (not `--shadow-card`)
+- [?] Sample model: source apps (e.g. "Tinder · Hinge · Grindr") per reference, vs current live "X but for Y". Decide. Add `sample_apps` data if going with reference.
+- [?] Curated short codes via 0.2 data
+- [?] Keep the net-new filtered-feed view + "← All categories" back link? (Not in reference, but a real improvement. Likely keep.)
+
+---
+
+## P2 — Home polish & sponsored placements
+
+- [ ] Verify/complete sponsored card variants on the feed: PINNED (ribbon "★ PINNED SPONSOR / Learn more →", `--sponsor-tint` wash, `--shadow-pin`) and SPOTLIGHT (`--shadow-sponsor` magenta glow, SPONSORED tag in `--sponsor-tag`)
+- [ ] Confirm pinned sponsor renders at top, spotlight mid-feed (per reference ORG/PINNED/SPOTLIGHT logic)
+- [ ] Re-verify card category-tag hues after 0.2 reseed
+- [x] Wordmark colors (X ink, but accent, for ink, Y accent, . ink)
+- [x] Hero dek copy + `<code>` chip
+- [x] Sort options Newest/Hot/Top
+- [x] Live dots as real circles (utility bar, hero, stats)
+- [x] Card meta "by @" + footer aside `--text-faint`
+
+---
+
+## P2 — Cross-cutting features & easter eggs (from prototype_source.dc.html)
+
+- [x] Konami code → fireworks + coupon modal
+- [x] Y wordmark easter egg (cycles values)
+- [x] After Dark (NSFW) toggle + cookie filter
+- [x] Search easter eggs (bacon, xbutfory, nsfw hint)
+- [ ] **Theme switcher** — 6 accent options (`#C93B1B/#1B6E80/#6A3D9E/#A07A18/#171008/#E11D8F`). colors.css says the directory "ships a theme switch". Persist via cookie; set `--accent` on `:root`.
+- [ ] Rotating search placeholders (cycle every ~3.4s through the prototype's list)
+- [ ] Vote milestone toasts (5 → 🏆, 12 → 🔥) in `vote_controller`
+- [ ] Footer scramble easter egg (🔮 button scrambles all Y values briefly)
+- [ ] Idle toast ("still there?") after inactivity
+- [?] RSS — real `/feed.xml` (Atom/RSS of latest entries) vs current toast stub. Decide; if real, add a feeds controller + builder.
+
+---
+
+## P3 — Auth & accounts  [? BLOCKED: no design exists]
+No design system screens exist for any of these. Currently stubbed (`/sign_in`, `/sign_up`
+redirect with "coming soon" toast). **Needs design direction before building.**
+- [?] Sign in
+- [?] Create account
+- [?] Account settings (logged-in)
+- [?] Logged-in view / session UI
+- [?] Manage your submissions (edit/withdraw)
+- [?] Tie submissions to accounts (currently anonymous `submitter` string)
+
+---
+
+## Engineering quality & guardrails
+
+- [ ] Categories N+1: `categories_controller` / tiles run per-category count + sample queries. Use `counter_cache` (`entries_count` exists on categories) and/or `includes`/grouped counts.
+- [ ] Keep business logic OUT of controllers (user rule). Audit `PagesController#sort_entries` — move sort/filter resolution to model scopes / a query object if it grows.
+- [ ] Maintain ≥80% test coverage. Add tests for: detail formula card + vote wiring, submit tier flip + create with name/tier, categories reseed hues, theme switcher, token-undefined guard.
+- [ ] Accessibility: vote button + visit link as independent targets on detail; 44px hit targets; honor `prefers-reduced-motion` (kill pulse/fireworks/transforms).
+- [ ] Commit after each build prompt (conventional, present-tense).
+
+---
+
+## Decisions needed from user (the `[?]` items)
+1. Submit $1.99 featured tier — real payment (Stripe) or stub for now?
+2. Categories sample text — source-app list (reference) or live "X but for Y" (current)?
+3. Keep the net-new category filtered-feed view (not in reference)?
+4. RSS — build a real feed or keep the toast stub?
+5. Auth/accounts — design first, or skip until later? (No design exists.)
