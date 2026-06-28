@@ -6,6 +6,10 @@ class PagesController < ApplicationController
     @after_dark = cookies[:after_dark] == "1"
     entries = @after_dark ? Entry.all : Entry.sfw
     entries = entries.search(@query) if @query
+
+    @filter_category = Category.find_by(slug: params[:category]) if params[:category].present?
+    entries = entries.by_category(@filter_category.slug) if @filter_category
+
     entries = sort_entries(entries)
 
     @entries = entries.limit(20)

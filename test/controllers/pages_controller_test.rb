@@ -69,6 +69,13 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "category filter shows the filter chip and narrows the feed" do
+    get root_url, params: { category: "saas" }
+    assert_response :success
+    assert_select ".l-filter .l-filter__name", text: /SaaS/
+    assert_select ".l-filter__clear[href=?]", root_path
+  end
+
   test "konami modal markup is present" do
     get root_url
     assert_select "[data-controller='konami']"

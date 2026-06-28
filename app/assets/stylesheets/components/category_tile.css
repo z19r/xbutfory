@@ -5,7 +5,7 @@
   padding: var(--space-7);
   background: var(--surface-card);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-tile);
   text-decoration: none;
   color: inherit;
   transition: transform 0.15s, box-shadow 0.15s;

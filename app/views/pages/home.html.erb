@@ -19,6 +19,14 @@
   ) %>
 </section>
 
+<% if @filter_category %>
+  <div class="l-filter">
+    <span class="l-filter__label">filtered:</span>
+    <span class="l-filter__name"><%= @filter_category.name %></span>
+    <%= link_to "×", root_path, class: "l-filter__clear", title: "clear filter", "aria-label": "Clear category filter" %>
+  </div>
+<% end %>
+
 <div class="l-feedhead">
   <div>
     <h2 class="l-feedhead__title">Latest Submissions</h2>

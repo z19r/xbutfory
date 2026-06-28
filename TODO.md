@@ -100,7 +100,14 @@ Fields & layout:
 - [ ] Pitch field: "One-line pitch (optional)", rows=2
 </details>
 
-### 1.3 Categories screen (`/categories`)
+### 1.3 Categories screen (`/categories`) — ✅ DONE (commit: P1.3)
+Dateline + live dot; ink-rule heading "Browse by Category" (serif 27px); mono dek; grid
+`minmax(240)`/gap 14; tiles use `--shadow-tile`; source-app samples (top product names);
+curated short codes. Tiles now filter the HOME feed via a "filtered: NAME ✕" chip (replaced
+the separate sub-page). N+1 fixed: `Category.with_stats` computes counts+samples in 2 queries
+(logic in the model, not the controller). Tests added.
+
+<details><summary>original checklist (all done)</summary>
 Reference: `CategoriesScreen.jsx`, `categories.html`. Files: `app/views/categories/index.html.erb`,
 `category_tile_component.*`, `categories.css`, `category_tile.css`, `categories_controller.rb`.
 (Depends on 0.2 reseed.)
@@ -111,15 +118,17 @@ Reference: `CategoriesScreen.jsx`, `categories.html`. Files: `app/views/categori
 - [ ] Tile resting shadow `--shadow-tile` (not `--shadow-card`)
 - [?] Sample model: source apps (e.g. "Tinder · Hinge · Grindr") per reference, vs current live "X but for Y". Decide. Add `sample_apps` data if going with reference.
 - [?] Curated short codes via 0.2 data
-- [?] Keep the net-new filtered-feed view + "← All categories" back link? (Not in reference, but a real improvement. Likely keep.)
+- [x] Sample model resolved → source apps (decision #2); filtering routes through the home feed (decision #3)
+</details>
 
 ---
 
 ## P2 — Home polish & sponsored placements
 
+- [ ] **REGRESSION**: home hero is missing its issue dateline (`● VOL. 01 · ISSUE 26 · JUN 2026`) above the dek — it was dropped from `home.html.erb` at some point. Restore it (mono 12px, letter-spacing .12em, `--text-muted`, live dot).
 - [ ] Verify/complete sponsored card variants on the feed: PINNED (ribbon "★ PINNED SPONSOR / Learn more →", `--sponsor-tint` wash, `--shadow-pin`) and SPOTLIGHT (`--shadow-sponsor` magenta glow, SPONSORED tag in `--sponsor-tag`)
 - [ ] Confirm pinned sponsor renders at top, spotlight mid-feed (per reference ORG/PINNED/SPOTLIGHT logic)
-- [ ] Re-verify card category-tag hues after 0.2 reseed
+- [x] Re-verify card category-tag hues after 0.2 reseed
 - [x] Wordmark colors (X ink, but accent, for ink, Y accent, . ink)
 - [x] Hero dek copy + `<code>` chip
 - [x] Sort options Newest/Hot/Top

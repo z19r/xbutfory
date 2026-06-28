@@ -4,6 +4,31 @@
   padding: 34px var(--page-gutter) 90px;
 }
 
+/* category filter chip (above the feed) */
+.l-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: var(--space-12);
+  padding: 6px 8px 6px 13px;
+  background: var(--ink);
+  color: var(--on-dark);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+.l-filter__label { opacity: 0.6; }
+.l-filter__clear {
+  color: var(--on-dark);
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 1;
+  padding: 0 3px;
+  opacity: 0.7;
+}
+.l-filter__clear:hover { opacity: 1; }
+
 /* hero */
 .l-hero { margin-bottom: 0; }
 
