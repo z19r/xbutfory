@@ -21,8 +21,22 @@
   cursor: pointer;
 }
 
-.c-masthead__mark-y {
+.c-masthead__mark-accent {
   color: var(--accent);
+}
+
+.c-masthead__mark-y {
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.15s;
+}
+
+.c-masthead__mark-y:hover {
+  opacity: 0.7;
+}
+
+.c-masthead__mark-dot {
+  color: var(--ink);
 }
 
 .c-masthead__actions {

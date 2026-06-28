@@ -3,7 +3,8 @@ class PagesController < ApplicationController
     @sort = params[:sort].presence || "newest"
     @query = params[:q].presence
 
-    entries = Entry.all
+    @after_dark = cookies[:after_dark] == "1"
+    entries = @after_dark ? Entry.all : Entry.sfw
     entries = entries.search(@query) if @query
     entries = sort_entries(entries)
 

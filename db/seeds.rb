@@ -15,7 +15,7 @@ categories.each do |attrs|
 end
 
 entries_data = [
-  { x: "Tinder", y: "the building you live in", description: "Swipe on your neighbors. What could go wrong? A hyperlocal social app that matches you with people in your apartment building for coffee, dog walks, or awkward elevator conversations.", submitter: "apt_4b", category: "consumer", stamp: "new", votes_count: 342 },
+  { x: "Tinder", y: "the building you live in", description: "Why scroll through a whole city of strangers when the love of your life might share your elevator? Floormate matches verified residents inside your building only.", submitter: "apt_4b", category: "consumer", stamp: "new", votes_count: 847, nsfw: true },
   { x: "Stripe", y: "lemonade stands", description: "Full payment infrastructure for the under-12 economy. Accepts allowance, Venmo from grandma, and slightly sticky dollar bills.", submitter: "squeezed_ceo", category: "fintech", votes_count: 287 },
   { x: "Figma", y: "birthday party invites", description: "Collaborative design for your 7-year-old's dinosaur-themed party. Real-time cursors, but everyone is a velociraptor.", submitter: "partymom", category: "consumer", votes_count: 198 },
   { x: "Linear", y: "household chores", description: "Sprint planning for who takes out the trash. Includes burndown charts that make passive-aggressive roommate dynamics visible.", submitter: "scrummaster_at_home", category: "saas", votes_count: 176 },
@@ -30,7 +30,10 @@ entries_data = [
   { x: "Peloton", y: "office chairs", description: "Competitive spinning in your Herman Miller. Leaderboard tracks RPM of anxious swiveling during all-hands meetings.", submitter: "spin_to_win", category: "health", votes_count: 167 },
   { x: "Spotify", y: "ambient office sounds", description: "Curated playlists of keyboard clicking, coffee machine gurgling, and someone eating chips too loudly. Discover Weekly: new coworker noises.", submitter: "open_plan_dj", category: "consumer", votes_count: 234 },
   { x: "Jira", y: "home renovations", description: "Epics for 'fix that one tile.' Story points for convincing your partner the bathroom is fine. Sprint retrospective: nothing got done.", submitter: "renovate_pm", category: "saas", votes_count: 203 },
-  { x: "Canva", y: "ransom notes", description: "Beautiful, accessible ransom note design. Drag-and-drop magazine cutout letters. Brand kit ensures consistent threatening.", submitter: "design_criminal", category: "consumer", sponsored: "spotlight", votes_count: 278 }
+  { x: "Canva", y: "ransom notes", description: "Beautiful, accessible ransom note design. Drag-and-drop magazine cutout letters. Brand kit ensures consistent threatening.", submitter: "design_criminal", category: "consumer", sponsored: "spotlight", votes_count: 278 },
+  { x: "Linktree", y: "sex workers", description: "Privacy-first link-in-bio for adult creators: geofencing, custom domains, and payment integrations that actually work for this industry instead of banning you on day three.", submitter: "discreet_dev", category: "community", votes_count: 2341, nsfw: true },
+  { x: "Salesforce", y: "escorts", description: "A full CRM — booking management, client notes, rate tracking, scheduling, invoicing — for independent providers who run a serious, professional operation. Calendar sync included.", submitter: "anon", category: "saas", votes_count: 1204, nsfw: true },
+  { x: "Grindr", y: "co-working spaces", description: "Find the creative professionals who are also single in your shared workspace. Because office romance, as everyone knows, never once goes badly.", submitter: "hotdesk", category: "consumer", votes_count: 312, nsfw: true }
 ]
 
 entries_data.each_with_index do |attrs, i|

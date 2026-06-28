@@ -38,8 +38,24 @@
       <%= render FooterComponent.new %>
     </main>
 
-    <% if flash[:notice] %>
-      <%= render ToastComponent.new(message: flash[:notice]) %>
-    <% end %>
+    <%= render ToastComponent.new(message: flash[:notice]) %>
+
+    <div data-controller="konami">
+      <div class="c-konami__backdrop" data-konami-target="backdrop" data-action="click->konami#close" hidden></div>
+      <canvas class="c-konami__canvas" data-konami-target="canvas" hidden></canvas>
+      <div class="c-konami__modal" data-konami-target="modal" hidden>
+        <button class="c-konami__close" data-action="click->konami#close" title="close">&times;</button>
+        <div class="c-konami__label">🎆 KONAMI CODE ACCEPTED</div>
+        <h2 class="c-konami__title">One free promotion, <em>unlocked</em>.</h2>
+        <p class="c-konami__body">You clearly know your way around a keyboard. Here&rsquo;s a coupon for one <strong>Featured promotion</strong> &mdash; a homepage Spotlight slot ($1.99 value), on the house.</p>
+        <div class="c-konami__code-label">YOUR COUPON CODE</div>
+        <div class="c-konami__code-row">
+          <div class="c-konami__code">XBUTFORY-K0N4M1</div>
+          <button class="c-konami__copy" data-action="click->konami#copy">Copy</button>
+        </div>
+        <button class="c-konami__claim" data-action="click->konami#claim">Claim it &mdash; submit a site &rarr;</button>
+        <p class="c-konami__fine">redeemable on one submission &middot; expires never &middot; because you earned it</p>
+      </div>
+    </div>
   </body>
 </html>

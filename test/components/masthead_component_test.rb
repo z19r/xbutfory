@@ -1,10 +1,18 @@
 require "test_helper"
 
 class MastheadComponentTest < ViewComponent::TestCase
-  test "renders wordmark" do
+  test "renders wordmark with correct colors" do
     render_inline(MastheadComponent.new)
     assert_selector ".c-masthead__mark", text: /Xbutfor/
-    assert_selector ".c-masthead__mark-y", text: "but"
+    assert_selector ".c-masthead__mark-accent", text: "but"
+    assert_selector ".c-masthead__mark-y", text: "Y"
+    assert_selector ".c-masthead__mark-dot", text: "."
+  end
+
+  test "Y has logo-y stimulus controller" do
+    render_inline(MastheadComponent.new)
+    assert_selector "[data-controller='logo-y']"
+    assert_selector "[data-logo-y-target='letter']"
   end
 
   test "renders eyebrow" do

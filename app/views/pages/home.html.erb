@@ -6,13 +6,10 @@
   <% content_for :nav_tab, "random" %>
 <% end %>
 <section class="l-hero">
-  <div class="l-issue">
-    <span class="l-live">●</span>
-    VOL. 01 &middot; ISSUE <%= Date.current.yday %> &middot; <%= Date.current.strftime("%b %Y").upcase %>
-  </div>
-  <h2 class="l-dek">
-    A hand-curated index of <i>newly launched</i> websites that follow the <span class="l-chip">X but for Y</span> formula.
-  </h2>
+
+  <h1 class="l-dek">
+    A hand-curated index of websites that pitch themselves as <code class="l-chip">X but for Y</code>. Updated daily, voted by humans.
+  </h1>
   <div class="l-rule"></div>
 
   <%= render StatBlockComponent.new(
@@ -30,6 +27,7 @@
   <%= render SortToggleComponent.new(
     options: [
       SortToggleComponent::Option.new(label: "Newest", key: "newest"),
+      SortToggleComponent::Option.new(label: "Hot", key: "trending"),
       SortToggleComponent::Option.new(label: "Top", key: "top")
     ],
     active: @sort

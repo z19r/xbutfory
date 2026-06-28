@@ -11,3 +11,7 @@
   color: var(--text-muted);
   letter-spacing: .05em;
 }
+
+.c-footer__aside {
+  color: var(--text-faint);
+}
