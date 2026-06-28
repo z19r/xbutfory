@@ -1,0 +1,7 @@
+one:
+  entry: one
+  voter_ip: 192.168.1.1
+
+two:
+  entry: two
+  voter_ip: 192.168.1.2

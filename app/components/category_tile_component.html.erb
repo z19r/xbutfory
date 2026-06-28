@@ -1,0 +1,8 @@
+<%= link_to categories_path(category: @slug), class: "c-category-tile" do %>
+  <span class="c-category-tile__chip" style="border-color: <%= chip_color %>; color: <%= chip_color %>;"><%= short_code %></span>
+  <h3 class="c-category-tile__name"><%= @name %></h3>
+  <span class="c-category-tile__count"><%= @count %> entries</span>
+  <% if @sample %>
+    <p class="c-category-tile__sample"><%= @sample %></p>
+  <% end %>
+<% end %>

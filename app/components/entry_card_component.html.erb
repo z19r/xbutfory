@@ -1,0 +1,34 @@
+<article class="<%= card_classes %>">
+  <div class="c-entry-card__vote">
+    <button class="<%= vote_classes %>" aria-label="Vote for <%= @x %> but for <%= @y %>">
+      <span class="c-entry-card__vote-caret">▲</span>
+      <span class="c-entry-card__vote-count"><%= @votes %></span>
+    </button>
+  </div>
+
+  <div class="c-entry-card__body">
+    <div class="c-entry-card__header">
+      <% if @index %>
+        <span class="c-entry-card__index">#<%= @index %></span>
+      <% end %>
+      <h3 class="c-entry-card__title"><%= link_to detail_path, class: "c-entry-card__title-link" do %><%= @x %> <em>but for</em> <%= @y %><% end %></h3>
+      <% if @stamp %>
+        <%= render StampComponent.new(variant: @stamp) %>
+      <% end %>
+    </div>
+
+    <p class="c-entry-card__description"><%= @description %></p>
+
+    <div class="c-entry-card__meta">
+      <% if @category_label %>
+        <%= render TagComponent.new(label: @category_label, category: @category) %>
+      <% end %>
+      <span class="c-entry-card__submitter">@<%= @submitter %></span>
+      <span class="c-entry-card__ago"><%= @ago %></span>
+    </div>
+  </div>
+
+  <div class="c-entry-card__action">
+    <%= link_to "visit site ↗", @url, class: "c-entry-card__visit-link", target: "_blank", rel: "noopener" %>
+  </div>
+</article>

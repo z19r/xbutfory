@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin:0; background-color:#F3EDE3; background-image: radial-gradient(115% 58% at 68% -8%, rgba(205,92,72,0.15), rgba(205,92,72,0) 58%), radial-gradient(75% 42% at 8% -2%, rgba(222,150,88,0.10), rgba(222,150,88,0) 55%), radial-gradient(rgba(74,52,28,0.085) 1px, transparent 1.5px), radial-gradient(rgba(74,52,28,0.05) 1px, transparent 1.5px), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"); background-repeat:no-repeat,no-repeat,repeat,repeat,repeat; background-size:100% 940px,100% 720px,17px 17px,17px 17px,160px 160px; background-position:top center,top left,0 0,8.5px 8.5px,top left; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes wiggle { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-9deg)} 75%{transform:rotate(9deg)} }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.22} }
+    @keyframes couponBackdrop { from{opacity:0} to{opacity:1} }
+    @keyframes couponPop { 0%{opacity:0; transform:translateY(16px) scale(0.95)} 100%{opacity:1; transform:translateY(0) scale(1)} }
+    @keyframes codeShimmer { 0%,100%{box-shadow:0 0 0 0 rgba(225,29,143,0.0)} 50%{box-shadow:0 0 22px -2px rgba(225,29,143,0.45)} }
+    input::placeholder, textarea::placeholder { color:#C0B6A6; }
+    input:focus, textarea:focus, select:focus { border-color:#171008 !important; outline:none; }
+    ::selection { background: var(--accent,#C93B1B); color:#F3EDE3; }
+    nav::-webkit-scrollbar { display:none; }
+  </style>
+</helmet>
+
+<div style="min-height:100vh; background:transparent; color:#171008; font-family:'Outfit',system-ui,sans-serif; font-size:15px; line-height:1.5">
+
+  <header>
+    <div style="background:#171008; color:#C9BCA9">
+      <div style="max-width:1040px; margin:0 auto; padding:9px 24px; display:flex; align-items:center; justify-content:space-between; gap:12px; font-family:'Space Mono'; font-size:11px; letter-spacing:0.03em">
+        <span style="display:inline-flex; align-items:center; gap:8px"><span style="width:6px; height:6px; border-radius:50%; background:var(--accent,#C93B1B); display:inline-block; animation:pulse 2.4s ease-in-out infinite"></span>est. 2026 &mdash; vol. 1, issue 26</span>
+        <span style="display:flex; align-items:center; gap:18px; flex-shrink:0">
+          <button onClick="{{ toggleAfterDark }}" style="{{ afterDarkStyle }}" style-hover="opacity:0.82" title="toggle After Dark">{{ afterDarkLabel }}</button>
+          <button onClick="{{ signIn }}" style="background:none; border:none; color:#C9BCA9; cursor:pointer; font-family:'Space Mono'; font-size:11px; padding:0; letter-spacing:0.03em; transition:color .15s" style-hover="color:#F3EDE3">Sign in</button>
+          <button onClick="{{ createAccount }}" style="background:none; border:none; color:#F3EDE3; cursor:pointer; font-family:'Space Mono'; font-size:11px; padding:0; letter-spacing:0.03em; transition:opacity .15s" style-hover="opacity:0.72">Create account</button>
+        </span>
+      </div>
+    </div>
+
+    <div style="max-width:1040px; margin:0 auto; padding:24px 24px 0">
+      <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.32em; color:#8A7D6F; margin-bottom:5px">THE DIRECTORY OF</div>
+      <div style="display:flex; align-items:baseline; gap:0; cursor:pointer; user-select:none; line-height:0.9" onClick="{{ goHome }}">
+        <span style="font-family:'Newsreader'; font-weight:700; font-size:clamp(44px,6.6vw,66px); color:#171008; letter-spacing:-0.012em">X<span style="color:var(--accent,#E11D8F)">but</span>for</span><span onClick="{{ cycleLogoY }}" style="{{ logoYStyle }}" style-hover="opacity:0.7" title="go on, click me">{{ logoY }}</span><span style="font-family:'Newsreader'; font-weight:700; font-size:clamp(44px,6.6vw,66px); color:#171008">.</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px; margin-top:20px; flex-wrap:wrap">
+        <div style="flex:1; min-width:220px; position:relative">
+          <input value="{{ searchQuery }}" onInput="{{ onSearch }}" placeholder="{{ searchPlaceholder }}" style="width:100%; padding:11px 14px 11px 38px; background:#FFFDFA; border:1px solid #D8CDB9; border-radius:8px; box-shadow:inset 0 1px 2px rgba(74,52,28,0.06); font-family:'Outfit'; font-size:14px; color:#171008; display:block" />
+          <span style="position:absolute; left:13px; top:50%; transform:translateY(-50%); color:#B5AB9B; font-size:16px; pointer-events:none; line-height:1">&#9906;</span>
+        </div>
+        <button onClick="{{ rss }}" style="display:inline-flex; align-items:center; gap:7px; padding:10px 16px; background:#FFFDFA; border:1px solid #D8CDB9; border-radius:8px; box-shadow:0 1px 2px rgba(74,52,28,0.05); cursor:pointer; font-family:'Outfit'; font-size:14px; font-weight:500; color:#171008; white-space:nowrap; transition:all .15s" style-hover="border-color:#171008">&#128225; RSS</button>
+        <button onClick="{{ goSubmit }}" style="display:inline-flex; align-items:center; gap:6px; padding:10px 18px; background:var(--accent,#C93B1B); border:none; border-radius:8px; box-shadow:0 3px 12px -2px rgba(150,45,22,0.5), inset 0 1px 0 rgba(255,255,255,0.18); cursor:pointer; font-family:'Outfit'; font-size:14px; font-weight:600; color:#fff; white-space:nowrap; transition:opacity .15s, transform .15s, box-shadow .15s" style-hover="opacity:0.94; transform:translateY(-1px); box-shadow:0 6px 18px -3px rgba(150,45,22,0.58), inset 0 1px 0 rgba(255,255,255,0.18)"><span style="font-size:17px; line-height:1; margin-top:-1px">+</span> Submit a Site</button>
+      </div>
+    </div>
+  </header>
+
+  <nav style="position:sticky; top:0; z-index:100; background:#F3EDE3; border-top:1px solid #E0D6C4; border-bottom:1.5px solid #171008; margin-top:18px">
+    <div style="max-width:1040px; margin:0 auto; padding:0 24px; display:flex; gap:24px; overflow-x:auto">
+      <sc-for list="{{ navTabs }}" as="t" hint-placeholder-count="6">
+        <button onClick="{{ t.onClick }}" style="{{ t.style }}" style-hover="color:#171008">{{ t.label }}</button>
+      </sc-for>
+    </div>
+  </nav>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <main style="max-width:1040px; margin:0 auto; padding:34px 24px 90px">
+      <div style="display:inline-flex; align-items:center; gap:9px; font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; color:#8A7D6F">
+        <span style="width:7px; height:7px; border-radius:50%; background:var(--accent,#C93B1B); display:inline-block; animation:pulse 2.4s ease-in-out infinite"></span>VOL. 01 &middot; ISSUE 26 &middot; JUN 2026
+      </div>
+      <h1 style="font-family:'Newsreader'; font-size:clamp(26px,3.5vw,40px); font-weight:500; margin:14px 0 0; line-height:1.2; letter-spacing:-0.005em; max-width:880px; color:#171008; text-wrap:pretty">A hand-curated index of <span style="font-style:italic">newly launched</span> websites that pitch themselves as <code style="font-family:'Space Mono'; font-size:0.64em; background:#FBF9F4; border:1px solid #D8CDB9; border-radius:4px; padding:2px 9px; white-space:nowrap; vertical-align:middle">X but for Y</code>. Updated daily, voted by humans.</h1>
+      <div style="height:3px; width:clamp(150px,26%,240px); margin-top:20px; border-radius:2px; background:linear-gradient(90deg, var(--accent,#C93B1B), #D98A2B 35%, #2E8B8B 70%, #3A6EA5)"></div>
+
+      <div style="display:flex; align-items:flex-end; gap:24px; margin-top:30px; flex-wrap:wrap">
+        <div>
+          <div style="font-family:'Space Mono'; font-size:10px; letter-spacing:0.14em; color:#8A7D6F; margin-bottom:4px">IN THE INDEX</div>
+          <div style="font-family:'Newsreader'; font-size:clamp(46px,6.6vw,66px); font-weight:700; line-height:0.82; color:#171008">{{ indexTotal }}</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; padding-bottom:7px">
+          <span style="font-family:'Space Mono'; font-size:11px; color:var(--accent,#C93B1B); display:inline-flex; align-items:center; gap:6px"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent,#C93B1B);display:inline-block;animation:pulse 2.4s ease-in-out infinite"></span>{{ todayCount }} new today</span>
+          <span style="font-family:'Space Mono'; font-size:11px; color:#8A7D6F">{{ totalCats }} categories &middot; voted by humans</span>
+        </div>
+      </div>
+
+      <sc-if value="{{ isFeed }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ hasFilter }}" hint-placeholder-val="{{ false }}">
+          <div style="display:inline-flex; align-items:center; gap:9px; margin-top:26px; padding:6px 8px 6px 13px; background:#171008; color:#F3EDE3; border-radius:6px; font-family:'Space Mono'; font-size:11px; letter-spacing:0.03em">
+            <span style="opacity:0.6">filtered:</span> {{ filterName }}
+            <button onClick="{{ clearFilter }}" style="background:none; border:none; color:#F3EDE3; cursor:pointer; font-size:15px; padding:0 3px; line-height:1; opacity:0.7" style-hover="opacity:1" title="clear filter">&times;</button>
+          </div>
+        </sc-if>
+
+        <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:26px; padding-bottom:13px; border-bottom:2px solid #171008">
+          <div>
+            <h2 style="font-family:'Newsreader'; font-size:27px; font-weight:700; margin:0; color:#171008; line-height:1">{{ feedTitle }}</h2>
+            <div style="font-family:'Space Mono'; font-size:11px; color:#8A7D6F; margin-top:7px">{{ showingLabel }}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:9px">
+            <span style="font-family:'Space Mono'; font-size:10px; color:#B5AB9B; letter-spacing:0.08em">SORT</span>
+            <div style="display:flex; gap:2px; background:#E9E1D3; padding:3px; border-radius:6px">
+              <sc-for list="{{ sortOptions }}" as="s" hint-placeholder-count="3">
+                <button onClick="{{ s.onClick }}" style="{{ s.style }}">{{ s.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <sc-for list="{{ feedCards }}" as="c" hint-placeholder-count="6">
+          <div onClick="{{ c.onView }}" style="{{ c.cardStyle }}" style-hover="{{ c.cardHoverStyle }}">
+            <button onClick="{{ c.onVote }}" style="{{ c.voteBoxStyle }}" style-hover="border-color:var(--accent,#C93B1B)" title="upvote">
+              <span style="{{ c.caretStyle }}">&#9650;</span>
+              <span style="{{ c.voteNumStyle }}">{{ c.voteCount }}</span>
+              <span style="font-family:'Space Mono'; font-size:8px; letter-spacing:0.08em; color:#A89D90">VOTES</span>
+            </button>
+            <div style="flex:1; min-width:0">
+              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
+                <span style="{{ c.idxStyle }}">{{ c.idx }}</span>
+                <span style="font-family:'Newsreader'; font-size:21px; font-weight:700; line-height:1.12; color:#171008">{{ c.x }}<span style="font-style:italic; font-weight:400; color:#9A8C7B; font-size:0.8em"> but for </span>{{ c.y }}</span>
+                <sc-if value="{{ c.hasStamp }}" hint-placeholder-val="{{ false }}">
+                  <span style="{{ c.stampStyle }}">{{ c.stamp }}</span>
+                </sc-if>
+              </div>
+              <p style="margin:8px 0 12px; font-family:'Outfit'; font-size:14px; font-weight:300; line-height:1.5; color:#6B5F50; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden">{{ c.desc }}</p>
+              <div style="display:flex; align-items:center; gap:13px; flex-wrap:wrap">
+                <sc-if value="{{ c.isSponsored }}" hint-placeholder-val="{{ false }}">
+                  <span style="{{ c.sponsorTagStyle }}">SPONSORED</span>
+                </sc-if>
+                <span style="{{ c.catTagStyle }}">{{ c.catShort }}</span>
+                <span style="font-family:'Space Mono'; font-size:11px; color:#8A7D6F">submitted by {{ c.submitter }} &middot; {{ c.ago }}</span>
+                <a href="{{ c.url }}" onClick="{{ c.stopProp }}" style="{{ c.visitStyle }}" style-hover="text-decoration:underline">visit site &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+
+        <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:70px 0; text-align:center">
+            <p style="font-family:'Newsreader'; font-size:25px; font-weight:700; margin:0 0 6px; color:#171008">Nothing here yet.</p>
+            <p style="font-family:'Space Mono'; font-size:12px; color:#8A7D6F; margin:0">No &ldquo;{{ searchQuery }} but for ___&rdquo; in the index. <span style="color:var(--accent,#C93B1B); cursor:pointer; text-decoration:underline" onClick="{{ goSubmit }}">Be the first &rarr;</span></p>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ isCats }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:26px; padding-bottom:13px; border-bottom:2px solid #171008">
+          <h2 style="font-family:'Newsreader'; font-size:27px; font-weight:700; margin:0; color:#171008; line-height:1">Browse by Category</h2>
+          <div style="font-family:'Space Mono'; font-size:11px; color:#8A7D6F; margin-top:7px">{{ totalCats }} categories &middot; pick one to filter the index</div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:14px; margin-top:18px">
+          <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="7">
+            <div onClick="{{ t.onClick }}" style="padding:18px 18px; background:#FFFDFA; border:1px solid #EDE4D5; border-radius:10px; cursor:pointer; box-shadow:0 1px 2px rgba(74,52,28,0.04), 0 14px 30px -14px rgba(74,52,28,0.15); transition:border-color .18s, box-shadow .18s, transform .18s" style-hover="border-color:#E2D6C2; box-shadow:0 3px 6px rgba(74,52,28,0.06), 0 22px 44px -16px rgba(74,52,28,0.22); transform:translateY(-2px)">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:11px">
+                <span style="{{ t.barStyle }}"></span>
+                <span style="{{ t.shortStyle }}">{{ t.short }}</span>
+                <span style="margin-left:auto; font-family:'Space Mono'; font-size:11px; color:#B5AB9B">{{ t.count }}</span>
+              </div>
+              <div style="font-family:'Newsreader'; font-size:19px; font-weight:600; color:#171008; line-height:1.1">{{ t.name }}</div>
+              <div style="margin-top:8px; font-family:'Outfit'; font-size:12px; font-weight:300; color:#9A8C7B; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ t.sample }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <footer style="margin-top:64px; padding-top:18px; border-top:1.5px solid #171008; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px">
+        <span style="font-family:'Space Mono'; font-size:10px; color:#8A7D6F; letter-spacing:0.05em">XBUTFORY &copy; 2026 &middot; VOL. 01 &middot; AN INDEX OF DUBIOUS BRILLIANCE</span>
+        <div style="display:flex; gap:18px; align-items:center">
+          <span style="font-family:'Space Mono'; font-size:10px; color:#B5AB9B">made for builders, by a builder (again)</span>
+          <button onClick="{{ scramble }}" style="background:none; border:none; cursor:pointer; font-size:15px; opacity:0.18; padding:0; line-height:1; transition:opacity .25s" style-hover="opacity:1" title="do not press">&#128302;</button>
+        </div>
+      </footer>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+    <main style="max-width:1040px; margin:0 auto; padding:34px 24px 90px">
+      <button onClick="{{ goHome }}" style="font-family:'Space Mono'; font-size:10px; color:#8A7D6F; background:none; border:none; cursor:pointer; padding:0; margin-bottom:34px; display:inline-flex; align-items:center; gap:6px; letter-spacing:0.06em; text-transform:uppercase; transition:color .15s" style-hover="color:#171008">&larr; All entries</button>
+      <div style="display:grid; grid-template-columns:74px 1fr; gap:34px; align-items:start; margin-bottom:46px">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px">
+          <button onClick="{{ safeEntry.onVote }}" style="{{ safeEntry.voteLargeStyle }}" style-hover="border-color:var(--accent,#C93B1B); color:var(--accent,#C93B1B)">&#9650;</button>
+          <div style="{{ safeEntry.voteCountBigStyle }}">{{ safeEntry.voteCount }}</div>
+          <span style="font-family:'Space Mono'; font-size:9px; color:#8A7D6F; letter-spacing:0.06em; text-transform:uppercase">votes</span>
+        </div>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:13px; flex-wrap:wrap">
+            <span style="{{ safeEntry.detailBadgeStyle }}">{{ safeEntry.catShort }}</span>
+            <span style="font-family:'Space Mono'; font-size:10px; color:#8A7D6F; letter-spacing:0.04em">submitted {{ safeEntry.ago }}</span>
+          </div>
+          <h1 style="font-family:'Newsreader'; font-size:clamp(28px,4.6vw,50px); font-weight:700; margin:0 0 10px; line-height:1.06">{{ safeEntry.x }}<span style="color:#9A8C7B; font-style:italic; font-weight:400; font-size:0.6em"> but for </span>{{ safeEntry.y }}</h1>
+          <p style="font-size:17px; color:#8A7D6F; margin:0 0 26px; font-weight:300; font-style:italic; line-height:1.4">{{ safeEntry.tagline }}</p>
+          <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap">
+            <a href="{{ safeEntry.url }}" style="{{ safeEntry.visitBtnStyle }}" style-hover="background:var(--accent,#C93B1B)">Visit {{ safeEntry.name }} &#8599;</a>
+            <span style="font-family:'Space Mono'; font-size:11px; color:#B5AB9B">by {{ safeEntry.submitter }}</span>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1.5px solid #D4C9B8; padding-top:30px; display:grid; grid-template-columns:1fr 220px; gap:48px">
+        <div>
+          <p style="font-family:'Space Mono'; font-size:9px; color:#8A7D6F; letter-spacing:0.1em; text-transform:uppercase; margin:0 0 14px">The pitch</p>
+          <p style="font-size:17px; line-height:1.8; color:#171008; margin:0 0 30px; font-weight:300">{{ safeEntry.desc }}</p>
+          <p style="font-family:'Space Mono'; font-size:9px; color:#8A7D6F; letter-spacing:0.1em; text-transform:uppercase; margin:0 0 12px">Why it works</p>
+          <p style="font-size:15px; line-height:1.7; color:#5A5048; margin:0; font-weight:300">{{ safeEntry.why }}</p>
+        </div>
+        <div>
+          <div style="border:1px solid #EDE4D5; background:#FFFDFA; border-radius:10px; overflow:hidden; box-shadow:0 1px 2px rgba(74,52,28,0.04), 0 14px 30px -14px rgba(74,52,28,0.14)">
+            <div style="padding:14px 16px; border-bottom:1px solid #E5DCCD">
+              <div style="font-family:'Space Mono'; font-size:9px; color:#8A7D6F; letter-spacing:0.06em; margin-bottom:4px">THE FORMULA</div>
+              <div style="font-family:'Outfit'; font-size:14px"><span style="font-weight:600">{{ safeEntry.x }}</span> <span style="color:#8A7D6F">&times;</span> <span style="font-weight:600">{{ safeEntry.y }}</span></div>
+            </div>
+            <div style="padding:14px 16px; border-bottom:1px solid #E5DCCD">
+              <div style="font-family:'Space Mono'; font-size:9px; color:#8A7D6F; letter-spacing:0.06em; margin-bottom:4px">CATEGORY</div>
+              <div style="font-family:'Outfit'; font-size:14px; font-weight:500">{{ safeEntry.catName }}</div>
+            </div>
+            <div style="padding:14px 16px">
+              <div style="font-family:'Space Mono'; font-size:9px; color:#8A7D6F; letter-spacing:0.06em; margin-bottom:4px">STATUS</div>
+              <div style="font-family:'Outfit'; font-size:14px; font-weight:500; color:#2A7A56">&#9679; Live &amp; launched</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isSubmit }}" hint-placeholder-val="{{ false }}">
+    <main style="max-width:600px; margin:0 auto; padding:46px 24px 90px">
+      <sc-if value="{{ submitSuccess }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center; padding:70px 0">
+          <div style="font-size:46px; margin-bottom:14px">&#127881;</div>
+          <h2 style="font-family:'Newsreader'; font-size:38px; font-weight:700; margin:0 0 10px; color:#171008">You're in the index.</h2>
+          <p style="color:#8A7D6F; margin:0 0 30px; font-weight:300; font-size:16px; line-height:1.5">Under review &mdash; we'll add it within 24 hours.<br/>Now go tell everyone you launched.</p>
+          <button onClick="{{ goHome }}" style="{{ submitBtnStyle }}" style-hover="opacity:0.88">&larr; Back to the directory</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="margin-bottom:36px">
+            <h1 style="font-family:'Newsreader'; font-size:42px; font-weight:700; margin:0 0 8px; line-height:1.05">Submit a Site</h1>
+            <p style="color:#8A7D6F; margin:0; font-weight:300; font-size:15px">Free to list in the directory. $1.99 buys a featured homepage spot.</p>
+          </div>
+          <div style="margin-bottom:20px">
+            <label style="display:block; font-family:'Space Mono'; font-size:9px; letter-spacing:0.07em; color:#8A7D6F; text-transform:uppercase; margin-bottom:7px">The X &mdash; what existing product inspired it?</label>
+            <input value="{{ sf.x }}" onInput="{{ sf.xChange }}" placeholder="Tinder, Salesforce, Notion&hellip;" style="{{ formInputStyle }}" />
+          </div>
+          <div style="margin-bottom:20px">
+            <label style="display:block; font-family:'Space Mono'; font-size:9px; letter-spacing:0.07em; color:#8A7D6F; text-transform:uppercase; margin-bottom:7px">The Y &mdash; what oddly-specific niche does it serve?</label>
+            <input value="{{ sf.forY }}" onInput="{{ sf.forYChange }}" placeholder="Dog parks, lemonade stands, retirement homes&hellip;" style="{{ formInputStyle }}" />
+          </div>
+          <div style="{{ previewStyle }}">
+            <span style="font-family:'Space Mono'; font-size:9px; color:#8A7D6F; display:block; margin-bottom:9px; letter-spacing:0.07em; text-transform:uppercase">Live preview</span>
+            <span style="font-family:'Newsreader'; font-size:27px; font-weight:700; line-height:1.2; color:#171008">{{ sf.xPreview }}<span style="color:#9A8C7B; font-style:italic; font-weight:400; font-size:0.66em"> but for </span>{{ sf.yPreview }}</span>
+          </div>
+          <div style="margin-bottom:20px">
+            <label style="display:block; font-family:'Space Mono'; font-size:9px; letter-spacing:0.07em; color:#8A7D6F; text-transform:uppercase; margin-bottom:7px">Product name</label>
+            <input value="{{ sf.name }}" onInput="{{ sf.nameChange }}" placeholder="Floormate, LightSeek, Squeeze&hellip;" style="{{ formInputStyle }}" />
+          </div>
+          <div style="margin-bottom:20px">
+            <label style="display:block; font-family:'Space Mono'; font-size:9px; letter-spacing:0.07em; color:#8A7D6F; text-transform:uppercase; margin-bottom:7px">Product URL</label>
+            <input value="{{ sf.url }}" onInput="{{ sf.urlChange }}" placeholder="https://&hellip;" style="{{ formInputStyle }}" />
+          </div>
+          <div style="margin-bottom:20px">
+            <label style="display:block; font-family:'Space Mono'; font-size:9px; letter-spacing:0.07em; color:#8A7D6F; text-transform:uppercase; margin-bottom:7px">One-line pitch <span style="text-transform:none; letter-spacing:0">(optional)</span></label>
+            <textarea onInput="{{ sf.descChange }}" placeholder="What makes this one actually good&hellip;" style="{{ formTextareaStyle }}" rows="2"></textarea>
+          </div>
+          <div style="margin-bottom:26px">
+            <label style="display:block; font-family:'Space Mono'; font-size:9px; letter-spacing:0.07em; color:#8A7D6F; text-transform:uppercase; margin-bottom:7px">Category</label>
+            <select value="{{ sf.category }}" onChange="{{ sf.catChange }}" style="{{ formSelectStyle }}">
+              <option value="dating">Dating &amp; Hookups</option>
+              <option value="crm">CRM &amp; Sales</option>
+              <option value="discovery">Metasearch &amp; Discovery</option>
+              <option value="saas">SaaS &amp; Productivity</option>
+              <option value="payments">Payments &amp; Finance</option>
+              <option value="social">Social &amp; Links</option>
+              <option value="logistics">Logistics &amp; Services</option>
+              <option value="other">Something else entirely</option>
+            </select>
+          </div>
+          <div style="margin-bottom:28px">
+            <label style="display:block; font-family:'Space Mono'; font-size:9px; letter-spacing:0.07em; color:#8A7D6F; text-transform:uppercase; margin-bottom:7px">Listing type</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px">
+              <div onClick="{{ sf.setFree }}" style="{{ sf.freeStyle }}">
+                <div style="font-weight:600; font-size:14px; margin-bottom:3px">Free listing</div>
+                <div style="font-size:12px; opacity:0.75; font-weight:300">Indexed within 24h</div>
+              </div>
+              <div onClick="{{ sf.setLaunch }}" style="{{ sf.launchStyle }}">
+                <div style="font-weight:600; font-size:14px; margin-bottom:3px">Featured &mdash; $1.99</div>
+                <div style="font-size:12px; opacity:0.75; font-weight:300">Homepage spot + boost</div>
+              </div>
+            </div>
+          </div>
+          <button onClick="{{ handleSubmit }}" style="{{ submitActionStyle }}" style-hover="opacity:0.9">{{ submitActionLabel }} &rarr;</button>
+          <p style="font-family:'Space Mono'; font-size:10px; color:#B5AB9B; text-align:center; margin:14px 0 0; line-height:1.5">no account needed &middot; no spam &middot; takes 30 seconds</p>
+        </div>
+      </sc-if>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ showToast }}" hint-placeholder-val="{{ false }}">
+    <div style="{{ toastStyle }}">{{ toastMessage }}</div>
+  </sc-if>
+
+  <sc-if value="{{ celebrating }}" hint-placeholder-val="{{ false }}">
+    <canvas ref="{{ fwCanvasRef }}" style="{{ fwCanvasStyle }}"></canvas>
+  </sc-if>
+
+  <sc-if value="{{ showCoupon }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeCelebration }}" style="{{ couponBackdropStyle }}">
+      <div onClick="{{ stopProp }}" style="{{ couponCardStyle }}">
+        <button onClick="{{ closeCelebration }}" style="position:absolute; top:16px; right:18px; background:none; border:none; cursor:pointer; font-size:20px; line-height:1; color:#B5AB9B; padding:0" style-hover="color:#171008" title="close">&times;</button>
+        <div style="font-family:'Space Mono'; font-size:11px; letter-spacing:0.18em; color:var(--accent,#C93B1B); margin-bottom:14px">&#127878; KONAMI CODE ACCEPTED</div>
+        <h2 style="font-family:'Newsreader'; font-size:38px; font-weight:700; line-height:1.04; margin:0 0 12px; color:#171008">One free promotion, <span style="font-style:italic; color:var(--accent,#C93B1B)">unlocked</span>.</h2>
+        <p style="font-family:'Outfit'; font-size:15px; font-weight:300; line-height:1.6; color:#6B5F50; margin:0 0 24px">You clearly know your way around a keyboard. Here&rsquo;s a coupon for one <strong style="font-weight:600; color:#171008">Featured promotion</strong> &mdash; a homepage Spotlight slot ($1.99 value), on the house.</p>
+        <div style="font-family:'Space Mono'; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#8A7D6F; margin-bottom:8px">Your coupon code</div>
+        <div style="display:flex; align-items:stretch; gap:10px; margin-bottom:22px">
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; gap:10px; padding:16px; background:#FBF9F4; border:1.5px dashed var(--accent,#C93B1B); border-radius:10px; font-family:'Space Mono'; font-weight:700; font-size:26px; letter-spacing:0.14em; color:#171008; animation:codeShimmer 2.6s ease-in-out infinite">{{ couponCode }}</div>
+          <button onClick="{{ copyCoupon }}" style="{{ copyBtnStyle }}" style-hover="border-color:#171008; color:#171008">{{ copyLabel }}</button>
+        </div>
+        <button onClick="{{ claimCoupon }}" style="width:100%; padding:14px; background:var(--accent,#C93B1B); color:#fff; border:none; cursor:pointer; font-family:'Outfit'; font-size:15px; font-weight:600; letter-spacing:0.02em; border-radius:8px; box-shadow:0 3px 12px -2px rgba(225,29,143,0.5); transition:opacity .15s" style-hover="opacity:0.92">Claim it &mdash; submit a site &rarr;</button>
+        <p style="font-family:'Space Mono'; font-size:10px; color:#B5AB9B; text-align:center; margin:14px 0 0; line-height:1.5">redeemable on one submission &middot; expires never &middot; because you earned it</p>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1180, &quot;height&quot;: 960}, &quot;accentColor&quot;: {&quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#C93B1B&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;#C93B1B&quot;, &quot;#1B6E80&quot;, &quot;#6A3D9E&quot;, &quot;#A07A18&quot;, &quot;#171008&quot;]}, &quot;showNSFW&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showStamps&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  static CATS = [
+    { id:'dating',    name:'Dating & Hookups',       short:'DATING',   color:'#B5472D' },
+    { id:'crm',       name:'CRM & Sales',            short:'CRM',      color:'#2B5BA8' },
+    { id:'discovery', name:'Metasearch & Discovery', short:'DISCOVER', color:'#2A7A56' },
+    { id:'saas',      name:'SaaS & Productivity',    short:'SAAS',     color:'#6A3D9E' },
+    { id:'payments',  name:'Payments & Finance',     short:'FINANCE',  color:'#1B8080' },
+    { id:'social',    name:'Social & Links',         short:'SOCIAL',   color:'#A07A18' },
+    { id:'logistics', name:'Logistics & Services',   short:'SERVICES', color:'#9B5523' },
+  ];
+
+  static ENTRIES = [
+    { id:17, cat:'social',    x:'Linktree',       y:'Sex Workers',              name:'RedLink',     submitter:'@discreet_dev',   tagline:'Bio links with privacy baked in',          url:'#', v:2341, date:'Jun 26', nsfw:true,  desc:'Privacy-first link-in-bio for adult creators: geofencing, custom domains, and payment integrations that actually work for this industry instead of banning you on day three.', why:'The incumbents quietly ban this entire vertical. RedLink builds for them on purpose, and that loyalty is a moat money can\u2019t buy.' },
+    { id:10, cat:'saas',      x:'Notion',         y:'Recipes',                  name:'Prep',        submitter:'@hungrybuilder',  tagline:'Your kitchen\u2019s second brain',         url:'#', v:1456, date:'Jun 24', sponsor:'spotlight',             desc:'Linked databases for ingredients, shopping lists, and meal plans \u2014 relational data, finally serving your dinner parties. Scales any recipe to any guest count automatically.', why:'Home cooks are obsessive organizers with zero good tools. Prep speaks their language without making them learn database theory.' },
+    { id:4,  cat:'crm',       x:'Salesforce',     y:'Escorts',                  name:'ClientForce', submitter:'@anon',           tagline:'Manage your most important relationships', url:'#', v:1204, date:'Jun 22', nsfw:true,  desc:'A full CRM \u2014 booking management, client notes, rate tracking, scheduling, invoicing \u2014 for independent providers who run a serious, professional operation. Calendar sync included.', why:'A massive, underserved, cash-rich market that mainstream SaaS won\u2019t touch. First mover wins the whole category.' },
+    { id:20, cat:'logistics', x:'Uber',           y:'Horses',                   name:'Neigh',       submitter:'@trailblazer',    tagline:'Rideshare, but make it rural',             url:'#', v:1089, date:'Jun 25', sponsor:'pinned',             desc:'Request horse transport in places cars literally cannot reach. Big in Appalachian trail towns and rural Montana, where the nearest road is a suggestion.', why:'Solves a real logistics gap with the one vehicle that already exists everywhere out there. Absurd on paper, indispensable on the ground.' },
+    { id:14, cat:'payments',  x:'Stripe',         y:'Lemonade Stands',          name:'Squeeze',     submitter:'@dadof3',         tagline:'Payments for the next generation',         url:'#', v:923,  date:'Jun 25',             desc:'Tap-to-pay for kids aged 6\u201316, where a parent approves every transaction. The easiest way to teach entrepreneurship without a shoebox of damp dollar bills.', why:'Cashless killed the kid-hustle. Squeeze brings it back and gets parents emotionally hooked on their child\u2019s first sale.' },
+    { id:8,  cat:'discovery', x:'Kayak',          y:'Restaurant Tables',        name:'ForkFinder',  submitter:'@foodie',         tagline:'Flight search, but for dinner',            url:'#', v:891,  date:'Jun 21',             desc:'Compare availability and pricing across every reservation platform at once \u2014 OpenTable, Resy, Tock \u2014 in one search grid, with a price-and-time calendar you can actually read.', why:'Reservation supply is hopelessly fragmented. Whoever aggregates it owns the diner\u2019s first click, exactly like Kayak did for flights.' },
+    { id:1,  cat:'dating',    x:'Tinder',         y:'the Building You Live In', name:'Floormate',   submitter:'@apt_4b',         tagline:'Swipe right on your neighbors',            url:'#', v:847,  date:'Jun 24', nsfw:true,  desc:'Why scroll through a whole city of strangers when the love of your life might share your elevator? Floormate matches verified residents inside your building only.', why:'Hyperlocal density is the cheat code dating apps forgot. Convenience plus a built-in social graph beats infinite swiping.' },
+    { id:22, cat:'logistics', x:'Airbnb',         y:'Parking Spots',            name:'ParkBnb',     submitter:'@spotlord',       tagline:'Rent your driveway, own your block',       url:'#', v:788,  date:'Jun 18',             desc:'Turn idle driveway space into passive income. Hosts near NYC stadiums average $450 a month on event nights alone. It\u2019s your asphalt \u2014 monetize it.', why:'Every homeowner near a venue is sitting on an unused asset. Marketplace dynamics do the rest while the supply costs nothing.' },
+    { id:12, cat:'saas',      x:'GitHub',         y:'Legal Documents',          name:'LexHub',      submitter:'@billable_hr',    tagline:'Version control for your contracts',       url:'#', v:734,  date:'Jun 16',             desc:'Diff two versions of a contract. Branch and merge clauses. Open pull requests for amendments. Lawyers are, at long last, coding-adjacent \u2014 and billing for it.', why:'Redlining in email attachments is a multi-billion-dollar embarrassment. Git already solved this problem two decades ago.' },
+    { id:18, cat:'social',    x:'LinkedIn',       y:'Therapists',               name:'TherapIn',    submitter:'@feelingsfirst',  tagline:'Find and vet mental-health providers',     url:'#', v:678,  date:'Jun 20',             desc:'Verified credentials, real specialties, and honest client reviews \u2014 a way to find a therapist that doesn\u2019t involve 45 minutes on hold with your insurer.', why:'Discovery in mental health is broken and stigmatized. Trust and transparency, done right, become the entire product.' },
+    { id:7,  cat:'discovery', x:'SeatGeek',       y:'Lamps',                    name:'LightSeek',   submitter:'@watt_else',      tagline:'Illuminate your best deal',                url:'#', v:677,  date:'Jun 23',             desc:'Aggregate lamp prices across IKEA, Wayfair, West Elm and 200+ retailers. Think of the fan-score, but measured in lumens per dollar.', why:'A weirdly high-consideration purchase with brutal price opacity. Vertical metasearch nails exactly these overlooked corners.' },
+    { id:13, cat:'saas',      x:'Figma',          y:'Interior Design',          name:'Roomma',      submitter:'@throwpillows',   tagline:'Collaborative room design, finally',       url:'#', v:567,  date:'Jun 11',             desc:'Real-time multiplayer room planning with accurate furniture dimensions. Invite your partner and argue about the sofa placement live, as nature intended.', why:'Interior decisions are inherently collaborative and high-stakes. Multiplayer turns a solo chore into a shared, sticky ritual.' },
+    { id:2,  cat:'dating',    x:'Hinge',          y:'Dog Parks',                name:'Fetch',       submitter:'@goodboy',        tagline:'Your dog is the wingman',                  url:'#', v:523,  date:'Jun 20',             desc:'Connect with the regulars at your dog park. Their playdates become your playdates. Show the dog first, yourself second \u2014 as it should be.', why:'A shared activity plus a built-in icebreaker beats cold-open messaging every time. The dogs do the vetting for you.' },
+    { id:21, cat:'logistics', x:'DoorDash',       y:'Libraries',                name:'BookDash',    submitter:'@deweydecimal',   tagline:'Books, delivered to your door',            url:'#', v:445,  date:'Jun 22',             desc:'Schedule holds, delivery, and returns through your local library system. Free shipping, always. Quietly, joyfully, the anti-Amazon.', why:'Libraries have the inventory and the goodwill but no last mile. BookDash supplies the missing logistics layer at near-zero cost.' },
+    { id:9,  cat:'discovery', x:'Google Flights', y:'Amtrak Routes',            name:'RailScout',   submitter:'@allaboard',      tagline:'America by rail, finally searchable',      url:'#', v:432,  date:'Jun 14',             desc:'The fare calendar, the price alerts, the flexible-date grid that Google Flights perfected \u2014 done at last for Amtrak, Acela pricing and all.', why:'Train booking UX is stuck in 2004. Porting a known-great pattern to a captive, growing audience is the lowest-risk bet on the board.' },
+    { id:15, cat:'payments',  x:'Venmo',          y:'Chore Charts',             name:'Chorebank',   submitter:'@cleankitchen',   tagline:'Get paid for doing the dishes',            url:'#', v:411,  date:'Jun 17',             desc:'Roommate chore allocation with automatic payment splits the moment a task is marked done. The end of passive-aggressive Post-it notes on the fridge.', why:'Money makes accountability frictionless. Tie cash to completion and the behavior change writes itself.' },
+    { id:5,  cat:'crm',       x:'HubSpot',        y:'Food Trucks',              name:'TruckSpot',   submitter:'@tacotuesday',    tagline:'Know your regulars by name',               url:'#', v:389,  date:'Jun 18',             desc:'Track repeat customers, schedule your locations, and ping nearby fans the moment you park. Route analytics so tomorrow\u2019s lunch rush finds you.', why:'Food trucks live and die on regulars and location. A CRM tuned to mobility turns chaos into a predictable, loyal book of business.' },
+    { id:19, cat:'social',    x:'Twitter',        y:'Book Clubs',               name:'PageX',       submitter:'@marginalia',     tagline:'Threads about actual chapters',            url:'#', v:334,  date:'Jun 13',             desc:'Threaded discussion organized by chapter rather than chronology, with spoiler controls built in. At last, a social feed that leaves you smarter than it found you.', why:'Structure beats the firehose for any deep topic. Chapter-anchored threads create durable, searchable conversation instead of disposable takes.' },
+    { id:3,  cat:'dating',    x:'Grindr',         y:'Co-working Spaces',        name:'Gridnr',      submitter:'@hotdesk',        tagline:'Hot desks. Hot people.',                   url:'#', v:312,  date:'Jun 15', nsfw:true,  desc:'Find the creative professionals who are also single in your shared workspace. Because office romance, as everyone knows, never once goes badly.', why:'Proximity plus repeated low-stakes encounters is how attraction actually forms. The workspace already manufactures both, daily.' },
+    { id:16, cat:'payments',  x:'Robinhood',      y:'Trading Cards',            name:'Cardhood',    submitter:'@gottacatchem',   tagline:'Finally, charts for your Charizard',       url:'#', v:289,  date:'Jun 09',             desc:'Live PSA-grade price tracking, portfolio valuation, and buy/sell for Pok\u00e9mon, sports cards and sneakers. Diamond hands, holographic edition.', why:'Collectibles are a real asset class trapped in spreadsheets and gut feel. Bring it real-time pricing and the volume follows.' },
+    { id:6,  cat:'crm',       x:'Pipedrive',      y:'Freelancers',              name:'Solodriv',    submitter:'@onepersonco',    tagline:'The solo operator\u2019s pipeline',        url:'#', v:245,  date:'Jun 10',             desc:'A stripped-down deal pipeline for one-person businesses. No enterprise bloat, no per-seat pricing theater \u2014 just you, your leads, and your next invoice.', why:'Freelancers want a pipeline, not a platform. Radical simplicity for an enormous, ignored long tail is its own wedge.' },
+    { id:11, cat:'saas',      x:'Slack',          y:'Retirement Homes',         name:'SlowSlack',   submitter:'@grandkid',       tagline:'Messaging at a human pace',                url:'#', v:203,  date:'Jun 19',             desc:'Larger text, voice-first messages, and a radically simplified UI built for senior residents and their families. The grandkids can finally stay in touch.', why:'The fastest-growing demographic is the worst-served by software. Design for them specifically and the loyalty is total.' },
+  ];
+
+  static PLACEHOLDERS = [
+    'Search 22 freshly-launched products\u2026',
+    'Try \u201cTinder but for\u2026\u201d',
+    'e.g. \u201cStripe but for Lemonade Stands\u201d',
+    '\u201cUber but for Horses\u201d \u2014 yes, it\u2019s real',
+    'Find the weird ones first\u2026',
+    '\u201cSlack but for Retirement Homes\u201d',
+  ];
+
+  static LOGO_YS = ['Y', 'Cats', 'Lawyers', 'Nuns', 'Horses', 'Bodegas', 'Grandmas', 'Pirates', 'Gen Z', 'your HOA', 'Monks', 'Dentists'];
+
+  static KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+
+  static TODAY = 26;
+
+  state = {
+    screen: 'home',
+    homeView: 'feed',
+    sort: 'newest',
+    categoryFilter: null,
+    selectedEntry: null,
+    votes: {},
+    voted: {},
+    totalVoted: 0,
+    searchQuery: '',
+    logoClickCount: 0,
+    nsfwMode: false,
+    scrambledYs: null,
+    celebrating: false,
+    celebPhase: 'idle',
+    showCoupon: false,
+    couponCopied: false,
+    showToast: false,
+    toastMessage: '',
+    submitForm: { x:'', forY:'', name:'', url:'', description:'', category:'saas', tier:'free' },
+    submitSuccess: false,
+    phIdx: 0,
+    konamiBuffer: [],
+  };
+
+  scroll0() { if (typeof window !== 'undefined') window.scrollTo(0, 0); }
+
+  navigate(screen, entry) {
+    this.scroll0();
+    this.setState({ screen, selectedEntry: entry || null, submitSuccess: false });
+  }
+
+  goHome() { this.setState({ screen:'home', homeView:'feed', categoryFilter:null, selectedEntry:null }); this.scroll0(); }
+  setFeed(sort) { this.setState({ screen:'home', homeView:'feed', sort, categoryFilter:null }); this.scroll0(); }
+  goCats() { this.setState({ screen:'home', homeView:'cats', categoryFilter:null }); this.scroll0(); }
+  filterCat(id) { this.setState({ screen:'home', homeView:'feed', categoryFilter:id }); this.scroll0(); }
+  clearFilter() { this.setState({ categoryFilter:null }); }
+
+  parseDay(d) { const m = /(\d+)/.exec(d || ''); return m ? parseInt(m[1], 10) : Component.TODAY; }
+  daysAgo(e) { return Math.max(0, Component.TODAY - this.parseDay(e.date)); }
+  hoursAgo(e) { return ((e.id * 7) % 11) + 1; }
+  agoLabel(e) {
+    const d = this.daysAgo(e);
+    if (d <= 0) { const h = this.hoursAgo(e); return h + (h === 1 ? ' hour ago' : ' hours ago'); }
+    if (d === 1) return 'yesterday';
+    return d + ' days ago';
+  }
+  hotScore(e, v) { return v / Math.pow(this.daysAgo(e) + 2, 0.72); }
+  stampFor(e, v) {
+    if (this.props.showStamps === false) return null;
+    if (this.daysAgo(e) <= 1) return 'NEW';
+    if (v >= 600) return 'HOT';
+    return null;
+  }
+
+  handleVote(id) {
+    const { votes, voted, totalVoted } = this.state;
+    const entry = Component.ENTRIES.find(e => e.id === id);
+    const cur = votes[id] !== undefined ? votes[id] : entry.v;
+    const nextVoted = Object.assign({}, voted);
+    if (voted[id]) {
+      delete nextVoted[id];
+      this.setState(s => ({ voted: nextVoted, votes: Object.assign({}, s.votes, { [id]: cur - 1 }) }));
+    } else {
+      nextVoted[id] = true;
+      const nt = totalVoted + 1;
+      this.setState(s => ({ voted: nextVoted, votes: Object.assign({}, s.votes, { [id]: cur + 1 }), totalVoted: nt }));
+      if (nt === 5) this.showToast('\u{1F3C6} Five upvotes deep. You have taste. We respect that.');
+      if (nt === 12) this.showToast('\u{1F525} Twelve votes. Okay, the board is basically yours now.');
+    }
+  }
+
+  showToast(msg, ms) {
+    this.setState({ showToast: true, toastMessage: msg });
+    clearTimeout(this._tt);
+    this._tt = setTimeout(() => this.setState({ showToast: false }), ms || 3600);
+  }
+
+  handleSearch(e) {
+    const q = e.target.value;
+    this.setState({ searchQuery: q });
+    const lc = q.toLowerCase().trim();
+    if (lc === 'bacon') this.showToast('\u{1F953} \u201cInstagram but for Bacon\u201d \u2014 added to the roadmap. Sincerely.', 5000);
+    else if (lc === 'xbutfory') this.showToast('\u{1F300} very meta. XbutforY but for XbutforY.', 4000);
+    else if (lc.includes('escort') || lc === 'nsfw' || lc.includes('sex')) this.showToast('\u{1F319} psst\u2026 flip the After Dark toggle up top.', 4000);
+  }
+
+  checkKonami(key) {
+    const buf = this.state.konamiBuffer.concat([key]).slice(-10);
+    this.setState({ konamiBuffer: buf });
+    if (buf.join(',') === Component.KONAMI.join(',')) {
+      this.celebrate();
+    }
+  }
+
+  celebrate() {
+    if (this.state.celebrating) return;
+    this.setState({ celebrating: true, celebPhase: 'enter', showCoupon: false, couponCopied: false, konamiBuffer: [] });
+    requestAnimationFrame(() => this.setState({ celebPhase: 'fireworks' }));
+    this._cT0 = setTimeout(() => this.startFireworks(), 90);
+    this._cT1 = setTimeout(() => { this._fwLaunching = false; }, 3000);
+    this._cT2 = setTimeout(() => { this.stopFireworks(); this.setState({ celebPhase: 'modal', showCoupon: true }); }, 3500);
+  }
+
+  closeCelebration() {
+    this.stopFireworks();
+    clearTimeout(this._cT0); clearTimeout(this._cT1); clearTimeout(this._cT2);
+    this.setState({ celebrating: false, celebPhase: 'idle', showCoupon: false });
+  }
+
+  startFireworks() {
+    const canvas = this._canvas;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const resize = () => {
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    this._fwResize = resize;
+    window.addEventListener('resize', resize);
+    const colors = ['#E11D8F', '#FFD23F', '#2EC4B6', '#FF6B35', '#9B5DE5', '#00BBF9', '#FEE440'];
+    this._parts = [];
+    const burst = (x, y) => {
+      const n = 46 + (Math.random() * 34 | 0);
+      const c1 = colors[Math.random() * colors.length | 0];
+      const c2 = colors[Math.random() * colors.length | 0];
+      const sp = 2.4 + Math.random() * 2.6;
+      for (let i = 0; i < n; i++) {
+        const a = (Math.PI * 2 * i) / n + Math.random() * 0.25;
+        const v = sp * (0.45 + Math.random());
+        this._parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, decay: 0.008 + Math.random() * 0.012, color: Math.random() < 0.5 ? c1 : c2, r: 1.4 + Math.random() * 1.8 });
+      }
+    };
+    this._fwLaunching = true;
+    this._fwRunning = true;
+    burst(window.innerWidth * 0.5, window.innerHeight * 0.38);
+    let last = 0;
+    const tick = (t) => {
+      if (!this._fwRunning) return;
+      const W = window.innerWidth, H = window.innerHeight;
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = 'rgba(12,7,14,0.22)';
+      ctx.fillRect(0, 0, W, H);
+      if (this._fwLaunching && t - last > 200) {
+        last = t;
+        const k = 1 + (Math.random() < 0.45 ? 1 : 0);
+        for (let j = 0; j < k; j++) burst(W * (0.12 + Math.random() * 0.76), H * (0.12 + Math.random() * 0.5));
+      }
+      ctx.globalCompositeOperation = 'lighter';
+      const ps = this._parts;
+      for (let i = ps.length - 1; i >= 0; i--) {
+        const p = ps[i];
+        p.vy += 0.035; p.vx *= 0.992; p.vy *= 0.992;
+        p.x += p.vx; p.y += p.vy; p.life -= p.decay;
+        if (p.life <= 0) { ps.splice(i, 1); continue; }
+        ctx.globalAlpha = p.life < 0 ? 0 : p.life;
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      this._fwRaf = requestAnimationFrame(tick);
+    };
+    this._fwRaf = requestAnimationFrame(tick);
+  }
+
+  stopFireworks() {
+    this._fwRunning = false;
+    this._fwLaunching = false;
+    if (this._fwRaf) cancelAnimationFrame(this._fwRaf);
+    if (this._fwResize) { window.removeEventListener('resize', this._fwResize); this._fwResize = null; }
+    this._parts = [];
+  }
+
+  scramble() {
+    if (this.state.scrambledYs) {
+      this.setState({ scrambledYs: null });
+      this.showToast('Reality restored. As you were.', 2500);
+    } else {
+      const ys = Component.ENTRIES.map(e => e.y).slice().sort(() => Math.random() - 0.5);
+      this.setState({ scrambledYs: ys });
+      this.showToast('\u{1F52E} Y-values scrambled. Find the hidden genius in the chaos.', 3800);
+    }
+  }
+
+  applyAccent() {
+    try { document.documentElement.style.setProperty('--accent', this.props.accentColor || '#C93B1B'); } catch (e) {}
+  }
+
+  componentDidUpdate() { this.applyAccent(); }
+
+  componentDidMount() {
+    this.applyAccent();
+    this._kl = e => { if (e.key === 'Escape' && this.state.celebrating) { this.closeCelebration(); return; } this.checkKonami(e.key); };
+    document.addEventListener('keydown', this._kl);
+    this._pt = setInterval(() => this.setState(s => ({ phIdx: (s.phIdx + 1) % Component.PLACEHOLDERS.length })), 3400);
+    this._last = Date.now();
+    this._al = () => { this._last = Date.now(); };
+    document.addEventListener('mousemove', this._al);
+    document.addEventListener('click', this._al);
+    this._it = setInterval(() => {
+      if (Date.now() - this._last > 55000 && !this.state.showToast && this.state.screen === 'home') {
+        this.showToast('psst\u2026 still there? \u{1F440} you\u2019ve been staring a while.', 5000);
+        this._last = Date.now();
+      }
+    }, 5000);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this._kl);
+    document.removeEventListener('mousemove', this._al);
+    document.removeEventListener('click', this._al);
+    clearInterval(this._pt);
+    clearInterval(this._it);
+    clearTimeout(this._tt);
+    this.stopFireworks();
+    clearTimeout(this._cT0); clearTimeout(this._cT1); clearTimeout(this._cT2);
+  }
+
+  fmtVotes(n) { return n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n); }
+
+  renderVals() {
+    const S = this.state;
+    const ACCENT = this.props.accentColor || '#E11D8F';
+    const showNsfw = S.nsfwMode || !!this.props.showNSFW;
+    const q = S.searchQuery.toLowerCase().trim();
+
+    const inIndex = Component.ENTRIES.filter(e => showNsfw || !e.nsfw);
+    const indexTotal = inIndex.length;
+    const todayCount = inIndex.filter(e => this.daysAgo(e) <= 1).length;
+    const catById = id => Component.CATS.find(c => c.id === id) || {};
+    const matches = e => !q || [e.x, e.y, e.name, e.tagline].some(s => s.toLowerCase().includes(q));
+
+    let feed = inIndex.filter(matches);
+    if (S.categoryFilter) feed = feed.filter(e => e.cat === S.categoryFilter);
+    const sorters = {
+      newest: (a, b) => this.daysAgo(a) - this.daysAgo(b) || b.v - a.v,
+      top: (a, b) => b.v - a.v,
+      hot: (a, b) => this.hotScore(b, b.v) - this.hotScore(a, a.v),
+    };
+    feed = feed.slice().sort(sorters[S.sort] || sorters.newest);
+    const pinIdx = feed.findIndex(e => e.sponsor === 'pinned');
+    if (pinIdx > 0) { const [p] = feed.splice(pinIdx, 1); feed.unshift(p); }
+
+    const yOf = (e, i) => S.scrambledYs ? (S.scrambledYs[i % S.scrambledYs.length] || e.y) : e.y;
+    const stampColors = { NEW: ACCENT, HOT: '#B07A1A' };
+    const SPON = '#E11D8F', SPON_TAG = '#2E8B72';
+    const cardBaseShadow = '0 1px 2px rgba(74,52,28,0.04), 0 16px 34px -14px rgba(74,52,28,0.16)';
+    const cardHoverShadow = '0 3px 6px rgba(74,52,28,0.06), 0 26px 50px -16px rgba(74,52,28,0.24)';
+    const sponGlow = '0 0 0 1px rgba(225,29,143,0.55), 0 0 26px -2px rgba(225,29,143,0.55), 0 0 7px rgba(225,29,143,0.40)';
+    const cardBase = { display:'flex', alignItems:'flex-start', gap:'18px', padding:'20px 22px', background:'#FFFDFA', border:'1px solid #EDE4D5', borderRadius:'10px', marginTop:'16px', cursor:'pointer', transition:'border-color .18s, box-shadow .18s, transform .18s' };
+
+    let counter = 0;
+    const feedCards = feed.map((e, i) => {
+      const cat = catById(e.cat);
+      const vc = S.votes[e.id] !== undefined ? S.votes[e.id] : e.v;
+      const hv = !!S.voted[e.id];
+      const stamp = this.stampFor(e, vc);
+      const y = yOf(e, i);
+      const isPinned = e.sponsor === 'pinned';
+      const isSpot = e.sponsor === 'spotlight';
+      const isSponsored = isPinned || isSpot;
+      let cardStyle, cardHoverStyle;
+      if (isSpot) {
+        cardStyle = Object.assign({}, cardBase, { border:'1.5px solid ' + SPON, boxShadow:sponGlow });
+        cardHoverStyle = { border:'1.5px solid ' + SPON, boxShadow:sponGlow, transform:'translateY(-2px)' };
+      } else if (isPinned) {
+        cardStyle = Object.assign({}, cardBase, { boxShadow:cardBaseShadow + ', inset 0 3px 0 ' + SPON });
+        cardHoverStyle = { borderColor:'#E2D6C2', boxShadow:cardHoverShadow + ', inset 0 3px 0 ' + SPON, transform:'translateY(-2px)' };
+      } else {
+        cardStyle = Object.assign({}, cardBase, { boxShadow:cardBaseShadow });
+        cardHoverStyle = { borderColor:'#E2D6C2', boxShadow:cardHoverShadow, transform:'translateY(-2px)' };
+      }
+      return {
+        idx: isPinned ? '\u2605 PINNED' : '#' + String(++counter).padStart(3, '0'),
+        idxStyle: { fontFamily:"'Space Mono'", fontSize:'12px', flexShrink:0, color: isPinned ? SPON : '#B5AB9B', fontWeight: isPinned ? '700' : '400', letterSpacing: isPinned ? '0.06em' : '0' },
+        cardStyle, cardHoverStyle,
+        isSponsored,
+        sponsorTagStyle: { fontFamily:"'Space Mono'", fontSize:'9px', letterSpacing:'0.08em', padding:'3px 9px', border:'1px solid rgba(46,139,114,0.5)', color: SPON_TAG, borderRadius:'4px', whiteSpace:'nowrap', flexShrink:0 },
+        visitStyle: { marginLeft:'auto', fontFamily:"'Outfit'", fontSize:'13px', fontWeight:'500', color: isSponsored ? SPON : 'var(--accent,#C93B1B)', textDecoration:'none', whiteSpace:'nowrap' },
+        x: e.x, y, desc: e.desc, catShort: cat.short, catName: cat.name,
+        submitter: e.submitter, ago: this.agoLabel(e), url: e.url,
+        voteCount: this.fmtVotes(vc),
+        stamp: stamp || '', hasStamp: !!stamp,
+        stampStyle: { fontFamily:"'Space Mono'", fontWeight:'700', fontSize:'10px', letterSpacing:'0.12em', padding:'3px 8px', border:'1.5px solid ' + (stampColors[stamp] || '#999'), color: stampColors[stamp] || '#999', borderRadius:'3px', transform:'rotate(-3deg)', display:'inline-block', lineHeight:'1.1', flexShrink:0 },
+        voteBoxStyle: { display:'flex', flexDirection:'column', alignItems:'center', gap:'2px', width:'64px', flexShrink:0, padding:'10px 0 8px', background:'#fff', border:'1px solid ' + (hv ? ACCENT : '#E7DCC9'), borderRadius:'9px', boxShadow: hv ? '0 2px 9px -2px ' + ACCENT + '55' : 'inset 0 1px 2px rgba(74,52,28,0.05)', cursor:'pointer', fontFamily:'inherit', transition:'all .15s' },
+        caretStyle: { fontSize:'11px', lineHeight:'1', color: hv ? ACCENT : '#B0A493' },
+        voteNumStyle: { fontFamily:"'Newsreader'", fontWeight:'700', fontSize:'21px', lineHeight:'1', color: hv ? ACCENT : '#171008' },
+        catTagStyle: { fontFamily:"'Space Mono'", fontSize:'9px', letterSpacing:'0.08em', padding:'3px 9px', border:'1px solid ' + cat.color + '66', color: cat.color, borderRadius:'4px', whiteSpace:'nowrap', flexShrink:0 },
+        onView: () => this.navigate('detail', Object.assign({}, e, { y, catColor: cat.color, catShort: cat.short, catName: cat.name })),
+        onVote: evt => { evt.stopPropagation(); this.handleVote(e.id); },
+        stopProp: evt => evt.stopPropagation(),
+      };
+    });
+
+    const tiles = Component.CATS.map(cat => {
+      const list = inIndex.filter(e => e.cat === cat.id);
+      return {
+        name: cat.name, short: cat.short,
+        count: String(list.length),
+        sample: list.slice(0, 3).map(e => e.x).join('  \u00b7  '),
+        onClick: () => this.filterCat(cat.id),
+        barStyle: { width:'10px', height:'10px', background:cat.color, borderRadius:'2px', flexShrink:0 },
+        shortStyle: { fontFamily:"'Space Mono'", fontSize:'9px', letterSpacing:'0.08em', color:cat.color },
+      };
+    });
+
+    const activeTab = S.screen === 'submit' ? 'submit'
+      : S.homeView === 'cats' ? 'categories'
+      : (S.sort === 'hot' ? 'trending' : S.sort === 'top' ? 'topvoted' : 'latest');
+    const navTabStyle = active => ({ background:'none', border:'none', cursor:'pointer', fontFamily:"'Outfit'", fontSize:'14px', fontWeight: active ? '600' : '400', color: active ? '#171008' : '#8A7D6F', padding:'14px 2px', borderBottom:'2px solid ' + (active ? ACCENT : 'transparent'), transition:'color .15s, border-color .15s', whiteSpace:'nowrap', flexShrink:0 });
+    const mkTab = (key, label, onClick) => ({ label, onClick, style: navTabStyle(key === activeTab) });
+    const navTabs = [
+      mkTab('latest', 'Latest', () => this.setFeed('newest')),
+      mkTab('trending', 'Trending', () => this.setFeed('hot')),
+      mkTab('topvoted', 'Top Voted', () => this.setFeed('top')),
+      mkTab('categories', 'Categories', () => this.goCats()),
+      mkTab('random', 'Random', () => {
+        const vis = inIndex;
+        const e = vis[Math.floor(Math.random() * vis.length)];
+        const cat = catById(e.cat);
+        this.navigate('detail', Object.assign({}, e, { catColor: cat.color, catShort: cat.short, catName: cat.name }));
+        this.showToast('\u{1F3B2} Random pick: ' + e.x + ' but for ' + e.y, 2600);
+      }),
+      mkTab('submit', 'Submit', () => this.navigate('submit')),
+    ];
+
+    const segStyle = active => ({ fontFamily:"'Outfit'", fontSize:'12px', fontWeight: active ? '600' : '500', padding:'5px 13px', cursor:'pointer', border:'none', borderRadius:'4px', background: active ? '#FBF9F4' : 'transparent', color: active ? '#171008' : '#8A7D6F', boxShadow: active ? '0 1px 2px rgba(23,16,8,0.13)' : 'none', transition:'all .15s' });
+    const mkSort = (key, label) => ({ label, onClick: () => this.setFeed(key), style: segStyle(key === S.sort) });
+    const sortOptions = [ mkSort('newest', 'Newest'), mkSort('hot', 'Hot'), mkSort('top', 'Top') ];
+
+    const feedTitle = S.categoryFilter ? catById(S.categoryFilter).name
+      : S.sort === 'hot' ? 'Trending Now' : S.sort === 'top' ? 'Top Voted' : 'Latest Submissions';
+    const catTotal = S.categoryFilter ? inIndex.filter(e => e.cat === S.categoryFilter).length : indexTotal;
+    const showingLabel = feedCards.length ? ('Showing 1\u2013' + feedCards.length + ' of ' + catTotal) : 'Nothing matches that search';
+
+    const se = S.selectedEntry || {};
+    const seVc = se.id ? (S.votes[se.id] !== undefined ? S.votes[se.id] : (se.v || 0)) : 0;
+    const seHv = !!(se.id && S.voted[se.id]);
+    const safeEntry = {
+      x: se.x || '', y: se.y || '', name: se.name || '', tagline: se.tagline || '',
+      desc: se.desc || '', why: se.why || '', url: se.url || '#',
+      ago: se.id ? this.agoLabel(se) : '',
+      catShort: se.catShort || '', catName: se.catName || '', submitter: se.submitter || '@anon',
+      voteCount: this.fmtVotes(seVc),
+      onVote: se.id ? (evt => { if (evt) evt.stopPropagation(); this.handleVote(se.id); }) : (() => {}),
+      voteLargeStyle: { background:'none', border:'2px solid ' + (seHv ? ACCENT : '#D4C9B8'), color: seHv ? ACCENT : '#8A7D6F', cursor:'pointer', padding:'11px 12px', fontSize:'15px', transition:'all .15s', display:'block', width:'100%', lineHeight:'1', borderRadius:'6px' },
+      voteCountBigStyle: { fontFamily:"'Newsreader'", fontWeight:'700', fontSize:'34px', color: seHv ? ACCENT : '#171008', textAlign:'center', margin:'7px 0 2px', lineHeight:'1' },
+      detailBadgeStyle: { fontFamily:"'Space Mono'", fontSize:'9px', padding:'3px 8px', background: se.catColor || '#888', color:'#fff', letterSpacing:'0.05em', display:'inline-block', borderRadius:'3px' },
+      visitBtnStyle: { display:'inline-flex', alignItems:'center', gap:'8px', padding:'11px 22px', background:'#171008', color:'#F3EDE3', textDecoration:'none', fontFamily:"'Outfit'", fontSize:'13px', fontWeight:'500', letterSpacing:'0.04em', transition:'background .15s', borderRadius:'6px' },
+    };
+
+    const logoY = Component.LOGO_YS[S.logoClickCount % Component.LOGO_YS.length];
+    const fis = { width:'100%', padding:'11px 14px', background:'#FFFDFA', border:'1px solid #D8CDB9', fontFamily:"'Outfit'", fontSize:'15px', color:'#171008', borderRadius:'8px', boxShadow:'inset 0 1px 2px rgba(74,52,28,0.06)', display:'block' };
+    const sf = S.submitForm;
+
+    return {
+      isHome: S.screen === 'home', isDetail: S.screen === 'detail', isSubmit: S.screen === 'submit',
+      isFeed: S.homeView === 'feed', isCats: S.homeView === 'cats',
+      feedCards, tiles, navTabs, sortOptions,
+      feedTitle, showingLabel,
+      hasFilter: !!S.categoryFilter,
+      filterName: S.categoryFilter ? catById(S.categoryFilter).name : '',
+      clearFilter: () => this.clearFilter(),
+      noResults: S.screen === 'home' && S.homeView === 'feed' && feedCards.length === 0,
+      indexTotal: String(indexTotal),
+      todayCount: String(todayCount),
+      totalCats: String(Component.CATS.length),
+      logoY,
+      logoYStyle: { fontFamily:"'Newsreader'", fontWeight:'700', fontSize:'clamp(44px,6.6vw,66px)', color:'#171008', cursor:'pointer', userSelect:'none', transition:'opacity .15s', marginLeft: S.logoClickCount > 0 ? '0.07em' : '0' },
+      goHome: () => this.goHome(),
+      cycleLogoY: evt => { evt.stopPropagation(); const ni = (S.logoClickCount + 1) % Component.LOGO_YS.length; this.setState(s => ({ logoClickCount: s.logoClickCount + 1 })); this.showToast('\u201cX but for ' + Component.LOGO_YS[ni] + '\u201d \u2014 someone\u2019s probably building it', 2200); },
+      goSubmit: () => this.navigate('submit'),
+      signIn: () => this.showToast('\u{1F511} Accounts are coming soon \u2014 for now the whole index is free & open.', 3800),
+      toggleAfterDark: () => {
+        const next = !S.nsfwMode;
+        this.setState({ nsfwMode: next, konamiBuffer: [] });
+        this.showToast(next ? '\u{1F51E} After Dark unlocked. You asked for it. No judgment.' : '\u{1F607} Back to the safe-for-work zone.', 4500);
+      },
+      afterDarkLabel: showNsfw ? '\u{1F319} After Dark \u00b7 ON' : '\u{1F319} After Dark',
+      afterDarkStyle: { display:'inline-flex', alignItems:'center', gap:'6px', whiteSpace:'nowrap', background: showNsfw ? ACCENT : 'transparent', border:'1px solid ' + (showNsfw ? ACCENT : 'rgba(201,188,169,0.32)'), color: showNsfw ? '#fff' : '#C9BCA9', cursor:'pointer', fontFamily:"'Space Mono'", fontSize:'11px', padding:'4px 11px', borderRadius:'999px', letterSpacing:'0.03em', transition:'all .15s' },
+      createAccount: () => this.showToast('\u{1F4EC} No account needed yet. Just submit a site \u2014 it\u2019s free.', 3800),
+      rss: () => this.showToast('\u{1F4E1} RSS: point your reader at /feed.xml \u2014 fresh entries daily.', 3800),
+      searchQuery: S.searchQuery,
+      searchPlaceholder: Component.PLACEHOLDERS[S.phIdx],
+      onSearch: e => this.handleSearch(e),
+      submitBtnStyle: { padding:'10px 20px', background:ACCENT, color:'#fff', border:'none', cursor:'pointer', fontFamily:"'Outfit'", fontSize:'14px', fontWeight:'500', letterSpacing:'0.02em', borderRadius:'6px', transition:'opacity .15s' },
+      safeEntry,
+      submitSuccess: S.submitSuccess,
+      showForm: !S.submitSuccess,
+      sf: {
+        x: sf.x, forY: sf.forY, name: sf.name, url: sf.url, description: sf.description, category: sf.category,
+        xPreview: sf.x || 'X', yPreview: sf.forY || 'Y',
+        xChange: e => { const v = e.target.value; this.setState(s => ({ submitForm: Object.assign({}, s.submitForm, { x:v }) })); },
+        forYChange: e => { const v = e.target.value; this.setState(s => ({ submitForm: Object.assign({}, s.submitForm, { forY:v }) })); },
+        nameChange: e => { const v = e.target.value; this.setState(s => ({ submitForm: Object.assign({}, s.submitForm, { name:v }) })); },
+        urlChange: e => { const v = e.target.value; this.setState(s => ({ submitForm: Object.assign({}, s.submitForm, { url:v }) })); },
+        descChange: e => { const v = e.target.value; this.setState(s => ({ submitForm: Object.assign({}, s.submitForm, { description:v }) })); },
+        catChange: e => { const v = e.target.value; this.setState(s => ({ submitForm: Object.assign({}, s.submitForm, { category:v }) })); },
+        setFree: () => this.setState(s => ({ submitForm: Object.assign({}, s.submitForm, { tier:'free' }) })),
+        setLaunch: () => this.setState(s => ({ submitForm: Object.assign({}, s.submitForm, { tier:'launch' }) })),
+        freeStyle: { padding:'15px 16px', cursor:'pointer', background: sf.tier==='free' ? '#171008' : '#FBF9F4', color: sf.tier==='free' ? '#F3EDE3' : '#171008', border:'1.5px solid ' + (sf.tier==='free' ? '#171008' : '#D8CDB9'), borderRadius:'6px', transition:'all .15s' },
+        launchStyle: { padding:'15px 16px', cursor:'pointer', background: sf.tier==='launch' ? ACCENT : '#FBF9F4', color: sf.tier==='launch' ? '#fff' : '#171008', border:'1.5px solid ' + (sf.tier==='launch' ? ACCENT : '#D8CDB9'), borderRadius:'6px', transition:'all .15s' },
+      },
+      formInputStyle: fis,
+      formTextareaStyle: Object.assign({}, fis, { resize:'vertical', lineHeight:'1.5' }),
+      formSelectStyle: Object.assign({}, fis, { cursor:'pointer', appearance:'none' }),
+      previewStyle: { padding:'20px 22px', background:'#FBF9F4', border:'1.5px dashed #C0B6A6', borderRadius:'6px', marginBottom:'22px' },
+      handleSubmit: () => {
+        if (!this.state.submitForm.x || !this.state.submitForm.forY) { this.showToast('Fill in the X and the Y first \u2014 that\u2019s the whole idea.'); return; }
+        this.setState({ submitSuccess: true });
+      },
+      submitActionStyle: { width:'100%', padding:'14px', background: sf.tier==='launch' ? ACCENT : '#171008', color:'#fff', border:'none', cursor:'pointer', fontFamily:"'Outfit'", fontSize:'15px', fontWeight:'500', letterSpacing:'0.02em', borderRadius:'6px', transition:'opacity .15s' },
+      submitActionLabel: sf.tier === 'launch' ? 'Launch for $1.99' : 'Submit for free',
+      showToast: S.showToast, toastMessage: S.toastMessage,
+      toastStyle: { position:'fixed', bottom:'24px', right:'24px', background:'#171008', color:'#F3EDE3', padding:'13px 20px', fontFamily:"'Space Mono'", fontSize:'11px', zIndex:200, animation:'slideIn 0.3s ease-out', maxWidth:'330px', lineHeight:'1.55', letterSpacing:'0.01em', boxShadow:'4px 4px 0 rgba(23,16,8,0.18)', borderRadius:'4px' },
+      scramble: () => this.scramble(),
+
+      celebrating: S.celebrating,
+      showCoupon: S.showCoupon,
+      couponCode: 'FREE-1UP',
+      fwCanvasRef: (this._setCanvas || (this._setCanvas = el => { this._canvas = el; })),
+      fwCanvasStyle: { position:'fixed', inset:0, width:'100vw', height:'100vh', zIndex:240, pointerEvents:'none', opacity: S.celebPhase === 'fireworks' ? 1 : 0, transition: S.celebPhase === 'fireworks' ? 'opacity .5s ease-out' : 'opacity .6s ease-in' },
+      closeCelebration: () => this.closeCelebration(),
+      stopProp: evt => evt.stopPropagation(),
+      couponBackdropStyle: { position:'fixed', inset:0, zIndex:260, display:'flex', alignItems:'center', justifyContent:'center', padding:'24px', background:'rgba(12,7,14,0.55)', backdropFilter:'blur(3px)', WebkitBackdropFilter:'blur(3px)', animation:'couponBackdrop .4s ease-out' },
+      couponCardStyle: { position:'relative', width:'100%', maxWidth:'480px', background:'#FFFDFA', border:'1px solid #EDE4D5', borderRadius:'16px', padding:'34px 34px 30px', boxShadow:'0 24px 70px -18px rgba(23,16,8,0.4)', animation:'couponPop .45s cubic-bezier(0.2,0.9,0.3,1.3)' },
+      copyLabel: S.couponCopied ? 'Copied \u2713' : 'Copy',
+      copyBtnStyle: { flexShrink:0, padding:'0 18px', background:'#FBF9F4', border:'1px solid ' + (S.couponCopied ? ACCENT : '#D8CDB9'), borderRadius:'10px', cursor:'pointer', fontFamily:"'Outfit'", fontSize:'13px', fontWeight:'600', color: S.couponCopied ? ACCENT : '#6B5F50', transition:'all .15s' },
+      copyCoupon: () => { try { navigator.clipboard.writeText('FREE-1UP'); } catch (e) {} this.setState({ couponCopied: true }); this.showToast('\u{1F39F}\uFE0F FREE-1UP copied. Spend it wisely.', 3000); },
+      claimCoupon: () => { this.closeCelebration(); this.navigate('submit'); },
+    };
+  }
+}
+</script>
+</body>
+</html>

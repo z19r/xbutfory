@@ -1,0 +1,93 @@
+<!-- @dsCard group="Directory" viewport="1040x780" subtitle="Entry detail — the pitch, why it works & the formula card" name="Entry detail" -->
+<!-- @startingPoint section="Directory" subtitle="XbutforY entry detail screen" viewport="1040x900" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XbutforY — entry</title>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.22}}
+  body{margin:0;color:var(--ink);font-family:var(--font-sans);font-size:15px;line-height:1.5;
+    background-color:var(--paper);background-image:var(--bloom-layer);
+    background-repeat:no-repeat,no-repeat,repeat,repeat,repeat;
+    background-size:100% 940px,100% 720px,17px 17px,17px 17px,160px 160px;
+    background-position:top center,top left,0 0,8.5px 8.5px,top left}
+  .wrap{max-width:var(--content-max);margin:0 auto;padding:0 var(--page-gutter)}
+  .topbar{background:var(--ink);color:var(--on-dark-muted)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;padding:9px 24px;font-family:var(--font-mono);font-size:11px;letter-spacing:.03em}
+  .live{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse 2.4s ease-in-out infinite;margin-right:8px}
+  .topbar a{color:var(--on-dark-muted);text-decoration:none;margin-left:20px}
+  .topbar a.strong{color:var(--on-dark)}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.32em;color:var(--text-muted);margin:24px 0 5px}
+  .mark{font-family:var(--font-display);font-weight:700;font-size:clamp(40px,6vw,60px);line-height:.9;letter-spacing:-.012em}
+  .mark .y,.mark .dot{color:var(--accent)}
+  nav{border-top:1px solid var(--border-nav-top);border-bottom:1.5px solid var(--ink);margin-top:18px}
+  nav .wrap{display:flex;gap:24px;overflow-x:auto;padding:0 24px}
+  nav .wrap::-webkit-scrollbar{display:none}
+  .tab{background:none;border:none;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap}
+  .tab.on{font-weight:600;color:var(--ink);border-bottom-color:var(--accent)}
+  main{padding:34px 0 90px}
+  .back{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);background:none;border:none;cursor:pointer;padding:0;margin-bottom:34px;display:inline-flex;gap:6px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+  .head{display:grid;grid-template-columns:74px 1fr;gap:34px;align-items:start;margin-bottom:46px}
+  .vcol{display:flex;flex-direction:column;align-items:center;gap:3px}
+  .vbtn{background:none;border:2px solid var(--border-rule);color:var(--text-muted);padding:11px 12px;font-size:15px;width:100%;border-radius:6px;line-height:1}
+  .vnum{font-family:var(--font-display);font-weight:700;font-size:34px;line-height:1;margin:7px 0 2px}
+  .vlbl{font-family:var(--font-mono);font-size:9px;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase}
+  .badgerow{display:flex;align-items:center;gap:10px;margin-bottom:13px;flex-wrap:wrap}
+  .badge{font-family:var(--font-mono);font-size:9px;padding:3px 8px;background:var(--cat-saas);color:#fff;letter-spacing:.05em;border-radius:3px}
+  .when{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);letter-spacing:.04em}
+  .dtitle{font-family:var(--font-display);font-size:clamp(28px,4.6vw,50px);font-weight:700;margin:0 0 10px;line-height:1.06}
+  .dtitle .conn{color:var(--text-soft);font-style:italic;font-weight:400;font-size:.6em}
+  .tagline{font-size:17px;color:var(--text-muted);margin:0 0 26px;font-weight:300;font-style:italic;line-height:1.4}
+  .acts{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .visit{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:var(--ink);color:var(--on-dark);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.04em;border-radius:6px}
+  .by{font-family:var(--font-mono);font-size:11px;color:var(--text-faint)}
+  .split{border-top:1.5px solid var(--border-rule);padding-top:30px;display:grid;grid-template-columns:1fr 220px;gap:48px}
+  .klbl{font-family:var(--font-mono);font-size:9px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin:0 0 14px}
+  .pitch{font-size:17px;line-height:1.8;margin:0 0 30px;font-weight:300}
+  .why{font-size:15px;line-height:1.7;color:var(--text-body-soft);margin:0;font-weight:300}
+  .meta-card{border:1px solid var(--border-card);background:var(--surface-card);border-radius:10px;overflow:hidden;box-shadow:var(--shadow-card)}
+  .mc{padding:14px 16px;border-bottom:1px solid var(--border-soft)}
+  .mc:last-child{border-bottom:none}
+  .mck{font-family:var(--font-mono);font-size:9px;color:var(--text-muted);letter-spacing:.06em;margin-bottom:4px}
+  .mcv{font-size:14px;font-weight:500}
+  .status{color:var(--status-live)}
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="wrap"><span><span class="live"></span>est. 2026 &mdash; vol. 1, issue 26</span><span><a href="#" onclick="return false">Sign in</a><a href="#" class="strong" onclick="return false">Create account</a></span></div></div>
+  <header><div class="wrap"><div class="eyebrow">THE DIRECTORY OF</div><div class="mark">X<span class="y">but</span>forY.</div></div></header>
+  <nav><div class="wrap"><button class="tab on">Latest</button><button class="tab">Trending</button><button class="tab">Top Voted</button><button class="tab">Categories</button><button class="tab">Random</button><button class="tab">Submit</button></div></nav>
+
+  <main><div class="wrap">
+    <a class="back" href="index.html">&larr; All entries</a>
+    <div class="head">
+      <div class="vcol"><button class="vbtn">&#9650;</button><div class="vnum">1.5k</div><div class="vlbl">votes</div></div>
+      <div>
+        <div class="badgerow"><span class="badge">SAAS</span><span class="when">submitted 2 days ago</span></div>
+        <h1 class="dtitle">Notion<span class="conn"> but for </span>Recipes</h1>
+        <p class="tagline">Your kitchen&rsquo;s second brain</p>
+        <div class="acts"><a class="visit" href="#" onclick="return false">Visit Prep &#8599;</a><span class="by">by @hungrybuilder</span></div>
+      </div>
+    </div>
+    <div class="split">
+      <div>
+        <p class="klbl">The pitch</p>
+        <p class="pitch">Linked databases for ingredients, shopping lists, and meal plans &mdash; relational data, finally serving your dinner parties. Scales any recipe to any guest count automatically.</p>
+        <p class="klbl">Why it works</p>
+        <p class="why">Home cooks are obsessive organizers with zero good tools. Prep speaks their language without making them learn database theory.</p>
+      </div>
+      <div>
+        <div class="meta-card">
+          <div class="mc"><div class="mck">THE FORMULA</div><div class="mcv">Notion <span style="color:var(--text-muted)">&times;</span> Recipes</div></div>
+          <div class="mc"><div class="mck">CATEGORY</div><div class="mcv">SaaS &amp; Productivity</div></div>
+          <div class="mc"><div class="mck">STATUS</div><div class="mcv status">&#9679; Live &amp; launched</div></div>
+        </div>
+      </div>
+    </div>
+  </div></main>
+</body>
+</html>

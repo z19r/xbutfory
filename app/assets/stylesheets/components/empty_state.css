@@ -1,0 +1,24 @@
+.c-empty-state {
+  text-align: center;
+  padding: var(--space-section) var(--page-gutter);
+}
+
+.c-empty-state__formula {
+  font-family: var(--font-serif);
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--border-default);
+  margin: 0 0 6px;
+}
+
+.c-empty-state__formula em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.c-empty-state__title {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0 0 var(--space-md);
+}

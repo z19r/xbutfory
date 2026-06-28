@@ -1,0 +1,17 @@
+.c-code-chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  background: var(--surface-code);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sharp);
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+
+.c-code-chip em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}

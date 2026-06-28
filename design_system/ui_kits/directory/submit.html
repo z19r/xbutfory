@@ -1,0 +1,97 @@
+<!-- @dsCard group="Directory" viewport="1040x900" subtitle="Submit flow with the live X-but-for-Y preview" name="Submit a Site" -->
+<!-- @startingPoint section="Directory" subtitle="XbutforY submit-a-site form" viewport="1040x980" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XbutforY — submit a site</title>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.22}}
+  body{margin:0;color:var(--ink);font-family:var(--font-sans);font-size:15px;line-height:1.5;
+    background-color:var(--paper);background-image:var(--bloom-layer);
+    background-repeat:no-repeat,no-repeat,repeat,repeat,repeat;
+    background-size:100% 940px,100% 720px,17px 17px,17px 17px,160px 160px;
+    background-position:top center,top left,0 0,8.5px 8.5px,top left}
+  .wrap{max-width:var(--content-max);margin:0 auto;padding:0 var(--page-gutter)}
+  .topbar{background:var(--ink);color:var(--on-dark-muted)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;padding:9px 24px;font-family:var(--font-mono);font-size:11px;letter-spacing:.03em}
+  .live{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse 2.4s ease-in-out infinite;margin-right:8px}
+  .topbar a{color:var(--on-dark-muted);text-decoration:none;margin-left:20px}
+  .topbar a.strong{color:var(--on-dark)}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.32em;color:var(--text-muted);margin:24px 0 5px}
+  .mark{font-family:var(--font-display);font-weight:700;font-size:clamp(40px,6vw,60px);line-height:.9;letter-spacing:-.012em}
+  .mark .y,.mark .dot{color:var(--accent)}
+  nav{border-top:1px solid var(--border-nav-top);border-bottom:1.5px solid var(--ink);margin-top:18px}
+  nav .wrap{display:flex;gap:24px;overflow-x:auto;padding:0 24px}
+  nav .wrap::-webkit-scrollbar{display:none}
+  .tab{background:none;border:none;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap}
+  .tab.on{font-weight:600;color:var(--ink);border-bottom-color:var(--accent)}
+  main{max-width:600px;margin:0 auto;padding:46px 24px 90px}
+  h1{font-family:var(--font-display);font-size:42px;font-weight:700;margin:0 0 8px;line-height:1.05}
+  .sub{color:var(--text-muted);margin:0 0 36px;font-weight:300}
+  .field{margin-bottom:20px}
+  label{display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;margin-bottom:7px}
+  input,textarea,select{width:100%;padding:11px 14px;background:var(--surface-card);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:15px;color:var(--ink)}
+  textarea{resize:vertical;line-height:1.5}
+  .preview{padding:20px 22px;background:var(--surface-sunken);border:1.5px dashed var(--placeholder);border-radius:10px;margin-bottom:22px}
+  .pl{font-family:var(--font-mono);font-size:9px;color:var(--text-muted);display:block;margin-bottom:9px;letter-spacing:.07em;text-transform:uppercase}
+  .pf{font-family:var(--font-display);font-size:27px;font-weight:700;line-height:1.2}
+  .pf .conn{color:var(--text-soft);font-style:italic;font-weight:400;font-size:.66em}
+  .tiers{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .tier{padding:15px 16px;cursor:pointer;background:var(--surface-card);border:1.5px solid var(--border-input);border-radius:6px}
+  .tier .tt{font-weight:600;font-size:14px;margin-bottom:3px}
+  .tier .td{font-size:12px;opacity:.75;font-weight:300}
+  .tier.free.on{background:var(--ink);color:var(--on-dark);border-color:var(--ink)}
+  .tier.feat.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .submit{width:100%;padding:14px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-family:var(--font-sans);font-size:15px;font-weight:500;border-radius:6px;margin-top:6px}
+  .foot{font-family:var(--font-mono);font-size:10px;color:var(--text-faint);text-align:center;margin:14px 0 0}
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="wrap"><span><span class="live"></span>est. 2026 &mdash; vol. 1, issue 26</span><span><a href="#" onclick="return false">Sign in</a><a href="#" class="strong" onclick="return false">Create account</a></span></div></div>
+  <header><div class="wrap"><div class="eyebrow">THE DIRECTORY OF</div><div class="mark">X<span class="y">but</span>forY.</div></div></header>
+  <nav><div class="wrap"><button class="tab">Latest</button><button class="tab">Trending</button><button class="tab">Top Voted</button><button class="tab">Categories</button><button class="tab">Random</button><button class="tab on">Submit</button></div></nav>
+
+  <main>
+    <h1>Submit a Site</h1>
+    <p class="sub">Free to list in the directory. $1.99 buys a featured homepage spot.</p>
+
+    <div class="field"><label>The X &mdash; what existing product inspired it?</label><input id="x" placeholder="Tinder, Salesforce, Notion…" oninput="sync()"></div>
+    <div class="field"><label>The Y &mdash; what oddly-specific niche does it serve?</label><input id="y" placeholder="Dog parks, lemonade stands, retirement homes…" oninput="sync()"></div>
+
+    <div class="preview"><span class="pl">Live preview</span><span class="pf"><span id="px">X</span><span class="conn"> but for </span><span id="py">Y</span></span></div>
+
+    <div class="field"><label>Product name</label><input placeholder="Floormate, LightSeek, Squeeze…"></div>
+    <div class="field"><label>Product URL</label><input placeholder="https://…"></div>
+    <div class="field"><label>One-line pitch <span style="text-transform:none;letter-spacing:0">(optional)</span></label><textarea rows="2" placeholder="What makes this one actually good…"></textarea></div>
+    <div class="field"><label>Category</label><select><option>SaaS &amp; Productivity</option><option>Dating &amp; Hookups</option><option>CRM &amp; Sales</option><option>Metasearch &amp; Discovery</option><option>Payments &amp; Finance</option><option>Social &amp; Links</option><option>Logistics &amp; Services</option></select></div>
+
+    <div class="field"><label>Listing type</label>
+      <div class="tiers">
+        <div class="tier free on" onclick="tier(this,'free')"><div class="tt">Free listing</div><div class="td">Indexed within 24h</div></div>
+        <div class="tier feat" onclick="tier(this,'feat')"><div class="tt">Featured &mdash; $1.99</div><div class="td">Homepage spot + boost</div></div>
+      </div>
+    </div>
+
+    <button class="submit" id="cta" onclick="return false">Submit for free &rarr;</button>
+    <p class="foot">no account needed &middot; no spam &middot; takes 30 seconds</p>
+  </main>
+
+<script>
+  function sync(){
+    var x=document.getElementById('x').value.trim();
+    var y=document.getElementById('y').value.trim();
+    document.getElementById('px').textContent=x||'X';
+    document.getElementById('py').textContent=y||'Y';
+  }
+  function tier(el,kind){
+    document.querySelectorAll('.tier').forEach(function(t){t.classList.remove('on')});
+    el.classList.add('on');
+    document.getElementById('cta').textContent=(kind==='feat'?'Launch for $1.99':'Submit for free')+' \u2192';
+  }
+</script>
+</body>
+</html>

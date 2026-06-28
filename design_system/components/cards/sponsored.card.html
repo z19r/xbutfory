@@ -1,0 +1,49 @@
+<!-- @dsCard group="Components" viewport="700x500" subtitle="Pinned (ribbon, top, one at a time) · Spotlight (glow, mid-feed)" name="Sponsored entries" -->
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body{margin:0;font-family:var(--font-sans);background:var(--paper);color:var(--ink);padding:24px}
+  .lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--text-muted);margin:0 0 11px}
+  .card{background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;box-shadow:var(--shadow-card);overflow:hidden;margin-bottom:26px}
+  .cardrow{display:flex;align-items:flex-start;gap:18px;padding:20px 22px}
+  .pinned{border:1.5px solid var(--sponsor);box-shadow:var(--shadow-pin);background:linear-gradient(0deg, var(--sponsor-tint), var(--sponsor-tint)), var(--surface-card)}
+  .spotlight{border:1.5px solid var(--sponsor);box-shadow:var(--shadow-sponsor)}
+  .ribbon{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 22px;background:var(--sponsor);color:#fff;font-family:var(--font-mono);font-size:10px;letter-spacing:.12em}
+  .ribbon .r2{opacity:.82;font-size:9px}
+  .vote{display:flex;flex-direction:column;align-items:center;gap:2px;width:64px;flex-shrink:0;padding:10px 0 8px;background:#fff;border:1px solid var(--border-card);border-radius:9px;box-shadow:var(--shadow-inset)}
+  .vc{font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1}
+  .ttl{font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1.12}
+  .conn{font-style:italic;font-weight:400;color:var(--text-soft);font-size:.8em}
+  .stamp{font-family:var(--font-mono);font-weight:700;font-size:10px;letter-spacing:.12em;padding:3px 8px;border:1.5px solid var(--stamp-hot);color:var(--stamp-hot);border-radius:3px;transform:rotate(-3deg)}
+  .desc{margin:8px 0 12px;font-size:14px;font-weight:300;line-height:1.5;color:var(--text-body)}
+  .tag{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid;border-radius:4px}
+  .spon{color:var(--sponsor-tag);border-color:color-mix(in srgb, var(--sponsor-tag) 45%, transparent)}
+  .meta{font-family:var(--font-mono);font-size:11px;color:var(--text-muted)}
+  .visit{margin-left:auto;font-size:13px;font-weight:500;color:var(--sponsor);text-decoration:none;white-space:nowrap}
+  .idx{font-family:var(--font-mono);font-size:12px;color:var(--text-faint)}
+</style></head><body>
+  <p class="lbl">1 &middot; PINNED &mdash; hot-pink ribbon, sticks to the top, one slot at a time</p>
+  <div class="card pinned">
+    <div class="ribbon"><span>&#9733; PINNED SPONSOR</span><span class="r2">FEATURED PLACEMENT</span></div>
+    <div class="cardrow">
+      <div class="vote"><span style="font-size:11px;color:var(--text-faint-2)">&#9650;</span><span class="vc">2.3k</span><span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;color:var(--text-faint-2)">VOTES</span></div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="ttl">Linear<span class="conn"> but for </span>Wedding Planning</span></div>
+        <p class="desc">Issue tracking, but every bug is a seating-chart crisis. Roadmaps for the aisle, sprints for the caterer.</p>
+        <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap"><span class="tag" style="color:var(--cat-saas);border-color:color-mix(in srgb, var(--cat-saas) 45%, transparent)">SAAS</span><span class="meta">submitted by @altar_ego &middot; 1 day ago</span><a class="visit">visit site &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="lbl">2 &middot; SPOTLIGHT &mdash; magenta glow halo, placed mid-feed</p>
+  <div class="card spotlight">
+    <div class="cardrow">
+      <div class="vote"><span style="font-size:11px;color:var(--text-faint-2)">&#9650;</span><span class="vc">847</span><span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;color:var(--text-faint-2)">VOTES</span></div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="idx">#005</span><span class="ttl">Tinder<span class="conn"> but for </span>the Building You Live In</span><span class="stamp">HOT</span></div>
+        <p class="desc">Why scroll through a whole city of strangers when the love of your life might share your elevator? Floormate matches verified residents inside your building only.</p>
+        <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap"><span class="tag spon">SPONSORED</span><span class="tag" style="color:var(--cat-dating);border-color:color-mix(in srgb, var(--cat-dating) 45%, transparent)">DATING</span><span class="meta">submitted by @apt_4b &middot; 2 days ago</span><a class="visit">visit site &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+</body></html>

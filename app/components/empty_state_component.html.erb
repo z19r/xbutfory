@@ -1,0 +1,7 @@
+<div class="c-empty-state">
+  <p class="c-empty-state__formula">X <em>but for</em> Y</p>
+  <p class="c-empty-state__title"><%= @title %></p>
+  <% if @action %>
+    <%= link_to @action, @action_url || "#", class: "c-btn c-btn--primary c-btn--md" %>
+  <% end %>
+</div>

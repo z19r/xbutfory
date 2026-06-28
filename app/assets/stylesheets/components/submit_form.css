@@ -1,0 +1,93 @@
+.l-submit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .l-submit {
+    grid-template-columns: 1fr;
+  }
+}
+
+.l-submit__title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: var(--type-section);
+  margin: 0 0 var(--space-xs);
+}
+
+.l-submit__dek {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-lg);
+}
+
+.l-submit__dek em {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.l-submit__preview {
+  position: sticky;
+  top: 80px;
+}
+
+.c-submit-form__errors {
+  background: rgba(201, 59, 27, 0.08);
+  border: 1.5px solid var(--accent);
+  border-radius: var(--radius-soft);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--accent);
+}
+
+.c-submit-form__errors ul {
+  margin: var(--space-xxs) 0 0;
+  padding-left: 18px;
+}
+
+.c-submit-form__field {
+  margin-bottom: var(--space-md);
+}
+
+.c-submit-form__label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-xxs);
+}
+
+.c-submit-form__input {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-soft);
+  background: var(--paper);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.c-submit-form__input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.c-submit-form__textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.c-submit-form__actions {
+  margin-top: var(--space-lg);
+}

@@ -1,0 +1,23 @@
+.l-categories__heading {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: var(--type-section);
+  margin: 0 0 var(--space-xs);
+}
+
+.l-categories__dek {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-lg);
+}
+
+.l-categories__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-md);
+}
+
+.l-categories__back {
+  margin-top: var(--space-lg);
+}

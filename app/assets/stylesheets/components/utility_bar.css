@@ -1,0 +1,63 @@
+.c-utility-bar {
+  background: var(--ink);
+  color: var(--on-dark-muted);
+}
+
+.c-utility-bar__inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 9px var(--page-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.c-utility-bar__issue {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.c-utility-bar__live-dot {
+  color: var(--accent);
+  font-size: 6px;
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.c-utility-bar__links {
+  display: flex;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.c-utility-bar__link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 0;
+  letter-spacing: 0.03em;
+  color: var(--on-dark-muted);
+  text-transform: uppercase;
+}
+
+.c-utility-bar__link--strong {
+  color: var(--on-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-utility-bar__live-dot {
+    animation: none;
+  }
+}

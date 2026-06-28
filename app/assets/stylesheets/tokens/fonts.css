@@ -1,0 +1,11 @@
+/* XbutforY runs on three Google-hosted webfaces — no local binaries are
+   bundled because all three are free on Google Fonts. The @import below pulls
+   in their @font-face rules (the webfont declarations consumers receive).
+
+   - Newsreader  — editorial serif (masthead, headlines, stat numbers, "but for")
+   - Space Mono  — the technical voice (eyebrows, labels, issue lines, dates, code chip)
+   - Outfit      — neutral UI sans (body copy, buttons, nav, descriptions)
+
+   If you need self-hosted binaries, download these families and replace this
+   @import with local @font-face rules pointing at the files. */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap');

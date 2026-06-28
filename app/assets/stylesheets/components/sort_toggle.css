@@ -1,0 +1,34 @@
+.c-sort-toggle {
+  display: inline-flex;
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-soft);
+  overflow: hidden;
+}
+
+.c-sort-toggle__option {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  color: var(--text-muted);
+  transition: background 0.15s, color 0.15s;
+  border-right: 1px solid var(--border-default);
+}
+
+.c-sort-toggle__option:last-child {
+  border-right: none;
+}
+
+.c-sort-toggle__option:hover {
+  color: var(--ink);
+}
+
+.c-sort-toggle__option--active {
+  background: var(--ink);
+  color: var(--on-dark);
+  box-shadow: inset 0 1px 3px rgba(23, 16, 8, 0.13);
+}

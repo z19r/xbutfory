@@ -1,0 +1,21 @@
+<!-- @dsCard group="Components" viewport="700x320" subtitle="SearchInput · SortToggle · SubmitPreview" name="Forms" -->
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body{margin:0;font-family:var(--font-sans);background:var(--paper);color:var(--ink);padding:22px}
+  .wrap{position:relative;max-width:380px}
+  input{width:100%;padding:11px 14px 11px 38px;background:var(--surface-card);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:14px;color:var(--ink);box-sizing:border-box}
+  .mag{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text-faint);font-size:16px}
+  .rail{display:inline-flex;gap:2px;background:var(--surface-rail);padding:3px;border-radius:8px;margin-top:18px}
+  .seg{font-family:var(--font-sans);font-size:12px;font-weight:500;padding:5px 13px;border:none;border-radius:4px;background:transparent;color:var(--text-muted)}
+  .on{background:var(--surface-card);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(23,16,8,.13)}
+  .lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--text-faint);margin-right:9px}
+  .preview{margin-top:20px;padding:18px 20px;background:var(--surface-sunken);border:1.5px dashed var(--placeholder);border-radius:10px}
+  .pl{font-family:var(--font-mono);font-size:9px;color:var(--text-muted);display:block;margin-bottom:8px;letter-spacing:.07em}
+  .pf{font-family:var(--font-display);font-size:25px;font-weight:700;line-height:1.2}
+  .pf .conn{color:var(--text-soft);font-style:italic;font-weight:400;font-size:.66em}
+</style></head><body>
+  <div class="wrap"><input placeholder="Search the index…" /><span class="mag">&#9906;</span></div>
+  <div style="display:flex;align-items:center;margin-top:6px"><span class="lbl">SORT</span><div class="rail"><span class="seg on">Newest</span><span class="seg">Hot</span><span class="seg">Top</span></div></div>
+  <div class="preview"><span class="pl">LIVE PREVIEW</span><span class="pf">Tinder<span class="conn"> but for </span>Dog Parks</span></div>
+</body></html>

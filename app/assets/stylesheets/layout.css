@@ -1,0 +1,17 @@
+.l-content {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-lg) var(--page-gutter);
+}
+
+.l-feed-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-md);
+}
+
+.l-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

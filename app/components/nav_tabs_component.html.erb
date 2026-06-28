@@ -1,0 +1,12 @@
+<nav class="c-nav-tabs" aria-label="Main navigation">
+  <div class="c-nav-tabs__inner">
+    <% @tabs.each do |tab| %>
+      <button
+        class="c-nav-tabs__tab <%= 'c-nav-tabs__tab--active' if tab.key == @active %>"
+        data-tab-key="<%= tab.key %>"
+      >
+        <%= tab.label %>
+      </button>
+    <% end %>
+  </div>
+</nav>

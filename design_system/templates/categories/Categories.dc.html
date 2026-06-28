@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Directory — Categories" description="The browse-by-category tile grid: seven muted category hues, counts, and example formulas." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+@keyframes xbfy-pulse{0%,100%{opacity:1}50%{opacity:.22}}
+body{margin:0;color:var(--ink);font-family:var(--font-sans);font-size:15px;line-height:1.5;background-color:var(--paper);background-image:var(--bloom-layer);background-repeat:no-repeat,no-repeat,repeat,repeat,repeat;background-size:100% 940px,100% 720px,17px 17px,17px 17px,160px 160px;background-position:top center,top left,0 0,8.5px 8.5px,top left}
+</style>
+</helmet>
+
+<div style="background:var(--ink);color:var(--on-dark-muted)">
+  <div style="max-width:var(--content-max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px var(--page-gutter);font-family:var(--font-mono);font-size:11px;letter-spacing:.03em">
+    <span><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;animation:xbfy-pulse 2.4s ease-in-out infinite"></span>est. 2026 — vol. 1, issue 26</span>
+    <span><a href="#" style="color:var(--on-dark-muted);text-decoration:none;margin-left:20px">Sign in</a><a href="#" style="color:var(--on-dark);text-decoration:none;margin-left:20px">Create account</a></span>
+  </div>
+</div>
+
+<header style="max-width:var(--content-max);margin:0 auto;padding:0 var(--page-gutter)">
+  <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.32em;color:var(--text-muted);margin:24px 0 5px">THE DIRECTORY OF</div>
+  <div style="font-family:var(--font-display);font-weight:700;font-size:clamp(40px,6vw,60px);line-height:.9;letter-spacing:-.012em">X<span style="color:var(--accent)">but</span>forY.</div>
+</header>
+
+<nav style="border-top:1px solid var(--border-nav-top);border-bottom:1.5px solid var(--ink);margin-top:18px">
+  <div style="max-width:var(--content-max);margin:0 auto;display:flex;gap:24px;overflow-x:auto;padding:0 var(--page-gutter)">
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Latest</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Trending</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Top Voted</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:600;color:var(--ink);padding:14px 2px;border-bottom:2px solid var(--accent);white-space:nowrap">Categories</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Random</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Submit</button>
+  </div>
+</nav>
+
+<main style="padding:34px 0 90px">
+  <div style="max-width:var(--content-max);margin:0 auto;padding:0 var(--page-gutter)">
+    <div style="display:inline-flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;color:var(--text-muted)"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:xbfy-pulse 2.4s ease-in-out infinite"></span>VOL. 01 · ISSUE 26 · JUN 2026</div>
+    <div style="margin-top:24px;padding-bottom:13px;border-bottom:2px solid var(--ink)">
+      <h2 style="font-family:var(--font-display);font-size:27px;font-weight:700;margin:0;line-height:1">Browse by Category</h2>
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:7px">7 categories · pick one to filter the index</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:18px">
+      <a href="#" style="display:block;text-decoration:none;color:var(--ink);padding:18px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;cursor:pointer;box-shadow:var(--shadow-tile);transition:border-color .18s,box-shadow .18s,transform .18s" style-hover="border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px">
+          <span style="width:10px;height:10px;border-radius:2px;flex-shrink:0;background:var(--cat-dating)"></span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--cat-dating)">DATING</span>
+          <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-faint)">3</span>
+        </div>
+        <div style="font-family:var(--font-display);font-size:19px;font-weight:600;line-height:1.1">Dating &amp; Hookups</div>
+        <div style="margin-top:8px;font-size:12px;font-weight:300;color:var(--text-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Tinder · Hinge · Grindr</div>
+      </a>
+      <a href="#" style="display:block;text-decoration:none;color:var(--ink);padding:18px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;cursor:pointer;box-shadow:var(--shadow-tile);transition:border-color .18s,box-shadow .18s,transform .18s" style-hover="border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px">
+          <span style="width:10px;height:10px;border-radius:2px;flex-shrink:0;background:var(--cat-crm)"></span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--cat-crm)">CRM</span>
+          <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-faint)">3</span>
+        </div>
+        <div style="font-family:var(--font-display);font-size:19px;font-weight:600;line-height:1.1">CRM &amp; Sales</div>
+        <div style="margin-top:8px;font-size:12px;font-weight:300;color:var(--text-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Salesforce · HubSpot · Pipedrive</div>
+      </a>
+      <a href="#" style="display:block;text-decoration:none;color:var(--ink);padding:18px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;cursor:pointer;box-shadow:var(--shadow-tile);transition:border-color .18s,box-shadow .18s,transform .18s" style-hover="border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px">
+          <span style="width:10px;height:10px;border-radius:2px;flex-shrink:0;background:var(--cat-discovery)"></span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--cat-discovery)">DISCOVER</span>
+          <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-faint)">3</span>
+        </div>
+        <div style="font-family:var(--font-display);font-size:19px;font-weight:600;line-height:1.1">Metasearch &amp; Discovery</div>
+        <div style="margin-top:8px;font-size:12px;font-weight:300;color:var(--text-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Kayak · SeatGeek · Google Flights</div>
+      </a>
+      <a href="#" style="display:block;text-decoration:none;color:var(--ink);padding:18px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;cursor:pointer;box-shadow:var(--shadow-tile);transition:border-color .18s,box-shadow .18s,transform .18s" style-hover="border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px">
+          <span style="width:10px;height:10px;border-radius:2px;flex-shrink:0;background:var(--cat-saas)"></span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--cat-saas)">SAAS</span>
+          <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-faint)">4</span>
+        </div>
+        <div style="font-family:var(--font-display);font-size:19px;font-weight:600;line-height:1.1">SaaS &amp; Productivity</div>
+        <div style="margin-top:8px;font-size:12px;font-weight:300;color:var(--text-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Notion · Figma · GitHub</div>
+      </a>
+      <a href="#" style="display:block;text-decoration:none;color:var(--ink);padding:18px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;cursor:pointer;box-shadow:var(--shadow-tile);transition:border-color .18s,box-shadow .18s,transform .18s" style-hover="border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px">
+          <span style="width:10px;height:10px;border-radius:2px;flex-shrink:0;background:var(--cat-payments)"></span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--cat-payments)">FINANCE</span>
+          <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-faint)">3</span>
+        </div>
+        <div style="font-family:var(--font-display);font-size:19px;font-weight:600;line-height:1.1">Payments &amp; Finance</div>
+        <div style="margin-top:8px;font-size:12px;font-weight:300;color:var(--text-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Stripe · Venmo · Robinhood</div>
+      </a>
+      <a href="#" style="display:block;text-decoration:none;color:var(--ink);padding:18px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;cursor:pointer;box-shadow:var(--shadow-tile);transition:border-color .18s,box-shadow .18s,transform .18s" style-hover="border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px">
+          <span style="width:10px;height:10px;border-radius:2px;flex-shrink:0;background:var(--cat-social)"></span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--cat-social)">SOCIAL</span>
+          <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-faint)">3</span>
+        </div>
+        <div style="font-family:var(--font-display);font-size:19px;font-weight:600;line-height:1.1">Social &amp; Links</div>
+        <div style="margin-top:8px;font-size:12px;font-weight:300;color:var(--text-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Linktree · LinkedIn · Twitter</div>
+      </a>
+      <a href="#" style="display:block;text-decoration:none;color:var(--ink);padding:18px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;cursor:pointer;box-shadow:var(--shadow-tile);transition:border-color .18s,box-shadow .18s,transform .18s" style-hover="border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px">
+          <span style="width:10px;height:10px;border-radius:2px;flex-shrink:0;background:var(--cat-logistics)"></span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--cat-logistics)">SERVICES</span>
+          <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-faint)">3</span>
+        </div>
+        <div style="font-family:var(--font-display);font-size:19px;font-weight:600;line-height:1.1">Logistics &amp; Services</div>
+        <div style="margin-top:8px;font-size:12px;font-weight:300;color:var(--text-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Uber · Airbnb · DoorDash</div>
+      </a>
+    </div>
+
+    <footer style="margin-top:64px;padding-top:18px;border-top:1.5px solid var(--ink);font-family:var(--font-mono);font-size:10px;color:var(--text-muted);letter-spacing:.05em">XBUTFORY © 2026 · VOL. 01 · AN INDEX OF DUBIOUS BRILLIANCE</footer>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:620}}"></script>
+</body>
+</html>

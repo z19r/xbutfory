@@ -1,0 +1,52 @@
+/* XbutforY radii, shadows, motion, and the paper-grain texture.
+   Cards are SOFT (10px, layered warm shadow); stamps/tags/rules are SHARP. */
+:root {
+  /* Corner radii — soft for interactive surfaces, sharp for editorial marks */
+  --radius-stamp: 3px;  /* NEW / HOT rubber stamps */
+  --radius-tag:   4px;  /* category tags, code chip */
+  --radius-toast: 4px;
+  --radius-input: 8px;  /* inputs, buttons, filter chip */
+  --radius-vote:  9px;  /* vote box */
+  --radius-card:  10px; /* entry cards, category tiles, panels */
+
+  /* Shadows — warm brown (rgba 74,52,28), never neutral grey.
+     Two-layer: a tight contact shadow + a long soft ambient one. */
+  --shadow-card:        0 1px 2px rgba(74,52,28,0.04), 0 16px 34px -14px rgba(74,52,28,0.16);
+  --shadow-card-hover:  0 3px 6px rgba(74,52,28,0.06), 0 26px 50px -16px rgba(74,52,28,0.24);
+  --shadow-tile:        0 1px 2px rgba(74,52,28,0.04), 0 14px 30px -14px rgba(74,52,28,0.15);
+  --shadow-inset:       inset 0 1px 2px rgba(74,52,28,0.06); /* search + form fields */
+  --shadow-button:      0 3px 12px -2px rgba(176,20,110,0.50), inset 0 1px 0 rgba(255,255,255,0.18);
+  --shadow-button-hover:0 6px 18px -3px rgba(176,20,110,0.58), inset 0 1px 0 rgba(255,255,255,0.18);
+  --shadow-toast:       4px 4px 0 rgba(23,16,8,0.18); /* hard offset — a printed-sticker feel */
+  --shadow-sponsor:     0 0 0 1px rgba(225,29,143,0.55), 0 0 26px -2px rgba(225,29,143,0.55), 0 0 7px rgba(225,29,143,0.40); /* spotlight-sponsor magenta glow */
+  --shadow-pin:         0 1px 2px rgba(74,52,28,0.04), 0 16px 34px -14px rgba(74,52,28,0.16), 0 0 20px -3px rgba(225,29,143,0.45); /* pinned-sponsor: card depth + soft magenta haze */
+
+  /* Motion — quick, restrained, mechanical. No bounces. */
+  --ease:     cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --dur-fast: 0.15s; /* @kind other */
+  --dur:      0.18s; /* @kind other */
+  --lift:     translateY(-2px); /* @kind other */
+  --lift-sm:  translateY(-1px); /* @kind other */
+
+  /* Paper grain — fractal-noise tile at ~3% alpha. Layer under content as a
+     repeating background-image; pair with the hero bloom for the full surface. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"); /* @kind other */
+
+  /* Dotted-grid paper texture — a warm dot every 17px. Two interleaved grids
+     (full-strength + a half-offset ghost) make a fine, lively dot field. */
+  --dots: radial-gradient(rgba(74,52,28,0.085) 1px, transparent 1.5px); /* @kind other */
+
+  /* The full page surface = bloom + bloom + dot-grid (×2) + grain over paper.
+     Apply on a paper-colored root with the matching multi-value lists:
+       background-color: var(--paper);
+       background-image: var(--bloom-layer);
+       background-repeat: no-repeat,no-repeat,repeat,repeat,repeat;
+       background-size: 100% 940px,100% 720px,17px 17px,17px 17px,160px 160px;
+       background-position: top center,top left,0 0,8.5px 8.5px,top left; */
+  --bloom-layer:
+    radial-gradient(115% 58% at 68% -8%, var(--bloom-rose), rgba(205,92,72,0) 58%),
+    radial-gradient(75% 42% at 8% -2%, var(--bloom-amber), rgba(222,150,88,0) 55%),
+    radial-gradient(rgba(74,52,28,0.085) 1px, transparent 1.5px),
+    radial-gradient(rgba(74,52,28,0.05) 1px, transparent 1.5px),
+    var(--grain);
+}

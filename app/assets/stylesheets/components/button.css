@@ -1,0 +1,76 @@
+.c-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  border: none;
+  border-radius: var(--radius-soft);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+
+.c-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Sizes */
+.c-btn--sm {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 13px;
+}
+
+.c-btn--md {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 18px;
+}
+
+.c-btn--lg {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px 22px;
+}
+
+/* Variants */
+.c-btn--primary {
+  background: var(--accent);
+  color: var(--on-dark);
+}
+
+.c-btn--secondary {
+  background: transparent;
+  border: 1.5px solid var(--border-default);
+  color: var(--ink);
+}
+
+.c-btn--secondary:hover {
+  border-color: var(--ink);
+}
+
+.c-btn--ghost {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.c-btn--ghost:hover {
+  color: var(--ink);
+}
+
+.c-btn--dark {
+  background: var(--ink);
+  color: var(--on-dark);
+}
+
+.c-btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.c-btn__icon {
+  display: inline-flex;
+}

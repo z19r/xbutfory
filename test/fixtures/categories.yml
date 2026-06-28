@@ -1,0 +1,13 @@
+one:
+  name: SaaS
+  slug: saas
+  color_token: cat-saas
+  description: Software as a service.
+  entries_count: 0
+
+two:
+  name: Consumer
+  slug: consumer
+  color_token: cat-consumer
+  description: Apps for humans.
+  entries_count: 0

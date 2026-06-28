@@ -1,0 +1,38 @@
+<div class="l-detail">
+  <div class="l-detail__vote">
+    <button class="c-entry-card__vote-btn" aria-label="Vote for <%= @entry.title %>">
+      <span class="c-entry-card__vote-caret">▲</span>
+      <span class="c-entry-card__vote-count"><%= @entry.votes_count %></span>
+    </button>
+  </div>
+
+  <div class="l-detail__content">
+    <% if @entry.category %>
+      <%= render TagComponent.new(label: @entry.category.titleize, category: @entry.category) %>
+    <% end %>
+
+    <h1 class="l-detail__title"><%= @entry.x %> <em>but for</em> <%= @entry.y %></h1>
+
+    <%= render CodeChipComponent.new(x: @entry.x, y: @entry.y) %>
+
+    <p class="l-detail__description"><%= @entry.description %></p>
+
+    <div class="l-detail__meta">
+      <span class="l-detail__submitter">submitted by @<%= @entry.submitter %></span>
+      <span class="l-detail__ago"><%= time_ago_in_words(@entry.created_at) %> ago</span>
+    </div>
+
+    <div class="l-detail__actions">
+      <% if @entry.url.present? %>
+        <%= link_to "Visit site ↗", @entry.url, class: "c-btn c-btn--primary c-btn--lg", target: "_blank", rel: "noopener" %>
+      <% end %>
+      <%= link_to "← Back to index", root_path, class: "c-btn c-btn--secondary c-btn--md" %>
+    </div>
+
+    <% if @entry.stamp.present? %>
+      <div class="l-detail__stamp">
+        <%= render StampComponent.new(variant: @entry.stamp) %>
+      </div>
+    <% end %>
+  </div>
+</div>

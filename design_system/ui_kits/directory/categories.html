@@ -1,0 +1,78 @@
+<!-- @dsCard group="Directory" viewport="1040x780" subtitle="Browse-by-category tile grid that filters the feed" name="Categories" -->
+<!-- @startingPoint section="Directory" subtitle="XbutforY categories grid" viewport="1040x900" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XbutforY — categories</title>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.22}}
+  body{margin:0;color:var(--ink);font-family:var(--font-sans);font-size:15px;line-height:1.5;
+    background-color:var(--paper);background-image:var(--bloom-layer);
+    background-repeat:no-repeat,no-repeat,repeat,repeat,repeat;
+    background-size:100% 940px,100% 720px,17px 17px,17px 17px,160px 160px;
+    background-position:top center,top left,0 0,8.5px 8.5px,top left}
+  .wrap{max-width:var(--content-max);margin:0 auto;padding:0 var(--page-gutter)}
+  .topbar{background:var(--ink);color:var(--on-dark-muted)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;padding:9px 24px;font-family:var(--font-mono);font-size:11px;letter-spacing:.03em}
+  .live{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse 2.4s ease-in-out infinite;margin-right:8px}
+  .topbar a{color:var(--on-dark-muted);text-decoration:none;margin-left:20px}
+  .topbar a.strong{color:var(--on-dark)}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.32em;color:var(--text-muted);margin:24px 0 5px}
+  .mark{font-family:var(--font-display);font-weight:700;font-size:clamp(40px,6vw,60px);line-height:.9;letter-spacing:-.012em}
+  .mark .y,.mark .dot{color:var(--accent)}
+  nav{border-top:1px solid var(--border-nav-top);border-bottom:1.5px solid var(--ink);margin-top:18px}
+  nav .wrap{display:flex;gap:24px;overflow-x:auto;padding:0 24px}
+  nav .wrap::-webkit-scrollbar{display:none}
+  .tab{background:none;border:none;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap}
+  .tab.on{font-weight:600;color:var(--ink);border-bottom-color:var(--accent)}
+  main{padding:34px 0 90px}
+  .issue{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;color:var(--text-muted)}
+  .issue .live{margin:0}
+  .sec{margin-top:24px;padding-bottom:13px;border-bottom:2px solid var(--ink)}
+  .sec h2{font-family:var(--font-display);font-size:27px;font-weight:700;margin:0;line-height:1}
+  .sec .sub{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:7px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:18px}
+  .tile{padding:18px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;cursor:pointer;box-shadow:var(--shadow-tile);transition:border-color .18s,box-shadow .18s,transform .18s}
+  .tile:hover{border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)}
+  .th{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+  .dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+  .sc{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em}
+  .ct{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-faint)}
+  .tn{font-family:var(--font-display);font-size:19px;font-weight:600;line-height:1.1}
+  .ts{margin-top:8px;font-size:12px;font-weight:300;color:var(--text-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="wrap"><span><span class="live"></span>est. 2026 &mdash; vol. 1, issue 26</span><span><a href="#" onclick="return false">Sign in</a><a href="#" class="strong" onclick="return false">Create account</a></span></div></div>
+  <header><div class="wrap"><div class="eyebrow">THE DIRECTORY OF</div><div class="mark">X<span class="y">but</span>forY.</div></div></header>
+  <nav><div class="wrap"><button class="tab" onclick="location.href='index.html'">Latest</button><button class="tab">Trending</button><button class="tab">Top Voted</button><button class="tab on">Categories</button><button class="tab">Random</button><button class="tab" onclick="location.href='submit.html'">Submit</button></div></nav>
+
+  <main><div class="wrap">
+    <div class="issue"><span class="live"></span>VOL. 01 &middot; ISSUE 26 &middot; JUN 2026</div>
+    <div class="sec"><h2>Browse by Category</h2><div class="sub">7 categories &middot; pick one to filter the index</div></div>
+    <div class="grid" id="grid"></div>
+    <footer style="margin-top:64px;padding-top:18px;border-top:1.5px solid var(--ink);font-family:var(--font-mono);font-size:10px;color:var(--text-muted);letter-spacing:.05em">XBUTFORY &copy; 2026 &middot; VOL. 01 &middot; AN INDEX OF DUBIOUS BRILLIANCE</footer>
+  </div></main>
+
+<script>
+  var CATS=[
+    {v:'--cat-dating',s:'DATING',n:'Dating &amp; Hookups',c:3,ex:'Tinder · Hinge · Grindr'},
+    {v:'--cat-crm',s:'CRM',n:'CRM &amp; Sales',c:3,ex:'Salesforce · HubSpot · Pipedrive'},
+    {v:'--cat-discovery',s:'DISCOVER',n:'Metasearch &amp; Discovery',c:3,ex:'Kayak · SeatGeek · Google Flights'},
+    {v:'--cat-saas',s:'SAAS',n:'SaaS &amp; Productivity',c:4,ex:'Notion · Figma · GitHub'},
+    {v:'--cat-payments',s:'FINANCE',n:'Payments &amp; Finance',c:3,ex:'Stripe · Venmo · Robinhood'},
+    {v:'--cat-social',s:'SOCIAL',n:'Social &amp; Links',c:3,ex:'Linktree · LinkedIn · Twitter'},
+    {v:'--cat-logistics',s:'SERVICES',n:'Logistics &amp; Services',c:3,ex:'Uber · Airbnb · DoorDash'}
+  ];
+  document.getElementById('grid').innerHTML=CATS.map(function(t){
+    return '<div class="tile" onclick="location.href=\'index.html\'">'
+      +'<div class="th"><span class="dot" style="background:var('+t.v+')"></span><span class="sc" style="color:var('+t.v+')">'+t.s+'</span><span class="ct">'+t.c+'</span></div>'
+      +'<div class="tn">'+t.n+'</div><div class="ts">'+t.ex+'</div></div>';
+  }).join('');
+</script>
+</body>
+</html>

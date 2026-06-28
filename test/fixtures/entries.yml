@@ -1,0 +1,20 @@
+one:
+  x: Tinder
+  'y': the building you live in
+  description: Swipe on your neighbors.
+  url: https://example.com
+  submitter: apt_4b
+  category: consumer
+  stamp: new
+  votes_count: 342
+  slug: tinder-but-for-the-building-you-live-in
+
+two:
+  x: Stripe
+  'y': lemonade stands
+  description: Payments for kids.
+  url: https://example.com
+  submitter: squeezed_ceo
+  category: fintech
+  votes_count: 287
+  slug: stripe-but-for-lemonade-stands

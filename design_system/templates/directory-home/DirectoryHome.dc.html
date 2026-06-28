@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Directory — Home / Latest" description="The XbutforY broadsheet home: masthead, sticky nav, hero stats, and a voteable feed with sponsored placements." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+@keyframes xbfy-pulse{0%,100%{opacity:1}50%{opacity:.22}}
+body{margin:0;color:var(--ink);font-family:var(--font-sans);font-size:15px;line-height:1.5;background-color:var(--paper);background-image:var(--bloom-layer);background-repeat:no-repeat,no-repeat,repeat,repeat,repeat;background-size:100% 940px,100% 720px,17px 17px,17px 17px,160px 160px;background-position:top center,top left,0 0,8.5px 8.5px,top left}
+</style>
+</helmet>
+
+<div style="background:var(--ink);color:var(--on-dark-muted)">
+  <div style="max-width:var(--content-max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px var(--page-gutter);font-family:var(--font-mono);font-size:11px;letter-spacing:.03em">
+    <span><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;animation:xbfy-pulse 2.4s ease-in-out infinite"></span>est. 2026 — vol. 1, issue 26</span>
+    <span><a href="#" style="color:var(--on-dark-muted);text-decoration:none;margin-left:20px">Sign in</a><a href="#" style="color:var(--on-dark);text-decoration:none;margin-left:20px">Create account</a></span>
+  </div>
+</div>
+
+<header style="max-width:var(--content-max);margin:0 auto;padding:0 var(--page-gutter)">
+  <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.32em;color:var(--text-muted);margin:24px 0 5px">THE DIRECTORY OF</div>
+  <div style="font-family:var(--font-display);font-weight:700;font-size:clamp(44px,6.6vw,66px);line-height:.9;letter-spacing:-.012em;cursor:pointer">X<span style="color:var(--accent)">but</span>forY.</div>
+  <div style="display:flex;align-items:center;gap:10px;margin-top:20px;flex-wrap:wrap">
+    <div style="flex:1;min-width:220px;position:relative">
+      <input placeholder="Try ‘Tinder but for…’" style="width:100%;padding:11px 14px 11px 38px;background:var(--surface-card);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:14px;color:var(--ink)" />
+      <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text-faint);font-size:16px;pointer-events:none">⚲</span>
+    </div>
+    <button style="display:inline-flex;align-items:center;gap:7px;border-radius:8px;cursor:pointer;font-family:var(--font-sans);font-size:14px;white-space:nowrap;border:1px solid var(--border-input);padding:10px 16px;background:var(--surface-card);font-weight:500;color:var(--ink);box-shadow:0 1px 2px rgba(74,52,28,.05)">📡 RSS</button>
+    <button style="display:inline-flex;align-items:center;gap:7px;border-radius:8px;cursor:pointer;font-family:var(--font-sans);font-size:14px;white-space:nowrap;border:1px solid transparent;padding:10px 18px;background:var(--accent);color:#fff;font-weight:600;box-shadow:var(--shadow-button)"><span style="font-size:17px;margin-top:-1px">+</span> Submit a Site</button>
+  </div>
+</header>
+
+<nav style="position:sticky;top:0;z-index:100;background:var(--paper);border-top:1px solid var(--border-nav-top);border-bottom:1.5px solid var(--ink);margin-top:18px">
+  <div style="max-width:var(--content-max);margin:0 auto;display:flex;gap:24px;overflow-x:auto;padding:0 var(--page-gutter)">
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:600;color:var(--ink);padding:14px 2px;border-bottom:2px solid var(--accent);white-space:nowrap">Latest</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Trending</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Top Voted</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Categories</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Random</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Submit</button>
+  </div>
+</nav>
+
+<main style="padding:34px 0 90px">
+  <div style="max-width:var(--content-max);margin:0 auto;padding:0 var(--page-gutter)">
+    <div style="display:inline-flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;color:var(--text-muted)"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:xbfy-pulse 2.4s ease-in-out infinite"></span>VOL. 01 · ISSUE 26 · JUN 2026</div>
+    <h1 style="font-family:var(--font-display);font-size:clamp(26px,3.5vw,40px);font-weight:500;margin:14px 0 0;line-height:1.2;letter-spacing:-.005em;max-width:880px;text-wrap:pretty">A hand-curated index of <i>newly launched</i> websites that pitch themselves as <code style="font-family:var(--font-mono);font-size:.64em;background:var(--surface-sunken);border:1px solid var(--border-input);border-radius:4px;padding:2px 9px;white-space:nowrap;vertical-align:middle">X but for Y</code>. Updated daily, voted by humans.</h1>
+    <div style="height:3px;width:clamp(150px,26%,240px);margin-top:20px;border-radius:2px;background:var(--spectral)"></div>
+
+    <div style="display:flex;align-items:flex-end;gap:24px;margin-top:30px;flex-wrap:wrap">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;color:var(--text-muted);margin-bottom:4px">IN THE INDEX</div>
+        <div style="font-family:var(--font-display);font-size:clamp(46px,6.6vw,66px);font-weight:700;line-height:.82">18</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;padding-bottom:7px">
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--accent);display:inline-flex;align-items:center;gap:6px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:xbfy-pulse 2.4s ease-in-out infinite"></span>2 new today</span>
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">7 categories · voted by humans</span>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:26px;padding-bottom:13px;border-bottom:2px solid var(--ink)">
+      <div>
+        <h2 style="font-family:var(--font-display);font-size:27px;font-weight:700;margin:0;line-height:1">Latest Submissions</h2>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:7px">Showing 1–6 of 18</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px">
+        <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-faint);letter-spacing:.08em">SORT</span>
+        <div style="display:flex;gap:2px;background:var(--surface-rail);padding:3px;border-radius:6px">
+          <button style="font-family:var(--font-sans);font-size:12px;font-weight:600;padding:5px 13px;cursor:pointer;border:none;border-radius:4px;background:var(--surface-card);color:var(--ink);box-shadow:0 1px 2px rgba(23,16,8,.13)">Newest</button>
+          <button style="font-family:var(--font-sans);font-size:12px;font-weight:500;padding:5px 13px;cursor:pointer;border:none;border-radius:4px;background:transparent;color:var(--text-muted)">Hot</button>
+          <button style="font-family:var(--font-sans);font-size:12px;font-weight:500;padding:5px 13px;cursor:pointer;border:none;border-radius:4px;background:transparent;color:var(--text-muted)">Top</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface-card);border:1.5px solid var(--sponsor);border-radius:10px;margin-top:16px;cursor:pointer;box-shadow:var(--shadow-pin);overflow:hidden;background:linear-gradient(0deg, var(--sponsor-tint), var(--sponsor-tint)), var(--surface-card);transition:transform .18s" style-hover="transform:translateY(-2px)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 22px;background:var(--sponsor);color:#fff;font-family:var(--font-mono);font-size:10px;letter-spacing:.12em">
+        <span>★ PINNED SPONSOR</span><span style="opacity:.82;font-size:9px">FEATURED PLACEMENT</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:18px;padding:20px 22px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;width:64px;flex-shrink:0;padding:10px 0 8px;background:#fff;border:1px solid var(--border-card);border-radius:9px;box-shadow:var(--shadow-inset)">
+          <span style="font-size:11px;line-height:1;color:var(--text-faint-2)">▲</span>
+          <span style="font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1">2.3k</span>
+          <span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;color:var(--text-faint-2)">VOTES</span>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="font-family:var(--font-display);font-size:21px;font-weight:700;line-height:1.12">Linear<span style="font-style:italic;font-weight:400;color:var(--text-soft);font-size:.8em"> but for </span>Wedding Planning</span>
+          </div>
+          <p style="margin:8px 0 12px;font-size:14px;font-weight:300;line-height:1.5;color:var(--text-body);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Issue tracking, but every bug is a seating-chart crisis. Roadmaps for the aisle, sprints for the caterer.</p>
+          <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid;border-radius:4px;color:var(--cat-saas);border-color:color-mix(in srgb, var(--cat-saas) 45%, transparent)">SAAS</span>
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">submitted by @altar_ego · 1 day ago</span>
+            <a href="#" style="margin-left:auto;font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--sponsor);text-decoration:none;white-space:nowrap">visit site →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;margin-top:16px;cursor:pointer;box-shadow:var(--shadow-card);overflow:hidden;transition:border-color .18s,box-shadow .18s,transform .18s" style-hover="border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)">
+      <div style="display:flex;align-items:flex-start;gap:18px;padding:20px 22px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;width:64px;flex-shrink:0;padding:10px 0 8px;background:#fff;border:1px solid var(--border-card);border-radius:9px;box-shadow:var(--shadow-inset)">
+          <span style="font-size:11px;line-height:1;color:var(--text-faint-2)">▲</span>
+          <span style="font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1">1.1k</span>
+          <span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;color:var(--text-faint-2)">VOTES</span>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-faint)">#001</span>
+            <span style="font-family:var(--font-display);font-size:21px;font-weight:700;line-height:1.12">Uber<span style="font-style:italic;font-weight:400;color:var(--text-soft);font-size:.8em"> but for </span>Horses</span>
+            <span style="font-family:var(--font-mono);font-weight:700;font-size:10px;letter-spacing:.12em;padding:3px 8px;border:1.5px solid;border-radius:3px;transform:rotate(-3deg);color:var(--stamp-new);border-color:var(--stamp-new)">NEW</span>
+          </div>
+          <p style="margin:8px 0 12px;font-size:14px;font-weight:300;line-height:1.5;color:var(--text-body);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Request horse transport in places cars literally cannot reach. Big in Appalachian trail towns and rural Montana.</p>
+          <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid;border-radius:4px;color:var(--cat-logistics);border-color:color-mix(in srgb, var(--cat-logistics) 45%, transparent)">SERVICES</span>
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">submitted by @trailblazer · yesterday</span>
+            <a href="#" style="margin-left:auto;font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--accent);text-decoration:none;white-space:nowrap">visit site →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;margin-top:16px;cursor:pointer;box-shadow:var(--shadow-card);overflow:hidden;transition:border-color .18s,box-shadow .18s,transform .18s" style-hover="border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)">
+      <div style="display:flex;align-items:flex-start;gap:18px;padding:20px 22px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;width:64px;flex-shrink:0;padding:10px 0 8px;background:#fff;border:1px solid var(--border-card);border-radius:9px;box-shadow:var(--shadow-inset)">
+          <span style="font-size:11px;line-height:1;color:var(--text-faint-2)">▲</span>
+          <span style="font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1">923</span>
+          <span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;color:var(--text-faint-2)">VOTES</span>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-faint)">#002</span>
+            <span style="font-family:var(--font-display);font-size:21px;font-weight:700;line-height:1.12">Stripe<span style="font-style:italic;font-weight:400;color:var(--text-soft);font-size:.8em"> but for </span>Lemonade Stands</span>
+            <span style="font-family:var(--font-mono);font-weight:700;font-size:10px;letter-spacing:.12em;padding:3px 8px;border:1.5px solid;border-radius:3px;transform:rotate(-3deg);color:var(--stamp-new);border-color:var(--stamp-new)">NEW</span>
+          </div>
+          <p style="margin:8px 0 12px;font-size:14px;font-weight:300;line-height:1.5;color:var(--text-body);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Tap-to-pay for kids aged 6–16, where a parent approves every transaction. Teach entrepreneurship without a shoebox of damp dollar bills.</p>
+          <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid;border-radius:4px;color:var(--cat-payments);border-color:color-mix(in srgb, var(--cat-payments) 45%, transparent)">FINANCE</span>
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">submitted by @dadof3 · yesterday</span>
+            <a href="#" style="margin-left:auto;font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--accent);text-decoration:none;white-space:nowrap">visit site →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface-card);border:1.5px solid var(--sponsor);border-radius:10px;margin-top:16px;cursor:pointer;box-shadow:var(--shadow-sponsor);overflow:hidden;transition:transform .18s" style-hover="transform:translateY(-2px)">
+      <div style="display:flex;align-items:flex-start;gap:18px;padding:20px 22px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;width:64px;flex-shrink:0;padding:10px 0 8px;background:#fff;border:1px solid var(--border-card);border-radius:9px;box-shadow:var(--shadow-inset)">
+          <span style="font-size:11px;line-height:1;color:var(--text-faint-2)">▲</span>
+          <span style="font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1">847</span>
+          <span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;color:var(--text-faint-2)">VOTES</span>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-faint)">#003</span>
+            <span style="font-family:var(--font-display);font-size:21px;font-weight:700;line-height:1.12">Tinder<span style="font-style:italic;font-weight:400;color:var(--text-soft);font-size:.8em"> but for </span>the Building You Live In</span>
+            <span style="font-family:var(--font-mono);font-weight:700;font-size:10px;letter-spacing:.12em;padding:3px 8px;border:1.5px solid;border-radius:3px;transform:rotate(-3deg);color:var(--stamp-hot);border-color:var(--stamp-hot)">HOT</span>
+          </div>
+          <p style="margin:8px 0 12px;font-size:14px;font-weight:300;line-height:1.5;color:var(--text-body);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Why scroll through a whole city of strangers when the love of your life might share your elevator? Floormate matches verified residents inside your building only.</p>
+          <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid;border-radius:4px;color:var(--sponsor-tag);border-color:color-mix(in srgb, var(--sponsor-tag) 45%, transparent)">SPONSORED</span>
+            <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid;border-radius:4px;color:var(--cat-dating);border-color:color-mix(in srgb, var(--cat-dating) 45%, transparent)">DATING</span>
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">submitted by @apt_4b · 2 days ago</span>
+            <a href="#" style="margin-left:auto;font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--sponsor);text-decoration:none;white-space:nowrap">visit site →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;margin-top:16px;cursor:pointer;box-shadow:var(--shadow-card);overflow:hidden;transition:border-color .18s,box-shadow .18s,transform .18s" style-hover="border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)">
+      <div style="display:flex;align-items:flex-start;gap:18px;padding:20px 22px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;width:64px;flex-shrink:0;padding:10px 0 8px;background:#fff;border:1px solid var(--border-card);border-radius:9px;box-shadow:var(--shadow-inset)">
+          <span style="font-size:11px;line-height:1;color:var(--text-faint-2)">▲</span>
+          <span style="font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1">1.5k</span>
+          <span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;color:var(--text-faint-2)">VOTES</span>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-faint)">#004</span>
+            <span style="font-family:var(--font-display);font-size:21px;font-weight:700;line-height:1.12">Notion<span style="font-style:italic;font-weight:400;color:var(--text-soft);font-size:.8em"> but for </span>Recipes</span>
+            <span style="font-family:var(--font-mono);font-weight:700;font-size:10px;letter-spacing:.12em;padding:3px 8px;border:1.5px solid;border-radius:3px;transform:rotate(-3deg);color:var(--stamp-hot);border-color:var(--stamp-hot)">HOT</span>
+          </div>
+          <p style="margin:8px 0 12px;font-size:14px;font-weight:300;line-height:1.5;color:var(--text-body);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Linked databases for ingredients, shopping lists and meal plans — relational data, finally serving your dinner parties.</p>
+          <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid;border-radius:4px;color:var(--cat-saas);border-color:color-mix(in srgb, var(--cat-saas) 45%, transparent)">SAAS</span>
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">submitted by @hungrybuilder · 2 days ago</span>
+            <a href="#" style="margin-left:auto;font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--accent);text-decoration:none;white-space:nowrap">visit site →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;margin-top:16px;cursor:pointer;box-shadow:var(--shadow-card);overflow:hidden;transition:border-color .18s,box-shadow .18s,transform .18s" style-hover="border-color:var(--border-card-hover);box-shadow:var(--shadow-card-hover);transform:translateY(-2px)">
+      <div style="display:flex;align-items:flex-start;gap:18px;padding:20px 22px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;width:64px;flex-shrink:0;padding:10px 0 8px;background:#fff;border:1px solid var(--border-card);border-radius:9px;box-shadow:var(--shadow-inset)">
+          <span style="font-size:11px;line-height:1;color:var(--text-faint-2)">▲</span>
+          <span style="font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1">891</span>
+          <span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;color:var(--text-faint-2)">VOTES</span>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-faint)">#005</span>
+            <span style="font-family:var(--font-display);font-size:21px;font-weight:700;line-height:1.12">Kayak<span style="font-style:italic;font-weight:400;color:var(--text-soft);font-size:.8em"> but for </span>Restaurant Tables</span>
+          </div>
+          <p style="margin:8px 0 12px;font-size:14px;font-weight:300;line-height:1.5;color:var(--text-body);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Compare availability and pricing across every reservation platform at once — OpenTable, Resy, Tock — in one search grid.</p>
+          <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid;border-radius:4px;color:var(--cat-discovery);border-color:color-mix(in srgb, var(--cat-discovery) 45%, transparent)">DISCOVER</span>
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">submitted by @foodie · 5 days ago</span>
+            <a href="#" style="margin-left:auto;font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--accent);text-decoration:none;white-space:nowrap">visit site →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer style="margin-top:64px;padding-top:18px;border-top:1.5px solid var(--ink);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:var(--font-mono);font-size:10px;color:var(--text-muted);letter-spacing:.05em">
+      <span>XBUTFORY © 2026 · VOL. 01 · AN INDEX OF DUBIOUS BRILLIANCE</span>
+      <span style="color:var(--text-faint)">made for builders, by a builder (again)</span>
+    </footer>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:880}}"></script>
+</body>
+</html>

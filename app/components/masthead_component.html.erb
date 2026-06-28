@@ -1,0 +1,23 @@
+<header class="c-masthead">
+  <p class="c-masthead__eyebrow">The Directory Of</p>
+  <h1 class="c-masthead__wordmark">Xbutfor<span class="c-masthead__wordmark-y">Y.</span></h1>
+  <p class="c-masthead__dek"><%= @dek %></p>
+  <div class="c-masthead__spectral-rule"></div>
+  <div class="c-masthead__actions">
+    <div class="c-masthead__search-slot">
+      <% if search_slot? %>
+        <%= search_slot %>
+      <% else %>
+        <div class="c-masthead__search-placeholder"></div>
+      <% end %>
+    </div>
+    <div class="c-masthead__action-buttons">
+      <button class="c-masthead__rss-btn" aria-label="RSS feed">📡</button>
+      <% if submit_slot? %>
+        <%= submit_slot %>
+      <% else %>
+        <%= link_to "Submit", "#", class: "c-masthead__submit-btn" %>
+      <% end %>
+    </div>
+  </div>
+</header>

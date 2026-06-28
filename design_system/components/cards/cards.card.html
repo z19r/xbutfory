@@ -1,0 +1,37 @@
+<!-- @dsCard group="Components" viewport="700x360" subtitle="EntryCard · CategoryTile" name="Cards" -->
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body{margin:0;font-family:var(--font-sans);background:var(--paper);color:var(--ink);padding:22px}
+  .card{display:flex;align-items:flex-start;gap:18px;padding:20px 22px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;box-shadow:var(--shadow-card)}
+  .vote{display:flex;flex-direction:column;align-items:center;gap:2px;width:64px;flex-shrink:0;padding:10px 0 8px;background:#fff;border:1px solid var(--border-card);border-radius:9px;box-shadow:var(--shadow-inset)}
+  .vc{font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1}
+  .ttl{font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1.12}
+  .conn{font-style:italic;font-weight:400;color:var(--text-soft);font-size:.8em}
+  .stamp{font-family:var(--font-mono);font-weight:700;font-size:10px;letter-spacing:.12em;padding:3px 8px;border:1.5px solid var(--stamp-new);color:var(--stamp-new);border-radius:3px;transform:rotate(-3deg)}
+  .desc{margin:8px 0 12px;font-size:14px;font-weight:300;line-height:1.5;color:var(--text-body)}
+  .tag{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid #B5472D66;color:var(--cat-dating);border-radius:4px}
+  .meta{font-family:var(--font-mono);font-size:11px;color:var(--text-muted)}
+  .visit{margin-left:auto;font-size:13px;font-weight:500;color:var(--accent);text-decoration:none}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+  .tile{padding:18px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;box-shadow:var(--shadow-tile)}
+  .th{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+  .dot{width:10px;height:10px;border-radius:2px}
+  .sc{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em}
+  .ct{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-faint)}
+  .tn{font-family:var(--font-display);font-size:19px;font-weight:600;line-height:1.1}
+  .ts{margin-top:8px;font-size:12px;font-weight:300;color:var(--text-soft)}
+</style></head><body>
+  <div class="card">
+    <div class="vote"><span style="font-size:11px;color:var(--text-faint-2)">&#9650;</span><span class="vc">847</span><span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;color:var(--text-faint-2)">VOTES</span></div>
+    <div style="flex:1;min-width:0">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="font-family:var(--font-mono);font-size:12px;color:var(--text-faint)">#001</span><span class="ttl">Tinder<span class="conn"> but for </span>the Building you live in</span><span class="stamp">NEW</span></div>
+      <p class="desc">Hyper-local matching for vertical communities. Trade sugar or find a gym partner downstairs.</p>
+      <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap"><span class="tag">DATING</span><span class="meta">submitted by @apt_4b &middot; yesterday</span><a class="visit">visit site &rarr;</a></div>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="tile"><div class="th"><span class="dot" style="background:var(--cat-saas)"></span><span class="sc" style="color:var(--cat-saas)">SAAS</span><span class="ct">4</span></div><div class="tn">SaaS &amp; Productivity</div><div class="ts">Notion · Figma · GitHub</div></div>
+    <div class="tile"><div class="th"><span class="dot" style="background:var(--cat-payments)"></span><span class="sc" style="color:var(--cat-payments)">FINANCE</span><span class="ct">3</span></div><div class="tn">Payments &amp; Finance</div><div class="ts">Stripe · Venmo · Robinhood</div></div>
+  </div>
+</body></html>

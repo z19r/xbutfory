@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Directory — Submit a Site" description="The submit form with a live ‘X but for Y’ preview and free / featured listing tiers." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+@keyframes xbfy-pulse{0%,100%{opacity:1}50%{opacity:.22}}
+body{margin:0;color:var(--ink);font-family:var(--font-sans);font-size:15px;line-height:1.5;background-color:var(--paper);background-image:var(--bloom-layer);background-repeat:no-repeat,no-repeat,repeat,repeat,repeat;background-size:100% 940px,100% 720px,17px 17px,17px 17px,160px 160px;background-position:top center,top left,0 0,8.5px 8.5px,top left}
+</style>
+</helmet>
+
+<div style="background:var(--ink);color:var(--on-dark-muted)">
+  <div style="max-width:var(--content-max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px var(--page-gutter);font-family:var(--font-mono);font-size:11px;letter-spacing:.03em">
+    <span><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;animation:xbfy-pulse 2.4s ease-in-out infinite"></span>est. 2026 — vol. 1, issue 26</span>
+    <span><a href="#" style="color:var(--on-dark-muted);text-decoration:none;margin-left:20px">Sign in</a><a href="#" style="color:var(--on-dark);text-decoration:none;margin-left:20px">Create account</a></span>
+  </div>
+</div>
+
+<header style="max-width:var(--content-max);margin:0 auto;padding:0 var(--page-gutter)">
+  <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.32em;color:var(--text-muted);margin:24px 0 5px">THE DIRECTORY OF</div>
+  <div style="font-family:var(--font-display);font-weight:700;font-size:clamp(40px,6vw,60px);line-height:.9;letter-spacing:-.012em">X<span style="color:var(--accent)">but</span>forY.</div>
+</header>
+
+<nav style="border-top:1px solid var(--border-nav-top);border-bottom:1.5px solid var(--ink);margin-top:18px">
+  <div style="max-width:var(--content-max);margin:0 auto;display:flex;gap:24px;overflow-x:auto;padding:0 var(--page-gutter)">
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Latest</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Trending</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Top Voted</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Categories</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:400;color:var(--text-muted);padding:14px 2px;border-bottom:2px solid transparent;white-space:nowrap">Random</button>
+    <button style="background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:600;color:var(--ink);padding:14px 2px;border-bottom:2px solid var(--accent);white-space:nowrap">Submit</button>
+  </div>
+</nav>
+
+<main style="max-width:600px;margin:0 auto;padding:46px 24px 90px">
+  <h1 style="font-family:var(--font-display);font-size:42px;font-weight:700;margin:0 0 8px;line-height:1.05">Submit a Site</h1>
+  <p style="color:var(--text-muted);margin:0 0 36px;font-weight:300">Free to list in the directory. $1.99 buys a featured homepage spot.</p>
+
+  <div style="margin-bottom:20px">
+    <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;margin-bottom:7px">The X — what existing product inspired it?</label>
+    <input value="{{ x }}" onInput="{{ onX }}" placeholder="Tinder, Salesforce, Notion…" style="width:100%;padding:11px 14px;background:var(--surface-card);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:15px;color:var(--ink)" />
+  </div>
+  <div style="margin-bottom:20px">
+    <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;margin-bottom:7px">The Y — what oddly-specific niche does it serve?</label>
+    <input value="{{ y }}" onInput="{{ onY }}" placeholder="Dog parks, lemonade stands, retirement homes…" style="width:100%;padding:11px 14px;background:var(--surface-card);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:15px;color:var(--ink)" />
+  </div>
+
+  <div style="padding:20px 22px;background:var(--surface-sunken);border:1.5px dashed var(--placeholder);border-radius:10px;margin-bottom:22px">
+    <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);display:block;margin-bottom:9px;letter-spacing:.07em;text-transform:uppercase">Live preview</span>
+    <span style="font-family:var(--font-display);font-size:27px;font-weight:700;line-height:1.2">{{ px }}<span style="color:var(--text-soft);font-style:italic;font-weight:400;font-size:.66em"> but for </span>{{ py }}</span>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;margin-bottom:7px">Product name</label>
+    <input placeholder="Floormate, LightSeek, Squeeze…" style="width:100%;padding:11px 14px;background:var(--surface-card);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:15px;color:var(--ink)" />
+  </div>
+  <div style="margin-bottom:20px">
+    <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;margin-bottom:7px">Product URL</label>
+    <input placeholder="https://…" style="width:100%;padding:11px 14px;background:var(--surface-card);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:15px;color:var(--ink)" />
+  </div>
+  <div style="margin-bottom:20px">
+    <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;margin-bottom:7px">One-line pitch <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
+    <textarea rows="2" placeholder="What makes this one actually good…" style="width:100%;padding:11px 14px;background:var(--surface-card);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:15px;color:var(--ink);resize:vertical;line-height:1.5"></textarea>
+  </div>
+  <div style="margin-bottom:20px">
+    <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;margin-bottom:7px">Category</label>
+    <select style="width:100%;padding:11px 14px;background:var(--surface-card);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:15px;color:var(--ink)"><option>SaaS &amp; Productivity</option><option>Dating &amp; Hookups</option><option>CRM &amp; Sales</option><option>Metasearch &amp; Discovery</option><option>Payments &amp; Finance</option><option>Social &amp; Links</option><option>Logistics &amp; Services</option></select>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <label style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;margin-bottom:7px">Listing type</label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <sc-if value="{{ freeActive }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ onFree }}" style="padding:15px 16px;cursor:pointer;border-radius:6px;background:var(--ink);color:var(--on-dark);border:1.5px solid var(--ink)">
+          <div style="font-weight:600;font-size:14px;margin-bottom:3px">Free listing</div>
+          <div style="font-size:12px;opacity:.75;font-weight:300">Indexed within 24h</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ freeInactive }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ onFree }}" style="padding:15px 16px;cursor:pointer;border-radius:6px;background:var(--surface-card);color:var(--ink);border:1.5px solid var(--border-input)">
+          <div style="font-weight:600;font-size:14px;margin-bottom:3px">Free listing</div>
+          <div style="font-size:12px;opacity:.75;font-weight:300">Indexed within 24h</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ featActive }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ onFeat }}" style="padding:15px 16px;cursor:pointer;border-radius:6px;background:var(--accent);color:#fff;border:1.5px solid var(--accent)">
+          <div style="font-weight:600;font-size:14px;margin-bottom:3px">Featured — $1.99</div>
+          <div style="font-size:12px;opacity:.75;font-weight:300">Homepage spot + boost</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ featInactive }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ onFeat }}" style="padding:15px 16px;cursor:pointer;border-radius:6px;background:var(--surface-card);color:var(--ink);border:1.5px solid var(--border-input)">
+          <div style="font-weight:600;font-size:14px;margin-bottom:3px">Featured — $1.99</div>
+          <div style="font-size:12px;opacity:.75;font-weight:300">Homepage spot + boost</div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <button style="width:100%;padding:14px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-family:var(--font-sans);font-size:15px;font-weight:500;border-radius:6px;margin-top:6px">{{ cta }}</button>
+  <p style="font-family:var(--font-mono);font-size:10px;color:var(--text-faint);text-align:center;margin:14px 0 0">no account needed · no spam · takes 30 seconds</p>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:760,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = { x: '', y: '', tier: 'free' };
+
+  renderVals() {
+    const { x, y, tier } = this.state;
+    const freeOn = tier === 'free';
+    return {
+      x, y,
+      px: x.trim() || 'X',
+      py: y.trim() || 'Y',
+      onX: (e) => this.setState({ x: e.target.value }),
+      onY: (e) => this.setState({ y: e.target.value }),
+      freeActive: freeOn,
+      freeInactive: !freeOn,
+      featActive: !freeOn,
+      featInactive: freeOn,
+      onFree: () => this.setState({ tier: 'free' }),
+      onFeat: () => this.setState({ tier: 'feat' }),
+      cta: (freeOn ? 'Submit for free' : 'Launch for $1.99') + ' →'
+    };
+  }
+}
+</script>
+</body>
+</html>

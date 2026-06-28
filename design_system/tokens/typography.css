@@ -1,0 +1,45 @@
+/* XbutforY type system — three registers, each with a job:
+   serif = editorial voice, mono = technical voice, sans = plain UI voice. */
+:root {
+  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-mono:    'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans:    'Outfit', system-ui, -apple-system, Segoe UI, sans-serif;
+
+  /* Weights */
+  --fw-light:    300; /* @kind font */
+  --fw-regular:  400; /* @kind font */
+  --fw-medium:   500; /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+  --fw-bold:     700; /* @kind font */
+
+  /* Display sizes — Newsreader, fluid where it anchors a page */
+  --type-logo:       clamp(44px, 6.6vw, 66px); /* wordmark, weight 700 */
+  --type-stat:       clamp(46px, 6.6vw, 66px); /* big index number, 700, line-height .82 */
+  --type-hero:       clamp(26px, 3.5vw, 40px); /* hero dek, weight 500, line-height 1.2 */
+  --type-h2:         27px;                      /* section headers, 700 */
+  --type-card-title: 21px;                      /* "X but for Y" entry title, 700 */
+  --type-tile-title: 19px;                      /* category tile name, 600 */
+
+  /* Mono labels — always UPPERCASE, letter-spaced */
+  --type-eyebrow: 12px; /* "THE DIRECTORY OF" — tracking .32em */
+  --type-label:   10px; /* "IN THE INDEX" — tracking .14em */
+  --type-meta:    11px; /* timestamps, submitter, issue line */
+  --type-micro:   9px;  /* field labels, category short codes */
+  --type-nano:    8px;  /* "VOTES" under the caret */
+
+  /* Sans body */
+  --type-body:    15px; /* base */
+  --type-body-sm: 14px; /* card descriptions, buttons */
+  --type-body-xs: 13px; /* "visit site", secondary actions */
+
+  /* Line-heights */
+  --lh-body:  1.5; /* @kind font */
+  --lh-tight: 1.12; /* @kind font */
+  --lh-hero:  1.2; /* @kind font */
+
+  /* Tracking */
+  --track-eyebrow: 0.32em; /* @kind font */
+  --track-label:   0.14em; /* @kind font */
+  --track-mono:    0.06em; /* @kind font */
+  --track-tight:  -0.012em; /* @kind font */
+}

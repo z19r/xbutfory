@@ -1,0 +1,26 @@
+.c-stamp {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: var(--radius-sharp);
+  border: 1.5px solid;
+}
+
+.c-stamp--new {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.c-stamp--sponsored {
+  color: var(--sponsored);
+  border-color: var(--sponsored);
+}
+
+.c-stamp--featured {
+  color: var(--text-muted);
+  border-color: var(--border-default);
+}
