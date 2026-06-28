@@ -125,7 +125,7 @@ Reference: `CategoriesScreen.jsx`, `categories.html`. Files: `app/views/categori
 
 ## P2 — Home polish & sponsored placements
 
-- [ ] **REGRESSION**: home hero is missing its issue dateline (`● VOL. 01 · ISSUE 26 · JUN 2026`) above the dek — it was dropped from `home.html.erb` at some point. Restore it (mono 12px, letter-spacing .12em, `--text-muted`, live dot).
+- [x] **REGRESSION FIXED** (commit 647fbef): restored home hero issue dateline + `<i>newly launched</i>` italic; added regression tests.
 - [ ] Verify/complete sponsored card variants on the feed: PINNED (ribbon "★ PINNED SPONSOR / Learn more →", `--sponsor-tint` wash, `--shadow-pin`) and SPOTLIGHT (`--shadow-sponsor` magenta glow, SPONSORED tag in `--sponsor-tag`)
 - [ ] Confirm pinned sponsor renders at top, spotlight mid-feed (per reference ORG/PINNED/SPOTLIGHT logic)
 - [x] Re-verify card category-tag hues after 0.2 reseed
