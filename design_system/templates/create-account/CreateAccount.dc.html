@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Account — Create Account" description="Member signup in the maximal style. Picks the public @handle stamped on every submission; accounts are mandatory to post." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+@keyframes xbfy-pulse{0%,100%{opacity:1}50%{opacity:.22}}
+body{margin:0;color:var(--ink);font-family:var(--font-sans);font-size:15px;line-height:1.5;background-color:var(--paper);background-image:radial-gradient(820px 460px at 50% -8%, var(--bloom-rose), transparent 70%),radial-gradient(680px 420px at 92% 4%, var(--bloom-amber), transparent 72%),var(--dots),var(--dots),var(--grain);background-repeat:no-repeat,no-repeat,repeat,repeat,repeat;background-size:100% 720px,100% 600px,17px 17px,17px 17px,160px 160px;background-position:top center,top right,0 0,8.5px 8.5px,top left}
+input:focus{outline:2px solid color-mix(in srgb, var(--accent) 40%, transparent);outline-offset:1px}
+.xbfy-link{color:var(--accent);text-decoration:none}
+</style>
+</helmet>
+
+<div style="background:var(--ink);color:var(--on-dark-muted)">
+  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 28px;font-family:var(--font-mono);font-size:12px;letter-spacing:.02em">
+    <span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:9px;vertical-align:middle;animation:xbfy-pulse 2.4s ease-in-out infinite"></span>est. 2026 — vol. 1, issue 26</span>
+    <span><a href="#" style="color:var(--on-dark-muted);text-decoration:none;margin-left:22px">Sign in</a><a href="#" style="color:var(--on-dark);text-decoration:none;margin-left:22px">Create account</a></span>
+  </div>
+</div>
+
+<main style="min-height:calc(100vh - 38px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 22px">
+  <div style="width:100%;max-width:452px">
+    <div style="text-align:center;margin-bottom:20px">
+      <a href="#" style="text-decoration:none;font-family:var(--font-display);font-weight:700;font-size:34px;line-height:.9;letter-spacing:-.014em;color:var(--ink)">X<span style="color:var(--accent)">but</span>forY.</a>
+    </div>
+
+    <div style="background:linear-gradient(180deg,var(--surface-card),#FCFAF5);border:1px solid var(--border-card);border-radius:12px;box-shadow:var(--shadow-card-hover);padding:30px">
+      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;color:var(--text-muted);margin-bottom:8px">JOIN THE INDEX</div>
+      <h1 style="font-family:var(--font-display);font-size:28px;font-weight:700;line-height:1.05;margin:0 0 6px">Claim your handle.</h1>
+      <p style="margin:0 0 22px;font-family:var(--font-sans);font-size:14px;font-weight:300;color:var(--text-body)">One account, one byline. Everything you submit is stamped with your <span style="font-family:var(--font-mono);color:var(--accent)">@handle</span>.</p>
+
+      <label style="display:block;margin-bottom:6px">
+        <span style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:7px">
+          <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--text-muted)">HANDLE</span>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--status-live)">{{ availability }}</span>
+        </span>
+        <span style="position:relative;display:block">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:var(--font-mono);font-size:14px;color:var(--text-faint);pointer-events:none">@</span>
+          <input value="{{ handle }}" onInput="{{ onHandle }}" placeholder="apt_4b" style="width:100%;padding:11px 13px 11px 30px;box-sizing:border-box;background:var(--surface-sunken);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-mono);font-size:14px;color:var(--ink)" />
+        </span>
+      </label>
+      <p style="margin:0 0 16px;font-family:var(--font-sans);font-size:12px;font-weight:300;color:var(--text-soft)">Public &amp; permanent. This is your byline on every listing — choose wisely.</p>
+
+      <label style="display:block;margin-bottom:14px">
+        <span style="display:block;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--text-muted);margin-bottom:7px">EMAIL</span>
+        <input type="email" placeholder="you@domain.com" style="width:100%;padding:11px 13px;box-sizing:border-box;background:var(--surface-sunken);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:14px;color:var(--ink)" />
+      </label>
+
+      <label style="display:block;margin-bottom:8px">
+        <span style="display:block;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--text-muted);margin-bottom:7px">PASSWORD</span>
+        <span style="position:relative;display:block">
+          <input type="{{ pwType }}" placeholder="at least 8 characters" style="width:100%;padding:11px 56px 11px 13px;box-sizing:border-box;background:var(--surface-sunken);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:14px;color:var(--ink)" />
+          <button onClick="{{ toggle }}" type="button" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;background:transparent;border:none;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--text-muted);text-transform:uppercase">{{ showLabel }}</button>
+        </span>
+      </label>
+
+      <label style="display:flex;align-items:flex-start;gap:9px;margin:16px 0 4px;cursor:pointer">
+        <input type="checkbox" style="margin-top:2px;width:15px;height:15px;accent-color:var(--accent);flex-shrink:0" />
+        <span style="font-family:var(--font-sans);font-size:12px;font-weight:300;color:var(--text-body)">I agree to keep my submissions real, on-topic, and genuinely <i>“X but for Y.”</i></span>
+      </label>
+
+      <button type="button" style="width:100%;margin-top:16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-family:var(--font-sans);font-size:15px;font-weight:700;color:#fff;padding:13px 0;border-radius:9px;border:1px solid rgba(120,10,70,.5);background:linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.04) 46%, rgba(0,0,0,.07)), var(--accent);box-shadow:var(--shadow-button), inset 0 1px 0 rgba(255,255,255,.45)">Create account <span aria-hidden="true">→</span></button>
+    </div>
+
+    <p style="text-align:center;margin:18px 0 0;font-family:var(--font-sans);font-size:13px;color:var(--text-muted)">Already a member? <a href="#" class="xbfy-link" style="font-weight:600">Sign in →</a></p>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900,&quot;height&quot;:860}}">
+class Component extends DCLogic {
+  state = { show: false, handle: 'apt_4b' };
+  renderVals() {
+    const h = (this.state.handle || '').trim();
+    return {
+      handle: this.state.handle,
+      onHandle: (e) => this.setState({ handle: e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase() }),
+      availability: h.length < 3 ? '3+ characters' : '@' + h + ' is available',
+      pwType: this.state.show ? 'text' : 'password',
+      showLabel: this.state.show ? 'hide' : 'show',
+      toggle: () => this.setState((s) => ({ show: !s.show })),
+    };
+  }
+}
+</script>
+</body>
+</html>

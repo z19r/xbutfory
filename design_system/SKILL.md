@@ -7,25 +7,35 @@ user-invocable: true
 # XbutforY — design skill
 
 XbutforY is a hand-curated, daily-updated, human-voted directory of newly launched
-"X but for Y" websites. The look is a **printed broadsheet that happens to be a
+"X but for Y" websites. The base look is a **printed broadsheet that happens to be a
 website**: warm cream paper with grain + dot-grid, structure from ink-black rules
-(not boxes), one rationed brand red, three type registers (Newsreader serif /
-Space Mono / Outfit sans), and cards as the single soft floating surface.
+(not boxes), one rationed brand pink, three type registers (Newsreader serif /
+Space Mono / Outfit sans), and cards as the single soft floating surface. The
+**default register is now “maximal” (early-2000s Y2K)** — beta starburst, ghost
+wordmark, glossy periwinkle nav, gel buttons — layered on those same tokens. And
+**accounts are mandatory**: no anonymous submissions.
 
 ## How to use this skill
 
 1. **Read `readme.md` first** — it is the full design guide: content/voice
    fundamentals, visual foundations (color, type, spacing, cards, motion, texture),
-   iconography, and theming. Everything below is a pointer into it.
+   **Maximal mode (Y2K) — the default look**, **Accounts & identity**, iconography,
+   and theming. Everything below is a pointer into it.
+   - **Updating a build Claude Code already shipped?** Read **`MIGRATION.md`** — it
+     maps the old calm / anonymous version to the current maximal / account-gated one.
 2. **Explore the other files** before building:
    - `styles.css` — the one stylesheet to link. It `@import`s every token + webfont.
    - `tokens/` — `colors.css`, `typography.css`, `spacing.css`, `effects.css`, `fonts.css`.
-   - `components/` — React primitives (`Button`, `Stamp`, `Tag`, `CodeChip`,
-     `EntryCard`, `CategoryTile`, `SearchInput`, `SortToggle`, `SubmitPreview`,
-     `NavTabs`, `MastheadBar`, `Toast`, `EmptyState`). Each has `.jsx` + `.d.ts`
-     + `.prompt.md`.
-   - `ui_kits/directory/` — full-screen interactive recreations (home / detail /
-     submit / categories) plus their JSX reference source.
+   - `components/` — React primitives (`Button` with `gel`, `Stamp`, `Tag`, `CodeChip`,
+     `EntryCard`, `CategoryTile`, `Wordmark`, `BetaBurst`, `TagCloud`, `DigestSignup`,
+     `FeaturedBar`, `SearchInput`, `SortToggle`, `SubmitPreview`, `FormField`, `NavTabs`,
+     `GlossyNav`, `MastheadBar`, `AccountMenu`, `Toast`, `EmptyState`). Each has `.jsx` +
+     `.d.ts` + `.prompt.md`.
+   - `templates/` — copyable DC starting points. **Maximal is the default:** `maximal-home`
+     (canonical), plus `directory-home` (calm alt), `entry-detail`, `submit-site`,
+     `categories`, and the account screens `sign-in`, `create-account`, `account-settings`,
+     `manage-submissions`.
+   - `ui_kits/directory/` — full-screen interactive recreations plus JSX reference source.
    - `guidelines/` — foundation specimen cards (`*.card.html`).
 
 ## When building
@@ -48,10 +58,13 @@ Space Mono / Outfit sans), and cards as the single soft floating surface.
   case. Address the reader as *you*; editorial *we* only in toast commentary.
 - **Emoji** appear only in transient toasts and the RSS button — never in
   headings, body, or labels.
-- **Color is rationed:** one themeable brand red (`--accent`, default vermilion
-  `#C93B1B`) on the wordmark `Y.`, primary buttons, active nav underline, NEW
+- **Color is rationed:** one themeable brand pink (`--accent`, default hot magenta
+  `#E11D8F`) on the wordmark's pivot `but`, primary/gel buttons, active nav, NEW
   stamps, live dots, vote-active, and "visit site" links — nowhere else. Category
-  hues live only on tags/tile chips. Sponsored placements use the one magenta.
+  hues live only on tags/tile chips.
+- **Accounts are mandatory:** submissions are tied to a member; the public byline is
+  the account's `@handle`. Logged-in, the utility bar shows `AccountMenu` (not the
+  Sign in / Create account links). No anonymous `submitter` strings.
 - **Iconography is Unicode**, not an icon library (caret `▲`, magnifier `⚲`,
   arrows `→ ← ↗`, live dot `●`). No icon font, no SVG icon set. If you must add
   icons, use a thin monoline set (e.g. Lucide via CDN) and document the swap.

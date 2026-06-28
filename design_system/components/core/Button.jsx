@@ -13,16 +13,23 @@ const VARIANTS = {
   dark:      { background: 'var(--ink, #171008)', color: 'var(--on-dark, #F3EDE3)', fontWeight: 500 },
 };
 
+// Glossy "gel" overlay — the early-2000s sheen layered over a solid fill.
+function withGel(base) {
+  return `linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.04) 46%, rgba(0,0,0,.07)), ${base}`;
+}
+
 /**
  * XbutforY button. Inline-styled, theme-aware via CSS custom properties.
  * The primary variant carries the warm accent glow; secondary is the paper
- * outline (RSS, filters); ghost is for nav tabs and quiet links.
+ * outline (RSS, filters); ghost is for nav tabs and quiet links. Set `gel` for
+ * the glossy Y2K sheen on the primary/dark fills (the maximal-mode default).
  */
 export function Button({
   variant = 'primary',
   size = 'md',
   icon,
   trailingArrow = false,
+  gel = false,
   disabled = false,
   onClick,
   type = 'button',
@@ -30,6 +37,8 @@ export function Button({
   style,
   ...rest
 }) {
+  const v = VARIANTS[variant];
+  const glossy = gel && (variant === 'primary' || variant === 'dark');
   const s = {
     display: 'inline-flex',
     alignItems: 'center',
@@ -43,7 +52,12 @@ export function Button({
     transition: 'opacity .15s, transform .15s, box-shadow .15s, border-color .15s',
     opacity: disabled ? 0.5 : 1,
     ...SIZES[size],
-    ...VARIANTS[variant],
+    ...v,
+    ...(glossy ? {
+      background: withGel(v.background),
+      border: '1px solid rgba(0,0,0,.18)',
+      boxShadow: (v.boxShadow ? v.boxShadow + ', ' : '') + 'inset 0 1px 0 rgba(255,255,255,.45)',
+    } : {}),
     ...style,
   };
   return (
