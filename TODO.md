@@ -144,8 +144,8 @@ Reference: `CategoriesScreen.jsx`, `categories.html`. Files: `app/views/categori
 - [x] After Dark (NSFW) toggle + cookie filter
 - [x] Search easter eggs (bacon, xbutfory, nsfw hint)
 - [x] **Theme switcher** — 6 accent swatches in the utility bar (magenta/vermilion/teal/violet/ochre/ink), wired to `theme` Stimulus controller; persists via `accent` cookie; layout re-applies it inline on `<html>` (no FOUC). Maps to `--accent-*` tokens, honors reduced-motion. Component + integration tests added.
-- [ ] Rotating search placeholders (cycle every ~3.4s through the prototype's list)
-- [ ] Vote milestone toasts (5 → 🏆, 12 → 🔥) in `vote_controller`
+- [x] Rotating search placeholders — `placeholder-rotator` Stimulus controller cycles a server-supplied phrase set every ~3.4s; backs off on focus/typing, honors reduced-motion. Component tests added.
+- [x] Vote milestone toasts (5 → 🏆, 12 → 🔥) in `vote_controller` — already wired; copy aligned verbatim to the prototype's ground-truth strings.
 - [ ] Footer scramble easter egg (🔮 button scrambles all Y values briefly)
 - [ ] Idle toast ("still there?") after inactivity
 - [?] RSS — real `/feed.xml` (Atom/RSS of latest entries) vs current toast stub. Decide; if real, add a feeds controller + builder.

@@ -2,8 +2,8 @@ import { Controller } from "@hotwired/stimulus"
 
 // Milestone toasts mirror the prototype's vote-count celebrations.
 const MILESTONES = {
-  5: "🏆 5 votes. It's catching on.",
-  12: "🔥 12 votes. Officially trending in someone's mind."
+  5: "🏆 Five upvotes deep. You have taste. We respect that.",
+  12: "🔥 Twelve votes. Okay, the board is basically yours now."
 }
 
 export default class extends Controller {
