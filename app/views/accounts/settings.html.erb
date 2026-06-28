@@ -1,0 +1,90 @@
+<% content_for :title, "Account settings — XbutforY" %>
+<% content_for :nav_tab, "none" %>
+
+<header class="l-settings__head">
+  <div class="l-settings__eyebrow">YOUR ACCOUNT</div>
+  <h1 class="l-settings__title">Settings</h1>
+  <p class="l-settings__lede">Signed in as <span class="l-settings__handle">@<%= @user.handle %></span> — your byline on every listing.</p>
+  <div class="l-settings__rule"></div>
+</header>
+
+<div class="l-settings">
+  <nav class="l-settings__nav" aria-label="Settings sections">
+    <a href="#profile" class="l-settings__navlink">Profile</a>
+    <a href="#security" class="l-settings__navlink">Email &amp; password</a>
+    <a href="#notifications" class="l-settings__navlink">Notifications</a>
+    <a href="#connected" class="l-settings__navlink">Connected</a>
+    <a href="#danger" class="l-settings__navlink l-settings__navlink--danger">Danger zone</a>
+  </nav>
+
+  <div class="l-settings__content">
+    <section id="profile" class="c-setcard">
+      <div class="c-setcard__title">Profile</div>
+      <p class="c-setcard__sub">How you appear across the index.</p>
+      <%= form_with url: account_profile_path, method: :patch, class: "c-setcard__form" do %>
+        <%= render FormFieldComponent.new(label: "Handle", prefix: "@", mono: true, value: @user.handle, disabled: true, hint: "Public & permanent — handles can't be changed.") %>
+        <%= render FormFieldComponent.new(label: "Display name", name: "display_name", value: @user.display_name, placeholder: "Apartment 4B") %>
+        <%= render FormFieldComponent.new(label: "Bio", name: "bio", as: :textarea, value: @user.bio, placeholder: "Tell builders who you are.") %>
+        <div class="c-setcard__actions">
+          <%= render ButtonComponent.new(variant: "primary", gel: true, type: "submit") do %>Save profile<% end %>
+        </div>
+      <% end %>
+    </section>
+
+    <section id="security" class="c-setcard">
+      <div class="c-setcard__title">Email &amp; password</div>
+      <p class="c-setcard__sub">Private. Used only to sign in and reach you.</p>
+      <%= form_with url: account_security_path, method: :patch, class: "c-setcard__form" do %>
+        <%= render FormFieldComponent.new(label: "Email", name: "email", type: "email", value: @user.email, autocomplete: "email") %>
+        <%= render FormFieldComponent.new(label: "Current password", name: "current_password", type: "password", placeholder: "••••••••", autocomplete: "current-password") %>
+        <%= render FormFieldComponent.new(label: "New password", name: "password", type: "password", placeholder: "leave blank to keep", autocomplete: "new-password") %>
+        <div class="c-setcard__actions">
+          <%= render ButtonComponent.new(variant: "primary", gel: true, type: "submit") do %>Update account<% end %>
+        </div>
+      <% end %>
+    </section>
+
+    <section id="notifications" class="c-setcard">
+      <div class="c-setcard__title">Notifications</div>
+      <p class="c-setcard__sub">We keep it sparse. Promise.</p>
+      <%= form_with url: account_notifications_path, method: :patch, class: "c-setcard__form" do %>
+        <% [
+             ["digest_opt_in", "Weekly digest", "The 10 best new sites, every Sunday.", @user.digest_opt_in],
+             ["reply_notifications", "Replies", "When someone responds to your listing.", @user.reply_notifications],
+             ["milestone_notifications", "Milestones", "When a listing crosses a vote milestone.", @user.milestone_notifications]
+           ].each do |name, title, desc, on| %>
+          <label class="c-toggle">
+            <span class="c-toggle__text">
+              <span class="c-toggle__name"><%= title %></span>
+              <span class="c-toggle__desc"><%= desc %></span>
+            </span>
+            <input type="checkbox" class="c-toggle__input" name="<%= name %>" value="1" <%= "checked" if on %>>
+          </label>
+        <% end %>
+        <div class="c-setcard__actions">
+          <%= render ButtonComponent.new(variant: "primary", gel: true, type: "submit") do %>Save preferences<% end %>
+        </div>
+      <% end %>
+    </section>
+
+    <section id="connected" class="c-setcard">
+      <div class="c-setcard__title">Connected</div>
+      <p class="c-setcard__sub">Your personal feed and API access.</p>
+      <%= render FormFieldComponent.new(label: "Personal RSS", mono: true, value: feed_url, readonly: true) %>
+      <%= form_with url: account_api_key_path, method: :post, class: "c-setcard__form c-setcard__form--inline" do %>
+        <%= render FormFieldComponent.new(label: "API key", mono: true, value: @user.api_key, readonly: true) %>
+        <div class="c-setcard__actions">
+          <%= render ButtonComponent.new(variant: "secondary", type: "submit") do %>Regenerate<% end %>
+        </div>
+      <% end %>
+    </section>
+
+    <section id="danger" class="c-setcard c-setcard--danger">
+      <div class="c-setcard__title">Danger zone</div>
+      <p class="c-setcard__sub">Deleting your account withdraws every listing you've submitted. This can't be undone.</p>
+      <%= button_to "Delete account", account_path, method: :delete,
+            form: { data: { turbo_confirm: "Delete your account? Every listing you submitted will be withdrawn." } },
+            class: "c-setcard__delete" %>
+    </section>
+  </div>
+</div>

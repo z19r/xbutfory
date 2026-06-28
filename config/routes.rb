@@ -23,5 +23,10 @@ Rails.application.routes.draw do
   post "sign_up", to: "registrations#create"
 
   get "account", to: "accounts#settings", as: :account_settings
+  patch "account/profile", to: "accounts#update_profile", as: :account_profile
+  patch "account/security", to: "accounts#update_security", as: :account_security
+  patch "account/notifications", to: "accounts#update_notifications", as: :account_notifications
+  post "account/api_key", to: "accounts#regenerate_api_key", as: :account_api_key
+  delete "account", to: "accounts#destroy", as: :account
   get "account/submissions", to: "accounts#submissions", as: :manage_submissions
 end
