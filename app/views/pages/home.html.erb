@@ -44,7 +44,10 @@
 </div>
 
 <div class="l-feed">
-  <% @entries.each_with_index do |entry, i| %>
+  <% position = 0 %>
+  <% @entries.each do |entry| %>
+    <% pinned = entry.sponsored == "pinned" %>
+    <% position += 1 unless pinned %>
     <%= render EntryCardComponent.new(
       x: entry.x,
       y: entry.y,
@@ -54,7 +57,7 @@
       ago: time_ago_in_words(entry.created_at) + " ago",
       url: entry.url.presence || "#",
       slug: entry.slug,
-      index: i + 1,
+      index: (pinned ? nil : position),
       stamp: entry.stamp,
       sponsored: entry.sponsored,
       category: entry.category,
