@@ -25,4 +25,14 @@ class ButtonComponentTest < ViewComponent::TestCase
     render_inline(ButtonComponent.new(size: "lg")) { "Big" }
     assert_selector ".c-btn--lg"
   end
+
+  test "gel adds the glossy maximal overlay class" do
+    render_inline(ButtonComponent.new(gel: true)) { "Submit" }
+    assert_selector ".c-btn--gel"
+  end
+
+  test "no gel class by default" do
+    render_inline(ButtonComponent.new) { "Plain" }
+    assert_no_selector ".c-btn--gel"
+  end
 end
