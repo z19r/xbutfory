@@ -35,6 +35,13 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".l-dek", /pitch themselves as/
     assert_select ".l-dek", /Updated daily, voted by humans/
     assert_select ".l-dek code.l-chip", text: "X but for Y"
+    assert_select ".l-dek i", text: "newly launched"
+  end
+
+  test "hero shows the issue dateline" do
+    get root_url
+    assert_select ".l-hero .l-issue", /ISSUE 26/
+    assert_select ".l-hero .l-issue .l-live"
   end
 
   test "vote buttons have stimulus data attributes" do
