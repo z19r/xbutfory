@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_28_090313) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_28_091240) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -37,6 +37,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_090313) do
     t.string "stamp"
     t.string "submitter", null: false
     t.string "tagline"
+    t.string "tier", default: "free", null: false
     t.datetime "updated_at", null: false
     t.string "url"
     t.integer "votes_count", default: 0, null: false

@@ -1,10 +1,16 @@
 class Entry < ApplicationRecord
   has_many :votes, dependent: :destroy
 
-  validates :x, :y, :submitter, :slug, presence: true
+  TIERS = %w[free featured].freeze
+
+  validates :x, :y, :slug, presence: true
   validates :slug, uniqueness: true
+  validates :tier, inclusion: { in: TIERS }
 
   before_validation :generate_slug, on: :create
+  before_validation :default_submitter
+
+  def featured? = tier == "featured"
 
   scope :latest, -> { order(created_at: :desc) }
   scope :trending, -> { order(votes_count: :desc, created_at: :desc) }
@@ -22,5 +28,9 @@ class Entry < ApplicationRecord
   def generate_slug
     return if slug.present?
     self.slug = "#{x}-but-for-#{y}".parameterize
+  end
+
+  def default_submitter
+    self.submitter = "anonymous" if submitter.blank?
   end
 end

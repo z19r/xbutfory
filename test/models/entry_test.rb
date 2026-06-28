@@ -11,12 +11,23 @@ class EntryTest < ActiveSupport::TestCase
     assert_equal "custom-slug", entry.slug
   end
 
-  test "requires x, y, and submitter" do
+  test "requires x and y" do
     entry = Entry.new
     assert_not entry.valid?
     assert_includes entry.errors[:x], "can't be blank"
     assert_includes entry.errors[:y], "can't be blank"
-    assert_includes entry.errors[:submitter], "can't be blank"
+  end
+
+  test "submitter is optional and defaults to anonymous" do
+    entry = Entry.create!(x: "Acme", y: "ants")
+    assert_equal "anonymous", entry.submitter
+  end
+
+  test "tier defaults to free and rejects unknown tiers" do
+    entry = Entry.create!(x: "Acme", y: "bees")
+    assert_equal "free", entry.tier
+    entry.tier = "platinum"
+    assert_not entry.valid?
   end
 
   test "enforces unique slugs" do

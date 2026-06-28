@@ -65,7 +65,14 @@ Layout & structure:
 - [ ] `entries#show` — friendly 404 for bad slug
 </details>
 
-### 1.2 Submit screen (`/submit`) — monetization & brand violations
+### 1.2 Submit screen (`/submit`) — ✅ DONE (commit: P1.2)
+Single 600px column; inline dashed draft-well preview; Product name field; optional handle
+(defaults to "anonymous"); listing-tier radios with CTA flip (ink "Submit for free →" ↔
+accent "Launch for $1.99 →", Stripe stubbed with a payment-coming-soon notice); footer
+micro-copy; corrected title/dek/inputs (inset shadow, 9px labels); `tier` column + validation.
+Tests added. NOTE: schema migrations require a dev-server restart to clear the column cache.
+
+<details><summary>original checklist (all done)</summary>
 Reference: `design_system/ui_kits/directory/submit.html`, `SubmitPreview.prompt.md`.
 Files: `app/views/submissions/new.html.erb`, `app/components/submit_preview_component.*`,
 `app/components/submit_form_component.*`, `submit_form.css`, `submit_preview.css`,
@@ -91,6 +98,7 @@ Fields & layout:
 - [ ] Inputs: add `--shadow-inset`, `1px var(--border-input)`, `--surface-card`, 15px, padding 11px 14px
 - [ ] Labels 9px (`--type-micro`)
 - [ ] Pitch field: "One-line pitch (optional)", rows=2
+</details>
 
 ### 1.3 Categories screen (`/categories`)
 Reference: `CategoriesScreen.jsx`, `categories.html`. Files: `app/views/categories/index.html.erb`,

@@ -1,58 +1,80 @@
+<% content_for :title, "Submit a Site — XbutforY" %>
 <% content_for :nav_tab, "submit" %>
-<div class="l-submit" data-controller="submit-preview">
-  <div class="l-submit__form">
-    <h1 class="l-submit__title">Submit an Entry</h1>
-    <p class="l-submit__dek">Got a site that's <em>X but for Y</em>? Tell us about it.</p>
 
-    <%= form_with(model: @entry, url: submissions_path, class: "c-submit-form") do |f| %>
-      <% if @entry.errors.any? %>
-        <div class="c-submit-form__errors">
-          <p><%= pluralize(@entry.errors.count, "thing") %> went wrong:</p>
-          <ul>
-            <% @entry.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+<section class="c-submit" data-controller="submit-preview tier">
+  <h1 class="c-submit__title">Submit a Site</h1>
+  <p class="c-submit__dek">Free to list in the directory. $1.99 buys a featured homepage spot.</p>
 
-      <div class="c-submit-form__field">
-        <%= f.label :x, "The X (the known product)", class: "c-submit-form__label" %>
-        <%= f.text_field :x, class: "c-submit-form__input", placeholder: "e.g. Tinder", data: { action: "input->submit-preview#update", submit_preview_target: "xInput" } %>
+  <% if @entry.errors.any? %>
+    <div class="c-submit__errors">
+      <strong><%= pluralize(@entry.errors.count, "thing") %> to fix:</strong>
+      <ul>
+        <% @entry.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with model: @entry, url: submissions_path, class: "c-submit__form" do |f| %>
+    <div class="c-submit__field">
+      <%= f.label :x, "The X", class: "c-submit__label" %>
+      <%= f.text_field :x, class: "c-submit__input", placeholder: "Tinder", autocomplete: "off",
+            data: { submit_preview_target: "xInput", action: "input->submit-preview#update" } %>
+    </div>
+
+    <div class="c-submit__field">
+      <%= f.label :y, "The Y", class: "c-submit__label" %>
+      <%= f.text_field :y, class: "c-submit__input", placeholder: "the building you live in", autocomplete: "off",
+            data: { submit_preview_target: "yInput", action: "input->submit-preview#update" } %>
+    </div>
+
+    <%= render SubmitPreviewComponent.new(x: @entry.x.to_s, y: @entry.y.to_s) %>
+
+    <div class="c-submit__field">
+      <%= f.label :name, "Product name", class: "c-submit__label" %>
+      <%= f.text_field :name, class: "c-submit__input", placeholder: "Floormate", autocomplete: "off" %>
+    </div>
+
+    <div class="c-submit__field">
+      <%= f.label :url, "Product URL", class: "c-submit__label" %>
+      <%= f.url_field :url, class: "c-submit__input", placeholder: "https://…" %>
+    </div>
+
+    <div class="c-submit__field">
+      <%= f.label :description, "One-line pitch (optional)", class: "c-submit__label" %>
+      <%= f.text_area :description, rows: 2, class: "c-submit__input c-submit__textarea", placeholder: "What it does, in a sentence." %>
+    </div>
+
+    <div class="c-submit__field">
+      <%= f.label :category, "Category", class: "c-submit__label" %>
+      <%= f.select :category, @categories.map { |c| [c.name, c.slug] }, { include_blank: "Pick one" }, class: "c-submit__input c-submit__select" %>
+    </div>
+
+    <div class="c-submit__field">
+      <%= f.label :submitter, "Your handle (optional)", class: "c-submit__label" %>
+      <%= f.text_field :submitter, class: "c-submit__input", placeholder: "@you", autocomplete: "off" %>
+    </div>
+
+    <div class="c-submit__field">
+      <span class="c-submit__label">Listing type</span>
+      <div class="c-submit__tiers">
+        <label class="c-submit__tier">
+          <%= f.radio_button :tier, "free", checked: !@entry.featured?, class: "c-submit__tier-radio",
+                data: { tier_target: "radio", action: "change->tier#update" } %>
+          <span class="c-submit__tier-name">Free</span>
+          <span class="c-submit__tier-desc">Indexed within 24h</span>
+        </label>
+        <label class="c-submit__tier">
+          <%= f.radio_button :tier, "featured", checked: @entry.featured?, class: "c-submit__tier-radio",
+                data: { tier_target: "radio", action: "change->tier#update" } %>
+          <span class="c-submit__tier-name">Featured — $1.99</span>
+          <span class="c-submit__tier-desc">Homepage spot + boost</span>
+        </label>
       </div>
+    </div>
 
-      <div class="c-submit-form__field">
-        <%= f.label :y, "The Y (the niche)", class: "c-submit-form__label" %>
-        <%= f.text_field :y, class: "c-submit-form__input", placeholder: "e.g. the building you live in", data: { action: "input->submit-preview#update", submit_preview_target: "yInput" } %>
-      </div>
-
-      <div class="c-submit-form__field">
-        <%= f.label :description, "Pitch it (one paragraph)", class: "c-submit-form__label" %>
-        <%= f.text_area :description, class: "c-submit-form__input c-submit-form__textarea", rows: 4, placeholder: "What is it, why does it work, and why should anyone care?" %>
-      </div>
-
-      <div class="c-submit-form__field">
-        <%= f.label :url, "URL", class: "c-submit-form__label" %>
-        <%= f.url_field :url, class: "c-submit-form__input", placeholder: "https://..." %>
-      </div>
-
-      <div class="c-submit-form__field">
-        <%= f.label :submitter, "Your handle", class: "c-submit-form__label" %>
-        <%= f.text_field :submitter, class: "c-submit-form__input", placeholder: "@yourtwitterhandle" %>
-      </div>
-
-      <div class="c-submit-form__field">
-        <%= f.label :category, class: "c-submit-form__label" %>
-        <%= f.select :category, Category.pluck(:name, :slug), { include_blank: "Pick a category" }, class: "c-submit-form__input" %>
-      </div>
-
-      <div class="c-submit-form__actions">
-        <%= f.submit "Submit for review", class: "c-btn c-btn--primary c-btn--lg" %>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="l-submit__preview">
-    <%= render SubmitPreviewComponent.new %>
-  </div>
-</div>
+    <%= f.submit (@entry.featured? ? "Launch for $1.99 →" : "Submit for free →"), class: "c-submit__cta", data: { tier_target: "cta" } %>
+    <p class="c-submit__fine">no account needed &middot; no spam &middot; takes 30 seconds</p>
+  <% end %>
+</section>
