@@ -1,0 +1,13 @@
+<div class="c-featured-bar">
+  <div class="c-featured-bar__inner">
+    <div class="c-featured-bar__badges">
+      <span class="c-featured-bar__label"><%= @label %></span>
+      <% @badges.each do |badge| %>
+        <span class="c-featured-bar__badge <%= 'c-featured-bar__badge--gel' if @gel %>"><%= badge %></span>
+      <% end %>
+    </div>
+    <% if @note.present? %>
+      <span class="c-featured-bar__note"><%= @note %></span>
+    <% end %>
+  </div>
+</div>

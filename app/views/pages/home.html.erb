@@ -1,3 +1,4 @@
+<% content_for :body_class, "is-home" %>
 <% if @sort == "trending" %>
   <% content_for :nav_tab, "trending" %>
 <% elsif @sort == "top" %>
@@ -28,45 +29,68 @@
   </div>
 <% end %>
 
-<div class="l-feedhead">
-  <div>
-    <h2 class="l-feedhead__title">Latest Submissions</h2>
-    <div class="l-feedhead__sub">SHOWING 1&ndash;<%= @entries.size %> OF <%= @total_entries %></div>
+<div class="l-columns">
+  <div class="l-main">
+    <div class="l-feedhead">
+      <div>
+        <h2 class="l-feedhead__title">Latest Submissions</h2>
+        <div class="l-feedhead__sub">SHOWING 1&ndash;<%= @entries.size %> OF <%= @total_entries %></div>
+      </div>
+      <%= render SortToggleComponent.new(
+        options: [
+          SortToggleComponent::Option.new(label: "Newest", key: "newest"),
+          SortToggleComponent::Option.new(label: "Hot", key: "trending"),
+          SortToggleComponent::Option.new(label: "Top", key: "top")
+        ],
+        active: @sort
+      ) %>
+    </div>
+
+    <div class="l-feed">
+      <% position = 0 %>
+      <% @entries.each do |entry| %>
+        <% pinned = entry.sponsored == "pinned" %>
+        <% position += 1 unless pinned %>
+        <%= render EntryCardComponent.new(
+          x: entry.x,
+          y: entry.y,
+          votes: entry.votes_count,
+          description: entry.description,
+          submitter: entry.submitter,
+          ago: time_ago_in_words(entry.created_at) + " ago",
+          url: entry.url.presence || "#",
+          slug: entry.slug,
+          index: (pinned ? nil : position),
+          stamp: entry.stamp,
+          sponsored: entry.sponsored,
+          category: entry.category,
+          category_label: entry.category&.titleize,
+          entry_id: entry.id
+        ) %>
+      <% end %>
+
+      <% if @entries.empty? %>
+        <%= render EmptyStateComponent.new(title: "No entries yet. Be the first.", action: "Submit yours", action_url: "#") %>
+      <% end %>
+    </div>
   </div>
-  <%= render SortToggleComponent.new(
-    options: [
-      SortToggleComponent::Option.new(label: "Newest", key: "newest"),
-      SortToggleComponent::Option.new(label: "Hot", key: "trending"),
-      SortToggleComponent::Option.new(label: "Top", key: "top")
-    ],
-    active: @sort
-  ) %>
+
+  <aside class="l-rail" aria-label="Discovery">
+    <section class="l-rail__card">
+      <div class="l-rail__title">BROWSE BY TAG</div>
+      <%= render TagCloudComponent.new(tags: @tag_cloud) %>
+    </section>
+
+    <%= render DigestSignupComponent.new %>
+
+    <section class="l-rail__card">
+      <div class="l-rail__title">IN THE INDEX</div>
+      <div class="l-rail__count-num"><%= number_with_delimiter(@total_entries) %></div>
+      <div class="l-rail__count-label">sites, and counting</div>
+    </section>
+  </aside>
 </div>
 
-<div class="l-feed">
-  <% position = 0 %>
-  <% @entries.each do |entry| %>
-    <% pinned = entry.sponsored == "pinned" %>
-    <% position += 1 unless pinned %>
-    <%= render EntryCardComponent.new(
-      x: entry.x,
-      y: entry.y,
-      votes: entry.votes_count,
-      description: entry.description,
-      submitter: entry.submitter,
-      ago: time_ago_in_words(entry.created_at) + " ago",
-      url: entry.url.presence || "#",
-      slug: entry.slug,
-      index: (pinned ? nil : position),
-      stamp: entry.stamp,
-      sponsored: entry.sponsored,
-      category: entry.category,
-      category_label: entry.category&.titleize,
-      entry_id: entry.id
-    ) %>
-  <% end %>
-
-  <% if @entries.empty? %>
-    <%= render EmptyStateComponent.new(title: "No entries yet. Be the first.", action: "Submit yours", action_url: "#") %>
-  <% end %>
+<div class="l-featured">
+  <%= render FeaturedBarComponent.new %>
 </div>

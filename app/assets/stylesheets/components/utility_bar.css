@@ -4,7 +4,7 @@
 }
 
 .c-utility-bar__inner {
-  max-width: var(--content-max);
+  max-width: var(--shell-max);
   margin: 0 auto;
   padding: 9px var(--page-gutter);
   display: flex;

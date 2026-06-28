@@ -17,8 +17,10 @@
   --space-20: 90px;
 
   /* Layout */
-  --content-max: 1040px; /* the single centered editorial column */
-  --page-gutter: 24px;   /* horizontal page padding */
+  --content-max: 1040px;      /* the single centered editorial column (calm pages) */
+  --content-max-wide: 1200px; /* the wider maximal-home shell (feed + sidebar) */
+  --shell-max: var(--content-max); /* current chrome width; the home bumps it to wide */
+  --page-gutter: 24px;        /* horizontal page padding */
   --card-pad-y:  20px;
   --card-pad-x:  22px;
   --card-gap:    18px;   /* vote box ↔ card body */

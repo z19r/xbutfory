@@ -1,5 +1,5 @@
 .l-content {
-  max-width: var(--content-max);
+  max-width: var(--shell-max);
   margin: 0 auto;
   padding: 34px var(--page-gutter) 90px;
 }
@@ -114,4 +114,80 @@
 .l-feed {
   display: flex;
   flex-direction: column;
+}
+
+/* ---- Maximal home: wider shell + feed/sidebar columns ---- */
+/* The home is the only surface that bumps the chrome to the wide maximal shell. */
+body.is-home {
+  --shell-max: var(--content-max-wide);
+}
+
+.l-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 28px;
+  align-items: start;
+  margin-top: 26px;
+}
+
+.l-main {
+  min-width: 0;
+}
+
+/* the feedhead already carries a top margin for the calm full-width layout;
+   inside the columns it aligns with the rail top instead. */
+.l-main .l-feedhead {
+  margin-top: 0;
+}
+
+.l-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.l-rail__card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 18px;
+}
+
+.l-rail__title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+  padding-bottom: 9px;
+  margin-bottom: 13px;
+}
+
+.l-rail__count-num {
+  font-family: var(--font-display);
+  font-size: 46px;
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  color: var(--ink);
+}
+
+.l-rail__count-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.l-featured {
+  margin-top: 46px;
+}
+
+@media (max-width: 860px) {
+  .l-columns {
+    grid-template-columns: 1fr;
+  }
 }

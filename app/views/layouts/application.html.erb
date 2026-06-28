@@ -26,7 +26,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="<%= content_for(:body_class) %>">
     <%= render UtilityBarComponent.new(active_accent: accent[:key]) %>
     <%= render MastheadComponent.new do |masthead| %>
       <% masthead.with_search_slot do %>

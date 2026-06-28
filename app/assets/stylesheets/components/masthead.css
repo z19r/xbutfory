@@ -1,5 +1,5 @@
 .c-masthead {
-  max-width: var(--content-max);
+  max-width: var(--shell-max);
   margin: 0 auto;
   padding: 0 var(--page-gutter);
 }

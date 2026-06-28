@@ -8,6 +8,16 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".c-card", minimum: 1
   end
 
+  test "home renders the maximal shell: wide body, sidebar rail and featured strip" do
+    get root_url
+    assert_select "body.is-home"
+    assert_select ".l-columns .l-main .l-feed"
+    assert_select ".l-rail .c-tag-cloud"
+    assert_select ".l-rail .c-digest"
+    assert_select ".l-rail .l-rail__count-num"
+    assert_select ".c-featured-bar"
+  end
+
   test "home page search filters entries" do
     get root_url, params: { q: "Tinder" }
     assert_response :success
