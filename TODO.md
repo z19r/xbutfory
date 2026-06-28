@@ -143,7 +143,7 @@ Reference: `CategoriesScreen.jsx`, `categories.html`. Files: `app/views/categori
 - [x] Y wordmark easter egg (cycles values)
 - [x] After Dark (NSFW) toggle + cookie filter
 - [x] Search easter eggs (bacon, xbutfory, nsfw hint)
-- [ ] **Theme switcher** — 6 accent options (`#C93B1B/#1B6E80/#6A3D9E/#A07A18/#171008/#E11D8F`). colors.css says the directory "ships a theme switch". Persist via cookie; set `--accent` on `:root`.
+- [x] **Theme switcher** — 6 accent swatches in the utility bar (magenta/vermilion/teal/violet/ochre/ink), wired to `theme` Stimulus controller; persists via `accent` cookie; layout re-applies it inline on `<html>` (no FOUC). Maps to `--accent-*` tokens, honors reduced-motion. Component + integration tests added.
 - [ ] Rotating search placeholders (cycle every ~3.4s through the prototype's list)
 - [ ] Vote milestone toasts (5 → 🏆, 12 → 🔥) in `vote_controller`
 - [ ] Footer scramble easter egg (🔮 button scrambles all Y values briefly)
