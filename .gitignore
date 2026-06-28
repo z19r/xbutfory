@@ -56,3 +56,6 @@
 
 # Overmind dev process manager socket
 .overmind.sock
+
+# SimpleCov output
+/coverage

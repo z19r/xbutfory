@@ -1,52 +1,60 @@
+# Rails project justfile
 default:
-    @echo "Available commands:"
+    @echo "Available Rails commands:"
     @just --list
 
-# Start the dev stack (overmind via Procfile.dev)
-dev:
-    @bin/dev
+# Start Rails server
+server:
+    @echo "Starting Rails server..."
+    @bundle exec rails server
 
-# Run all tests
-test *paths:
-    @bin/rails test {{paths}}
+# Run tests (fast, no coverage report)
+test:
+    @echo "Running Rails tests..."
+    @bundle exec rails test
 
-# Run one test file
-test-one path:
-    @bin/rails test {{path}}
+# Run tests with SimpleCov; enforces 90% business / 65% component coverage
+test-cov:
+    @echo "Running tests with coverage thresholds..."
+    @COVERAGE=1 bundle exec rails test
 
-# Run database migrations
-migrate:
-    @bin/rails db:migrate
+# Full CI pipeline (RuboCop + coverage + security audits)
+ci:
+    @echo "Running CI..."
+    @bin/ci
 
-# Seed the database
-seed:
-    @bin/rails db:seed
+# Run RuboCop
+rubocop:
+    @echo "Running RuboCop..."
+    @bundle exec rubocop
 
-# Prepare database (create, migrate, seed)
-db-prepare:
-    @bin/rails db:prepare
+# Database operations
+db-migrate:
+    @echo "Running database migrations..."
+    @bundle exec rails db:migrate
 
-# Reset database (drop, create, migrate, seed)
-db-reset:
-    @bin/rails db:reset
-
-# Open Rails console
-console:
-    @bin/rails console
-
-# Open database console
-dbconsole:
-    @bin/rails dbconsole
-
-# Show routes
-routes:
-    @bin/rails routes
+db-seed:
+    @echo "Seeding database..."
+    @bundle exec rails db:seed
 
 # Install dependencies
 install:
+    @echo "Installing Ruby dependencies..."
     @bundle install
-    @just migrate
+    @echo "Installing Node dependencies..."
+    @npm install
+    @just hooks-install
 
-# Run the dev stack on a specific port
-dev-port port="3000":
-    @PORT={{port}} bin/dev
+# Point git at tracked hooks in .githooks/
+hooks-install:
+    @git config core.hooksPath .githooks
+    @chmod +x .githooks/pre-commit
+    @echo "Git hooks installed (.githooks/pre-commit → RuboCop)"
+
+# Format with Prettier (Ruby, JS, CSS, etc.)
+fmt:
+    @npx prettier --write .
+
+# Check Prettier formatting
+fmt-check:
+    @npx prettier --check .

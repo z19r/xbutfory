@@ -1,0 +1,21 @@
+{
+  "name": "rails-project",
+  "version": "0.1.0",
+  "description": "A Rails web application",
+  "prettier": {
+    "plugins": [
+      "@prettier/plugin-ruby"
+    ],
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "printWidth": 80,
+    "rubySingleQuote": true
+  },
+  "devDependencies": {
+    "@prettier/plugin-ruby": "^4.0.4",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  }
+}
