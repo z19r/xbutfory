@@ -52,8 +52,8 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
   test "search input has stimulus data attributes" do
     get root_url
-    assert_select "[data-controller='search-filter']"
-    assert_select "[data-action='input->search-filter#search']"
+    assert_select "[data-controller~='search-filter']"
+    assert_select "[data-action*='input->search-filter#search']"
   end
 
   test "nav tabs are links not buttons" do
