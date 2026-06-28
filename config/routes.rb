@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   root "pages#home"
+  get "feed.xml", to: "feeds#show", as: :feed, format: false
   get "entry/:slug", to: "entries#show", as: :entry
   get "submit", to: "submissions#new", as: :new_submission
   resources :submissions, only: [:create]

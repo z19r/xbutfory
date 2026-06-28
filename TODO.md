@@ -148,7 +148,7 @@ Reference: `CategoriesScreen.jsx`, `categories.html`. Files: `app/views/categori
 - [x] Vote milestone toasts (5 → 🏆, 12 → 🔥) in `vote_controller` — already wired; copy aligned verbatim to the prototype's ground-truth strings.
 - [x] Footer scramble easter egg — hidden 🔮 button (opacity .18) wired to `scramble` Stimulus controller; shuffles every entry's Y text node, toasts, restores on second press. Component test added.
 - [ ] Idle toast ("still there?") after inactivity
-- [?] RSS — real `/feed.xml` (Atom/RSS of latest entries) vs current toast stub. Decide; if real, add a feeds controller + builder.
+- [x] RSS — built a real `/feed.xml` (Atom): `FeedsController#show` + `show.atom.builder` over latest 50 SFW entries; `<link rel=alternate>` autodiscovery in the head. The RSS button's advertised URL now resolves. Request tests added.
 
 ---
 
