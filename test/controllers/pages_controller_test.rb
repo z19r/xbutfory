@@ -56,10 +56,15 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "[data-action*='input->search-filter#search']"
   end
 
-  test "nav tabs are links not buttons" do
+  test "glossy nav tabs are links not buttons" do
     get root_url
-    assert_select "a.c-nav-tabs__tab", minimum: 6
-    assert_select "button.c-nav-tabs__tab", count: 0
+    assert_select "a.c-glossy-nav__tab", minimum: 6
+    assert_select "button.c-glossy-nav__tab", count: 0
+  end
+
+  test "glossy nav shows the indexed-sites note" do
+    get root_url
+    assert_select ".c-glossy-nav__note", text: /sites indexed/
   end
 
   test "hides nsfw entries by default" do

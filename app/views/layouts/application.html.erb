@@ -33,7 +33,10 @@
         <%= render SearchInputComponent.new(value: params[:q].to_s) %>
       <% end %>
     <% end %>
-    <%= render NavTabsComponent.new(active: content_for(:nav_tab) || "latest") %>
+    <%= render GlossyNavComponent.new(
+      active: content_for(:nav_tab) || "latest",
+      note: "#{number_with_delimiter(Entry.count)} sites indexed"
+    ) %>
 
     <main class="l-content">
       <%= yield %>

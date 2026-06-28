@@ -1,0 +1,16 @@
+<nav class="c-glossy-nav" aria-label="Main navigation">
+  <div class="c-glossy-nav__inner">
+    <div class="c-glossy-nav__tabs">
+      <% @tabs.each do |tab| %>
+        <a
+          href="<%= tab.path %>"
+          class="c-glossy-nav__tab <%= 'c-glossy-nav__tab--active' if tab.key == @active %>"
+          <%= 'aria-current="page"'.html_safe if tab.key == @active %>
+        ><%= tab.label %></a>
+      <% end %>
+    </div>
+    <% if @note.present? %>
+      <span class="c-glossy-nav__note"><%= @note %></span>
+    <% end %>
+  </div>
+</nav>
