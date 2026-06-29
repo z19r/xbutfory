@@ -1,55 +1,35 @@
-# Rails project justfile
+# XbutforY justfile — house standard: run the dev stack via OVERMIND + Procfile.dev,
+# and use bin/rails binstubs. Never `rails server` / `bin/dev` directly.
 default:
-    @echo "Available Rails commands:"
     @just --list
 
-# Start Rails server
-server:
-    @echo "Starting Rails server..."
-    @bundle exec rails server
+# Start the dev stack (overmind via Procfile.dev) — the blessed way to run locally.
+dev:
+    @overmind start -f Procfile.dev
 
-# Run tests (fast, no coverage report)
-test:
-    @echo "Running Rails tests..."
-    @bundle exec rails test
+# Run the dev stack on a specific port
+dev-port port="3000":
+    @PORT={{port}} overmind start -f Procfile.dev
 
-# Run tests with SimpleCov; enforces 90% business / 65% component coverage
+# Run all tests (fast, no coverage report)
+test *paths:
+    @bin/rails test {{paths}}
+
+# Run a single test file
+test-one path:
+    @bin/rails test {{path}}
+
+# Run tests with SimpleCov; enforces the coverage thresholds
 test-cov:
-    @echo "Running tests with coverage thresholds..."
-    @COVERAGE=1 bundle exec rails test
+    @COVERAGE=1 bin/rails test
 
 # Full CI pipeline (RuboCop + coverage + security audits)
 ci:
-    @echo "Running CI..."
     @bin/ci
 
 # Run RuboCop
 rubocop:
-    @echo "Running RuboCop..."
     @bundle exec rubocop
-
-# Database operations
-db-migrate:
-    @echo "Running database migrations..."
-    @bundle exec rails db:migrate
-
-db-seed:
-    @echo "Seeding database..."
-    @bundle exec rails db:seed
-
-# Install dependencies
-install:
-    @echo "Installing Ruby dependencies..."
-    @bundle install
-    @echo "Installing Node dependencies..."
-    @npm install
-    @just hooks-install
-
-# Point git at tracked hooks in .githooks/
-hooks-install:
-    @git config core.hooksPath .githooks
-    @chmod +x .githooks/pre-commit
-    @echo "Git hooks installed (.githooks/pre-commit → RuboCop)"
 
 # Format with Prettier (Ruby, JS, CSS, etc.)
 fmt:
@@ -58,3 +38,38 @@ fmt:
 # Check Prettier formatting
 fmt-check:
     @npx prettier --check .
+
+# Database operations
+migrate:
+    @bin/rails db:migrate
+
+seed:
+    @bin/rails db:seed
+
+db-prepare:
+    @bin/rails db:prepare
+
+db-reset:
+    @bin/rails db:reset
+
+# Rails console / db console / routes
+console:
+    @bin/rails console
+
+dbconsole:
+    @bin/rails dbconsole
+
+routes:
+    @bin/rails routes
+
+# Install dependencies + git hooks
+install:
+    @bundle install
+    @npm install
+    @just hooks-install
+
+# Point git at tracked hooks in .githooks/ (.githooks/pre-commit → RuboCop)
+hooks-install:
+    @git config core.hooksPath .githooks
+    @chmod +x .githooks/pre-commit
+    @echo "Git hooks installed (.githooks/pre-commit → RuboCop)"
