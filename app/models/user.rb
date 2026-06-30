@@ -4,6 +4,12 @@ class User < ApplicationRecord
   has_many :entries, dependent: :restrict_with_exception
   has_many :votes, dependent: :destroy
 
+  # Single-use, 15-minute password-reset token — invalidated once the password changes
+  # (the salt rotates). Rails 8 generates_token_for.
+  generates_token_for :password_reset, expires_in: 15.minutes do
+    password_salt&.last(10)
+  end
+
   # Public @handle: lowercase letters, digits, underscores; 3–20 chars; permanent.
   HANDLE_FORMAT = /\A[a-z0-9_]{3,20}\z/
 

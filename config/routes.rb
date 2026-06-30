@@ -23,6 +23,11 @@ Rails.application.routes.draw do
   get "sign_up", to: "registrations#new", as: :sign_up
   post "sign_up", to: "registrations#create"
 
+  get "password/reset", to: "passwords#new", as: :new_password_reset
+  post "password/reset", to: "passwords#create", as: :password_reset
+  get "password/reset/:token/edit", to: "passwords#edit", as: :edit_password_reset
+  patch "password/reset/:token", to: "passwords#update", as: :update_password_reset
+
   get "account", to: "accounts#settings", as: :account_settings
   patch "account/profile", to: "accounts#update_profile", as: :account_profile
   patch "account/security", to: "accounts#update_security", as: :account_security

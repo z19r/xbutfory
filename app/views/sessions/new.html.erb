@@ -24,7 +24,7 @@
           data: { password_toggle_target: "input" }
         ) do |field| %>
           <% field.with_label_aside do %>
-            <a href="#" class="c-auth-form__forgot">Forgot?</a>
+            <%= link_to "Forgot?", new_password_reset_path, class: "c-auth-form__forgot" %>
           <% end %>
           <% field.with_trailing do %>
             <button type="button" class="c-auth-form__reveal" data-action="password-toggle#toggle" data-password-toggle-target="button">SHOW</button>
