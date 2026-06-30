@@ -106,6 +106,9 @@ users_by_handle = {}
   users_by_handle[handle] = user
 end
 
+# Make one member an editor (admin) so the moderation queue is reachable in dev.
+users_by_handle["apt_4b"]&.update_column(:admin, true)
+
 entries_data.each_with_index do |attrs, i|
   entry = Entry.find_or_initialize_by(slug: "#{attrs[:x]}-but-for-#{attrs[:y]}".parameterize)
   entry.assign_attributes(attrs.except(:submitter)) # submitter column dropped; still used for user mapping

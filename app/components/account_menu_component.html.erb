@@ -16,6 +16,9 @@
     <div class="c-account-menu__label">SIGNED IN AS @<%= handle %></div>
     <%= link_to "Account settings", account_settings_path, class: "c-account-menu__item" %>
     <%= link_to "Manage submissions", manage_submissions_path, class: "c-account-menu__item" %>
+    <% if admin %>
+      <%= link_to "Moderation queue", admin_submissions_path, class: "c-account-menu__item" %>
+    <% end %>
     <div class="c-account-menu__divider" role="separator"></div>
     <%= button_to "Sign out", sign_out_path, method: :delete,
           class: "c-account-menu__item c-account-menu__item--signout",

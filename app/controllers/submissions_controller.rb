@@ -8,9 +8,9 @@ class SubmissionsController < ApplicationController
 
   def create
     @entry = current_user.entries.new(entry_params)
+    @entry.status = :pending # new submissions await editorial review
     if @entry.save
-      redirect_to entry_path(slug: @entry.slug),
-                  notice: submission_notice(@entry)
+      redirect_to manage_submissions_path, notice: submission_notice(@entry)
     else
       render :new, status: :unprocessable_entity
     end
@@ -83,10 +83,11 @@ class SubmissionsController < ApplicationController
   end
 
   def submission_notice(entry)
+    base = "Submitted — an editor will review it shortly."
     if entry.featured?
-      "Submitted. 💳 Payment for the featured spot is coming soon — you're listed in the meantime."
+      "#{base} 💳 Payment for the featured spot is coming soon."
     else
-      "Submitted. The editors will take a look."
+      base
     end
   end
 end

@@ -48,3 +48,11 @@ legacy:
   email: legacy@xbutfory.example
   password_digest: <%= password %>
   api_key: <%= SecureRandom.hex(24) %>
+
+editor:
+  handle: editor
+  display_name: The Editor
+  email: editor@example.com
+  password_digest: <%= password %>
+  api_key: <%= SecureRandom.hex(24) %>
+  admin: true

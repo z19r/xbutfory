@@ -1,0 +1,66 @@
+<% content_for :title, "Moderation queue — XbutforY" %>
+<% content_for :nav_tab, "none" %>
+<%
+  labels = { "pending" => "Pending", "needs_edits" => "Needs edits", "live" => "Live", "withdrawn" => "Withdrawn" }
+%>
+
+<header class="l-manage__head">
+  <div class="l-manage__eyebrow">EDITORIAL</div>
+  <h1 class="l-manage__title">Moderation queue</h1>
+  <div class="l-manage__rule"></div>
+</header>
+
+<nav class="l-manage__filters" aria-label="Filter by status">
+  <% Admin::SubmissionsController::STATUSES.each do |status| %>
+    <%= link_to admin_submissions_path(status: status),
+                class: "l-manage__pill #{'l-manage__pill--active' if @filter == status}" do %>
+      <%= labels[status] %> <span class="l-manage__pill-count"><%= @counts[status] %></span>
+    <% end %>
+  <% end %>
+</nav>
+
+<div class="l-manage__list">
+  <% if @entries.empty? %>
+    <p class="l-admin__empty">Nothing in this bucket. Inbox zero — savor it.</p>
+  <% end %>
+
+  <% @entries.each do |entry| %>
+    <article class="c-sub">
+      <div class="c-sub__votes">
+        <span class="c-sub__votes-num"><%= number_with_delimiter(entry.votes_count) %></span>
+        <span class="c-sub__votes-label">VOTES</span>
+      </div>
+
+      <div class="c-sub__body">
+        <div class="c-sub__meta">
+          <span class="c-sub__pill c-sub__pill--<%= entry.status %>"><%= labels[entry.status] %></span>
+          <% if entry.category.present? %><span class="c-sub__cat"><%= entry.category.titleize %></span><% end %>
+          <span class="c-sub__ago">by @<%= entry.user.handle %> &middot; <%= time_ago_in_words(entry.created_at) %> ago</span>
+        </div>
+        <div class="c-sub__title"><%= entry.x %> <i>but for</i> <%= entry.y %></div>
+        <% if entry.description.present? %>
+          <p class="l-admin__desc"><%= entry.description %></p>
+        <% end %>
+        <% if entry.needs_edits? && entry.reviewer_note.present? %>
+          <p class="c-sub__note">Note to submitter: <%= entry.reviewer_note %></p>
+        <% end %>
+      </div>
+
+      <div class="c-sub__actions l-admin__actions">
+        <% unless entry.live? %>
+          <%= button_to "Approve", approve_admin_submission_path(entry), method: :patch,
+                class: "c-sub__action c-sub__action--accent" %>
+        <% end %>
+        <% unless entry.withdrawn? %>
+          <details class="l-admin__reqedits">
+            <summary class="c-sub__action">Request changes</summary>
+            <%= form_with url: request_changes_admin_submission_path(entry), method: :patch, class: "l-admin__reqform" do %>
+              <textarea name="reviewer_note" class="l-admin__note-input" rows="2" placeholder="What needs fixing?"></textarea>
+              <%= render ButtonComponent.new(variant: "secondary", size: "sm", type: "submit") do %>Send back<% end %>
+            <% end %>
+          </details>
+        <% end %>
+      </div>
+    </article>
+  <% end %>
+</div>

@@ -28,6 +28,16 @@ Rails.application.routes.draw do
   get "password/reset/:token/edit", to: "passwords#edit", as: :edit_password_reset
   patch "password/reset/:token", to: "passwords#update", as: :update_password_reset
 
+  namespace :admin do
+    root to: "submissions#index"
+    resources :submissions, only: [:index] do
+      member do
+        patch :approve
+        patch :request_changes
+      end
+    end
+  end
+
   get "account", to: "accounts#settings", as: :account_settings
   patch "account/profile", to: "accounts#update_profile", as: :account_profile
   patch "account/security", to: "accounts#update_security", as: :account_security

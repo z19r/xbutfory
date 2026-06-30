@@ -25,6 +25,13 @@ module Authentication
     redirect_to sign_in_path, alert: "Please sign in to continue."
   end
 
+  # Editors only. 404 (not 403) so the admin area isn't discoverable.
+  def require_admin
+    return if current_user&.admin?
+
+    raise ActiveRecord::RecordNotFound
+  end
+
   def sign_in(user)
     return_to = session[:return_to]
     reset_session

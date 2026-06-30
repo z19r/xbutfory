@@ -28,9 +28,10 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
            }
     end
     entry = Entry.find_by(x: "TestApp")
-    assert_redirected_to entry_path(slug: "testapp-but-for-unit-tests")
+    assert_redirected_to manage_submissions_path
     assert_equal users(:member), entry.user
     assert_equal "member", entry.user.handle, "byline is the signed-in @handle"
+    assert entry.pending?, "new submissions await editorial review"
   end
 
   test "submit is gated behind a session" do
