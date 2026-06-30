@@ -82,9 +82,11 @@
   --gel-nav-bottom:    #6E8FC6; /* bottom hairline */
   --gel-nav-sheen:     rgba(255, 255, 255, 0.65);
   --gel-nav-drop:      rgba(40, 70, 120, 0.16);
-  --gel-tab-active:    linear-gradient(180deg, #fff, #EAF0FB); /* raised active tab */
-  --gel-tab-border:    #B7C8E6;
-  --gel-tab-shadow:    rgba(40, 70, 120, 0.18);
+  /* Active tab = frosted "liquid glass": translucent white so the periwinkle gel
+     shows through (paired with backdrop-filter in glossy_nav.css). */
+  --gel-tab-active:    linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.34));
+  --gel-tab-border:    rgba(255, 255, 255, 0.75);
+  --gel-tab-shadow:    rgba(40, 70, 120, 0.22);
   --gel-tab-ink:       #233A63; /* active tab text */
   --gel-tab-ink-idle:  #3A4E70; /* idle tab text */
   --gel-nav-note:      #3A5C8C; /* right-aligned count */
