@@ -4,5 +4,8 @@
   "tabWidth": 2,
   "trailingComma": "es5",
   "printWidth": 80,
-  "plugins": ["@prettier/plugin-ruby"]
+  "plugins": [
+    "@prettier/plugin-ruby"
+  ],
+  "rubySingleQuote": true
 }
