@@ -10,6 +10,19 @@ class User < ApplicationRecord
     password_salt&.last(10)
   end
 
+  # Email-confirmation token (2 days); embeds the email so it's void if the address changes.
+  generates_token_for :email_confirmation, expires_in: 2.days do
+    email
+  end
+
+  def confirmed?
+    confirmed_at.present?
+  end
+
+  def confirm!
+    update_column(:confirmed_at, Time.current) unless confirmed?
+  end
+
   # Public @handle: lowercase letters, digits, underscores; 3–20 chars; permanent.
   HANDLE_FORMAT = /\A[a-z0-9_]{3,20}\z/
 

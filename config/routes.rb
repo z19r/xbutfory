@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   get "sign_up", to: "registrations#new", as: :sign_up
   post "sign_up", to: "registrations#create"
 
+  get "confirm_email/:token", to: "confirmations#show", as: :confirm_email
+  post "confirm_email", to: "confirmations#create", as: :resend_confirmation
+
   get "password/reset", to: "passwords#new", as: :new_password_reset
   post "password/reset", to: "passwords#create", as: :password_reset
   get "password/reset/:token/edit", to: "passwords#edit", as: :edit_password_reset

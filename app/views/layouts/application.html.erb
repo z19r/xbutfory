@@ -38,6 +38,15 @@
       note: "#{number_with_delimiter(Entry.count)} sites indexed"
     ) %>
 
+    <% if current_user && !current_user.confirmed? %>
+      <div class="c-confirm-banner">
+        <div class="c-confirm-banner__inner">
+          <span>📨 Confirm your email (<%= current_user.email %>) to keep your account in good standing.</span>
+          <%= button_to "Resend link", resend_confirmation_path, method: :post, class: "c-confirm-banner__action" %>
+        </div>
+      </div>
+    <% end %>
+
     <main class="l-content">
       <%= yield %>
 

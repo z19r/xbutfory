@@ -12,4 +12,12 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match "/password/reset/", mail.body.encoded
     assert User.find_by_token_for(:password_reset, token) == user
   end
+
+  test "confirmation carries a valid email-confirmation link" do
+    user = users(:member)
+    mail = UserMailer.confirmation(user)
+    assert_equal [user.email], mail.to
+    assert_match(/confirm/i, mail.subject)
+    assert_match "/confirm_email/", mail.body.encoded
+  end
 end

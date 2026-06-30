@@ -8,12 +8,14 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".c-auth-card__title", text: "Claim your handle."
   end
 
-  test "creating an account signs the new member in" do
+  test "creating an account signs the new member in and sends a confirmation email" do
     assert_difference "User.count", 1 do
-      post sign_up_path, params: {
-        handle: "freshmint", display_name: "Fresh Mint",
-        email: "fresh@example.com", password: "secret123", password_confirmation: "secret123"
-      }
+      assert_enqueued_emails 1 do
+        post sign_up_path, params: {
+          handle: "freshmint", display_name: "Fresh Mint",
+          email: "fresh@example.com", password: "secret123", password_confirmation: "secret123"
+        }
+      end
     end
     assert_redirected_to root_path
     # immediately able to reach a gated action
