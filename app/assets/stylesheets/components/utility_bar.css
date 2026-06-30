@@ -83,7 +83,7 @@
 }
 
 .c-utility-bar__link {
-  margin: auto;
+  margin: 0;
   background: none;
   border: none;
   cursor: pointer;

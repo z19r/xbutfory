@@ -1,7 +1,7 @@
 .c-masthead {
   max-width: var(--shell-max);
   margin: 0 auto;
-  padding: 0 var(--page-gutter);
+  padding: 0 var(--page-gutter) 20px;
 }
 
 .c-masthead__eyebrow {
