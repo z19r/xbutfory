@@ -30,7 +30,8 @@ gem 'solid_cable'
 # Background jobs run on Sidekiq (Redis-backed) — the house standard.
 gem 'sidekiq', '~> 7.3'
 # Cron-style recurring jobs for Sidekiq (weekly digest, cleanup, etc.)
-gem 'sidekiq-cron', '~> 1.12'
+# >= 2.4 avoids the XSS advisory GHSA-xv9c-mjw8-79gf (CVE-2025-67202).
+gem 'sidekiq-cron', '~> 2.4'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
