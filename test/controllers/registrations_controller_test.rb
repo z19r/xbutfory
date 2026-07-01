@@ -22,9 +22,10 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
       end
     end
     assert_redirected_to root_path
-    # immediately able to reach a gated action
+    # signed in, but a fresh account is unconfirmed, so submitting is gated
+    # until the email is confirmed
     get new_submission_path
-    assert_response :success
+    assert_redirected_to root_path
   end
 
   test 'invalid registration is rejected' do

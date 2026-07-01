@@ -10,6 +10,28 @@ class PaymentTest < ActiveSupport::TestCase
     )
   end
 
+  test 'a new payment starts pending' do
+    assert pending_payment.pending?
+  end
+
+  test 'fail moves a pending payment to failed without promoting the entry' do
+    payment = pending_payment
+    payment.fail!
+    assert payment.failed?
+    assert_equal 'free', payment.entry.reload.tier
+  end
+
+  test 'refund reverses a paid payment and demotes the entry' do
+    payment = pending_payment
+    payment.pay!
+    assert_equal 'featured', payment.entry.reload.tier
+
+    payment.refund!
+
+    assert payment.refunded?
+    assert_equal 'free', payment.entry.reload.tier
+  end
+
   test 'fulfilling a payment promotes its entry to the featured tier' do
     payment = pending_payment
     assert_equal 'free', payment.entry.tier

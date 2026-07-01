@@ -67,6 +67,36 @@
   margin-bottom: var(--space-2); /* 6 */
 }
 
+/* Pitch label sits opposite the "auto-generate" action. */
+.c-submit__label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.c-submit__ai-btn {
+  border: 0;
+  background: none;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: var(--type-micro);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+.c-submit__ai-btn:hover {
+  opacity: 0.7;
+}
+
+.c-submit__ai-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 .c-submit__input {
   width: 100%;
   padding: 11px 14px;

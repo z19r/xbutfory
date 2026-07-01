@@ -4,6 +4,22 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
   setup { Stripe.api_key = 'sk_test_dummy' }
   teardown { Stripe.api_key = nil }
 
+  test 'an unconfirmed member is bounced from the submit form' do
+    sign_in_as(users(:unconfirmed))
+    get new_submission_path
+    assert_redirected_to root_path
+    assert_match(/confirm your email/i, flash[:alert])
+  end
+
+  test 'an unconfirmed member cannot create a listing' do
+    sign_in_as(users(:unconfirmed))
+    # the confirmation gate fires before validation, so params can be sparse
+    assert_no_difference('Entry.count') do
+      post submissions_path, params: { entry: { product: 'Notion' } }
+    end
+    assert_redirected_to root_path
+  end
+
   test 'submit form loads with tier selector and inline preview' do
     sign_in_as(users(:member))
     get new_submission_path
@@ -34,7 +50,24 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to manage_submissions_path
     assert_equal users(:member), entry.user
     assert_equal 'member', entry.user.handle, 'byline is the signed-in @handle'
-    assert entry.pending?, 'new submissions await editorial review'
+    assert entry.pending?, 'a first submission awaits editorial review'
+  end
+
+  test 'a trusted member (already has a live listing) publishes immediately' do
+    member = users(:member)
+    member.entries.create!(x: 'Prior', y: 'proof', description: 'earned trust')
+
+    sign_in_as(member)
+    post submissions_path,
+         params: {
+           entry: {
+             x: 'Trusted',
+             y: 'veterans',
+             description: 'no queue for the trusted',
+           },
+         }
+
+    assert Entry.find_by(x: 'Trusted').live?
   end
 
   test 'submit is gated behind a session' do
@@ -49,6 +82,15 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :unprocessable_entity
     assert_select '.c-submit__title', text: 'Submit a Site'
+  end
+
+  test 'a submission without a one-line pitch is rejected' do
+    sign_in_as(users(:member))
+    assert_no_difference 'Entry.count' do
+      post submissions_path,
+           params: { entry: { x: 'Slack', y: 'sailors', description: '' } }
+    end
+    assert_response :unprocessable_entity
   end
 
   test 'a featured submission is created free and redirected to Stripe checkout' do
@@ -67,6 +109,7 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
                  x: 'Fancy',
                  y: 'yachts',
                  tier: 'featured',
+                 description: 'Yacht booking, but fancy.',
                },
              }
       end
@@ -89,6 +132,7 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
                  x: 'Konami',
                  y: 'cheats',
                  tier: 'featured',
+                 description: 'Cheat codes, but for real life.',
                },
                coupon: 'xbutfory-k0n4m1',
              }

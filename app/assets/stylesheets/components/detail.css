@@ -31,6 +31,10 @@
 
 .c-detail__vbtn {
   width: 100%;
+  min-height: 44px; /* a11y: hit target ≥ 44px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 2px solid var(--border-rule);
   border-radius: 6px;
   padding: 11px 12px;
@@ -135,6 +139,7 @@
 .c-detail__visit {
   display: inline-flex;
   align-items: center;
+  min-height: 44px; /* a11y: hit target ≥ 44px */
   padding: 11px 22px;
   background: var(--ink);
   color: var(--on-dark);

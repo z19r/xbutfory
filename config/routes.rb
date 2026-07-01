@@ -9,6 +9,14 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  # In development, browse every outgoing email at /letter_opener.
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: '/letter_opener'
+  end
+
+  # AI-generated one-line pitch for the submit form (X but for Y).
+  post 'pitch', to: 'pitches#create', as: :pitch
+
   root 'pages#home'
   get 'feed.xml', to: 'feeds#show', as: :feed, format: false
   get 'entry/:slug', to: 'entries#show', as: :entry

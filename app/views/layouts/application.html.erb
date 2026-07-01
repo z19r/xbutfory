@@ -73,5 +73,32 @@
         <p class="c-konami__fine">redeemable on one submission &middot; expires never &middot; because you earned it</p>
       </div>
     </div>
+
+    <% unless current_user %>
+      <div
+        class="c-auth-modal"
+        data-controller="auth-modal"
+        data-action="keydown@window->auth-modal#onKeydown"
+        hidden
+      >
+        <div class="c-auth-modal__backdrop" data-action="click->auth-modal#close"></div>
+        <div
+          class="c-auth-modal__card"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="auth-modal-title"
+          data-auth-modal-target="card"
+        >
+          <button class="c-auth-modal__close" data-action="click->auth-modal#close" title="close">&times;</button>
+          <div class="c-auth-modal__label">HOLD ON &mdash;</div>
+          <h2 class="c-auth-modal__title" id="auth-modal-title">You need an account to <em>vote</em>.</h2>
+          <p class="c-auth-modal__body">Votes are the whole point of the ballot, so we tie them to a name. Sign in, or make an account &mdash; it takes a second.</p>
+          <div class="c-auth-modal__actions">
+            <%= link_to "Sign in", sign_in_path, class: "c-auth-modal__btn c-auth-modal__btn--solid" %>
+            <%= link_to "Create account", sign_up_path, class: "c-auth-modal__btn c-auth-modal__btn--ghost" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </body>
 </html>

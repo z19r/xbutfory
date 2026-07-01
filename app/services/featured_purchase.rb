@@ -18,7 +18,7 @@ class FeaturedPurchase
   def call
     coupon_matches = KonamiCoupon.matches?(@coupon)
 
-    return redeem_coupon if coupon_matches && KonamiCoupon.available_to?(@user)
+    return Result.new(outcome: :granted) if coupon_matches && redeem_coupon
 
     # A coupon skips Stripe; anything else needs card payments to be configured.
     return Result.new(outcome: :unconfigured) unless Stripe.api_key.present?
@@ -31,17 +31,26 @@ class FeaturedPurchase
 
   private
 
+  # Redeems the one-per-member coupon under a row lock so two simultaneous
+  # requests can't both clear the availability check and double-grant. Returns
+  # whether the grant happened (false = already spent → caller charges instead).
   def redeem_coupon
-    # Created pending so fulfill! actually runs (it no-ops on an already-settled row).
-    payment =
-      Payment.create!(
-        entry: @entry,
-        user: @user,
-        amount_cents: 0,
-        coupon_code: KonamiCoupon::CODE,
-      )
-    payment.fulfill!(status: 'free')
-    Result.new(outcome: :granted)
+    granted = false
+    @user.with_lock do
+      break unless KonamiCoupon.available_to?(@user)
+
+      # Created pending so fulfill! actually runs (no-ops on a settled row).
+      payment =
+        Payment.create!(
+          entry: @entry,
+          user: @user,
+          amount_cents: 0,
+          coupon_code: KonamiCoupon::CODE,
+        )
+      payment.fulfill!(status: 'free')
+      granted = true
+    end
+    granted
   end
 
   def start_checkout

@@ -23,10 +23,18 @@ gem 'bcrypt', '~> 3.1.7'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
-# Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
+# Use the database-backed adapters for Rails.cache and Action Cable
 gem 'solid_cache'
-gem 'solid_queue'
 gem 'solid_cable'
+
+# Background jobs run on Sidekiq (Redis-backed) — the house standard.
+gem 'sidekiq', '~> 7.3'
+# Sidekiq 7 calls TimedStack#pop(timeout); connection_pool 3.0 removed that
+# positional arg, so pin to the 2.x line until we move to Sidekiq 8.
+gem 'connection_pool', '~> 2.5'
+# Cron-style recurring jobs for Sidekiq (weekly digest, cleanup, etc.)
+# >= 2.4 avoids the XSS advisory GHSA-xv9c-mjw8-79gf (CVE-2025-67202).
+gem 'sidekiq-cron', '~> 2.4'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
@@ -42,6 +50,9 @@ gem 'image_processing', '~> 1.2'
 
 # Payments for the Featured listing tier [https://github.com/stripe/stripe-ruby]
 gem 'stripe', '~> 13.0'
+
+# State machines for entry/product/user/payment lifecycles [https://github.com/aasm/aasm]
+gem 'aasm', '~> 5.5'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -67,8 +78,9 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
 
-  # Preview outgoing email in the browser instead of sending [https://github.com/ryanb/letter_opener]
-  gem 'letter_opener'
+  # View outgoing email in an in-app inbox at /letter_opener (no browser launch
+  # needed, unlike plain letter_opener) [https://github.com/fgrehm/letter_opener_web]
+  gem 'letter_opener_web', '~> 3.0'
 end
 
 group :test do

@@ -33,21 +33,24 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Open every outgoing email in the browser instead of sending it.
-  config.action_mailer.delivery_method = :letter_opener
+  # Capture every outgoing email in the in-app inbox at /letter_opener.
+  config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
-  # Run deliver_later inline so letter_opener fires without a queue worker.
-  config.active_job.queue_adapter = :inline
+  # Active Job runs on Sidekiq (configured globally in application.rb); the
+  # Sidekiq worker in Procfile.dev processes deliver_later so letter_opener fires.
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
 
-  # Links in mailer templates (matches Procfile.dev PORT default).
+  # Links in mailer templates. Use APP_PORT (not PORT): overmind assigns each
+  # process its own PORT (web 5000, worker 5100, …), and mail rendered in the
+  # Sidekiq worker would otherwise link to the worker's port. APP_PORT is set
+  # once and shared, so web + mail URLs always agree. Matches Procfile.dev.
   config.action_mailer.default_url_options = {
     host: 'localhost',
-    port: ENV.fetch('PORT', 3000),
+    port: ENV.fetch('APP_PORT', 3000),
   }
 
   # Print deprecation notices to the Rails logger.

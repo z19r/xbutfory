@@ -1,11 +1,18 @@
-<p>Welcome, @<%= @user.handle %> 👋</p>
+<%= email_eyebrow "Almost there" %>
 
-<p>One click and your XbutforY account is confirmed — it keeps the index human:</p>
+<h1 style="font-family: 'Newsreader', Georgia, serif; font-weight: 600; font-size: 23px; line-height: 1.18; margin: 0 0 12px; color: #171008;">
+  Confirm your email, @<%= @user.handle %>.
+</h1>
 
-<p>
-  <%= link_to "Confirm my email", confirm_email_url(token: @token) %>
+<p style="margin: 0 0 18px;">
+  One click and your XbutforY account is live — you&rsquo;ll be able to submit
+  sites, vote on the ones that earn it, and get the Sunday digest. It keeps the
+  index human.
 </p>
 
-<p>The link is good for two days. If you didn't create this account, ignore this email.</p>
+<%= email_button "Confirm my email", confirm_email_url(token: @token) %>
 
-<p>— The XbutforY editors</p>
+<p style="margin: 16px 0 0; font-size: 13px; color: #6b5d4a;">
+  The link is good for two days. Didn&rsquo;t create this account? Ignore this
+  email and nothing happens.
+</p>

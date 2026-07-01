@@ -1,5 +1,6 @@
 class SubmissionsController < ApplicationController
   before_action :require_authentication
+  before_action :require_confirmed_email, only: %i[new create edit update]
   before_action :load_categories
 
   def new
@@ -10,9 +11,14 @@ class SubmissionsController < ApplicationController
     wants_featured = entry_params[:tier] == 'featured'
     @entry = current_user.entries.new(entry_params)
     @entry.tier = 'free' # Featured is only granted once paid (or via a coupon).
-    @entry.status = :pending # new submissions await editorial review
+    # First-timers are moderated; once a member has a live listing, they're
+    # trusted and subsequent submissions publish immediately.
+    @entry.status = current_user.entries.live.exists? ? :live : :pending
 
-    return render :new, status: :unprocessable_entity unless @entry.save
+    @entry.require_pitch = true
+    unless @entry.save
+      return render :new, status: :unprocessable_entity
+    end
 
     if wants_featured
       checkout_featured(@entry)
@@ -28,26 +34,27 @@ class SubmissionsController < ApplicationController
   def update
     @entry = own_entry
     was_needs_edits = @entry.needs_edits?
-    if @entry.update(entry_params)
-      @entry.update(status: 'pending') if was_needs_edits # "edit & resubmit"
+    @entry.assign_attributes(entry_params)
+    @entry.require_pitch = true
+    if @entry.save
+      @entry.resubmit! if was_needs_edits && @entry.may_resubmit? # edit & resubmit
       redirect_to manage_submissions_path, notice: 'Listing updated.'
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
-  # Status transitions from the manage screen (withdraw / cancel / restore).
-  TRANSITIONS = {
-    'withdrawn' => %w[live pending needs_edits],
-    'live' => %w[withdrawn],
-  }.freeze
+  # Status transitions from the manage screen (withdraw / restore), driven by
+  # the Entry state machine.
+  TRANSITION_EVENTS = { 'withdrawn' => :withdraw, 'live' => :restore }.freeze
 
   def transition
     entry = own_entry
-    target = params[:to]
-    if TRANSITIONS[target]&.include?(entry.status)
-      entry.update!(status: target)
-      redirect_to manage_submissions_path, notice: transition_notice(target)
+    event = TRANSITION_EVENTS[params[:to]]
+
+    if event && entry.public_send(:"may_#{event}?")
+      entry.public_send(:"#{event}!")
+      redirect_to manage_submissions_path, notice: transition_notice(params[:to])
     else
       redirect_to manage_submissions_path,
                   alert: "That status change isn't allowed."
@@ -55,6 +62,19 @@ class SubmissionsController < ApplicationController
   end
 
   private
+
+  # You can't list a site until you've confirmed your email — keeps the
+  # directory tied to reachable submitters.
+  def require_confirmed_email
+    return if current_user.confirmed?
+
+    redirect_to(
+      root_path,
+      alert:
+        'Confirm your email before submitting a listing. ' \
+          'Check your inbox, or resend the confirmation from your account.'
+    )
+  end
 
   def own_entry
     current_user.entries.find(params[:id])

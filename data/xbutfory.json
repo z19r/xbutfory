@@ -1,0 +1,832 @@
+[
+  {
+    "site": "Swimply",
+    "x": "Airbnb",
+    "x_url": "https://airbnb.com",
+    "y": "swimming pools",
+    "y_url": "https://swimply.com",
+    "category": "rentals",
+    "adult": false,
+    "desc": "Rent private pools by the hour"
+  },
+  {
+    "site": "Neighbor",
+    "x": "Airbnb",
+    "x_url": "https://airbnb.com",
+    "y": "self-storage",
+    "y_url": "https://neighbor.com",
+    "category": "rentals",
+    "adult": false,
+    "desc": "Rent out your garage or driveway as storage"
+  },
+  {
+    "site": "Boatsetter",
+    "x": "Airbnb",
+    "x_url": "https://airbnb.com",
+    "y": "boats",
+    "y_url": "https://boatsetter.com",
+    "category": "rentals",
+    "adult": false,
+    "desc": "Book private boats and yachts, captained or not"
+  },
+  {
+    "site": "Outdoorsy",
+    "x": "Airbnb",
+    "x_url": "https://airbnb.com",
+    "y": "RVs",
+    "y_url": "https://outdoorsy.com",
+    "category": "rentals",
+    "adult": false,
+    "desc": "Rent motorhomes and campers from owners"
+  },
+  {
+    "site": "Peerspace",
+    "x": "Airbnb",
+    "x_url": "https://airbnb.com",
+    "y": "event & work spaces",
+    "y_url": "https://peerspace.com",
+    "category": "rentals",
+    "adult": false,
+    "desc": "Book venues and filming locations by the hour"
+  },
+  {
+    "site": "Bezel",
+    "x": "StockX",
+    "x_url": "https://stockx.com",
+    "y": "luxury watches",
+    "y_url": "https://getbezel.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Authenticated luxury watches, each inspected by a specialist"
+  },
+  {
+    "site": "Chrono24",
+    "x": "eBay",
+    "x_url": "https://ebay.com",
+    "y": "luxury watches",
+    "y_url": "https://chrono24.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Global luxury-watch marketplace with escrow protection"
+  },
+  {
+    "site": "BrickLink",
+    "x": "eBay",
+    "x_url": "https://ebay.com",
+    "y": "LEGO",
+    "y_url": "https://bricklink.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "World's largest marketplace for LEGO parts and sets"
+  },
+  {
+    "site": "Whatnot",
+    "x": "eBay",
+    "x_url": "https://ebay.com",
+    "y": "live shopping",
+    "y_url": "https://whatnot.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Livestreamed auctions and flash sales for collectibles"
+  },
+  {
+    "site": "StockX",
+    "x": "stock market",
+    "x_url": null,
+    "y": "sneakers & collectibles",
+    "y_url": "https://stockx.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Bid/ask resale marketplace with authentication"
+  },
+  {
+    "site": "Masterworks",
+    "x": "Robinhood",
+    "x_url": "https://robinhood.com",
+    "y": "fine art",
+    "y_url": "https://masterworks.com",
+    "category": "investing",
+    "adult": false,
+    "desc": "Fractional shares of multi-million-dollar paintings"
+  },
+  {
+    "site": "Vinovest",
+    "x": "Robinhood",
+    "x_url": "https://robinhood.com",
+    "y": "wine & whiskey",
+    "y_url": "https://vinovest.co",
+    "category": "investing",
+    "adult": false,
+    "desc": "Managed portfolios of investment-grade wine and whiskey"
+  },
+  {
+    "site": "AcreTrader",
+    "x": "Robinhood",
+    "x_url": "https://robinhood.com",
+    "y": "farmland",
+    "y_url": "https://acretrader.com",
+    "category": "investing",
+    "adult": false,
+    "desc": "Shares in income-producing US farmland"
+  },
+  {
+    "site": "FarmTogether",
+    "x": "Robinhood",
+    "x_url": "https://robinhood.com",
+    "y": "farmland",
+    "y_url": "https://farmtogether.com",
+    "category": "investing",
+    "adult": false,
+    "desc": "Farmland crowdfunding and a sustainable farmland fund"
+  },
+  {
+    "site": "AllMyLinks",
+    "x": "Linktree",
+    "x_url": "https://linktr.ee",
+    "y": "adult creators",
+    "y_url": "https://allmylinks.com",
+    "category": "creator",
+    "adult": true,
+    "desc": "NSFW-friendly link-in-bio that won't ban adult links"
+  },
+  {
+    "site": "Beacons",
+    "x": "Linktree",
+    "x_url": "https://linktr.ee",
+    "y": "creator monetization",
+    "y_url": "https://beacons.ai",
+    "category": "creator",
+    "adult": false,
+    "desc": "Creator link-in-bio with store, media kit and email capture"
+  },
+  {
+    "site": "OnlyFans",
+    "x": "Patreon",
+    "x_url": "https://patreon.com",
+    "y": "adult creators",
+    "y_url": "https://onlyfans.com",
+    "category": "creator",
+    "adult": true,
+    "desc": "Monthly subscriptions to creators' (often adult) content"
+  },
+  {
+    "site": "Fansly",
+    "x": "OnlyFans",
+    "x_url": "https://onlyfans.com",
+    "y": "adult creators",
+    "y_url": "https://fansly.com",
+    "category": "creator",
+    "adult": true,
+    "desc": "Tiered adult subscriptions with free previews and fast payouts"
+  },
+  {
+    "site": "GitHub Sponsors",
+    "x": "Patreon",
+    "x_url": "https://patreon.com",
+    "y": "open-source devs",
+    "y_url": "https://github.com/sponsors",
+    "category": "creator",
+    "adult": false,
+    "desc": "Fund open-source maintainers directly, zero platform cut"
+  },
+  {
+    "site": "Open Collective",
+    "x": "Patreon",
+    "x_url": "https://patreon.com",
+    "y": "community funding",
+    "y_url": "https://opencollective.com",
+    "category": "creator",
+    "adult": false,
+    "desc": "Raise and spend money transparently with a legal entity"
+  },
+  {
+    "site": "FarmersOnly",
+    "x": "Tinder",
+    "x_url": "https://tinder.com",
+    "y": "farmers",
+    "y_url": "https://farmersonly.com",
+    "category": "dating",
+    "adult": false,
+    "desc": "Dating for rural singles; city folks just don't get it"
+  },
+  {
+    "site": "Farmers Dating",
+    "x": "Tinder",
+    "x_url": "https://tinder.com",
+    "y": "farmers",
+    "y_url": "https://farmersdatingapp.com",
+    "category": "dating",
+    "adult": false,
+    "desc": "Swipe dating app for farmers and country folk"
+  },
+  {
+    "site": "The League",
+    "x": "Tinder",
+    "x_url": "https://tinder.com",
+    "y": "ambitious professionals",
+    "y_url": "https://theleague.com",
+    "category": "dating",
+    "adult": false,
+    "desc": "LinkedIn-verified, highly selective matchmaking"
+  },
+  {
+    "site": "Soothe",
+    "x": "Uber",
+    "x_url": "https://uber.com",
+    "y": "massages",
+    "y_url": "https://soothe.com",
+    "category": "on-demand",
+    "adult": false,
+    "desc": "Vetted massage therapists to your door on demand"
+  },
+  {
+    "site": "Smooci",
+    "x": "Uber",
+    "x_url": "https://uber.com",
+    "y": "escorts",
+    "y_url": "https://smooci.com",
+    "category": "on-demand",
+    "adult": true,
+    "desc": "Real-time booking and tracking for independent escorts"
+  },
+  {
+    "site": "Doximity",
+    "x": "LinkedIn",
+    "x_url": "https://linkedin.com",
+    "y": "doctors",
+    "y_url": "https://doximity.com",
+    "category": "professional",
+    "adult": false,
+    "desc": "Professional network used by 85%+ of US physicians"
+  },
+  {
+    "site": "Hallow",
+    "x": "Calm",
+    "x_url": "https://calm.com",
+    "y": "Catholic prayer",
+    "y_url": "https://hallow.com",
+    "category": "wellness",
+    "adult": false,
+    "desc": "Audio-guided prayers, rosaries and Catholic meditations"
+  },
+  {
+    "site": "Glorify",
+    "x": "Calm",
+    "x_url": "https://calm.com",
+    "y": "Christian worship",
+    "y_url": "https://glorify-app.com",
+    "category": "wellness",
+    "adult": false,
+    "desc": "Daily bite-sized Christian worship and scripture"
+  },
+  {
+    "site": "Substack for Podcasts",
+    "x": "Substack",
+    "x_url": "https://substack.com",
+    "y": "podcasters",
+    "y_url": "https://substack.com/podcasts",
+    "category": "publishing",
+    "adult": false,
+    "desc": "Host a podcast and grow a paying audience, keep 90%"
+  },
+  {
+    "site": "Ghost",
+    "x": "Substack",
+    "x_url": "https://substack.com",
+    "y": "independent publishers",
+    "y_url": "https://ghost.org",
+    "category": "publishing",
+    "adult": false,
+    "desc": "Open-source newsletters and memberships, 0% revenue cut"
+  },
+  {
+    "site": "Stan Store",
+    "x": "Shopify",
+    "x_url": "https://shopify.com",
+    "y": "creators",
+    "y_url": "https://stan.store",
+    "category": "creator",
+    "adult": false,
+    "desc": "Link-in-bio store for digital products and coaching, 0% fees"
+  },
+  {
+    "site": "Libro.fm",
+    "x": "Audible",
+    "x_url": "https://audible.com",
+    "y": "indie-bookstore audiobooks",
+    "y_url": "https://libro.fm",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Audiobook subscription that shares profit with indie bookstores"
+  },
+  {
+    "site": "Geneva",
+    "x": "Discord",
+    "x_url": "https://discord.com",
+    "y": "clubs & interest groups",
+    "y_url": "https://geneva.com",
+    "category": "social",
+    "adult": false,
+    "desc": "Text, voice and video rooms for clubs and interest groups"
+  },
+  {
+    "site": "Hipcamp",
+    "x": "Airbnb",
+    "x_url": "https://airbnb.com",
+    "y": "camping & private land",
+    "y_url": "https://hipcamp.com",
+    "category": "rentals",
+    "adult": false,
+    "desc": "Book campsites, cabins and glamping on private land"
+  },
+  {
+    "site": "Misterb&b",
+    "x": "Airbnb",
+    "x_url": "https://airbnb.com",
+    "y": "LGBTQ+ travelers",
+    "y_url": "https://misterbandb.com",
+    "category": "rentals",
+    "adult": false,
+    "desc": "LGBTQ+-friendly homestays and hotels worldwide"
+  },
+  {
+    "site": "Sniffspot",
+    "x": "Airbnb",
+    "x_url": "https://airbnb.com",
+    "y": "private dog parks",
+    "y_url": "https://sniffspot.com",
+    "category": "rentals",
+    "adult": false,
+    "desc": "Rent a private fenced yard for your dog by the hour"
+  },
+  {
+    "site": "Rover",
+    "x": "Uber",
+    "x_url": "https://uber.com",
+    "y": "dog sitting",
+    "y_url": "https://rover.com",
+    "category": "on-demand",
+    "adult": false,
+    "desc": "Book trusted dog sitters, walkers and boarders"
+  },
+  {
+    "site": "Wag",
+    "x": "Uber",
+    "x_url": "https://uber.com",
+    "y": "dog walking",
+    "y_url": "https://wagwalking.com",
+    "category": "on-demand",
+    "adult": false,
+    "desc": "On-demand dog walking, sitting and training"
+  },
+  {
+    "site": "TaskRabbit",
+    "x": "Uber",
+    "x_url": "https://uber.com",
+    "y": "errands & handyman work",
+    "y_url": "https://taskrabbit.com",
+    "category": "on-demand",
+    "adult": false,
+    "desc": "Hire vetted local Taskers for chores and repairs"
+  },
+  {
+    "site": "Feeld",
+    "x": "Tinder",
+    "x_url": "https://tinder.com",
+    "y": "non-monogamy & kink",
+    "y_url": "https://feeld.co",
+    "category": "dating",
+    "adult": true,
+    "desc": "Dating for couples and singles exploring ENM and kink"
+  },
+  {
+    "site": "Sniffies",
+    "x": "Grindr",
+    "x_url": "https://grindr.com",
+    "y": "cruising",
+    "y_url": "https://sniffies.com",
+    "category": "dating",
+    "adult": true,
+    "desc": "Map-based cruising app for gay, bi and curious men"
+  },
+  {
+    "site": "3Fun",
+    "x": "Tinder",
+    "x_url": "https://tinder.com",
+    "y": "threesomes",
+    "y_url": "https://3fun.com",
+    "category": "dating",
+    "adult": true,
+    "desc": "Dating app for couples and singles seeking threesomes"
+  },
+  {
+    "site": "Grindr",
+    "x": "Tinder",
+    "x_url": "https://tinder.com",
+    "y": "gay & bi men",
+    "y_url": "https://grindr.com",
+    "category": "dating",
+    "adult": true,
+    "desc": "Location-based dating and hookups for gay and bi men"
+  },
+  {
+    "site": "Muzz",
+    "x": "Tinder",
+    "x_url": "https://tinder.com",
+    "y": "Muslim singles",
+    "y_url": "https://muzz.com",
+    "category": "dating",
+    "adult": false,
+    "desc": "Marriage-minded dating for Muslims (formerly Muzmatch)"
+  },
+  {
+    "site": "Christian Mingle",
+    "x": "Tinder",
+    "x_url": "https://tinder.com",
+    "y": "Christian singles",
+    "y_url": "https://christianmingle.com",
+    "category": "dating",
+    "adult": false,
+    "desc": "Faith-first dating for Christian singles"
+  },
+  {
+    "site": "JSwipe",
+    "x": "Tinder",
+    "x_url": "https://tinder.com",
+    "y": "Jewish singles",
+    "y_url": "https://jswipe.com",
+    "category": "dating",
+    "adult": false,
+    "desc": "Swipe dating for Jewish singles"
+  },
+  {
+    "site": "ManyVids",
+    "x": "Etsy",
+    "x_url": "https://etsy.com",
+    "y": "adult clip creators",
+    "y_url": "https://manyvids.com",
+    "category": "creator",
+    "adult": true,
+    "desc": "Marketplace where adult creators sell clips and customs"
+  },
+  {
+    "site": "JustForFans",
+    "x": "OnlyFans",
+    "x_url": "https://onlyfans.com",
+    "y": "LGBTQ+ adult creators",
+    "y_url": "https://justfor.fans",
+    "category": "creator",
+    "adult": true,
+    "desc": "Adult subscriptions built around LGBTQ+ creators"
+  },
+  {
+    "site": "SubscribeStar",
+    "x": "Patreon",
+    "x_url": "https://patreon.com",
+    "y": "creators incl. adult",
+    "y_url": "https://subscribestar.com",
+    "category": "creator",
+    "adult": true,
+    "desc": "Membership platform that also allows adult content"
+  },
+  {
+    "site": "LoyalFans",
+    "x": "OnlyFans",
+    "x_url": "https://onlyfans.com",
+    "y": "adult creators",
+    "y_url": "https://loyalfans.com",
+    "category": "creator",
+    "adult": true,
+    "desc": "Adult creator subscriptions, live shows and pay-per-view"
+  },
+  {
+    "site": "Rally",
+    "x": "Robinhood",
+    "x_url": "https://robinhood.com",
+    "y": "blue-chip collectibles",
+    "y_url": "https://rallyrd.com",
+    "category": "investing",
+    "adult": false,
+    "desc": "Buy fractional shares of cars, cards and memorabilia"
+  },
+  {
+    "site": "Vint",
+    "x": "Robinhood",
+    "x_url": "https://robinhood.com",
+    "y": "fine wine",
+    "y_url": "https://vint.co",
+    "category": "investing",
+    "adult": false,
+    "desc": "Invest in shares of curated fine wine and spirits collections"
+  },
+  {
+    "site": "Fundrise",
+    "x": "Robinhood",
+    "x_url": "https://robinhood.com",
+    "y": "real estate",
+    "y_url": "https://fundrise.com",
+    "category": "investing",
+    "adult": false,
+    "desc": "Invest in private real estate from $10"
+  },
+  {
+    "site": "Arrived",
+    "x": "Robinhood",
+    "x_url": "https://robinhood.com",
+    "y": "rental homes",
+    "y_url": "https://arrived.com",
+    "category": "investing",
+    "adult": false,
+    "desc": "Buy shares of individual rental properties"
+  },
+  {
+    "site": "Groundfloor",
+    "x": "Robinhood",
+    "x_url": "https://robinhood.com",
+    "y": "real-estate debt",
+    "y_url": "https://groundfloor.com",
+    "category": "investing",
+    "adult": false,
+    "desc": "Invest small sums in short-term property loans"
+  },
+  {
+    "site": "Wefunder",
+    "x": "Kickstarter",
+    "x_url": "https://kickstarter.com",
+    "y": "startup equity",
+    "y_url": "https://wefunder.com",
+    "category": "investing",
+    "adult": false,
+    "desc": "Back startups for as little as $100"
+  },
+  {
+    "site": "StartEngine",
+    "x": "Robinhood",
+    "x_url": "https://robinhood.com",
+    "y": "startup equity",
+    "y_url": "https://startengine.com",
+    "category": "investing",
+    "adult": false,
+    "desc": "Invest in early-stage private companies"
+  },
+  {
+    "site": "Grailed",
+    "x": "eBay",
+    "x_url": "https://ebay.com",
+    "y": "menswear",
+    "y_url": "https://grailed.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Marketplace for men's designer and streetwear resale"
+  },
+  {
+    "site": "Depop",
+    "x": "Etsy",
+    "x_url": "https://etsy.com",
+    "y": "secondhand fashion",
+    "y_url": "https://depop.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Social marketplace for vintage and secondhand fashion"
+  },
+  {
+    "site": "Poshmark",
+    "x": "eBay",
+    "x_url": "https://ebay.com",
+    "y": "closet resale",
+    "y_url": "https://poshmark.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Social marketplace for reselling clothing and accessories"
+  },
+  {
+    "site": "GOAT",
+    "x": "StockX",
+    "x_url": "https://stockx.com",
+    "y": "sneakers",
+    "y_url": "https://goat.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Authenticated marketplace for sneakers and apparel"
+  },
+  {
+    "site": "Reverb",
+    "x": "eBay",
+    "x_url": "https://ebay.com",
+    "y": "musicians",
+    "y_url": "https://reverb.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Marketplace for new, used and vintage music gear"
+  },
+  {
+    "site": "Discogs",
+    "x": "eBay",
+    "x_url": "https://ebay.com",
+    "y": "vinyl records",
+    "y_url": "https://discogs.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Marketplace and database for vinyl and physical music"
+  },
+  {
+    "site": "Chairish",
+    "x": "Etsy",
+    "x_url": "https://etsy.com",
+    "y": "vintage furniture",
+    "y_url": "https://chairish.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Curated marketplace for vintage and designer furniture"
+  },
+  {
+    "site": "1stDibs",
+    "x": "eBay",
+    "x_url": "https://ebay.com",
+    "y": "luxury antiques & design",
+    "y_url": "https://1stdibs.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Marketplace for high-end antiques, art and design"
+  },
+  {
+    "site": "Tindie",
+    "x": "Etsy",
+    "x_url": "https://etsy.com",
+    "y": "indie electronics",
+    "y_url": "https://tindie.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Marketplace for maker-built hardware and gadgets"
+  },
+  {
+    "site": "Bandcamp",
+    "x": "iTunes",
+    "x_url": "https://music.apple.com",
+    "y": "indie musicians",
+    "y_url": "https://bandcamp.com",
+    "category": "marketplace",
+    "adult": false,
+    "desc": "Store where independent artists sell music direct to fans"
+  },
+  {
+    "site": "Ko-fi",
+    "x": "Patreon",
+    "x_url": "https://patreon.com",
+    "y": "creator tips",
+    "y_url": "https://ko-fi.com",
+    "category": "creator",
+    "adult": false,
+    "desc": "Tip jar and memberships for creators, no platform cut"
+  },
+  {
+    "site": "Buy Me a Coffee",
+    "x": "Patreon",
+    "x_url": "https://patreon.com",
+    "y": "creators",
+    "y_url": "https://buymeacoffee.com",
+    "category": "creator",
+    "adult": false,
+    "desc": "Simple tips, memberships and paid posts for creators"
+  },
+  {
+    "site": "Gumroad",
+    "x": "Etsy",
+    "x_url": "https://etsy.com",
+    "y": "digital products",
+    "y_url": "https://gumroad.com",
+    "category": "creator",
+    "adult": false,
+    "desc": "Sell ebooks, courses and downloads directly to buyers"
+  },
+  {
+    "site": "Beehiiv",
+    "x": "Substack",
+    "x_url": "https://substack.com",
+    "y": "newsletters",
+    "y_url": "https://beehiiv.com",
+    "category": "publishing",
+    "adult": false,
+    "desc": "Newsletter platform with growth and ad tools built in"
+  },
+  {
+    "site": "Carrd",
+    "x": "Linktree",
+    "x_url": "https://linktr.ee",
+    "y": "one-page sites",
+    "y_url": "https://carrd.co",
+    "category": "creator",
+    "adult": false,
+    "desc": "Build a full single-page site instead of a link list"
+  },
+  {
+    "site": "Fourthwall",
+    "x": "Shopify",
+    "x_url": "https://shopify.com",
+    "y": "creator merch",
+    "y_url": "https://fourthwall.com",
+    "category": "creator",
+    "adult": false,
+    "desc": "Storefronts and merch fulfillment built for creators"
+  },
+  {
+    "site": "Big Cartel",
+    "x": "Shopify",
+    "x_url": "https://shopify.com",
+    "y": "artists & makers",
+    "y_url": "https://bigcartel.com",
+    "category": "creator",
+    "adult": false,
+    "desc": "Simple online stores for independent artists"
+  },
+  {
+    "site": "Zocdoc",
+    "x": "OpenTable",
+    "x_url": "https://opentable.com",
+    "y": "doctor appointments",
+    "y_url": "https://zocdoc.com",
+    "category": "booking",
+    "adult": false,
+    "desc": "Find in-network doctors and book appointments online"
+  },
+  {
+    "site": "Booksy",
+    "x": "OpenTable",
+    "x_url": "https://opentable.com",
+    "y": "barbers & salons",
+    "y_url": "https://booksy.com",
+    "category": "booking",
+    "adult": false,
+    "desc": "Discover and book barbers, stylists and beauty pros"
+  },
+  {
+    "site": "Healthgrades",
+    "x": "Yelp",
+    "x_url": "https://yelp.com",
+    "y": "doctors",
+    "y_url": "https://healthgrades.com",
+    "category": "reviews",
+    "adult": false,
+    "desc": "Search, compare and review doctors and hospitals"
+  },
+  {
+    "site": "Backloggd",
+    "x": "Letterboxd",
+    "x_url": "https://letterboxd.com",
+    "y": "video games",
+    "y_url": "https://backloggd.com",
+    "category": "reviews",
+    "adult": false,
+    "desc": "Log, rate and review the games you play"
+  },
+  {
+    "site": "Serializd",
+    "x": "Letterboxd",
+    "x_url": "https://letterboxd.com",
+    "y": "TV shows",
+    "y_url": "https://serializd.com",
+    "category": "reviews",
+    "adult": false,
+    "desc": "Track and review TV series and individual episodes"
+  },
+  {
+    "site": "StoryGraph",
+    "x": "Goodreads",
+    "x_url": "https://goodreads.com",
+    "y": "books",
+    "y_url": "https://thestorygraph.com",
+    "category": "reviews",
+    "adult": false,
+    "desc": "Track reading with mood and pace-based recommendations"
+  },
+  {
+    "site": "Untappd",
+    "x": "Instagram",
+    "x_url": "https://instagram.com",
+    "y": "beer",
+    "y_url": "https://untappd.com",
+    "category": "reviews",
+    "adult": false,
+    "desc": "Check in, rate and share the beers you drink"
+  },
+  {
+    "site": "Vivino",
+    "x": "Untappd",
+    "x_url": "https://untappd.com",
+    "y": "wine",
+    "y_url": "https://vivino.com",
+    "category": "reviews",
+    "adult": false,
+    "desc": "Scan a label to rate, review and buy wine"
+  },
+  {
+    "site": "Nebula",
+    "x": "YouTube",
+    "x_url": "https://youtube.com",
+    "y": "creator-owned video",
+    "y_url": "https://nebula.tv",
+    "category": "social",
+    "adult": false,
+    "desc": "Subscription video platform owned by its creators"
+  }
+]

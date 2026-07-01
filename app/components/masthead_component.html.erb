@@ -10,7 +10,7 @@
       <% else %>
         <div class="c-masthead__search-placeholder"></div>
       <% end %>
-      <button class="c-btn c-btn--rss" data-action="click->toast#showMessage" data-message="📡 RSS: point your reader at /feed.xml — fresh entries daily.">📡 RSS</button>
+      <a class="c-btn c-btn--rss" href="/feed.xml" title="Subscribe — Atom/RSS feed, fresh entries daily">📡 RSS</a>
       <% if submit_slot? %>
         <%= submit_slot %>
       <% else %>

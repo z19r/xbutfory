@@ -38,8 +38,12 @@ class AccountsController < ApplicationController
 
   def update_notifications
     @user = current_user
-    @user.update(notification_params)
-    redirect_to account_settings_path, notice: 'Notification preferences saved.'
+    if @user.update(notification_params)
+      redirect_to account_settings_path,
+                  notice: 'Notification preferences saved.'
+    else
+      render :settings, status: :unprocessable_entity
+    end
   end
 
   def regenerate_api_key

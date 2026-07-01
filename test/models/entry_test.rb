@@ -9,6 +9,50 @@ class EntryTest < ActiveSupport::TestCase
     assert_includes entry.errors[:user], 'must exist'
   end
 
+  test 'direct creates default to live' do
+    assert Entry.create!(x: 'Acme', y: 'ants', user: @user).live?
+  end
+
+  test 'approve publishes a pending listing and clears the review note' do
+    entry =
+      Entry.create!(
+        x: 'Acme',
+        y: 'ants',
+        user: @user,
+        status: 'pending',
+        reviewer_note: 'fix the pitch',
+      )
+
+    entry.approve!
+
+    assert entry.live?
+    assert_nil entry.reviewer_note
+  end
+
+  test 'request_changes then resubmit cycles through needs_edits and pending' do
+    entry = Entry.create!(x: 'Acme', y: 'ants', user: @user, status: 'pending')
+
+    entry.request_changes!
+    assert entry.needs_edits?
+
+    entry.resubmit!
+    assert entry.pending?
+  end
+
+  test 'withdraw and restore hide and republish a listing' do
+    entry = Entry.create!(x: 'Acme', y: 'ants', user: @user)
+
+    entry.withdraw!
+    assert entry.withdrawn?
+
+    entry.restore!
+    assert entry.live?
+  end
+
+  test 'cannot approve an already-live listing' do
+    assert_not Entry.create!(x: 'Acme', y: 'ants', user: @user).may_approve?
+  end
+
   test 'generates slug from x and y on create' do
     entry = Entry.create!(x: 'Slack', y: 'pets', user: @user)
     assert_equal 'slack-but-for-pets', entry.slug
@@ -40,11 +84,13 @@ class EntryTest < ActiveSupport::TestCase
     assert_not entry.valid?
   end
 
-  test 'enforces unique slugs' do
-    Entry.create!(x: 'Slack', y: 'pets', user: @user)
-    duplicate = Entry.new(x: 'Slack', y: 'pets', user: @user)
-    assert_not duplicate.valid?
-    assert_includes duplicate.errors[:slug], 'has already been taken'
+  test 'disambiguates slugs when two sites share an X-but-for-Y formula' do
+    first = Entry.create!(x: 'Slack', y: 'pets', user: @user)
+    second = Entry.create!(x: 'Slack', y: 'pets', user: @user)
+
+    assert_equal 'slack-but-for-pets', first.slug
+    assert_equal 'slack-but-for-pets-2', second.slug
+    assert_not_equal first.slug, second.slug
   end
 
   test 'title returns formatted string' do
@@ -111,5 +157,40 @@ class EntryTest < ActiveSupport::TestCase
     assert entry.featured?
     entry.tier = 'free'
     assert_not entry.featured?
+  end
+
+  test 'rejects a url with a non-http(s) scheme' do
+    entry =
+      Entry.new(x: 'Acme', y: 'ants', user: @user, url: 'javascript:alert(1)')
+    assert_not entry.valid?
+    assert_includes entry.errors[:url], 'must start with http:// or https://'
+  end
+
+  test 'allows http(s) urls and a blank url' do
+    assert Entry.new(
+             x: 'A',
+             y: 'b',
+             user: @user,
+             url: 'https://ok.example',
+           ).valid?
+    assert Entry.new(
+             x: 'A',
+             y: 'b',
+             user: @user,
+             url: 'http://ok.example',
+           ).valid?
+    assert Entry.new(x: 'A', y: 'b', user: @user, url: '').valid?
+  end
+
+  test 'rejects a url that smuggles a second line past the scheme' do
+    entry =
+      Entry.new(
+        x: 'A',
+        y: 'b',
+        user: @user,
+        url: "https://ok.example\njavascript:alert(1)",
+      )
+    assert_not entry.valid?
+    assert_includes entry.errors[:url], 'must start with http:// or https://'
   end
 end

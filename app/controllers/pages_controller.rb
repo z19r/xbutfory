@@ -2,12 +2,14 @@ class PagesController < ApplicationController
   def home
     @sort = params[:sort].presence || 'newest'
     @query = params[:q].presence
-    @after_dark = cookies[:after_dark] == '1'
+    @after_dark = after_dark?
     @filter_category = Category.find_by(slug: params[:category]) if params[
       :category
     ].present?
 
-    base = @after_dark ? Entry.all : Entry.sfw
+    # Only live listings are public — pending/needs_edits/withdrawn stay off the
+    # index (and out of the stats + sponsor slots, which derive from this scope).
+    base = @after_dark ? Entry.live : Entry.live.sfw
     @entries =
       FeedQuery.new(
         scope: base,
@@ -16,9 +18,9 @@ class PagesController < ApplicationController
         category: @filter_category,
       ).entries
 
-    @new_today = Entry.where(created_at: Date.current.all_day).count
-    @total_entries = Entry.count
-    @total_votes = Entry.sum(:votes_count)
+    @new_today = Entry.live.where(created_at: Date.current.all_day).count
+    @total_entries = Entry.live.count
+    @total_votes = Entry.live.sum(:votes_count)
     @categories_count = Category.count
     @tag_cloud = tag_cloud(include_nsfw: @after_dark)
   end

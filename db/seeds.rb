@@ -466,3 +466,10 @@ moderation_data.each do |attrs|
 end
 
 puts "Seeded #{User.count} users, #{Category.count} categories, #{Entry.count} entries and #{Vote.count} votes."
+
+# If a curated xbutfory.json is present, swap the demo listings above for the
+# real sites. No-ops (leaving the demo data) until the blob is provided.
+if SiteImporter.source_present?
+  imported = SiteImporter.call
+  puts "Replaced demo listings with #{imported} curated sites from xbutfory.json."
+end

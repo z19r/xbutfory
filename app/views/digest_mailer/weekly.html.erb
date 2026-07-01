@@ -1,23 +1,36 @@
-<p>Another week, another pile of launches. Here's what the index caught:</p>
+<%= email_eyebrow "The weekly digest" %>
 
-<ul>
-  <% @entries.each do |entry| %>
-    <li>
-      <%= link_to entry.title, entry_url(slug: entry.slug) %>
-      <% if entry.description.present? %>&mdash; <%= entry.description %><% end %>
-    </li>
-  <% end %>
-</ul>
+<h1 style="font-family: 'Newsreader', Georgia, serif; font-weight: 600; font-size: 23px; line-height: 1.18; margin: 0 0 6px; color: #171008;">
+  This week in &ldquo;X but for Y&rdquo;.
+</h1>
 
-<p>
-  <%= link_to "Browse the full index", root_url %>
+<p style="margin: 0 0 20px;">
+  Another week, another pile of launches. Here&rsquo;s what the index caught.
 </p>
 
-<p>— The XbutforY editors</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+  <% @entries.each do |entry| %>
+    <tr>
+      <td style="padding: 14px 0; border-top: 1px solid #e4dac9;">
+        <div style="font-family: 'Newsreader', Georgia, serif; font-size: 18px; line-height: 1.25; margin: 0 0 3px;">
+          <%= link_to entry.title, entry_url(slug: entry.slug), style: "color: #171008; text-decoration: none;" %>
+        </div>
+        <% if entry.description.present? %>
+          <div style="font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 14px; line-height: 1.5; color: #6b5d4a;">
+            <%= entry.description %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<div style="border-top: 1px solid #e4dac9; margin: 4px 0 20px;"></div>
+
+<%= email_button "Browse the full index", root_url %>
 
 <% if @unsubscribe_url %>
-  <hr>
-  <p style="font-size: 12px; color: #777">
-    Tired of us? <%= link_to "Unsubscribe", @unsubscribe_url %>.
+  <p style="margin: 18px 0 0; font-size: 12px; color: #8a7a63;">
+    Tired of us? <%= link_to "Unsubscribe", @unsubscribe_url, style: "color: #8a7a63;" %> — no hard feelings.
   </p>
 <% end %>

@@ -19,6 +19,11 @@ class MastheadComponentTest < ViewComponent::TestCase
     assert_selector '.c-masthead__eyebrow', text: 'THE DIRECTORY OF'
   end
 
+  test 'the RSS button links to the feed' do
+    render_inline(MastheadComponent.new)
+    assert_selector "a.c-btn--rss[href='/feed.xml']", text: /RSS/
+  end
+
   test 'renders search slot' do
     render_inline(MastheadComponent.new) do |masthead|
       masthead.with_search_slot { "<input type='search'>".html_safe }

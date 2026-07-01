@@ -22,13 +22,8 @@ export default class extends Controller {
     });
 
     if (response.status === 401) {
-      document.dispatchEvent(
-        new CustomEvent('toast:show', {
-          detail: {
-            message: '🔒 Sign in to vote — it keeps the ballots honest.',
-          },
-        })
-      );
+      // Voting logged out opens the sign-in modal, not a fleeting toast.
+      document.dispatchEvent(new CustomEvent('auth-modal:open'));
       return;
     }
     if (!response.ok) return;
