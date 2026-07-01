@@ -9,6 +9,50 @@ class EntryTest < ActiveSupport::TestCase
     assert_includes entry.errors[:user], 'must exist'
   end
 
+  test 'direct creates default to live' do
+    assert Entry.create!(x: 'Acme', y: 'ants', user: @user).live?
+  end
+
+  test 'approve publishes a pending listing and clears the review note' do
+    entry =
+      Entry.create!(
+        x: 'Acme',
+        y: 'ants',
+        user: @user,
+        status: 'pending',
+        reviewer_note: 'fix the pitch',
+      )
+
+    entry.approve!
+
+    assert entry.live?
+    assert_nil entry.reviewer_note
+  end
+
+  test 'request_changes then resubmit cycles through needs_edits and pending' do
+    entry = Entry.create!(x: 'Acme', y: 'ants', user: @user, status: 'pending')
+
+    entry.request_changes!
+    assert entry.needs_edits?
+
+    entry.resubmit!
+    assert entry.pending?
+  end
+
+  test 'withdraw and restore hide and republish a listing' do
+    entry = Entry.create!(x: 'Acme', y: 'ants', user: @user)
+
+    entry.withdraw!
+    assert entry.withdrawn?
+
+    entry.restore!
+    assert entry.live?
+  end
+
+  test 'cannot approve an already-live listing' do
+    assert_not Entry.create!(x: 'Acme', y: 'ants', user: @user).may_approve?
+  end
+
   test 'generates slug from x and y on create' do
     entry = Entry.create!(x: 'Slack', y: 'pets', user: @user)
     assert_equal 'slack-but-for-pets', entry.slug

@@ -12,17 +12,15 @@ class Admin::SubmissionsController < ApplicationController
 
   def approve
     entry = Entry.find(params[:id])
-    entry.update!(status: 'live', reviewer_note: nil)
+    entry.approve! if entry.may_approve? # clears the review note
     redirect_to admin_submissions_path,
                 notice: "Approved — “#{entry.title}” is live."
   end
 
   def request_changes
     entry = Entry.find(params[:id])
-    entry.update!(
-      status: 'needs_edits',
-      reviewer_note: params[:reviewer_note].to_s.strip.presence,
-    )
+    entry.reviewer_note = params[:reviewer_note].to_s.strip.presence
+    entry.request_changes! if entry.may_request_changes?
     redirect_to admin_submissions_path,
                 notice: "Sent “#{entry.title}” back for edits."
   end
