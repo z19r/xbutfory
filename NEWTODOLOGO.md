@@ -16,7 +16,7 @@ Any questions before you start?
 - [ ] All the fake sites need to be removed and replaced with the sites in the jsob blob in @xbutfory.json
 - [ ] Modal should pop up when attempting to vote logged out, not toast
 - [ ] Weekly Digest -> if logged in, email should be prefilled, but editable
-- [ ] Submission needs to be disabled when email is not confirmed
+- [x] Submission needs to be disabled when email is not confirmed — `require_confirmed_email` before_action on new/create/edit/update; unconfirmed users bounce to home with a "confirm your email" alert.
 - [ ] The X's should be static and defined by admin only
   - [ ] They should be shown in a typical dropdown
   - [ ] a 'Suggest New' option should be available with a note saying it needs to be approved

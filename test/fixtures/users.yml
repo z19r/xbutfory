@@ -41,6 +41,14 @@ member:
   email: member@example.com
   password_digest: <%= password %>
   api_key: <%= SecureRandom.hex(24) %>
+  confirmed_at: <%= 3.days.ago %>
+
+unconfirmed:
+  handle: unconfirmed
+  display_name: Not Yet Confirmed
+  email: unconfirmed@example.com
+  password_digest: <%= password %>
+  api_key: <%= SecureRandom.hex(24) %>
 
 legacy:
   handle: legacy

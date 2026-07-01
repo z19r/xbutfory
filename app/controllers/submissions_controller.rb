@@ -1,5 +1,6 @@
 class SubmissionsController < ApplicationController
   before_action :require_authentication
+  before_action :require_confirmed_email, only: %i[new create edit update]
   before_action :load_categories
 
   def new
@@ -55,6 +56,19 @@ class SubmissionsController < ApplicationController
   end
 
   private
+
+  # You can't list a site until you've confirmed your email — keeps the
+  # directory tied to reachable submitters.
+  def require_confirmed_email
+    return if current_user.confirmed?
+
+    redirect_to(
+      root_path,
+      alert:
+        'Confirm your email before submitting a listing. ' \
+          'Check your inbox, or resend the confirmation from your account.'
+    )
+  end
 
   def own_entry
     current_user.entries.find(params[:id])

@@ -4,6 +4,22 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
   setup { Stripe.api_key = 'sk_test_dummy' }
   teardown { Stripe.api_key = nil }
 
+  test 'an unconfirmed member is bounced from the submit form' do
+    sign_in_as(users(:unconfirmed))
+    get new_submission_path
+    assert_redirected_to root_path
+    assert_match(/confirm your email/i, flash[:alert])
+  end
+
+  test 'an unconfirmed member cannot create a listing' do
+    sign_in_as(users(:unconfirmed))
+    # the confirmation gate fires before validation, so params can be sparse
+    assert_no_difference('Entry.count') do
+      post submissions_path, params: { entry: { product: 'Notion' } }
+    end
+    assert_redirected_to root_path
+  end
+
   test 'submit form loads with tier selector and inline preview' do
     sign_in_as(users(:member))
     get new_submission_path
