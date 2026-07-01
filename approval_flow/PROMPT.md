@@ -12,7 +12,7 @@ Turn the free-text **X** in "*X but for Y*" into a **curated, admin-managed
 vocabulary**. On the submit form the X becomes a dropdown of approved products
 plus a **"Suggest New…"** option (with a note that suggestions need editor
 approval). Filing a suggestion emails the admins; the admin queue lets an editor
-**approve** or **deny** each one, and every verdict emails the original
+**approve** or **reject** each one, and every verdict emails the original
 suggester (OP). Build it the way this repo already builds things.
 
 ## Ground rules (this repo — non-negotiable)
@@ -51,38 +51,48 @@ Do **not** run raw `bin/rails server`; the dev stack is `bin/dev` / `just dev`
 
 ## TODO checklist (ordered — each item independently checkable)
 
-- [ ] **1. Product model + migration.** `Product` with `name` (unique,
-  case-insensitive), `slug`, `status` enum (`approved`/`pending`/`denied`,
-  string-backed like `Entry#status`, default `approved`), optional
-  `belongs_to :suggested_by, class_name: 'User'`, `decided_at`. `for_dropdown`
-  scope (approved, sorted). Model test + `products.yml` fixture. GREEN.
-- [ ] **2. Entry ↔ Product link.** Nullable `product_id` + FK on `entries`,
-  `belongs_to :product, optional: true`. `entry.x` unchanged. Test GREEN.
-- [ ] **3. `ProductSuggestionMailer`** with `submitted(product:)` (→ admins),
-  `approved(product:)` and `denied(product:)` (→ `product.suggested_by.email`).
-  HTML views + deadpan copy. Mailer test GREEN.
-- [ ] **4. `Products::Suggestion` service** — find-or-create pending product
-  (dedupe on `LOWER(name)`), attribute to OP, enqueue admin mail. Test GREEN.
-- [ ] **5. `Products::Decision` service** — `approve!` / `deny!` flip status +
-  `decided_at`; approve releases matching pending entries to live; each enqueues
-  the OP mail (guard missing `suggested_by`). Test GREEN.
-- [ ] **6. Admin queue controller + routes.** `Admin::ProductsController`
-  (`require_admin`, index filter/counts, `approve`/`deny` members) added to the
-  `namespace :admin` block. Controller test GREEN.
-- [ ] **7. Admin queue view** cloning the submissions queue markup
-  (`l-manage__*` / `c-sub__*`), `ButtonComponent`, token-driven CSS. Renders
-  pending products with Approve/Deny.
-- [ ] **8. Submit controller** — `#new` exposes `@products = Product.for_dropdown`;
-  `#create` resolves X from the dropdown or hands "Suggest New" off to
-  `Products::Suggestion`, creating the entry as `pending` until approved. Empty
-  suggestion → form error. Controller test GREEN.
-- [ ] **9. Submit view + Stimulus.** Replace `f.text_field :x` with a `<select>`
-  + "Suggest New…" sentinel + revealed suggestion input + mono approval note.
-  New `suggest_product_controller.js` reveals/hides, focuses, and relays the
-  value to `submit_preview_controller`. Reduced-motion safe, ≥44px targets.
-- [ ] **10. Release-on-approve + green suite.** End-to-end: approving an X frees
-  its pending entries. Full `bin/rails test` green; new views/CSS use
-  `var(--token)` only (grep for stray hex/fonts).
+> **PREFLIGHT (do first, don't skip):** read `app/models/product.rb`,
+> `app/models/entry.rb`, `db/schema.rb`. The `Product` model, its **AASM**
+> approval lifecycle (`pending → approved`/`rejected`, `approve!`/`reject!`,
+> `approved_at`), the `.pending/.approved/.rejected` scopes, `Product.for_name`,
+> the `entries.product_id` FK, and the branded mailer layout + `EmailHelper`
+> **already exist**. Do NOT recreate any of them. This flow adds attribution +
+> wiring on top.
+
+- [ ] **1. Attribution + dropdown scope.** Migration adds nullable
+  `suggested_by_id` (FK → users) to `products`. `Product`:
+  `belongs_to :suggested_by, class_name: 'User', optional: true` +
+  `scope :for_dropdown, -> { approved.alphabetical }`. Add `products.yml`
+  (all `state: approved`). Extend `product_test`. GREEN.
+- [ ] **2. `ProductSuggestionMailer`** — `submitted(product:)` (→ admins),
+  `approved(product:)` + `rejected(product:)` (→ `product.suggested_by.email`).
+  Use the existing `mailer` layout + `EmailHelper` (branded, NOT bare `<p>`).
+  Mailer test GREEN.
+- [ ] **3. `Products::Suggestion` service** — `Product.for_name(name)` (dedupes,
+  creates `pending`); if already `approved`, return it; else set `suggested_by`
+  + enqueue `ProductSuggestionMailer.submitted`. Test GREEN.
+- [ ] **4. Verdict side-effects on the AASM events.** Add `after` callbacks to
+  the existing `approve`/`reject` events on `Product`: approve releases gated
+  listings (`entries.pending.find_each(&:approve!)`) and emails the OP; reject
+  emails the OP (guard on `suggested_by`, like `MilestoneNotifier`). Extend
+  `product_test`. GREEN.
+- [ ] **5. Admin queue controller + routes.** `Admin::ProductsController`
+  (`require_admin`, index filter/counts, `approve`/`reject` members that fire
+  `product.approve!`/`reject!`) in the `namespace :admin` block. Test GREEN.
+- [ ] **6. Admin queue view** cloning the submissions queue markup
+  (`l-manage__*` / `c-sub__*`), `ButtonComponent`, token CSS. Pending products
+  with Approve/Reject.
+- [ ] **7. Submit controller** — `#new` exposes
+  `@products = Product.for_dropdown`; `#create` resolves X from the dropdown
+  (set `entry.x` + `entry.product`) or hands "Suggest New" to
+  `Products::Suggestion`. A pending X forces the entry `pending` regardless of
+  the first-post trust rule. Empty suggestion → form error. Test GREEN.
+- [ ] **8. Submit view + Stimulus.** Replace `f.text_field :x` with a `<select>`
+  of approved X's + "Suggest New…" sentinel + revealed input + mono approval
+  note. New `suggest_product_controller.js` reveals/focuses and relays the value
+  to `submit_preview_controller`. Reduced-motion safe, ≥44px targets.
+- [ ] **9. Green suite.** Approving an X frees its pending entries end-to-end.
+  Full `bin/rails test` green; new views/CSS use `var(--token)` only.
 
 ## Completion promise
 
