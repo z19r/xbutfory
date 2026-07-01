@@ -29,6 +29,9 @@ gem 'solid_cable'
 
 # Background jobs run on Sidekiq (Redis-backed) — the house standard.
 gem 'sidekiq', '~> 7.3'
+# Sidekiq 7 calls TimedStack#pop(timeout); connection_pool 3.0 removed that
+# positional arg, so pin to the 2.x line until we move to Sidekiq 8.
+gem 'connection_pool', '~> 2.5'
 # Cron-style recurring jobs for Sidekiq (weekly digest, cleanup, etc.)
 # >= 2.4 avoids the XSS advisory GHSA-xv9c-mjw8-79gf (CVE-2025-67202).
 gem 'sidekiq-cron', '~> 2.4'
