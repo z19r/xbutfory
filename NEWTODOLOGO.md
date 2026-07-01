@@ -11,8 +11,8 @@ Any questions before you start?
   - [ ] Hover/Tool tip when afterdark is disabled: 'Show NSFW (if logged out notice abouit login)'
 - [ ] RSS button isn't hooked up
 - [ ] Weird horizontal scroll sometimes
-- [ ] No emails are sending in dev mode, they should all send via letter_opener
-  - [ ] Never sent plaintext email, delete them
+- [x] No emails are sending in dev mode, they should all send via letter_opener — switched to **letter_opener_web** (in-app inbox at /letter_opener; plain letter_opener silently no-op'd without a browser). Worker processes deliver_later.
+  - [x] Never sent plaintext email, delete them — removed all `.text.erb` mailer templates + the text layout; mailers are HTML-only.
 - [ ] All the fake sites need to be removed and replaced with the sites in the jsob blob in @xbutfory.json
 - [ ] Modal should pop up when attempting to vote logged out, not toast
 - [ ] Weekly Digest -> if logged in, email should be prefilled, but editable

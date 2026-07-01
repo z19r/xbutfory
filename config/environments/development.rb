@@ -33,8 +33,8 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Open every outgoing email in the browser instead of sending it.
-  config.action_mailer.delivery_method = :letter_opener
+  # Capture every outgoing email in the in-app inbox at /letter_opener.
+  config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 

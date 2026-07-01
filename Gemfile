@@ -71,8 +71,9 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
 
-  # Preview outgoing email in the browser instead of sending [https://github.com/ryanb/letter_opener]
-  gem 'letter_opener'
+  # View outgoing email in an in-app inbox at /letter_opener (no browser launch
+  # needed, unlike plain letter_opener) [https://github.com/fgrehm/letter_opener_web]
+  gem 'letter_opener_web', '~> 3.0'
 end
 
 group :test do
