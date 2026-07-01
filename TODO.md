@@ -168,7 +168,7 @@ redirect with "coming soon" toast). **Needs design direction before building.**
 
 - [x] Categories N+1: fixed. `Category.with_stats(include_nsfw:)` computes counts + source-app samples in 2 grouped queries (logic in the model); `categories_controller#index` just delegates. (superseded the per-tile query path)
 - [x] Keep business logic OUT of controllers (user rule). Extracted feed search/category/sort + sponsor placement into `FeedQuery` (app/services/feed_query.rb — a query object/service); `PagesController#home` now just resolves params and delegates. Unit tests in test/queries/feed_query_test.rb. NOTE: `app/services` is a new autoload root, so the dev server must be restarted once to pick it up.
-- [x] Tests added for: detail formula card + vote wiring, submit tier flip + create with name/tier, categories reseed hues, theme switcher, token-undefined guard. Suite: 304 runs, 0 failures. (No coverage instrument wired — SimpleCov not installed; add if a hard 80% gate is wanted.)
+- [x] Tests: 304 runs, 0 failures. SimpleCov IS wired (`COVERAGE=1`, `test/support/simplecov.rb`, parallel-aware) with threshold gates (business logic ≥90%, components ≥65%). Current: **97.0% line / 87.26% branch** — gates pass.
 - [x] Accessibility: detail vote `<button>` + Visit `<a>` are independent targets; both bumped to `min-height: 44px` hit targets; reduced-motion honored via the global CSS blanket (kills pulse + transition-driven transforms) **and** a `prefersReducedMotion` guard in `konami_controller` that skips the fireworks canvas and hands the coupon straight over.
 - [ ] Commit after each build prompt (conventional, present-tense).
 
