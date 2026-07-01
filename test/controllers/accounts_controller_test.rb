@@ -32,6 +32,27 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "updating the profile attaches an uploaded avatar" do
+    sign_in_as(users(:member))
+    patch account_profile_path,
+          params: {
+            display_name: "Picture Perfect",
+            avatar: fixture_file_upload("avatar.png", "image/png")
+          }
+    assert_redirected_to account_settings_path
+    assert users(:member).reload.avatar.attached?
+  end
+
+  test "an invalid avatar upload is rejected" do
+    sign_in_as(users(:member))
+    patch account_profile_path,
+          params: {
+            avatar: fixture_file_upload("not_image.txt", "text/plain")
+          }
+    assert_response :unprocessable_entity
+    assert_not users(:member).reload.avatar.attached?
+  end
+
   test "changing the password requires the current password" do
     sign_in_as(users(:member))
     patch account_security_path,

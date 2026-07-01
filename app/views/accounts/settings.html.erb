@@ -21,7 +21,21 @@
     <section id="profile" class="c-setcard">
       <div class="c-setcard__title">Profile</div>
       <p class="c-setcard__sub">How you appear across the index.</p>
-      <%= form_with url: account_profile_path, method: :patch, class: "c-setcard__form" do %>
+      <%= form_with url: account_profile_path, method: :patch, class: "c-setcard__form", multipart: true do %>
+        <div class="c-avatar-field">
+          <span class="c-avatar-field__preview">
+            <% if @user.avatar_thumb %>
+              <%= image_tag @user.avatar_thumb, class: "c-avatar-field__img", alt: "Your current avatar" %>
+            <% else %>
+              <span class="c-avatar-field__initial"><%= @user.handle[0].to_s.upcase %></span>
+            <% end %>
+          </span>
+          <span class="c-avatar-field__control">
+            <span class="c-avatar-field__label">AVATAR</span>
+            <input type="file" name="avatar" accept="image/png,image/jpeg,image/webp,image/gif" class="c-avatar-field__input">
+            <span class="c-avatar-field__hint">PNG, JPEG, WebP or GIF — up to 2&nbsp;MB.</span>
+          </span>
+        </div>
         <%= render FormFieldComponent.new(label: "Handle", prefix: "@", mono: true, value: @user.handle, disabled: true, hint: "Public & permanent — handles can't be changed.") %>
         <%= render FormFieldComponent.new(label: "Display name", name: "display_name", value: @user.display_name, placeholder: "Apartment 4B") %>
         <%= render FormFieldComponent.new(label: "Bio", name: "bio", as: :textarea, value: @user.bio, placeholder: "Tell builders who you are.") %>

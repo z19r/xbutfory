@@ -4,6 +4,22 @@ class User < ApplicationRecord
   has_many :entries, dependent: :restrict_with_exception
   has_many :votes, dependent: :destroy
 
+  has_one_attached :avatar
+
+  AVATAR_MAX_BYTES = 2.megabytes
+  AVATAR_TYPES = %w[image/png image/jpeg image/webp image/gif].freeze
+
+  validate :avatar_is_a_reasonable_image
+
+  # A square, cropped thumbnail for discs and bylines. Nil when there's nothing
+  # uploaded (or the blob isn't an image we can transform) so callers fall back
+  # to the initial disc instead of raising.
+  def avatar_thumb
+    return unless avatar.attached? && avatar.variable?
+
+    avatar.variant(resize_to_fill: [96, 96])
+  end
+
   # Single-use, 15-minute password-reset token — invalidated once the password changes
   # (the salt rotates). Rails 8 generates_token_for.
   generates_token_for :password_reset, expires_in: 15.minutes do
@@ -61,5 +77,17 @@ class User < ApplicationRecord
 
   def ensure_api_key
     self.api_key ||= SecureRandom.hex(24)
+  end
+
+  def avatar_is_a_reasonable_image
+    return unless avatar.attached?
+
+    unless avatar.blob.content_type.in?(AVATAR_TYPES)
+      errors.add(:avatar, 'must be a PNG, JPEG, WebP or GIF')
+    end
+
+    if avatar.blob.byte_size > AVATAR_MAX_BYTES
+      errors.add(:avatar, 'must be smaller than 2 MB')
+    end
   end
 end

@@ -77,7 +77,7 @@ class AccountsController < ApplicationController
   private
 
   def profile_params
-    params.permit(:display_name, :bio, :avatar_url)
+    params.permit(:display_name, :bio, :avatar)
   end
 
   def notification_params

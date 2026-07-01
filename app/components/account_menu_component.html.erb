@@ -7,7 +7,13 @@
     aria-haspopup="true"
     aria-expanded="false"
   >
-    <span class="c-account-menu__avatar" aria-hidden="true"><%= initial %></span>
+    <span class="c-account-menu__avatar" aria-hidden="true">
+      <% if avatar_thumb %>
+        <%= image_tag avatar_thumb, class: "c-account-menu__avatar-img", alt: "" %>
+      <% else %>
+        <%= initial %>
+      <% end %>
+    </span>
     <span class="c-account-menu__handle">@<%= handle %></span>
     <span class="c-account-menu__caret" aria-hidden="true">&#9660;</span>
   </button>
