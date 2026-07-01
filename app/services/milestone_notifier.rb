@@ -19,12 +19,16 @@ class MilestoneNotifier
     owner = @entry.user
     return unless notifiable?(owner)
 
-    MilestoneMailer.reached(user: owner, entry: @entry, milestone: count).deliver_later
+    MilestoneMailer.reached(
+      user: owner,
+      entry: @entry,
+      milestone: count,
+    ).deliver_later
   end
 
   private
 
   def notifiable?(owner)
-    owner.present? && owner.milestone_notifications? && owner.handle != "legacy"
+    owner.present? && owner.milestone_notifications? && owner.handle != 'legacy'
   end
 end

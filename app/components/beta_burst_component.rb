@@ -2,7 +2,7 @@
 # Pure decoration; the caller positions it (absolute) over a wordmark or hero.
 # Mirrors design_system/components/brand/BetaBurst.jsx.
 class BetaBurstComponent < ViewComponent::Base
-  def initialize(label: "BETA", size: 78, rotate: 12)
+  def initialize(label: 'BETA', size: 78, rotate: 12)
     @label = label
     @size = size
     @rotate = rotate

@@ -10,8 +10,22 @@ class SitemapsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'omits pending and nsfw listings' do
-    hidden = Entry.create!(user: users(:member), x: 'Secret', y: 'nobody', tier: 'free', status: 'pending')
-    spicy = Entry.create!(user: users(:member), x: 'Spicy', y: 'adults', tier: 'free', nsfw: true)
+    hidden =
+      Entry.create!(
+        user: users(:member),
+        x: 'Secret',
+        y: 'nobody',
+        tier: 'free',
+        status: 'pending',
+      )
+    spicy =
+      Entry.create!(
+        user: users(:member),
+        x: 'Spicy',
+        y: 'adults',
+        tier: 'free',
+        nsfw: true,
+      )
 
     get sitemap_path(format: :xml)
     assert_no_match entry_url(slug: hidden.slug), response.body

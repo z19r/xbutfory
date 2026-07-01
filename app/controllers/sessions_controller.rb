@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  layout "auth"
+  layout 'auth'
 
   def new
     redirect_to(root_path) and return if user_signed_in?
@@ -18,6 +18,6 @@ class SessionsController < ApplicationController
 
   def destroy
     sign_out
-    redirect_to root_path, notice: "Signed out."
+    redirect_to root_path, notice: 'Signed out.'
   end
 end

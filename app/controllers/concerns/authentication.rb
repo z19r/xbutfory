@@ -22,7 +22,7 @@ module Authentication
     return if user_signed_in?
 
     session[:return_to] = request.fullpath if request.get? || request.head?
-    redirect_to sign_in_path, alert: "Please sign in to continue."
+    redirect_to sign_in_path, alert: 'Please sign in to continue.'
   end
 
   # Editors only. 404 (not 403) so the admin area isn't discoverable.

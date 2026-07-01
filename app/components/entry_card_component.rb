@@ -6,7 +6,7 @@ class EntryCardComponent < ViewComponent::Base
     description:,
     submitter:,
     ago:,
-    url: "#",
+    url: '#',
     slug: nil,
     index: nil,
     category: nil,
@@ -34,23 +34,23 @@ class EntryCardComponent < ViewComponent::Base
   end
 
   def detail_path
-    return "#" unless @slug
+    return '#' unless @slug
     helpers.entry_path(slug: @slug)
   end
 
-  def pinned? = @sponsored == "pinned"
-  def spotlight? = @sponsored == "spotlight"
+  def pinned? = @sponsored == 'pinned'
+  def spotlight? = @sponsored == 'spotlight'
 
   def card_classes
-    base = "c-card"
-    base += " c-card--pinned" if pinned?
-    base += " c-card--spotlight" if spotlight?
+    base = 'c-card'
+    base += ' c-card--pinned' if pinned?
+    base += ' c-card--spotlight' if spotlight?
     base
   end
 
   def vote_classes
-    base = "c-card__vote"
-    base += " c-card__vote--on" if @voted
+    base = 'c-card__vote'
+    base += ' c-card__vote--on' if @voted
     base
   end
 end

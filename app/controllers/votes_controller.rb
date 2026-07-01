@@ -5,7 +5,7 @@ class VotesController < ApplicationController
   # session — logged-out clicks get a 401 the Stimulus controller turns into a prompt.
   def create
     unless user_signed_in?
-      return render json: { error: "Sign in to vote." }, status: :unauthorized
+      return render json: { error: 'Sign in to vote.' }, status: :unauthorized
     end
 
     entry = Entry.find(params[:entry_id])

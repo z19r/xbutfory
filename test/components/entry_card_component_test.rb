@@ -1,60 +1,107 @@
-require "test_helper"
+require 'test_helper'
 
 class EntryCardComponentTest < ViewComponent::TestCase
-  test "renders title with x but for y" do
-    render_inline(EntryCardComponent.new(
-      x: "Tinder", y: "dogs", votes: 42, description: "Test.",
-      submitter: "tester", ago: "2h ago"
-    ))
-    assert_selector ".c-card__title", text: /Tinder.*but for.*dogs/
+  test 'renders title with x but for y' do
+    render_inline(
+      EntryCardComponent.new(
+        x: 'Tinder',
+        y: 'dogs',
+        votes: 42,
+        description: 'Test.',
+        submitter: 'tester',
+        ago: '2h ago',
+      ),
+    )
+    assert_selector '.c-card__title', text: /Tinder.*but for.*dogs/
   end
 
-  test "renders vote count" do
-    render_inline(EntryCardComponent.new(
-      x: "Slack", y: "cats", votes: 123, description: "Test.",
-      submitter: "tester", ago: "1h ago"
-    ))
-    assert_selector ".c-card__num", text: "123"
+  test 'renders vote count' do
+    render_inline(
+      EntryCardComponent.new(
+        x: 'Slack',
+        y: 'cats',
+        votes: 123,
+        description: 'Test.',
+        submitter: 'tester',
+        ago: '1h ago',
+      ),
+    )
+    assert_selector '.c-card__num', text: '123'
   end
 
-  test "renders stamp when provided" do
-    render_inline(EntryCardComponent.new(
-      x: "A", y: "B", votes: 0, description: "Test.",
-      submitter: "tester", ago: "now", stamp: "new"
-    ))
-    assert_selector ".c-stamp--new", text: "NEW"
+  test 'renders stamp when provided' do
+    render_inline(
+      EntryCardComponent.new(
+        x: 'A',
+        y: 'B',
+        votes: 0,
+        description: 'Test.',
+        submitter: 'tester',
+        ago: 'now',
+        stamp: 'new',
+      ),
+    )
+    assert_selector '.c-stamp--new', text: 'NEW'
   end
 
-  test "renders category tag when provided" do
-    render_inline(EntryCardComponent.new(
-      x: "A", y: "B", votes: 0, description: "Test.",
-      submitter: "tester", ago: "now",
-      category: "payments", category_label: "Payments"
-    ))
-    assert_selector ".c-card__tag", text: "PAYMENTS"
+  test 'renders category tag when provided' do
+    render_inline(
+      EntryCardComponent.new(
+        x: 'A',
+        y: 'B',
+        votes: 0,
+        description: 'Test.',
+        submitter: 'tester',
+        ago: 'now',
+        category: 'payments',
+        category_label: 'Payments',
+      ),
+    )
+    assert_selector '.c-card__tag', text: 'PAYMENTS'
   end
 
-  test "adds sponsored class for pinned entries" do
-    render_inline(EntryCardComponent.new(
-      x: "A", y: "B", votes: 0, description: "Test.",
-      submitter: "tester", ago: "now", sponsored: "pinned"
-    ))
-    assert_selector ".c-card--pinned"
+  test 'adds sponsored class for pinned entries' do
+    render_inline(
+      EntryCardComponent.new(
+        x: 'A',
+        y: 'B',
+        votes: 0,
+        description: 'Test.',
+        submitter: 'tester',
+        ago: 'now',
+        sponsored: 'pinned',
+      ),
+    )
+    assert_selector '.c-card--pinned'
   end
 
-  test "adds voted class when voted" do
-    render_inline(EntryCardComponent.new(
-      x: "A", y: "B", votes: 0, description: "Test.",
-      submitter: "tester", ago: "now", voted: true
-    ))
-    assert_selector ".c-card__vote--on"
+  test 'adds voted class when voted' do
+    render_inline(
+      EntryCardComponent.new(
+        x: 'A',
+        y: 'B',
+        votes: 0,
+        description: 'Test.',
+        submitter: 'tester',
+        ago: 'now',
+        voted: true,
+      ),
+    )
+    assert_selector '.c-card__vote--on'
   end
 
-  test "links title to detail when slug provided" do
-    render_inline(EntryCardComponent.new(
-      x: "A", y: "B", votes: 0, description: "Test.",
-      submitter: "tester", ago: "now", slug: "a-but-for-b"
-    ))
+  test 'links title to detail when slug provided' do
+    render_inline(
+      EntryCardComponent.new(
+        x: 'A',
+        y: 'B',
+        votes: 0,
+        description: 'Test.',
+        submitter: 'tester',
+        ago: 'now',
+        slug: 'a-but-for-b',
+      ),
+    )
     assert_selector "a.c-card__title-link[href='/entry/a-but-for-b']"
   end
 end

@@ -10,7 +10,9 @@
   border: 1px solid transparent;
   padding: 10px 16px;
   text-decoration: none;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
 }
 
 .c-btn:hover {
@@ -79,11 +81,20 @@
    Submit / Sign-in CTAs. Mirrors the gel() helper in the design-system components. */
 .c-btn--gel {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.04) 46%, rgba(0, 0, 0, 0.07)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.32),
+      rgba(255, 255, 255, 0.04) 46%,
+      rgba(0, 0, 0, 0.07)
+    ),
     var(--accent);
-  box-shadow: var(--shadow-button), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  box-shadow:
+    var(--shadow-button),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .c-btn--gel:hover {
-  box-shadow: var(--shadow-button-hover), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  box-shadow:
+    var(--shadow-button-hover),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }

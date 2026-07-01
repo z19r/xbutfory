@@ -1,8 +1,8 @@
 class PagesController < ApplicationController
   def home
-    @sort = params[:sort].presence || "newest"
+    @sort = params[:sort].presence || 'newest'
     @query = params[:q].presence
-    @after_dark = cookies[:after_dark] == "1"
+    @after_dark = cookies[:after_dark] == '1'
     @filter_category = Category.find_by(slug: params[:category]) if params[
       :category
     ].present?
@@ -36,7 +36,7 @@ class PagesController < ApplicationController
       {
         label: s[:category].name.downcase,
         weight: weight,
-        href: root_path(category: s[:category].slug)
+        href: root_path(category: s[:category].slug),
       }
     end
   end

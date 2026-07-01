@@ -2,9 +2,13 @@ require 'test_helper'
 
 class PaymentsControllerTest < ActionDispatch::IntegrationTest
   def payment
-    @payment ||= Payment.create!(
-      entry: entries(:two), user: users(:member), amount_cents: 199, stripe_session_id: 'cs_test_ok',
-    )
+    @payment ||=
+      Payment.create!(
+        entry: entries(:two),
+        user: users(:member),
+        amount_cents: 199,
+        stripe_session_id: 'cs_test_ok',
+      )
   end
 
   def paid_session

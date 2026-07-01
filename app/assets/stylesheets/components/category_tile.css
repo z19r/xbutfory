@@ -8,7 +8,9 @@
   box-shadow: var(--shadow-tile);
   text-decoration: none;
   color: inherit;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
 }
 
 .c-category-tile:hover {

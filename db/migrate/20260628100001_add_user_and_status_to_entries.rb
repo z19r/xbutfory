@@ -1,4 +1,4 @@
-require "bcrypt"
+require 'bcrypt'
 
 # Submissions are now account-bound. Existing anonymous entries have no owner, so
 # (per the locked migration decision) we assign them to a single placeholder
@@ -6,7 +6,7 @@ require "bcrypt"
 class AddUserAndStatusToEntries < ActiveRecord::Migration[8.1]
   def up
     add_reference :entries, :user, foreign_key: true # nullable during backfill
-    add_column :entries, :status, :string, null: false, default: "live"
+    add_column :entries, :status, :string, null: false, default: 'live'
     add_column :entries, :reviewer_note, :text
 
     legacy_id = ensure_legacy_user
@@ -31,12 +31,20 @@ class AddUserAndStatusToEntries < ActiveRecord::Migration[8.1]
 
     digest = BCrypt::Password.create(SecureRandom.hex(24))
     api_key = SecureRandom.hex(24)
-    execute(ActiveRecord::Base.sanitize_sql_array([
-      "INSERT INTO users (handle, display_name, email, password_digest, api_key, " \
-      "digest_opt_in, reply_notifications, milestone_notifications, created_at, updated_at) " \
-      "VALUES (?, ?, ?, ?, ?, false, false, false, now(), now())",
-      "legacy", "The Archive", "legacy@xbutfory.example", digest, api_key
-    ]))
+    execute(
+      ActiveRecord::Base.sanitize_sql_array(
+        [
+          'INSERT INTO users (handle, display_name, email, password_digest, api_key, ' \
+            'digest_opt_in, reply_notifications, milestone_notifications, created_at, updated_at) ' \
+            'VALUES (?, ?, ?, ?, ?, false, false, false, now(), now())',
+          'legacy',
+          'The Archive',
+          'legacy@xbutfory.example',
+          digest,
+          api_key,
+        ],
+      ),
+    )
     select_value("SELECT id FROM users WHERE handle = 'legacy'")
   end
 end

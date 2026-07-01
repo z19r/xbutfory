@@ -2,7 +2,11 @@ require 'test_helper'
 
 class UserAvatarTest < ActiveSupport::TestCase
   def png
-    { io: File.open(Rails.root.join('test/fixtures/files/avatar.png')), filename: 'avatar.png', content_type: 'image/png' }
+    {
+      io: File.open(Rails.root.join('test/fixtures/files/avatar.png')),
+      filename: 'avatar.png',
+      content_type: 'image/png',
+    }
   end
 
   test 'avatar_thumb is nil until something is uploaded' do
@@ -18,7 +22,11 @@ class UserAvatarTest < ActiveSupport::TestCase
 
   test 'rejects a non-image upload' do
     user = users(:member)
-    user.avatar.attach(io: StringIO.new('not an image'), filename: 'note.txt', content_type: 'text/plain')
+    user.avatar.attach(
+      io: StringIO.new('not an image'),
+      filename: 'note.txt',
+      content_type: 'text/plain',
+    )
     assert_not user.valid?
     assert_includes user.errors[:avatar].join, 'PNG'
   end

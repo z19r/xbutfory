@@ -1,5 +1,5 @@
 class PasswordsController < ApplicationController
-  layout "auth"
+  layout 'auth'
 
   before_action :set_user_by_token, only: %i[edit update]
 
@@ -10,7 +10,9 @@ class PasswordsController < ApplicationController
   def create
     user = User.find_by(email: params[:email].to_s.strip.downcase)
     UserMailer.password_reset(user).deliver_later if user
-    redirect_to sign_in_path, notice: "If that email is registered, a reset link is on its way."
+    redirect_to sign_in_path,
+                notice:
+                  'If that email is registered, a reset link is on its way.'
   end
 
   def edit
@@ -18,7 +20,8 @@ class PasswordsController < ApplicationController
 
   def update
     if @user.update(password_params)
-      redirect_to sign_in_path, notice: "Password updated — sign in with your new one."
+      redirect_to sign_in_path,
+                  notice: 'Password updated — sign in with your new one.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -30,7 +33,8 @@ class PasswordsController < ApplicationController
     @user = User.find_by_token_for(:password_reset, params[:token])
     return if @user
 
-    redirect_to new_password_reset_path, alert: "That reset link is invalid or has expired."
+    redirect_to new_password_reset_path,
+                alert: 'That reset link is invalid or has expired.'
   end
 
   def password_params

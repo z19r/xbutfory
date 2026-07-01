@@ -3,8 +3,8 @@ class ButtonComponent < ViewComponent::Base
   SIZES = %w[sm md lg].freeze
 
   def initialize(
-    variant: "primary",
-    size: "md",
+    variant: 'primary',
+    size: 'md',
     icon: nil,
     trailing_arrow: false,
     disabled: false,
@@ -39,9 +39,9 @@ class ButtonComponent < ViewComponent::Base
               content_tag(
                 :span,
                 @icon,
-                class: "c-btn__icon",
+                class: 'c-btn__icon',
                 aria: {
-                  hidden: true
+                  hidden: true,
                 },
               )
             else
@@ -51,11 +51,11 @@ class ButtonComponent < ViewComponent::Base
           content,
           (
             if @trailing_arrow
-              content_tag(:span, "→", aria: { hidden: true })
+              content_tag(:span, '→', aria: { hidden: true })
             else
               nil
             end
-          )
+          ),
         ].compact,
       )
     end
@@ -64,9 +64,9 @@ class ButtonComponent < ViewComponent::Base
   private
 
   def css_classes
-    classes = [ "c-btn", "c-btn--#{@variant}", "c-btn--#{@size}" ]
-    classes << "c-btn--gel" if @gel
-    classes << "c-btn--disabled" if @disabled
-    classes.join(" ")
+    classes = ['c-btn', "c-btn--#{@variant}", "c-btn--#{@size}"]
+    classes << 'c-btn--gel' if @gel
+    classes << 'c-btn--disabled' if @disabled
+    classes.join(' ')
   end
 end

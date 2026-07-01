@@ -29,7 +29,11 @@
 }
 
 .c-auth-card {
-  background: linear-gradient(180deg, var(--surface-card), var(--surface-sunken));
+  background: linear-gradient(
+    180deg,
+    var(--surface-card),
+    var(--surface-sunken)
+  );
   border: 1px solid var(--border-card);
   border-radius: 12px;
   box-shadow: var(--shadow-card-hover);
@@ -103,7 +107,7 @@
 
 .c-auth-card__divider::before,
 .c-auth-card__divider::after {
-  content: "";
+  content: '';
   flex: 1;
   height: 1px;
   background: var(--border-rule);

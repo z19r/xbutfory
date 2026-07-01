@@ -31,14 +31,15 @@ module MetaHelper
       [
         tag.meta(name: 'description', content: meta_description),
         tag.link(rel: 'canonical', href: canonical_url),
-
         tag.meta(property: 'og:site_name', content: SITE_NAME),
-        tag.meta(property: 'og:type', content: content_for(:og_type).presence || 'website'),
+        tag.meta(
+          property: 'og:type',
+          content: content_for(:og_type).presence || 'website',
+        ),
         tag.meta(property: 'og:title', content: page_title),
         tag.meta(property: 'og:description', content: meta_description),
         tag.meta(property: 'og:url', content: canonical_url),
         tag.meta(property: 'og:image', content: social_image_url),
-
         tag.meta(name: 'twitter:card', content: 'summary'),
         tag.meta(name: 'twitter:title', content: page_title),
         tag.meta(name: 'twitter:description', content: meta_description),

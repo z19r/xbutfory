@@ -4,7 +4,15 @@ class WeeklyDigestTest < ActiveSupport::TestCase
   include ActionMailer::TestHelper
 
   def make_entry(created_at:, **attrs)
-    Entry.create!({ user: users(:member), x: 'Uber', y: 'llamas', tier: 'free', created_at: created_at }.merge(attrs))
+    Entry.create!(
+      {
+        user: users(:member),
+        x: 'Uber',
+        y: 'llamas',
+        tier: 'free',
+        created_at: created_at,
+      }.merge(attrs),
+    )
   end
 
   test 'entries_since returns only recent live sfw listings' do
@@ -34,17 +42,13 @@ class WeeklyDigestTest < ActiveSupport::TestCase
     Vote.delete_all
     Entry.delete_all
     DigestSubscription.create!(email: 'reader@example.com')
-    assert_no_enqueued_emails do
-      assert_equal 0, WeeklyDigest.deliver_all
-    end
+    assert_no_enqueued_emails { assert_equal 0, WeeklyDigest.deliver_all }
   end
 
   test 'a confirmed member who opted out is skipped' do
     make_entry(created_at: 1.day.ago)
     users(:member).update!(confirmed_at: Time.current, digest_opt_in: false)
 
-    assert_no_enqueued_emails do
-      WeeklyDigest.deliver_all
-    end
+    assert_no_enqueued_emails { WeeklyDigest.deliver_all }
   end
 end

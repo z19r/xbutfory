@@ -11,17 +11,17 @@ class Category < ApplicationRecord
     counts = scope.group(:category).count
     samples =
       scope
-        .where.not(name: [ nil, "" ])
+        .where.not(name: [nil, ''])
         .order(votes_count: :desc)
         .to_a
         .group_by(&:category)
-        .transform_values { |entries| entries.first(3).map(&:name).join(" · ") }
+        .transform_values { |entries| entries.first(3).map(&:name).join(' · ') }
 
     order(:name).map do |category|
       {
         category: category,
         count: counts[category.slug].to_i,
-        sample: samples[category.slug]
+        sample: samples[category.slug],
       }
     end
   end

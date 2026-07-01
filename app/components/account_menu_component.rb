@@ -3,7 +3,7 @@
 # is the logged-in nav state. Mirrors design_system/components/chrome/AccountMenu.jsx.
 class AccountMenuComponent < ViewComponent::Base
   def initialize(handle:, admin: false, avatar_thumb: nil)
-    @handle = handle.to_s.delete("@")
+    @handle = handle.to_s.delete('@')
     @admin = admin
     @avatar_thumb = avatar_thumb
   end

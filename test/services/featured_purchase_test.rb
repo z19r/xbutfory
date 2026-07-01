@@ -14,27 +14,38 @@ class FeaturedPurchaseTest < ActiveSupport::TestCase
     )
   end
 
-  def fake_session(id: 'cs_test_123', url: 'https://checkout.stripe.com/pay/cs_test_123')
+  def fake_session(
+    id: 'cs_test_123',
+    url: 'https://checkout.stripe.com/pay/cs_test_123'
+  )
     Struct.new(:id, :url).new(id, url)
   end
 
   test 'the konami coupon grants featured for free without touching Stripe' do
     result = nil
-    stub_method(Stripe::Checkout::Session, :create, ->(*) { flunk 'Stripe should not be called' }) do
-      result = purchase(coupon: 'xbutfory-k0n4m1').call
-    end
+    stub_method(
+      Stripe::Checkout::Session,
+      :create,
+      ->(*) { flunk 'Stripe should not be called' },
+    ) { result = purchase(coupon: 'xbutfory-k0n4m1').call }
 
     assert_equal :granted, result.outcome
     assert_equal 'featured', entries(:two).reload.tier
-    assert users(:member).payments.exists?(coupon_code: KonamiCoupon::CODE, status: 'free')
+    assert users(:member).payments.exists?(
+             coupon_code: KonamiCoupon::CODE,
+             status: 'free',
+           )
   end
 
   test 'without a coupon it opens a pending payment and returns a checkout url' do
     result = nil
-    stub_method(Stripe::Checkout::Session, :create, fake_session) { result = purchase.call }
+    stub_method(Stripe::Checkout::Session, :create, fake_session) do
+      result = purchase.call
+    end
 
     assert_equal :checkout, result.outcome
-    assert_equal 'https://checkout.stripe.com/pay/cs_test_123', result.checkout_url
+    assert_equal 'https://checkout.stripe.com/pay/cs_test_123',
+                 result.checkout_url
 
     payment = users(:member).payments.order(:created_at).last
     assert_equal 'pending', payment.status
@@ -44,12 +55,19 @@ class FeaturedPurchaseTest < ActiveSupport::TestCase
   end
 
   test 'a coupon already spent falls through to a paid checkout' do
-    Payment.create!(entry: entries(:one), user: users(:member), amount_cents: 0, status: 'free',
-                    coupon_code: KonamiCoupon::CODE)
+    Payment.create!(
+      entry: entries(:one),
+      user: users(:member),
+      amount_cents: 0,
+      status: 'free',
+      coupon_code: KonamiCoupon::CODE,
+    )
     result = nil
-    stub_method(Stripe::Checkout::Session, :create, fake_session(id: 'cs_9', url: 'https://c/9')) do
-      result = purchase(coupon: KonamiCoupon::CODE).call
-    end
+    stub_method(
+      Stripe::Checkout::Session,
+      :create,
+      fake_session(id: 'cs_9', url: 'https://c/9'),
+    ) { result = purchase(coupon: KonamiCoupon::CODE).call }
 
     assert_equal :coupon_spent, result.outcome
     assert_equal 'https://c/9', result.checkout_url
@@ -58,9 +76,11 @@ class FeaturedPurchaseTest < ActiveSupport::TestCase
   test 'without Stripe keys the paid path reports unconfigured instead of erroring' do
     Stripe.api_key = nil
     result = nil
-    stub_method(Stripe::Checkout::Session, :create, ->(*) { flunk 'Stripe should not be called' }) do
-      result = purchase.call
-    end
+    stub_method(
+      Stripe::Checkout::Session,
+      :create,
+      ->(*) { flunk 'Stripe should not be called' },
+    ) { result = purchase.call }
 
     assert_equal :unconfigured, result.outcome
     assert_equal 'free', entries(:two).reload.tier

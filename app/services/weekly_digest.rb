@@ -17,7 +17,11 @@ class WeeklyDigest
 
     count = 0
     each_recipient do |email, token|
-      DigestMailer.weekly(email: email, entries: entries, unsubscribe_token: token).deliver_later
+      DigestMailer.weekly(
+        email: email,
+        entries: entries,
+        unsubscribe_token: token,
+      ).deliver_later
       count += 1
     end
     count
@@ -36,8 +40,9 @@ class WeeklyDigest
       yield sub.email, sub.generate_token_for(:unsubscribe)
     end
 
-    User.where(digest_opt_in: true).where.not(confirmed_at: nil).find_each do |user|
-      yield user.email, nil
-    end
+    User
+      .where(digest_opt_in: true)
+      .where.not(confirmed_at: nil)
+      .find_each { |user| yield user.email, nil }
   end
 end
