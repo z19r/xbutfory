@@ -1,0 +1,793 @@
+# Instincts generated from https://github.com/z19r/xbutfory
+# Generated: 2026-06-28T22:42:11.456Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: xbutfory-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: feat, fix, docs, chore, refactor
+
+## Evidence
+
+- 37 commits analyzed
+- Detected conventional commit pattern
+- Examples: feat: add header easter eggs and tighten home-page design fidelity, docs: add exhaustive build plan and TODO
+
+---
+id: xbutfory-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Commit Length
+
+## Action
+
+Write moderate-length commit messages (~61 characters)
+
+## Evidence
+
+- Average commit message length: 61 chars
+- Based on 37 commits
+
+---
+id: xbutfory-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Naming Files
+
+## Action
+
+Use snake_case naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: snake_case
+
+---
+id: xbutfory-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: xbutfory-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Export Style
+
+## Action
+
+Prefer default exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: default
+
+---
+id: xbutfory-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: xbutfory-test-naming
+trigger: "when creating a test file"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Test Naming
+
+## Action
+
+Name test files using the pattern: *.test.ts
+
+## Evidence
+
+- File pattern: *.test.ts
+- Consistent across test files
+
+---
+id: xbutfory-test-types
+trigger: "when planning tests for a feature"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Test Types
+
+## Action
+
+Write unit, integration tests to match project standards
+
+## Evidence
+
+- Test types detected: unit, integration
+- Coverage config: no
+
+---
+id: xbutfory-workflow-database-migration
+trigger: "when modifying the database schema or adding tables"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Workflow Database Migration
+
+## Action
+
+Follow the database-migration workflow:
+1. Create migration file
+2. Update schema definitions
+3. Generate/update types
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~6x per month
+- Files: **/schema.*
+
+---
+id: xbutfory-workflow-feature-development
+trigger: "when implementing a new feature"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Workflow Feature Development
+
+## Action
+
+Follow the feature-development workflow:
+1. Add feature implementation
+2. Add tests for feature
+3. Update documentation
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~21x per month
+- Files: app/assets/stylesheets/components/*, app/components/*, test/components/*
+
+---
+id: xbutfory-workflow-add-or-modify-database-table-or-column
+trigger: "when doing add or modify database table or column"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Workflow Add Or Modify Database Table Or Column
+
+## Action
+
+Follow the add-or-modify-database-table-or-column workflow:
+1. Create migration file in db/migrate/
+2. Update db/schema.rb
+3. Update relevant model(s) in app/models/
+4. Update or reseed db/seeds.rb
+5. Update or add fixtures in test/fixtures/
+6. Update or add relevant tests in test/models/ or test/controllers/
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: db/migrate/*.rb, db/schema.rb, db/seeds.rb
+
+---
+id: xbutfory-workflow-add-or-rebuild-feature-screen
+trigger: "when doing add or rebuild feature screen"
+confidence: 0.75
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Workflow Add Or Rebuild Feature Screen
+
+## Action
+
+Follow the add-or-rebuild-feature-screen workflow:
+1. Add or update ERB templates in app/views/
+2. Add or update controller in app/controllers/
+3. Add or update CSS in app/assets/stylesheets/components/
+4. Add or update JS controller in app/javascript/controllers/
+5. Update or add model logic in app/models/ if needed
+6. Update seeds or fixtures if needed
+7. Add or update tests in test/controllers/ and/or test/components/
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~5x per month
+- Files: app/views/**/*.erb, app/controllers/**/*.rb, app/assets/stylesheets/components/*.css
+
+---
+id: xbutfory-workflow-add-or-update-component-with-test
+trigger: "when doing add or update component with test"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Workflow Add Or Update Component With Test
+
+## Action
+
+Follow the add-or-update-component-with-test workflow:
+1. Add or update component Ruby file in app/components/
+2. Add or update component template in app/components/
+3. Add or update CSS in app/assets/stylesheets/components/
+4. Add or update JS controller in app/javascript/controllers/ if interactive
+5. Add or update test in test/components/
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~6x per month
+- Files: app/components/*_component.rb, app/components/*_component.html.erb, app/assets/stylesheets/components/*.css
+
+---
+id: xbutfory-workflow-implement-or-update-easter-egg-or-interactive-ui
+trigger: "when doing implement or update easter egg or interactive ui"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Workflow Implement Or Update Easter Egg Or Interactive Ui
+
+## Action
+
+Follow the implement-or-update-easter-egg-or-interactive-ui workflow:
+1. Add or update JS controller in app/javascript/controllers/
+2. Add or update CSS in app/assets/stylesheets/components/
+3. Update or add markup in app/views/ or app/components/
+4. Add or update test in test/components/ or test/controllers/
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: app/javascript/controllers/*.js, app/assets/stylesheets/components/*.css, app/views/**/*.erb
+
+---
+id: xbutfory-workflow-update-todo-or-design-docs
+trigger: "when doing update todo or design docs"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Workflow Update Todo Or Design Docs
+
+## Action
+
+Follow the update-todo-or-design-docs workflow:
+1. Edit TODO.md and/or ZTODO.md
+2. Optionally reference the change in a commit message
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~6x per month
+- Files: TODO.md, ZTODO.md
+
+---
+id: xbutfory-workflow-refactor-or-move-backend-object
+trigger: "when doing refactor or move backend object"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Workflow Refactor Or Move Backend Object
+
+## Action
+
+Follow the refactor-or-move-backend-object workflow:
+1. Move Ruby file between app/queries, app/models, app/services
+2. Update references if needed
+3. Update or add tests in test/queries/ or test/models/
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: app/queries/*.rb, app/models/*.rb, app/services/*.rb
+
+---
+id: xbutfory-workflow-add-or-update-authentication-feature
+trigger: "when doing add or update authentication feature"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Workflow Add Or Update Authentication Feature
+
+## Action
+
+Follow the add-or-update-authentication-feature workflow:
+1. Add or update user/auth models in app/models/
+2. Add or update authentication controllers in app/controllers/
+3. Add or update views in app/views/ (auth layouts, forms, settings, submissions)
+4. Add or update CSS in app/assets/stylesheets/components/
+5. Add or update JS controllers for auth UI (e.g., password toggle)
+6. Update or add fixtures in test/fixtures/
+7. Add or update tests in test/controllers/ and test/models/
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: app/models/user.rb, app/controllers/registrations_controller.rb, app/controllers/sessions_controller.rb
+
+---
+id: xbutfory-workflow-add-or-update-tests-for-feature-or-component
+trigger: "when doing add or update tests for feature or component"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/z19r/xbutfory
+---
+
+# Xbutfory Workflow Add Or Update Tests For Feature Or Component
+
+## Action
+
+Follow the add-or-update-tests-for-feature-or-component workflow:
+1. Add or update test files in test/components/, test/controllers/, test/models/, or test/queries/
+2. Update test fixtures if needed
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~6x per month
+- Files: test/components/*.rb, test/controllers/*.rb, test/models/*.rb
+
+---
+id: xbutfory-naming-files-snake-case
+trigger: "When creating or renaming a file"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Naming Files Snake Case
+
+## Action
+
+Use snake_case for file names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.files
+- Observed in app/models/user.rb, db/schema.rb
+
+---
+id: xbutfory-naming-functions-camel-case
+trigger: "When defining a function or method"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Naming Functions Camel Case
+
+## Action
+
+Use camelCase for function/method names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.functions
+
+---
+id: xbutfory-naming-classes-pascal-case
+trigger: "When defining a class"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Naming Classes Pascal Case
+
+## Action
+
+Use PascalCase for class names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.classes
+- Seen in app/models/User.rb
+
+---
+id: xbutfory-naming-constants-screaming-snake-case
+trigger: "When defining a constant"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Naming Constants Screaming Snake Case
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.constants
+
+---
+id: xbutfory-imports-relative
+trigger: "When importing modules in code"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Imports Relative
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in codeStyle.importStyle
+
+---
+id: xbutfory-exports-default
+trigger: "When exporting modules or classes"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Exports Default
+
+## Action
+
+Use default export style
+
+## Evidence
+
+- Pattern in codeStyle.exportStyle
+
+---
+id: xbutfory-commit-conventional
+trigger: "When writing a git commit message"
+confidence: 0.95
+domain: git
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Commit Conventional
+
+## Action
+
+Use conventional commit prefixes: feat, fix, docs, chore, refactor
+
+## Evidence
+
+- Pattern in commits.prefixes
+- Seen in commit: 'feat: add header easter eggs and tighten home-page design fidelity'
+
+---
+id: xbutfory-commit-length
+trigger: "When writing a git commit message"
+confidence: 0.8
+domain: git
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Commit Length
+
+## Action
+
+Keep commit message concise, around 60 characters
+
+## Evidence
+
+- Pattern in commits.averageLength
+- Examples in commit messages
+
+---
+id: xbutfory-test-file-pattern
+trigger: "When creating a test file"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Test File Pattern
+
+## Action
+
+Name test files with the pattern *.test.ts
+
+## Evidence
+
+- Pattern in testing.filePattern
+
+---
+id: xbutfory-test-types-unit-integration
+trigger: "When writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Test Types Unit Integration
+
+## Action
+
+Write both unit and integration tests for features/components
+
+## Evidence
+
+- Pattern in testing.testTypes
+
+---
+id: xbutfory-test-location-separate
+trigger: "When organizing test files"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Test Location Separate
+
+## Action
+
+Place test files in a separate test/ directory
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+- Seen in test/components/, test/controllers/
+
+---
+id: xbutfory-add-or-modify-database-table-or-column
+trigger: "When adding or modifying a database table or column"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Add Or Modify Database Table Or Column
+
+## Action
+
+Create migration, update schema.rb, update models, reseed db/seeds.rb, update/add fixtures and tests
+
+## Evidence
+
+- Workflow: add-or-modify-database-table-or-column
+- Seen in db/migrate/*.rb, db/schema.rb, app/models/*.rb
+
+---
+id: xbutfory-add-or-rebuild-feature-screen
+trigger: "When adding or redesigning a major page or feature"
+confidence: 0.93
+domain: workflow
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Add Or Rebuild Feature Screen
+
+## Action
+
+Update ERB templates, controllers, CSS, JS controllers, models, seeds/fixtures, and tests
+
+## Evidence
+
+- Workflow: add-or-rebuild-feature-screen
+- Seen in app/views/, app/controllers/, app/assets/stylesheets/components/
+
+---
+id: xbutfory-add-or-update-component-with-test
+trigger: "When introducing or modifying a reusable UI component"
+confidence: 0.92
+domain: workflow
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Add Or Update Component With Test
+
+## Action
+
+Update component Ruby file, template, CSS, JS controller (if interactive), and test
+
+## Evidence
+
+- Workflow: add-or-update-component-with-test
+- Seen in app/components/, test/components/
+
+---
+id: xbutfory-implement-or-update-easter-egg-or-interactive-ui
+trigger: "When adding or updating an interactive UI feature or easter egg"
+confidence: 0.88
+domain: workflow
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Implement Or Update Easter Egg Or Interactive Ui
+
+## Action
+
+Update JS controller, CSS, markup, and tests
+
+## Evidence
+
+- Workflow: implement-or-update-easter-egg-or-interactive-ui
+- Seen in app/javascript/controllers/, app/assets/stylesheets/components/
+
+---
+id: xbutfory-update-todo-or-design-docs
+trigger: "When tracking progress or updating tasks"
+confidence: 0.99
+domain: workflow
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Update Todo Or Design Docs
+
+## Action
+
+Edit TODO.md and/or ZTODO.md
+
+## Evidence
+
+- Workflow: update-todo-or-design-docs
+- Seen in TODO.md
+
+---
+id: xbutfory-refactor-or-move-backend-object
+trigger: "When reorganizing backend code for structure or autoloading"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Refactor Or Move Backend Object
+
+## Action
+
+Move Ruby file between app/queries, app/models, app/services; update references; update/add tests
+
+## Evidence
+
+- Workflow: refactor-or-move-backend-object
+- Seen in app/queries/, app/models/, app/services/
+
+---
+id: xbutfory-add-or-update-authentication-feature
+trigger: "When adding or modifying authentication features"
+confidence: 0.91
+domain: workflow
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Add Or Update Authentication Feature
+
+## Action
+
+Update user/auth models, controllers, views, CSS, JS, fixtures, and tests
+
+## Evidence
+
+- Workflow: add-or-update-authentication-feature
+- Seen in app/models/user.rb, app/controllers/registrations_controller.rb
+
+---
+id: xbutfory-add-or-update-tests-for-feature-or-component
+trigger: "When implementing or changing a feature/component and ensuring it is tested"
+confidence: 0.97
+domain: workflow
+source: repo-analysis
+source_repo: z19r/xbutfory
+---
+
+# Xbutfory Add Or Update Tests For Feature Or Component
+
+## Action
+
+Update/add test files in test/components/, test/controllers/, test/models/, or test/queries/ and update fixtures if needed
+
+## Evidence
+
+- Workflow: add-or-update-tests-for-feature-or-component
+- Seen in test/components/, test/controllers/
+
