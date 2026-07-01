@@ -69,6 +69,11 @@
           <span class="c-submit__tier-desc">Homepage spot + boost</span>
         </label>
       </div>
+      <div class="c-submit__coupon">
+        <%= label_tag :coupon, "Promo code", class: "c-submit__coupon-label" %>
+        <%= text_field_tag :coupon, params[:coupon], placeholder: "Featured listings only",
+              autocomplete: "off", spellcheck: "false", class: "c-submit__coupon-input" %>
+      </div>
     </div>
 
     <%= f.submit (@entry.featured? ? "Launch for $1.99 →" : "Submit for free →"), class: "c-submit__cta", data: { tier_target: "cta" } %>

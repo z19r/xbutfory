@@ -48,7 +48,10 @@
   font-size: 14px;
   color: var(--ink);
 }
-.c-submit__errors ul { margin: 6px 0 0; padding-left: 18px; }
+.c-submit__errors ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
 
 .c-submit__field {
   margin-bottom: var(--space-8); /* 20 */
@@ -75,8 +78,13 @@
   border-radius: var(--radius-input);
   box-shadow: var(--shadow-inset);
 }
-.c-submit__input::placeholder { color: var(--placeholder); }
-.c-submit__input:focus { outline: none; border-color: var(--ink); }
+.c-submit__input::placeholder {
+  color: var(--placeholder);
+}
+.c-submit__input:focus {
+  outline: none;
+  border-color: var(--ink);
+}
 
 .c-submit__textarea {
   resize: vertical;
@@ -104,9 +112,13 @@
   border-radius: var(--radius-input);
   cursor: pointer;
   background: var(--surface-card);
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
-.c-submit__tier:hover { border-color: var(--text-muted); }
+.c-submit__tier:hover {
+  border-color: var(--text-muted);
+}
 .c-submit__tier:has(.c-submit__tier-radio:checked) {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 5%, transparent);
@@ -144,9 +156,15 @@
   border: none;
   border-radius: var(--radius-input);
   cursor: pointer;
-  transition: opacity 0.15s, transform 0.15s, background 0.15s;
+  transition:
+    opacity 0.15s,
+    transform 0.15s,
+    background 0.15s;
 }
-.c-submit__cta:hover { opacity: 0.92; transform: translateY(-1px); }
+.c-submit__cta:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
 .c-submit__cta--featured {
   background: var(--accent);
   color: var(--on-accent);
@@ -159,4 +177,37 @@
   color: var(--text-faint);
   text-align: center;
   margin: var(--space-5) 0 0;
+}
+
+/* Optional promo code (e.g. the Konami free-Featured coupon). */
+.c-submit__coupon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.c-submit__coupon-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.c-submit__coupon-input {
+  flex: 1;
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-input);
+  text-transform: uppercase;
+}
+
+.c-submit__coupon-input:focus {
+  outline: none;
+  border-color: var(--accent);
 }

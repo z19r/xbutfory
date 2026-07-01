@@ -1,6 +1,7 @@
 class Entry < ApplicationRecord
   belongs_to :user
   has_many :votes, dependent: :destroy
+  has_many :payments, dependent: :destroy
 
   TIERS = %w[free featured].freeze
 

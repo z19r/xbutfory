@@ -7,12 +7,17 @@ class SubmissionsController < ApplicationController
   end
 
   def create
+    wants_featured = entry_params[:tier] == "featured"
     @entry = current_user.entries.new(entry_params)
+    @entry.tier = "free" # Featured is only granted once paid (or via a coupon).
     @entry.status = :pending # new submissions await editorial review
-    if @entry.save
-      redirect_to manage_submissions_path, notice: submission_notice(@entry)
+
+    return render :new, status: :unprocessable_entity unless @entry.save
+
+    if wants_featured
+      checkout_featured(@entry)
     else
-      render :new, status: :unprocessable_entity
+      redirect_to manage_submissions_path, notice: submission_notice(@entry)
     end
   end
 
@@ -82,12 +87,26 @@ class SubmissionsController < ApplicationController
     )
   end
 
-  def submission_notice(entry)
-    base = "Submitted — an editor will review it shortly."
-    if entry.featured?
-      "#{base} 💳 Payment for the featured spot is coming soon."
-    else
-      base
+  def checkout_featured(entry)
+    result =
+      FeaturedPurchase.new(
+        entry: entry,
+        user: current_user,
+        coupon: params[:coupon],
+        success_url: "#{checkout_success_url}?session_id={CHECKOUT_SESSION_ID}",
+        cancel_url: checkout_cancel_url,
+      ).call
+
+    case result.outcome
+    when :granted
+      redirect_to manage_submissions_path,
+                  notice: "Submitted — your free Featured promotion is applied. An editor will review it shortly."
+    else # :checkout or :coupon_spent — send them to pay
+      redirect_to result.checkout_url, allow_other_host: true
     end
+  end
+
+  def submission_notice(_entry)
+    "Submitted — an editor will review it shortly."
   end
 end

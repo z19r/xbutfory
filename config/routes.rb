@@ -31,6 +31,11 @@ Rails.application.routes.draw do
 
   get "sitemap.xml", to: "sitemaps#show", defaults: { format: "xml" }, as: :sitemap
 
+  # Featured-listing payments (Stripe Checkout).
+  get "checkout/success", to: "payments#success", as: :checkout_success
+  get "checkout/cancel", to: "payments#cancel", as: :checkout_cancel
+  post "webhooks/stripe", to: "webhooks/stripe#create"
+
   get "password/reset", to: "passwords#new", as: :new_password_reset
   post "password/reset", to: "passwords#create", as: :password_reset
   get "password/reset/:token/edit", to: "passwords#edit", as: :edit_password_reset

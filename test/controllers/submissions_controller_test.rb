@@ -48,18 +48,33 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".c-submit__title", text: "Submit a Site"
   end
 
-  test "featured tier returns a payment-coming-soon notice" do
+  test "a featured submission is created free and redirected to Stripe checkout" do
     sign_in_as(users(:member))
-    post submissions_path,
-         params: {
-           entry: {
-             x: "Fancy",
-             y: "yachts",
-             tier: "featured"
-           }
-         }
-    follow_redirect!
-    assert_match(/payment/i, flash[:notice].to_s)
+    fake = Struct.new(:id, :url).new("cs_test_1", "https://checkout.stripe.com/pay/cs_test_1")
+
+    stub_method(Stripe::Checkout::Session, :create, fake) do
+      assert_difference ["Entry.count", "Payment.count"], 1 do
+        post submissions_path, params: { entry: { x: "Fancy", y: "yachts", tier: "featured" } }
+      end
+    end
+
+    assert_redirected_to "https://checkout.stripe.com/pay/cs_test_1"
+    entry = Entry.find_by(x: "Fancy")
+    assert_equal "free", entry.tier, "featured is only granted once paid"
+    assert_equal "pending", entry.payments.last.status
+  end
+
+  test "the konami coupon grants a featured listing without payment" do
+    sign_in_as(users(:member))
+
+    assert_no_stripe_call do
+      assert_difference "Entry.count", 1 do
+        post submissions_path, params: { entry: { x: "Konami", y: "cheats", tier: "featured" }, coupon: "xbutfory-k0n4m1" }
+      end
+    end
+
+    assert_redirected_to manage_submissions_path
+    assert_equal "featured", Entry.find_by(x: "Konami").tier
   end
 
   test "withdrawing a live listing" do
@@ -110,5 +125,11 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     patch submission_status_path(other, to: "withdrawn")
     assert_response :not_found
     assert other.reload.live?, "another member's listing is untouched"
+  end
+
+  private
+
+  def assert_no_stripe_call(&block)
+    stub_method(Stripe::Checkout::Session, :create, ->(*) { flunk "Stripe should not be called" }, &block)
   end
 end

@@ -5,6 +5,21 @@ require_relative "support/simplecov" if ENV["COVERAGE"]
 require_relative "../config/environment"
 require "rails/test_help"
 
+# Zero-dependency singleton-method stubbing (minitest 6 split out minitest/mock).
+# `impl` is returned for any args, or invoked when it responds to #call.
+module StubbingHelpers
+  def stub_method(object, name, impl)
+    singleton = object.singleton_class
+    callable = impl.respond_to?(:call) ? impl : ->(*) { impl }
+    singleton.send(:alias_method, :__stubbed_original, name)
+    singleton.send(:define_method, name) { |*args, **kwargs, &blk| callable.call(*args, **kwargs, &blk) }
+    yield
+  ensure
+    singleton.send(:alias_method, name, :__stubbed_original)
+    singleton.send(:remove_method, :__stubbed_original)
+  end
+end
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
@@ -20,6 +35,8 @@ module ActiveSupport
 
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
+
+    include StubbingHelpers
 
     # Add more helper methods to be used by all tests here...
   end
