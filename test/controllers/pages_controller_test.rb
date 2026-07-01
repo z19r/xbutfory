@@ -55,16 +55,15 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
   test "hero dek matches reference copy" do
     get root_url
-    assert_select ".l-dek", /pitch themselves as/
-    assert_select ".l-dek", /Updated daily, voted by humans/
+    assert_select ".l-dek", /index of/
     assert_select ".l-dek code.l-chip", text: "X but for Y"
-    assert_select ".l-dek i", text: "newly launched"
+    assert_select ".l-dek i", text: "The"
   end
 
-  test "hero shows the issue dateline" do
+  test "hero renders the dek and divider" do
     get root_url
-    assert_select ".l-hero .l-issue", /ISSUE 26/
-    assert_select ".l-hero .l-issue .l-live"
+    assert_select ".l-hero[data-controller='idle-toast']"
+    assert_select ".l-hero .l-rule"
   end
 
   test "vote buttons have stimulus data attributes" do

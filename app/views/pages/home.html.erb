@@ -7,18 +7,12 @@
   <% content_for :nav_tab, "random" %>
 <% end %>
 <section class="l-hero" data-controller="idle-toast">
-  <div class="l-issue"><span class="l-live"></span>VOL. 01 &middot; ISSUE 26 &middot; JUN 2026</div>
 
   <h1 class="l-dek">
-    A hand-curated index of <i>newly launched</i> websites that pitch themselves as <code class="l-chip">X but for Y</code>. Updated daily, voted by humans.
+    <i>The</i> index of <code class="l-chip">X but for Y</code>. websites.
   </h1>
   <div class="l-rule"></div>
 
-  <%= render StatBlockComponent.new(
-    new_today: @new_today,
-    total_entries: @total_entries,
-    categories_count: @categories_count
-  ) %>
 </section>
 
 <% if @filter_category %>
