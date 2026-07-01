@@ -13,7 +13,10 @@ class SubmissionsController < ApplicationController
     @entry.tier = 'free' # Featured is only granted once paid (or via a coupon).
     @entry.status = :pending # new submissions await editorial review
 
-    return render :new, status: :unprocessable_entity unless @entry.save
+    @entry.require_pitch = true
+    unless @entry.save
+      return render :new, status: :unprocessable_entity
+    end
 
     if wants_featured
       checkout_featured(@entry)
@@ -29,7 +32,9 @@ class SubmissionsController < ApplicationController
   def update
     @entry = own_entry
     was_needs_edits = @entry.needs_edits?
-    if @entry.update(entry_params)
+    @entry.assign_attributes(entry_params)
+    @entry.require_pitch = true
+    if @entry.save
       @entry.update(status: 'pending') if was_needs_edits # "edit & resubmit"
       redirect_to manage_submissions_path, notice: 'Listing updated.'
     else

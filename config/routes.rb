@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     mount LetterOpenerWeb::Engine, at: '/letter_opener'
   end
 
+  # AI-generated one-line pitch for the submit form (X but for Y).
+  post 'pitch', to: 'pitches#create', as: :pitch
+
   root 'pages#home'
   get 'feed.xml', to: 'feeds#show', as: :feed, format: false
   get 'entry/:slug', to: 'entries#show', as: :entry

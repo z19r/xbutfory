@@ -23,5 +23,5 @@ Any questions before you start?
     - [~] this needs to trigger an email to admin (spec'd)
     - [~] admin userface needs to have an option to approve or deny (spec'd)
     - [~] each needs to trigger an email to the OP (spec'd)
-- [ ] One line pitch should not be optional
-  - [ ] offer option to auto generate with AI/GPT
+- [x] One line pitch should not be optional — `description` now required on submit (via `require_pitch` flag so seeds/imports stay free); form relabeled, field `required`.
+  - [x] offer option to auto generate with AI/GPT — "Auto-generate with AI" button → `PitchGenerator` (Claude `claude-haiku-4-5`) via POST /pitch; graceful degrade (friendly error) when `ANTHROPIC_API_KEY` is unset.

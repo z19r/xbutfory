@@ -7,11 +7,18 @@ class UtilityBarComponentTest < ViewComponent::TestCase
     assert_selector '.c-utility-bar__issue'
   end
 
-  test 'renders After Dark toggle' do
-    render_inline(UtilityBarComponent.new)
+  test 'renders an interactive After Dark toggle when signed in' do
+    render_inline(UtilityBarComponent.new(current_user: users(:member)))
     assert_selector '.c-utility-bar__after-dark', text: /After Dark/
     assert_selector "[data-controller='after-dark']"
     assert_selector "[data-action='click->after-dark#toggle']"
+  end
+
+  test 'renders a locked After Dark control when signed out' do
+    render_inline(UtilityBarComponent.new)
+    assert_selector '.c-utility-bar__after-dark--locked', text: /After Dark/
+    assert_selector "[data-action='click->after-dark#promptSignIn']"
+    assert_no_selector "[data-action='click->after-dark#toggle']"
   end
 
   test 'renders sign in and create account links when signed out' do

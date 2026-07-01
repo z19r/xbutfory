@@ -19,6 +19,13 @@ class Entry < ApplicationRecord
   validates :slug, uniqueness: true
   validates :tier, inclusion: { in: TIERS }
 
+  # A human submitting a listing must pitch it in one line. Enforced only when
+  # the controller sets require_pitch, so seeds/imports/back-office creates are
+  # free to omit it.
+  attr_accessor :require_pitch
+
+  validates :description, presence: true, if: :require_pitch
+
   before_validation :generate_slug, on: :create
 
   def featured? = tier == 'featured'

@@ -67,6 +67,15 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     assert_select '.c-submit__title', text: 'Submit a Site'
   end
 
+  test 'a submission without a one-line pitch is rejected' do
+    sign_in_as(users(:member))
+    assert_no_difference 'Entry.count' do
+      post submissions_path,
+           params: { entry: { x: 'Slack', y: 'sailors', description: '' } }
+    end
+    assert_response :unprocessable_entity
+  end
+
   test 'a featured submission is created free and redirected to Stripe checkout' do
     sign_in_as(users(:member))
     fake =
@@ -83,6 +92,7 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
                  x: 'Fancy',
                  y: 'yachts',
                  tier: 'featured',
+                 description: 'Yacht booking, but fancy.',
                },
              }
       end
@@ -105,6 +115,7 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
                  x: 'Konami',
                  y: 'cheats',
                  tier: 'featured',
+                 description: 'Cheat codes, but for real life.',
                },
                coupon: 'xbutfory-k0n4m1',
              }
