@@ -55,12 +55,62 @@
   gap: 6px;
 }
 
-.c-utility-bar__theme-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.12em;
+/* Small chevron that slides the swatch tray open (waybar-style). */
+.c-utility-bar__theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
   color: var(--on-dark-muted);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
   opacity: 0.7;
+  transition:
+    transform var(--dur-fast) var(--ease),
+    opacity var(--dur-fast) var(--ease);
+}
+
+.c-utility-bar__theme-toggle:hover {
+  opacity: 1;
+}
+
+.c-utility-bar__theme--open .c-utility-bar__theme-toggle {
+  transform: rotate(180deg);
+}
+
+/* Collapsed by default; slides open when the group has --open. */
+.c-utility-bar__theme-tray {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    max-width var(--dur) var(--ease),
+    opacity var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.c-utility-bar__theme--open .c-utility-bar__theme-tray {
+  max-width: 200px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-utility-bar__theme-tray {
+    transition: none;
+  }
+  .c-utility-bar__theme-toggle {
+    transition: none;
+  }
 }
 
 .c-utility-bar__swatch {

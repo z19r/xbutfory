@@ -5,8 +5,15 @@
       <%= @issue %>
     </span>
     <span class="c-utility-bar__links">
-      <span class="c-utility-bar__theme" data-controller="theme" role="group" aria-label="Accent color">
-        <span class="c-utility-bar__theme-label">Theme</span>
+      <span class="c-utility-bar__theme" data-controller="theme" data-theme-open-value="false" role="group" aria-label="Accent color">
+        <button type="button"
+                class="c-utility-bar__theme-toggle"
+                data-theme-target="toggle"
+                data-action="click->theme#toggleTray"
+                aria-expanded="false"
+                aria-label="Choose accent color"
+                title="Theme">‹</button>
+        <span class="c-utility-bar__theme-tray" data-theme-target="tray">
         <% accents.each do |a| %>
           <button type="button"
                   class="c-utility-bar__swatch<%= " c-utility-bar__swatch--on" if a[:key] == active_accent %>"
@@ -19,6 +26,7 @@
                   data-theme-value-param="<%= accent_var(a[:key]) %>"
                   data-action="click->theme#select"></button>
         <% end %>
+        </span>
       </span>
       <span data-controller="after-dark">
         <% if current_user %>

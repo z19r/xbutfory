@@ -6,7 +6,7 @@ Any questions before you start?
 
 
 - [x] I don't believe sidekiq is running? — Migrated jobs from Solid Queue/inline to **Sidekiq** (Redis); worker in Procfile.dev; weekly digest via sidekiq-cron.
-- [ ] THEME should be sort of hidden, like a sliding tray in waybar. Maybe just a little < or something.
+- [x] THEME should be sort of hidden, like a sliding tray in waybar. Maybe just a little < or something. — accent swatches now live in a collapsed tray behind a small `‹` chevron that slides them open (theme_controller#toggleTray; rotates on open; respects reduced-motion).
 - [x] Afterdark should only be allowed when logged in — `after_dark?` helper honors the cookie only when signed in (guards forged cookies); both feed + categories controllers use it.
   - [x] Hover/Tool tip when afterdark is disabled: 'Show NSFW (if logged out notice abouit login)' — signed-out toggle is a locked button with tooltip "Show NSFW — sign in to unlock After Dark"; clicking it opens the sign-in modal.
 - [x] RSS button isn't hooked up — masthead RSS button is now a real link to `/feed.xml` (the Atom feed already works) instead of a toast.
