@@ -1,30 +1,26 @@
 # frozen_string_literal: true
 
 # Replaces the demo/seed listings with the real, curated set from a
-# `xbutfory.json` blob at the project root.
+# `data/xbutfory.json` blob. Each unique X becomes a `Product` row and entries
+# reference it by FK (the `x` string is kept denormalized for display/search).
 #
-# Shape (either a bare array or `{ "entries": [...] }` / `{ "sites": [...] }`):
+# Shape (a bare array, or `{ "entries" | "sites": [...] }`) of rows like:
 #
-#   [
-#     {
-#       "x": "Notion",            # required — the known product
-#       "y": "dentists",          # required — the niche
-#       "url": "https://…",
-#       "tagline": "…",
-#       "why": "…",
-#       "description": "…",
-#       "category": "productivity",
-#       "stamp": "NEW",
-#       "tier": "free",           # free | featured (default free)
-#       "status": "live",         # default live
-#       "nsfw": false
-#     }
-#   ]
+#   {
+#     "site":  "Swimply",                 # the listing's own name
+#     "x":     "Airbnb",                  # the known product (-> Product FK)
+#     "x_url": "https://airbnb.com",      # the product's canonical URL
+#     "y":     "swimming pools",          # the niche
+#     "y_url": "https://swimply.com",     # the listing's URL
+#     "category": "rentals",
+#     "adult": false,                     # -> nsfw
+#     "desc":  "Rent private pools by the hour"
+#   }
 #
 # Absent file → no-op (so `db:seed` still works before the blob is provided).
-# When present, ALL existing entries are wiped and replaced (votes cascade).
+# When present, ALL entries and products are wiped and replaced (votes cascade).
 class SiteImporter
-  SOURCE = Rails.root.join('xbutfory.json')
+  SOURCE = Rails.root.join('data/xbutfory.json')
   CURATOR_HANDLE = 'xbutfory'
 
   def self.source_present?(path = SOURCE)
@@ -50,6 +46,7 @@ class SiteImporter
 
     Entry.transaction do
       Entry.destroy_all # votes cascade via dependent: :destroy
+      Product.destroy_all
       records.each { |attrs| create_entry!(attrs) }
     end
     records.size
@@ -81,19 +78,20 @@ class SiteImporter
   end
 
   def create_entry!(attrs)
+    x = attrs['x']
+    product = x.present? ? Product.for_name(x, url: attrs['x_url']) : nil
+
     curator.entries.create!(
-      x: attrs.fetch('x'),
-      y: attrs.fetch('y'),
-      url: attrs['url'],
-      tagline: attrs['tagline'],
-      why: attrs['why'],
-      description: attrs['description'],
+      x: x,
+      product: product,
+      y: attrs['y'],
+      url: attrs['y_url'] || attrs['url'],
+      name: attrs['site'] || attrs['name'],
+      description: attrs['desc'] || attrs['description'],
       category: attrs['category'],
-      name: attrs['name'],
-      stamp: attrs['stamp'],
       tier: attrs.fetch('tier', 'free'),
       status: attrs.fetch('status', 'live'),
-      nsfw: attrs.fetch('nsfw', false)
+      nsfw: attrs['adult'] || attrs['nsfw'] || false
     )
   end
 end

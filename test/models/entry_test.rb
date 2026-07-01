@@ -40,11 +40,13 @@ class EntryTest < ActiveSupport::TestCase
     assert_not entry.valid?
   end
 
-  test 'enforces unique slugs' do
-    Entry.create!(x: 'Slack', y: 'pets', user: @user)
-    duplicate = Entry.new(x: 'Slack', y: 'pets', user: @user)
-    assert_not duplicate.valid?
-    assert_includes duplicate.errors[:slug], 'has already been taken'
+  test 'disambiguates slugs when two sites share an X-but-for-Y formula' do
+    first = Entry.create!(x: 'Slack', y: 'pets', user: @user)
+    second = Entry.create!(x: 'Slack', y: 'pets', user: @user)
+
+    assert_equal 'slack-but-for-pets', first.slug
+    assert_equal 'slack-but-for-pets-2', second.slug
+    assert_not_equal first.slug, second.slug
   end
 
   test 'title returns formatted string' do

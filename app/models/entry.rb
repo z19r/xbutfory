@@ -1,5 +1,8 @@
 class Entry < ApplicationRecord
   belongs_to :user
+  # The X, normalized: the curated product this listing reimagines. Optional so
+  # existing/back-office rows aren't forced; `x` string stays for display/search.
+  belongs_to :product, optional: true
   has_many :votes, dependent: :destroy
   has_many :payments, dependent: :destroy
 
@@ -46,6 +49,15 @@ class Entry < ApplicationRecord
 
   def generate_slug
     return if slug.present?
-    self.slug = "#{x}-but-for-#{y}".parameterize
+
+    base = "#{x}-but-for-#{y}".parameterize
+    candidate = base
+    n = 1
+    # Two distinct sites can share an "X but for Y" formula; disambiguate.
+    while Entry.where(slug: candidate).where.not(id: id).exists?
+      n += 1
+      candidate = "#{base}-#{n}"
+    end
+    self.slug = candidate
   end
 end

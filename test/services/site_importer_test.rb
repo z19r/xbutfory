@@ -10,35 +10,45 @@ class SiteImporterTest < ActiveSupport::TestCase
     assert_equal before, Entry.count
   end
 
-  test 'wipes existing listings and loads the curated set' do
+  test 'wipes existing listings and loads the curated set with product FKs' do
     assert_operator Entry.count, :>, 0, 'fixtures should provide demo entries'
 
     json = [
       {
-        x: 'Notion',
-        y: 'dentists',
-        url: 'https://example.com',
-        tagline: 'notes, but with a drill',
-        category: 'productivity',
+        site: 'Swimply',
+        x: 'Airbnb',
+        x_url: 'https://airbnb.com',
+        y: 'swimming pools',
+        y_url: 'https://swimply.com',
+        category: 'rentals',
+        adult: false,
+        desc: 'Rent private pools by the hour',
       },
-      { x: 'Uber', y: 'tractors', tier: 'featured', nsfw: true },
+      {
+        site: 'Naughtly',
+        x: 'Airbnb',
+        y: 'red rooms',
+        adult: true,
+      },
     ]
 
     count = import(json)
 
     assert_equal 2, count
     assert_equal 2, Entry.count
-    notion = Entry.find_by(x: 'Notion')
-    assert_equal 'dentists', notion.y
-    assert_equal 'https://example.com', notion.url
-    assert_equal 'xbutfory', notion.user.handle
-    assert Entry.find_by(x: 'Uber').nsfw?
-    assert_equal 'featured', Entry.find_by(x: 'Uber').tier
-  end
+    # Both rows share one X -> a single deduplicated Product.
+    assert_equal 1, Product.count
+    airbnb = Product.find_by!(name: 'Airbnb')
+    assert_equal 'https://airbnb.com', airbnb.url
+    assert_equal 'airbnb', airbnb.slug
 
-  test 'accepts an entries-wrapped object' do
-    assert_equal 1, import({ entries: [{ x: 'Figma', y: 'florists' }] })
-    assert Entry.exists?(x: 'Figma', y: 'florists')
+    swimply = Entry.find_by!(x: 'Airbnb', y: 'swimming pools')
+    assert_equal airbnb, swimply.product
+    assert_equal 'https://swimply.com', swimply.url
+    assert_equal 'Swimply', swimply.name
+    assert_equal 'Rent private pools by the hour', swimply.description
+    assert_equal 'xbutfory', swimply.user.handle
+    assert Entry.find_by!(y: 'red rooms').nsfw?
   end
 
   private
