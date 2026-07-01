@@ -22,6 +22,12 @@ export default class extends Controller {
     Turbo.visit(window.location.href, { action: "replace" })
   }
 
+  // Logged-out visitors can't use After Dark — nudge them to sign in.
+  promptSignIn(event) {
+    event.preventDefault()
+    document.dispatchEvent(new CustomEvent("auth-modal:open"))
+  }
+
   isActive() {
     return document.cookie.split("; ").some(c => c === "after_dark=1")
   }

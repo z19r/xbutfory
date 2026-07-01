@@ -21,7 +21,17 @@
         <% end %>
       </span>
       <span data-controller="after-dark">
-        <button class="c-utility-bar__after-dark" data-after-dark-target="button" data-action="click->after-dark#toggle">🌙 After Dark</button>
+        <% if current_user %>
+          <button class="c-utility-bar__after-dark" data-after-dark-target="button" data-action="click->after-dark#toggle">🌙 After Dark</button>
+        <% else %>
+          <button
+            class="c-utility-bar__after-dark c-utility-bar__after-dark--locked"
+            type="button"
+            aria-disabled="true"
+            title="Show NSFW — sign in to unlock After Dark"
+            data-action="click->after-dark#promptSignIn"
+          >🌙 After Dark</button>
+        <% end %>
       </span>
       <% if current_user %>
         <%= render AccountMenuComponent.new(handle: current_user.handle, admin: current_user.admin?, avatar_thumb: current_user.avatar_thumb) %>

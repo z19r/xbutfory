@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   def home
     @sort = params[:sort].presence || 'newest'
     @query = params[:q].presence
-    @after_dark = cookies[:after_dark] == '1'
+    @after_dark = after_dark?
     @filter_category = Category.find_by(slug: params[:category]) if params[
       :category
     ].present?

@@ -105,12 +105,26 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/TestNSFW but for hidden/, response.body)
   end
 
-  test 'shows nsfw entries when after_dark cookie is set' do
+  test 'shows nsfw entries when after_dark cookie is set and signed in' do
     Entry.create!(x: 'TestNSFW', y: 'visible', nsfw: true, user: users(:member))
+    sign_in_as(users(:member))
     cookies[:after_dark] = '1'
     get root_url
     assert_response :success
     assert_match(/TestNSFW but for visible/, response.body)
+  end
+
+  test 'ignores the after_dark cookie for signed-out visitors' do
+    Entry.create!(x: 'TestNSFW', y: 'hidden', nsfw: true, user: users(:member))
+    cookies[:after_dark] = '1'
+    get root_url
+    assert_response :success
+    assert_no_match(/TestNSFW but for hidden/, response.body)
+  end
+
+  test 'the after dark toggle is locked for signed-out visitors' do
+    get root_url
+    assert_select '.c-utility-bar__after-dark--locked'
   end
 
   test 'category filter shows the filter chip and narrows the feed' do

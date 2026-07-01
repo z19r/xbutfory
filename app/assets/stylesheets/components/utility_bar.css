@@ -137,6 +137,16 @@
   color: #fff;
 }
 
+/* Signed-out: the control is visible but locked (opens the sign-in modal). */
+.c-utility-bar__after-dark--locked {
+  opacity: 0.5;
+  cursor: help;
+}
+
+.c-utility-bar__after-dark--locked:hover {
+  opacity: 0.68;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .c-utility-bar__live-dot {
     animation: none;
