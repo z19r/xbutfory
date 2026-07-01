@@ -14,7 +14,7 @@ Any questions before you start?
 - [x] No emails are sending in dev mode, they should all send via letter_opener — switched to **letter_opener_web** (in-app inbox at /letter_opener; plain letter_opener silently no-op'd without a browser). Worker processes deliver_later.
   - [x] Never sent plaintext email, delete them — removed all `.text.erb` mailer templates + the text layout; mailers are HTML-only.
 - [ ] All the fake sites need to be removed and replaced with the sites in the jsob blob in @xbutfory.json
-- [ ] Modal should pop up when attempting to vote logged out, not toast
+- [x] Modal should pop up when attempting to vote logged out, not toast — `auth_modal` Stimulus controller + dialog in layout (signed-out only); vote_controller dispatches `auth-modal:open` on 401 instead of a toast.
 - [ ] Weekly Digest -> if logged in, email should be prefilled, but editable
 - [x] Submission needs to be disabled when email is not confirmed — `require_confirmed_email` before_action on new/create/edit/update; unconfirmed users bounce to home with a "confirm your email" alert.
 - [ ] The X's should be static and defined by admin only

@@ -21,6 +21,15 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select '.c-account-menu', count: 0
   end
 
+  test 'the sign-in-to-vote modal is present only for signed-out visitors' do
+    get root_url
+    assert_select '.c-auth-modal[data-controller="auth-modal"]', count: 1
+
+    sign_in_as(users(:member))
+    get root_url
+    assert_select '.c-auth-modal', count: 0
+  end
+
   test 'home renders the maximal shell: wide body, sidebar rail and featured strip' do
     get root_url
     assert_select 'body.is-home'
