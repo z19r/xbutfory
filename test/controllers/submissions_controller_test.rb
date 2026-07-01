@@ -50,7 +50,24 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to manage_submissions_path
     assert_equal users(:member), entry.user
     assert_equal 'member', entry.user.handle, 'byline is the signed-in @handle'
-    assert entry.pending?, 'new submissions await editorial review'
+    assert entry.pending?, 'a first submission awaits editorial review'
+  end
+
+  test 'a trusted member (already has a live listing) publishes immediately' do
+    member = users(:member)
+    member.entries.create!(x: 'Prior', y: 'proof', description: 'earned trust')
+
+    sign_in_as(member)
+    post submissions_path,
+         params: {
+           entry: {
+             x: 'Trusted',
+             y: 'veterans',
+             description: 'no queue for the trusted',
+           },
+         }
+
+    assert Entry.find_by(x: 'Trusted').live?
   end
 
   test 'submit is gated behind a session' do

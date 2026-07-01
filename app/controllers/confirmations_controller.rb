@@ -3,7 +3,7 @@ class ConfirmationsController < ApplicationController
   def show
     user = User.find_by_token_for(:email_confirmation, params[:token])
     if user
-      user.confirm!
+      user.confirm! if user.may_confirm? # idempotent on a second click
       redirect_to root_path, notice: "Email confirmed — you're all set."
     else
       redirect_to root_path,

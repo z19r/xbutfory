@@ -51,6 +51,9 @@ gem 'image_processing', '~> 1.2'
 # Payments for the Featured listing tier [https://github.com/stripe/stripe-ruby]
 gem 'stripe', '~> 13.0'
 
+# State machines for entry/product/user/payment lifecycles [https://github.com/aasm/aasm]
+gem 'aasm', '~> 5.5'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'

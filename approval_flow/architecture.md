@@ -6,75 +6,51 @@ native to the app.
 
 ---
 
-## 1. Data model
+## 1. Data model — MOSTLY ALREADY BUILT
 
-### `Product` (new) — the canonical X vocabulary + suggestion queue
+> **Read `app/models/product.rb` and `app/models/entry.rb` first.** The X is
+> already a foreign-key table with an AASM approval lifecycle. This flow only
+> adds attribution (`suggested_by`) + wiring. **Do not recreate the model, the
+> FK, or the approval states.**
 
-One table serves double duty: it *is* the dropdown (rows where
-`status = 'approved'`) and it *is* the suggestion inbox (rows where
-`status = 'pending'`).
+### `Product` (EXISTS) — the canonical X vocabulary + suggestion queue
 
-Migration (`db/migrate/…_create_products.rb`):
+Already shipped (`db/schema.rb`): `products(name, slug, url, state, approved_at,
+timestamps)` with a unique `LOWER(name)` index, unique `slug`, and an index on
+`state`. `entries.product_id` FK already links each listing to its X.
 
-| column          | type      | notes                                                    |
-|-----------------|-----------|----------------------------------------------------------|
-| `name`          | string    | `null: false`; canonical X (e.g. "Notion")               |
-| `slug`          | string    | `null: false`; `parameterize`d, unique index             |
-| `status`        | string    | `null: false, default: 'approved'`                       |
-| `suggested_by_id` | bigint  | FK → `users`, **nullable** (seeded/admin-created rows)    |
-| `decided_at`    | datetime  | nullable; stamped on approve/deny                        |
-| timestamps      |           |                                                          |
+`Product` already includes **AASM** on the `state` column — this *is* the
+suggestion lifecycle, so use it (don't add a `status` enum):
 
-Indexes: unique on `slug`, unique on `LOWER(name)` (mirrors the
-`index_users_on_lower_email` expression index already in `db/schema.rb`),
-plus `index_products_on_status`.
+- states: `pending` (initial) → `approved` (event `approve`, stamps
+  `approved_at`) / `rejected` (event `reject`).
+- scopes: `Product.pending` / `.approved` / `.rejected` (AASM-generated) and
+  `.alphabetical`.
+- `Product.for_name(name, url:, approved:)` — dedupes on `LOWER(name)`.
+- The dropdown *is* `Product.approved`; the suggestion inbox *is*
+  `Product.pending`.
 
-`app/models/product.rb`:
+**The only Product changes this flow needs:**
 
-```ruby
-class Product < ApplicationRecord
-  belongs_to :suggested_by, class_name: 'User', optional: true
+1. A migration adding **`suggested_by_id`** (bigint, nullable, FK → `users`) so a
+   pending X remembers who proposed it (seed/admin rows leave it null).
+2. `belongs_to :suggested_by, class_name: 'User', optional: true`.
+3. A `for_dropdown` convenience scope = `approved.alphabetical`.
+4. `after` callbacks on the existing `approve`/`reject` events to run the
+   side-effects (release entries, email the OP) — see §4.
 
-  # String-backed enum, matching Entry#status style (app/models/entry.rb).
-  enum :status,
-       { approved: 'approved', pending: 'pending', denied: 'denied' },
-       default: 'approved'
+### `Entry` (EXISTS) — already linked, already stateful
 
-  validates :name, :slug, presence: true
-  validates :slug, uniqueness: true
-  validates :name, uniqueness: { case_sensitive: false }
+`entry.x` stays a `string` (drives `Entry#title`/search); `entry.product_id` is
+the FK. Both already exist. `Entry` already has **AASM** status
+(`live/pending/needs_edits/withdrawn`). A submission gated on a *pending* X is
+created `status: 'pending'` — an existing state kept out of the feed by the
+existing scopes. **No entry migration or model change is needed.**
 
-  before_validation :generate_slug, on: :create
-
-  scope :for_dropdown, -> { approved.order(:name) }
-
-  private
-
-  def generate_slug
-    self.slug = name.to_s.parameterize if slug.blank? && name.present?
-  end
-end
-```
-
-Note the enum/slug/`before_validation` mirrors `Entry` exactly so future readers
-recognize the pattern.
-
-### `Entry` (existing) — one added association, no column change
-
-`entry.x` stays a `string` (schema unchanged; keeps `Entry#title` and search
-working). We add a **non-breaking** link so an entry knows which product it
-points at and stays hidden while that product is pending:
-
-- Optional `belongs_to :product` via a nullable `product_id` (second small
-  migration). `entry.x` is still the source of truth for display; `product_id`
-  is the referential handle used to release pending entries on approval.
-- Reuse the existing `Entry#status` enum. A submission gated on a pending X is
-  created with `status: 'pending'` (a value that already exists) so it's kept out
-  of the public feed by the existing `feed_query`/scopes — no new state needed.
-
-> Decision: **do not** denormalize X onto Product-only. Keeping `entry.x` avoids
-> touching `Entry#title`, `Entry.search`, slug generation, and every view that
-> renders `entry.x`. `product_id` is purely additive.
+> Interaction with the first-post rule (`SubmissionsController#create`): a
+> submission whose X is a **pending** (just-suggested) product is `pending`
+> regardless of author trust. Only when the X is already **approved** does the
+> normal trust rule (`current_user.entries.live.exists?`) decide live-vs-pending.
 
 ---
 
@@ -90,12 +66,13 @@ namespace :admin do
     member { patch :approve; patch :request_changes }
   end
   resources :products do            # admin CRUD for the vocabulary
-    member { patch :approve; patch :deny }   # suggestion verdicts
+    member { patch :approve; patch :reject }  # suggestion verdicts
   end
 end
 ```
 
-`approve`/`deny` mirror the submissions queue's `approve`/`request_changes`
+`approve`/`reject` map straight onto the Product AASM events `approve!` /
+`reject!`, and mirror the submissions queue's `approve`/`request_changes`
 member routes 1:1.
 
 No new public routes are required — the dropdown and suggest-new field are part
@@ -114,13 +91,17 @@ Same skeleton: `before_action :require_admin` (from `Authentication`), a
 class Admin::ProductsController < ApplicationController
   before_action :require_admin
 
-  def index   # queue of pending + browse approved/denied, filtered like submissions
+  def index   # queue of pending + browse approved/rejected, filtered like submissions
   def new/create/edit/update/destroy   # admin-owned CRUD for approved vocabulary
 
-  def approve # Products::Decision.approve!(product) → status: approved, decided_at
-  def deny    # Products::Decision.deny!(product)    → status: denied,   decided_at
+  def approve # product.approve! if product.may_approve?  (AASM event)
+  def reject  # product.reject!  if product.may_reject?   (AASM event)
 end
 ```
+
+The verdict actions just fire the **existing AASM events** — the side-effects
+(release entries, email the OP) hang off the model callbacks in §4, exactly like
+`Vote after_create_commit → MilestoneNotifier`.
 
 Redirects use `notice:` in the deadpan editorial voice, matching
 `Admin::SubmissionsController` ("Approved — …", "Sent … back for edits.").
@@ -145,22 +126,27 @@ Follow the existing service style (`MilestoneNotifier`, `FeaturedPurchase`):
 small, single-responsibility, `self.call`-ish class methods, mailers fired with
 `deliver_later`.
 
-### `Products::Suggestion`
-`create(name:, user:)` → finds-or-creates a `Product` (dedupe on `LOWER(name)`;
-if it already exists approved, just return it; if pending, reuse it), sets
-`status: pending` + `suggested_by: user`, then
+### `Products::Suggestion` (new)
+`create(name:, user:)` → reuse **`Product.for_name(name)`** (dedupes on
+`LOWER(name)`, creates in `pending` since `approved:` defaults false). If the
+returned product is already `approved`, just return it (nothing to review). If
+it's freshly `pending`, set `suggested_by: user` and fire
 `ProductSuggestionMailer.submitted(product:).deliver_later` to notify admins.
 
-### `Products::Decision`
-`approve!(product)` / `deny!(product)`:
-- flips status, stamps `decided_at`.
-- on approve: release matching pending entries
-  (`Entry.pending.where(product: product).update_all(status: 'live')` — or route
-  them into the normal moderation queue; pick one and state it in the entry
-  fixture tests).
-- emails the OP: `ProductSuggestionMailer.approved(product:)` /
-  `.denied(product:)` via `deliver_later`, guarded like `MilestoneNotifier`
-  (`suggested_by.present?`).
+### Verdicts = the Product AASM events (no `Products::Decision` needed)
+The approve/reject side-effects hang off the **existing** `approve`/`reject`
+events as `after` callbacks on `Product` (mirrors `Vote after_create_commit →
+MilestoneNotifier`):
+
+- `approve` already stamps `approved_at`. Add an `after` that (a) releases
+  matching gated listings — `entries.pending.find_each(&:approve!)` (drive the
+  Entry state machine; don't `update_all` a status) — and (b) emails the OP:
+  `ProductSuggestionMailer.approved(product: self).deliver_later if suggested_by`.
+- `reject` adds an `after` emailing `ProductSuggestionMailer.rejected(...)`,
+  guarded on `suggested_by`.
+
+Keeping the logic on the events means an admin `product.approve!` from anywhere
+(console, future bulk tools) does the right thing.
 
 ---
 
@@ -168,18 +154,21 @@ if it already exists approved, just return it; if pending, reuse it), sets
 
 Mirror `UserMailer` / `MilestoneMailer` conventions (inherit
 `ApplicationMailer`, subject in headline Title Case, HTML view under
-`app/views/product_suggestion_mailer/`, wrapped by the shared `mailer` layout).
-Three touchpoints:
+`app/views/product_suggestion_mailer/`). **Use the existing branded email
+system**: the `mailer` layout (`app/views/layouts/mailer.html.erb` — warm paper,
+serif wordmark, mono footer) and `EmailHelper` (`email_button`, `email_eyebrow`)
+are already built. Do NOT ship bare `<p>` emails. Three touchpoints:
 
 | method                  | to                     | trigger                          |
 |-------------------------|------------------------|----------------------------------|
 | `submitted(product:)`   | admin(s) (`User.where(admin: true)`) | R4 — new suggestion filed        |
 | `approved(product:)`    | `product.suggested_by.email`         | R5/R6 — editor approved          |
-| `denied(product:)`      | `product.suggested_by.email`         | R5/R6 — editor denied            |
+| `rejected(product:)`    | `product.suggested_by.email`         | R5/R6 — editor rejected          |
 
 All dispatched `deliver_later` → Sidekiq (`config.active_job.queue_adapter =
-:sidekiq`). Copy is deadpan editorial (sentence-case body, one optional leading
-emoji only if a transient tone calls for it — otherwise none, per brand law).
+:sidekiq`; a `worker` process runs it — mail lands in the `/letter_opener`
+inbox in dev). HTML-only (plaintext `.text.erb` templates were removed). Copy is
+deadpan editorial (sentence-case body), no emoji in the body per brand law.
 
 ---
 
@@ -195,7 +184,7 @@ emoji only if a transient tone calls for it — otherwise none, per brand law).
 - **Admin queue** (`app/views/admin/products/index.html.erb`): clone the
   `l-manage__*` / `c-sub__*` structure from
   `app/views/admin/submissions/index.html.erb` — status pills, `button_to`
-  Approve, a `details`-wrapped Deny form. Reuse `ButtonComponent`
+  Approve, a `details`-wrapped Reject form. Reuse `ButtonComponent`
   (`variant: "secondary", size: "sm"`).
 - CSS: a per-surface stylesheet scoped by a root class (e.g. `.c-suggest`),
   token-driven (`var(--token)` only), sharp marks for the note stamp / soft 8px
@@ -223,7 +212,7 @@ the new controller is additive and composes on the same
 - Suggest-new input has a real `<label>`; reveal is not motion-gated for
   screen readers (toggle `hidden`, not just opacity).
 - Hit targets ≥ 44px (`CLAUDE.md` §4).
-- Approve/Deny are independent `button_to`/form targets (no nested interactive
+- Approve/Reject are independent `button_to`/form targets (no nested interactive
   ambiguity), matching the submissions queue.
 - Honor `prefers-reduced-motion` (kill the reveal transform + any pulse).
 
@@ -231,15 +220,19 @@ the new controller is additive and composes on the same
 
 ## 9. Test surface (minitest — dirs already exist)
 
-- `test/models/product_test.rb` — validations, enum, slug, `for_dropdown`.
-- `test/services/products/suggestion_test.rb`,
-  `test/services/products/decision_test.rb` — create/approve/deny + entry release.
-- `test/mailers/product_suggestion_mailer_test.rb` — 3 methods, recipients,
-  subjects (assert `deliver_later` enqueues).
+- `test/models/product_test.rb` — **already exists** (AASM states/scopes,
+  `for_name`). *Extend* it with `suggested_by` + the approve/reject `after`
+  callbacks (entry release, mailer enqueue).
+- `test/services/products/suggestion_test.rb` — create dedupes, sets
+  `suggested_by`, enqueues admin mail. (No `decision_test` — verdicts are the
+  Product AASM events, covered in `product_test`.)
+- `test/mailers/product_suggestion_mailer_test.rb` — 3 methods (`submitted`,
+  `approved`, `rejected`), recipients, subjects.
 - `test/controllers/admin/products_controller_test.rb` — `require_admin` gate,
-  index filter, approve/deny.
+  index filter, approve/reject (fire the events).
 - `test/controllers/submissions_controller_test.rb` (extend) — dropdown path,
-  suggest-new path creates pending product + entry + enqueues admin mail.
-- `test/components/…` — optional component test for the suggestion field render.
-- Fixtures: add `test/fixtures/products.yml`; an admin user already exists via
-  the `users` fixtures (`admin: true`).
+  suggest-new path creates a pending product + a pending entry + enqueues admin
+  mail; a pending X keeps the entry pending regardless of author trust.
+- Fixtures: add `test/fixtures/products.yml` (all `state: approved` for the
+  dropdown); the admin `editor` and the standard `member`/`unconfirmed` users
+  already exist in `test/fixtures/users.yml`.

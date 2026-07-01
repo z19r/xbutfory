@@ -1,4 +1,6 @@
 class Entry < ApplicationRecord
+  include AASM
+
   belongs_to :user
   # The X, normalized: the curated product this listing reimagines. Optional so
   # existing/back-office rows aren't forced; `x` string stays for display/search.
@@ -8,15 +10,40 @@ class Entry < ApplicationRecord
 
   TIERS = %w[free featured].freeze
 
-  # Lifecycle of a listing (see MIGRATION.md). DB-backed string enum, default live.
-  enum :status,
-       {
-         live: 'live',
-         pending: 'pending',
-         needs_edits: 'needs_edits',
-         withdrawn: 'withdrawn',
-       },
-       default: 'live'
+  # Lifecycle of a listing. AASM on the `status` column (default live for direct
+  # creates — seeds/imports/admin). New user submissions from an untrusted
+  # account are set pending in the controller. AASM provides the live?/pending?/
+  # needs_edits?/withdrawn? predicates and matching class scopes.
+  aasm column: :status do
+    state :live, initial: true
+    state :pending
+    state :needs_edits
+    state :withdrawn
+
+    # Admin publishes a queued submission and clears any review note.
+    event :approve do
+      transitions from: %i[pending needs_edits], to: :live, after: :clear_reviewer_note
+    end
+
+    # Admin bounces it back for edits (note set by the controller).
+    event :request_changes do
+      transitions from: %i[pending live needs_edits], to: :needs_edits
+    end
+
+    # Owner edits a needs_edits listing — back into the queue.
+    event :resubmit do
+      transitions from: :needs_edits, to: :pending
+    end
+
+    # Owner hides / restores their listing.
+    event :withdraw do
+      transitions from: %i[live pending needs_edits], to: :withdrawn
+    end
+
+    event :restore do
+      transitions from: :withdrawn, to: :live
+    end
+  end
 
   validates :x, :y, :slug, presence: true
   validates :slug, uniqueness: true
@@ -54,6 +81,10 @@ class Entry < ApplicationRecord
   def title = "#{x} but for #{y}"
 
   private
+
+  def clear_reviewer_note
+    self.reviewer_note = nil
+  end
 
   def generate_slug
     return if slug.present?

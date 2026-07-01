@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_01_092009) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_01_103806) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -106,13 +106,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_01_092009) do
   end
 
   create_table "products", force: :cascade do |t|
+    t.datetime "approved_at"
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.string "slug", null: false
+    t.string "state", default: "pending", null: false
     t.datetime "updated_at", null: false
     t.string "url"
     t.index "lower((name)::text)", name: "index_products_on_lower_name", unique: true
     t.index ["slug"], name: "index_products_on_slug", unique: true
+    t.index ["state"], name: "index_products_on_state"
   end
 
   create_table "users", force: :cascade do |t|
@@ -129,10 +132,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_01_092009) do
     t.boolean "milestone_notifications", default: true, null: false
     t.string "password_digest", null: false
     t.boolean "reply_notifications", default: true, null: false
+    t.string "state", default: "unconfirmed", null: false
     t.datetime "updated_at", null: false
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
     t.index "lower((handle)::text)", name: "index_users_on_lower_handle", unique: true
     t.index ["api_key"], name: "index_users_on_api_key", unique: true
+    t.index ["state"], name: "index_users_on_state"
   end
 
   create_table "votes", force: :cascade do |t|

@@ -25,10 +25,12 @@ propose additions through a lightweight, moderated suggestion flow.
 ## Requirements
 
 ### R1 — Curated X list, admin-owned
-- A new `Product` model holds the canonical X names. Admin-only CRUD lives under
-  the existing `admin` namespace (mirrors `Admin::SubmissionsController`).
-- Products carry a `status` (`approved`, `pending`, `denied`) so a single table
-  is both the live vocabulary and the suggestion queue.
+- The `Product` model (already built) holds the canonical X names. Admin-only
+  CRUD lives under the existing `admin` namespace (mirrors
+  `Admin::SubmissionsController`).
+- Products carry an AASM `state` (`pending`, `approved`, `rejected`) so a single
+  table is both the live vocabulary (`Product.approved`) and the suggestion queue
+  (`Product.pending`).
 
 ### R2 — Dropdown on submit
 - The submit form's "The X" field becomes a `<select>` of **approved** products
@@ -43,21 +45,22 @@ propose additions through a lightweight, moderated suggestion flow.
 - The formula chip stays honest — the typed suggestion feeds the live preview.
 
 ### R4 — Submitting a suggestion
-- Submitting the form with a new X creates a `Product` with `status: pending`
-  attributed to the OP (`suggested_by`), then **emails the admin(s)**.
+- Submitting the form with a new X creates a `pending` `Product` (via
+  `Product.for_name`) attributed to the OP (`suggested_by`), then **emails the
+  admin(s)**.
 - The submitted entry itself is held/associated so it can go live once (and if)
   the X is approved — see Acceptance below.
 
-### R5 — Admin approve / deny
+### R5 — Admin approve / reject
 - The admin suggestion queue (new `Admin::ProductsController`, same shape as the
-  submissions queue) lists pending products with **Approve** and **Deny**
+  submissions queue) lists pending products with **Approve** and **Reject**
   actions (`button_to … method: :patch`, matching the existing approve /
   request_changes buttons).
-- **Approve** → product becomes `approved` and enters the dropdown.
-- **Deny** → product becomes `denied`; it never appears in the dropdown.
+- **Approve** → `product.approve!` (AASM); it enters the dropdown.
+- **Reject** → `product.reject!` (AASM); it never appears in the dropdown.
 
 ### R6 — Email the OP on every decision
-- Approve **and** deny each send an email to the OP (`suggested_by.email`),
+- Approve **and** reject each send an email to the OP (`suggested_by.email`),
   in the deadpan editorial voice, via `deliver_later` (Sidekiq — see
   `config.active_job.queue_adapter = :sidekiq`).
 
@@ -72,9 +75,9 @@ propose additions through a lightweight, moderated suggestion flow.
 
 ## Acceptance criteria
 
-1. `Product` model exists with `name` (unique, case-insensitive), `status`
-   enum (`approved`/`pending`/`denied`, string-backed like `Entry#status`), and
-   a `suggested_by` optional `belongs_to :user`.
+1. `Product` (already built) has `name` (unique, case-insensitive) + AASM `state`
+   (`pending`/`approved`/`rejected`). This flow adds a `suggested_by` optional
+   `belongs_to :user`.
 2. Submit form renders a `<select>` of approved products plus a "Suggest New…"
    option; no free-text X input remains for the normal path.
 3. Picking "Suggest New…" reveals a text field + the approval note via a Stimulus
@@ -84,8 +87,8 @@ propose additions through a lightweight, moderated suggestion flow.
 5. Submitting a brand-new X creates a `pending` Product attributed to the OP and
    enqueues an email to admins. The entry is created with `status: 'pending'`
    and is **not** shown in the public feed until its X is approved.
-6. Admin queue lists pending products; **Approve** flips to `approved`, **Deny**
-   flips to `denied`. Each decision enqueues an email to the OP.
+6. Admin queue lists pending products; **Approve** fires `approve!` → `approved`,
+   **Reject** fires `reject!` → `rejected`. Each verdict enqueues an email to the OP.
 7. On approve, any pending entries whose X matches the newly-approved product are
    released to `live` (or become eligible for the normal moderation queue —
    decided in `architecture.md`).
