@@ -23,7 +23,10 @@ class FeaturedPurchase
     # A coupon skips Stripe; anything else needs card payments to be configured.
     return Result.new(outcome: :unconfigured) unless Stripe.api_key.present?
 
-    Result.new(outcome: coupon_matches ? :coupon_spent : :checkout, checkout_url: start_checkout)
+    Result.new(
+      outcome: coupon_matches ? :coupon_spent : :checkout,
+      checkout_url: start_checkout,
+    )
   end
 
   private

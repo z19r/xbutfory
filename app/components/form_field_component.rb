@@ -13,7 +13,7 @@ class FormFieldComponent < ViewComponent::Base
     as: :input,
     mono: false,
     name: nil,
-    type: "text",
+    type: 'text',
     value: nil,
     id: nil,
     **input_attrs
@@ -42,18 +42,18 @@ class FormFieldComponent < ViewComponent::Base
   end
 
   def root_classes
-    classes = [ "c-field" ]
-    classes << "c-field--error" if error?
-    classes << "c-field--textarea" if textarea?
-    classes << "c-field--mono" if @mono
-    classes.join(" ")
+    classes = ['c-field']
+    classes << 'c-field--error' if error?
+    classes << 'c-field--textarea' if textarea?
+    classes << 'c-field--mono' if @mono
+    classes.join(' ')
   end
 
   def input_classes
-    classes = [ "c-field__input" ]
-    classes << "c-field__input--prefixed" if @prefix
-    classes << "c-field__input--trailing" if trailing?
-    classes.join(" ")
+    classes = ['c-field__input']
+    classes << 'c-field__input--prefixed' if @prefix
+    classes << 'c-field__input--trailing' if trailing?
+    classes.join(' ')
   end
 
   def control_tag
@@ -70,6 +70,6 @@ class FormFieldComponent < ViewComponent::Base
   def default_id
     return nil unless @label
 
-    "f-#{@label.to_s.downcase.gsub(/[^a-z0-9]+/, "-").delete_suffix("-")}"
+    "f-#{@label.to_s.downcase.gsub(/[^a-z0-9]+/, '-').delete_suffix('-')}"
   end
 end

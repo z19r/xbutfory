@@ -7,9 +7,9 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    wants_featured = entry_params[:tier] == "featured"
+    wants_featured = entry_params[:tier] == 'featured'
     @entry = current_user.entries.new(entry_params)
-    @entry.tier = "free" # Featured is only granted once paid (or via a coupon).
+    @entry.tier = 'free' # Featured is only granted once paid (or via a coupon).
     @entry.status = :pending # new submissions await editorial review
 
     return render :new, status: :unprocessable_entity unless @entry.save
@@ -29,8 +29,8 @@ class SubmissionsController < ApplicationController
     @entry = own_entry
     was_needs_edits = @entry.needs_edits?
     if @entry.update(entry_params)
-      @entry.update(status: "pending") if was_needs_edits # "edit & resubmit"
-      redirect_to manage_submissions_path, notice: "Listing updated."
+      @entry.update(status: 'pending') if was_needs_edits # "edit & resubmit"
+      redirect_to manage_submissions_path, notice: 'Listing updated.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -38,8 +38,8 @@ class SubmissionsController < ApplicationController
 
   # Status transitions from the manage screen (withdraw / cancel / restore).
   TRANSITIONS = {
-    "withdrawn" => %w[live pending needs_edits],
-    "live" => %w[withdrawn]
+    'withdrawn' => %w[live pending needs_edits],
+    'live' => %w[withdrawn],
   }.freeze
 
   def transition
@@ -62,12 +62,12 @@ class SubmissionsController < ApplicationController
 
   def transition_notice(target)
     case target
-    when "withdrawn"
-      "Listing withdrawn."
-    when "live"
-      "Listing restored."
+    when 'withdrawn'
+      'Listing withdrawn.'
+    when 'live'
+      'Listing restored.'
     else
-      "Listing updated."
+      'Listing updated.'
     end
   end
 
@@ -100,16 +100,18 @@ class SubmissionsController < ApplicationController
     case result.outcome
     when :granted
       redirect_to manage_submissions_path,
-                  notice: "Submitted — your free Featured promotion is applied. An editor will review it shortly."
+                  notice:
+                    'Submitted — your free Featured promotion is applied. An editor will review it shortly.'
     when :unconfigured
       redirect_to manage_submissions_path,
-                  notice: "Submitted as a free listing — card payments aren't enabled in this environment yet."
+                  notice:
+                    "Submitted as a free listing — card payments aren't enabled in this environment yet."
     else # :checkout or :coupon_spent — send them to pay
       redirect_to result.checkout_url, allow_other_host: true
     end
   end
 
   def submission_notice(_entry)
-    "Submitted — an editor will review it shortly."
+    'Submitted — an editor will review it shortly.'
   end
 end

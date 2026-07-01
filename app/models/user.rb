@@ -49,7 +49,7 @@ class User < ApplicationRecord
             presence: true,
             format: {
               with: HANDLE_FORMAT,
-              message: "must be 3–20 lowercase letters, numbers or underscores",
+              message: 'must be 3–20 lowercase letters, numbers or underscores',
             },
             uniqueness: {
               case_sensitive: false,
@@ -59,7 +59,7 @@ class User < ApplicationRecord
 
   # The placeholder owner for migrated anonymous entries.
   def self.legacy
-    find_by(handle: "legacy")
+    find_by(handle: 'legacy')
   end
 
   # Sign-in accepts email or @handle (leading @ optional).
@@ -67,9 +67,9 @@ class User < ApplicationRecord
     key = login.to_s.strip
     return if key.blank?
 
-    if key.start_with?("@")
-      find_by(handle: key.delete_prefix("@").downcase)
-    elsif key.include?("@")
+    if key.start_with?('@')
+      find_by(handle: key.delete_prefix('@').downcase)
+    elsif key.include?('@')
       find_by(email: key.downcase)
     else
       find_by(handle: key.downcase)
@@ -98,11 +98,11 @@ class User < ApplicationRecord
     return unless avatar.attached?
 
     unless avatar.blob.content_type.in?(AVATAR_TYPES)
-      errors.add(:avatar, "must be a PNG, JPEG, WebP or GIF")
+      errors.add(:avatar, 'must be a PNG, JPEG, WebP or GIF')
     end
 
     if avatar.blob.byte_size > AVATAR_MAX_BYTES
-      errors.add(:avatar, "must be smaller than 2 MB")
+      errors.add(:avatar, 'must be smaller than 2 MB')
     end
   end
 end

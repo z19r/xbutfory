@@ -13,7 +13,7 @@ class TagCloudComponent < ViewComponent::Base
         Tag.new(
           label: t[:label],
           weight: (t[:weight] || 3),
-          href: t[:href] || "#",
+          href: t[:href] || '#',
         )
       end
   end

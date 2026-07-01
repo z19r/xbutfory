@@ -29,7 +29,9 @@
   border-radius: 4px;
   background: transparent;
   color: var(--text-muted);
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .c-sort__seg:hover {

@@ -5,6 +5,6 @@ class FeedsController < ApplicationController
   # latest safe-for-work entries.
   def show
     @entries = Entry.sfw.latest.includes(:user).limit(FEED_LIMIT)
-    render formats: [ :atom ]
+    render formats: [:atom]
   end
 end

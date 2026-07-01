@@ -9,7 +9,7 @@
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--text-muted);
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
 }
 
 .c-footer__aside {

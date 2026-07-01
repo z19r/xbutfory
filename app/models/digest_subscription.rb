@@ -5,7 +5,14 @@ class DigestSubscription < ApplicationRecord
 
   before_validation :normalize_email
 
-  validates :email, presence: true, format: { with: EMAIL_FORMAT }, uniqueness: { case_sensitive: false }
+  validates :email,
+            presence: true,
+            format: {
+              with: EMAIL_FORMAT,
+            },
+            uniqueness: {
+              case_sensitive: false,
+            }
 
   # Single-purpose, non-expiring token used for one-click unsubscribe links.
   generates_token_for :unsubscribe

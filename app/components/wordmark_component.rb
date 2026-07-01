@@ -12,7 +12,7 @@ class WordmarkComponent < ViewComponent::Base
     accent_y: true,
     ghost: false,
     beta: false,
-    beta_label: "BETA",
+    beta_label: 'BETA',
     interactive: false
   )
     @size = size
@@ -25,9 +25,9 @@ class WordmarkComponent < ViewComponent::Base
   end
 
   def root_classes
-    classes = [ "c-wordmark" ]
-    classes << "c-wordmark--responsive" if @responsive
-    classes.join(" ")
+    classes = ['c-wordmark']
+    classes << 'c-wordmark--responsive' if @responsive
+    classes.join(' ')
   end
 
   def root_style

@@ -8,7 +8,7 @@ class AccountsController < ApplicationController
   def update_profile
     @user = current_user
     if @user.update(profile_params)
-      redirect_to account_settings_path, notice: "Profile saved."
+      redirect_to account_settings_path, notice: 'Profile saved.'
     else
       render :settings, status: :unprocessable_entity
     end
@@ -20,7 +20,7 @@ class AccountsController < ApplicationController
 
     if params[:password].present?
       unless @user.authenticate(params[:current_password].to_s)
-        @user.errors.add(:current_password, "is incorrect")
+        @user.errors.add(:current_password, 'is incorrect')
         return render :settings, status: :unprocessable_entity
       end
       @user.password = params[:password]
@@ -30,7 +30,7 @@ class AccountsController < ApplicationController
     @user.email = params[:email] if params.key?(:email)
 
     if @user.save
-      redirect_to account_settings_path, notice: "Account updated."
+      redirect_to account_settings_path, notice: 'Account updated.'
     else
       render :settings, status: :unprocessable_entity
     end
@@ -39,12 +39,12 @@ class AccountsController < ApplicationController
   def update_notifications
     @user = current_user
     @user.update(notification_params)
-    redirect_to account_settings_path, notice: "Notification preferences saved."
+    redirect_to account_settings_path, notice: 'Notification preferences saved.'
   end
 
   def regenerate_api_key
     current_user.update_column(:api_key, SecureRandom.hex(24))
-    redirect_to account_settings_path, notice: "🔑 New API key generated."
+    redirect_to account_settings_path, notice: '🔑 New API key generated.'
   end
 
   # Danger zone: deleting an account withdraws all its listings. We reassign them to
@@ -53,12 +53,12 @@ class AccountsController < ApplicationController
   def destroy
     user = current_user
     legacy = User.legacy
-    user.entries.update_all(user_id: legacy.id, status: "withdrawn") if legacy
+    user.entries.update_all(user_id: legacy.id, status: 'withdrawn') if legacy
     user.destroy
     sign_out
     redirect_to root_path,
                 notice:
-                  "Your account is gone. Your listings have been withdrawn."
+                  'Your account is gone. Your listings have been withdrawn.'
   end
 
   STATUS_FILTERS = %w[all live pending needs_edits withdrawn].freeze
@@ -67,11 +67,11 @@ class AccountsController < ApplicationController
     scope = current_user.entries
     @counts =
       STATUS_FILTERS.index_with do |status|
-        status == "all" ? scope.count : scope.where(status: status).count
+        status == 'all' ? scope.count : scope.where(status: status).count
       end
-    @filter = STATUS_FILTERS.include?(params[:status]) ? params[:status] : "all"
+    @filter = STATUS_FILTERS.include?(params[:status]) ? params[:status] : 'all'
     @entries = scope.order(created_at: :desc)
-    @entries = @entries.where(status: @filter) unless @filter == "all"
+    @entries = @entries.where(status: @filter) unless @filter == 'all'
   end
 
   private
@@ -82,9 +82,9 @@ class AccountsController < ApplicationController
 
   def notification_params
     {
-      digest_opt_in: params[:digest_opt_in] == "1",
-      reply_notifications: params[:reply_notifications] == "1",
-      milestone_notifications: params[:milestone_notifications] == "1"
+      digest_opt_in: params[:digest_opt_in] == '1',
+      reply_notifications: params[:reply_notifications] == '1',
+      milestone_notifications: params[:milestone_notifications] == '1',
     }
   end
 end

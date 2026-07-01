@@ -33,8 +33,13 @@
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.22; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.22;
+  }
 }
 
 .c-utility-bar__links {
@@ -66,7 +71,9 @@
   border: 1px solid rgba(201, 188, 169, 0.45);
   background: var(--swatch);
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
 }
 
 .c-utility-bar__swatch:hover {
@@ -74,12 +81,16 @@
 }
 
 .c-utility-bar__swatch--on {
-  box-shadow: 0 0 0 2px var(--ink), 0 0 0 3px var(--on-dark);
+  box-shadow:
+    0 0 0 2px var(--ink),
+    0 0 0 3px var(--on-dark);
 }
 
 .c-utility-bar__swatch:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--ink), 0 0 0 3px var(--accent);
+  box-shadow:
+    0 0 0 2px var(--ink),
+    0 0 0 3px var(--accent);
 }
 
 .c-utility-bar__link {

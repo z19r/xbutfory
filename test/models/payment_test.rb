@@ -2,7 +2,12 @@ require 'test_helper'
 
 class PaymentTest < ActiveSupport::TestCase
   def pending_payment(status: 'pending')
-    Payment.create!(entry: entries(:two), user: users(:member), amount_cents: 199, status: status)
+    Payment.create!(
+      entry: entries(:two),
+      user: users(:member),
+      amount_cents: 199,
+      status: status,
+    )
   end
 
   test 'fulfilling a payment promotes its entry to the featured tier' do
@@ -33,7 +38,13 @@ class PaymentTest < ActiveSupport::TestCase
   test 'settled scope covers paid and free' do
     paid = pending_payment
     paid.fulfill!
-    free = Payment.create!(entry: entries(:three), user: users(:member), amount_cents: 0, status: 'free')
+    free =
+      Payment.create!(
+        entry: entries(:three),
+        user: users(:member),
+        amount_cents: 0,
+        status: 'free',
+      )
     assert_equal [free, paid].map(&:id).sort, Payment.settled.pluck(:id).sort
   end
 end

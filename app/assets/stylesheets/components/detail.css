@@ -10,7 +10,9 @@
   text-transform: uppercase;
   text-decoration: none;
 }
-.c-detail__back:hover { color: var(--ink); }
+.c-detail__back:hover {
+  color: var(--ink);
+}
 
 /* Head: vote column + lead */
 .c-detail__head {
@@ -35,12 +37,23 @@
   background: var(--surface-card);
   cursor: pointer;
   color: var(--text-faint-2);
-  transition: border-color 0.15s, color 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
 }
-.c-detail__vbtn:hover { border-color: var(--ink); color: var(--ink); }
-.c-detail__vbtn--on { border-color: var(--accent); color: var(--accent); }
+.c-detail__vbtn:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.c-detail__vbtn--on {
+  border-color: var(--accent);
+  color: var(--accent);
+}
 
-.c-detail__caret { font-size: 13px; line-height: 1; }
+.c-detail__caret {
+  font-size: 13px;
+  line-height: 1;
+}
 
 .c-detail__vnum {
   font-family: var(--font-display);
@@ -50,7 +63,9 @@
   margin-top: var(--space-3); /* 8 */
   color: var(--ink);
 }
-.c-detail__vbtn--on + .c-detail__vnum { color: var(--accent); }
+.c-detail__vbtn--on + .c-detail__vnum {
+  color: var(--accent);
+}
 
 .c-detail__vlbl {
   font-family: var(--font-mono);
@@ -128,9 +143,14 @@
   font-weight: 500;
   border-radius: 6px;
   text-decoration: none;
-  transition: opacity 0.15s, transform 0.15s;
+  transition:
+    opacity 0.15s,
+    transform 0.15s;
 }
-.c-detail__visit:hover { opacity: 0.9; transform: translateY(-1px); }
+.c-detail__visit:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
 
 .c-detail__by {
   font-family: var(--font-mono);
@@ -180,8 +200,12 @@
   align-self: start;
 }
 
-.c-detail__mc { margin-bottom: var(--space-6); /* 16 */ }
-.c-detail__mc:last-child { margin-bottom: 0; }
+.c-detail__mc {
+  margin-bottom: var(--space-6); /* 16 */
+}
+.c-detail__mc:last-child {
+  margin-bottom: 0;
+}
 
 .c-detail__mck {
   font-family: var(--font-mono);
@@ -216,5 +240,8 @@
 }
 
 @media (max-width: 720px) {
-  .c-detail__split { grid-template-columns: 1fr; gap: var(--space-12); }
+  .c-detail__split {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
 }

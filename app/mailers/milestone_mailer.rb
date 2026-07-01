@@ -4,6 +4,7 @@ class MilestoneMailer < ApplicationMailer
     @entry = entry
     @milestone = milestone
 
-    mail to: user.email, subject: "#{entry.title} just cleared #{milestone} votes"
+    mail to: user.email,
+         subject: "#{entry.title} just cleared #{milestone} votes"
   end
 end

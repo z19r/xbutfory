@@ -48,5 +48,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .l-categories__live { animation: none; }
+  .l-categories__live {
+    animation: none;
+  }
 }
