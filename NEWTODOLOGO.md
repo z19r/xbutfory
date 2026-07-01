@@ -9,7 +9,7 @@ Any questions before you start?
 - [ ] THEME should be sort of hidden, like a sliding tray in waybar. Maybe just a little < or something.
 - [x] Afterdark should only be allowed when logged in — `after_dark?` helper honors the cookie only when signed in (guards forged cookies); both feed + categories controllers use it.
   - [x] Hover/Tool tip when afterdark is disabled: 'Show NSFW (if logged out notice abouit login)' — signed-out toggle is a locked button with tooltip "Show NSFW — sign in to unlock After Dark"; clicking it opens the sign-in modal.
-- [ ] RSS button isn't hooked up
+- [x] RSS button isn't hooked up — masthead RSS button is now a real link to `/feed.xml` (the Atom feed already works) instead of a toast.
 - [ ] Weird horizontal scroll sometimes
 - [x] No emails are sending in dev mode, they should all send via letter_opener — switched to **letter_opener_web** (in-app inbox at /letter_opener; plain letter_opener silently no-op'd without a browser). Worker processes deliver_later.
   - [x] Never sent plaintext email, delete them — removed all `.text.erb` mailer templates + the text layout; mailers are HTML-only.
