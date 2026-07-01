@@ -10,7 +10,7 @@ Any questions before you start?
 - [x] Afterdark should only be allowed when logged in — `after_dark?` helper honors the cookie only when signed in (guards forged cookies); both feed + categories controllers use it.
   - [x] Hover/Tool tip when afterdark is disabled: 'Show NSFW (if logged out notice abouit login)' — signed-out toggle is a locked button with tooltip "Show NSFW — sign in to unlock After Dark"; clicking it opens the sign-in modal.
 - [x] RSS button isn't hooked up — masthead RSS button is now a real link to `/feed.xml` (the Atom feed already works) instead of a toast.
-- [ ] Weird horizontal scroll sometimes
+- [x] Weird horizontal scroll sometimes — root cause: the featured bar's `width: 100vw` full-bleed includes the scrollbar (overflows when a vertical scrollbar appears). Fixed with `overflow-x: clip` on html/body (keeps sticky nav) + utility bar now wraps on mobile. Verified 0 overflow at 375/768/1440.
 - [x] No emails are sending in dev mode, they should all send via letter_opener — switched to **letter_opener_web** (in-app inbox at /letter_opener; plain letter_opener silently no-op'd without a browser). Worker processes deliver_later.
   - [x] Never sent plaintext email, delete them — removed all `.text.erb` mailer templates + the text layout; mailers are HTML-only.
 - [~] All the fake sites need to be removed and replaced with the sites in the jsob blob in @xbutfory.json — **loader built + tested** (`SiteImporter`, `rake sites:import`, auto-runs from `db/seeds` when the file is present). Waiting on you to drop `xbutfory.json` at the repo root; then `rake sites:import` wipes the demo listings and loads the real ones. Expected JSON shape documented in `app/services/site_importer.rb`.
