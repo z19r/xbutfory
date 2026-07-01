@@ -20,11 +20,11 @@ class UtilityBarComponent < ViewComponent::Base
   end
 
   def initialize(
-    issue: "est. 2026 — vol. 1, issue 26",
+    issue: nil,
     active_accent: DEFAULT_ACCENT,
     current_user: nil
   )
-    @issue = issue
+    @issue = issue || CurrentVersion.current.masthead
     @active_accent = self.class.resolve_accent(active_accent)[:key]
     @current_user = current_user
   end
