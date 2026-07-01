@@ -2,8 +2,9 @@
 # Stripe Checkout redirect. The controller stays thin: it hands us the entry, the
 # member, an optional coupon, and the return URLs, and redirects on the result.
 class FeaturedPurchase
-  # outcome: :granted (coupon), :checkout (pay), or :coupon_spent (code valid but
-  # already redeemed — caller falls back to charging).
+  # outcome: :granted (coupon), :checkout (pay), :coupon_spent (code valid but
+  # already redeemed — falls back to charging), or :unconfigured (no Stripe keys
+  # in this environment — the listing simply stays free).
   Result = Struct.new(:outcome, :checkout_url, keyword_init: true)
 
   def initialize(entry:, user:, coupon: nil, success_url:, cancel_url:)
@@ -15,13 +16,14 @@ class FeaturedPurchase
   end
 
   def call
-    if KonamiCoupon.matches?(@coupon)
-      return redeem_coupon if KonamiCoupon.available_to?(@user)
+    coupon_matches = KonamiCoupon.matches?(@coupon)
 
-      return Result.new(outcome: :coupon_spent, checkout_url: start_checkout)
-    end
+    return redeem_coupon if coupon_matches && KonamiCoupon.available_to?(@user)
 
-    Result.new(outcome: :checkout, checkout_url: start_checkout)
+    # A coupon skips Stripe; anything else needs card payments to be configured.
+    return Result.new(outcome: :unconfigured) unless Stripe.api_key.present?
+
+    Result.new(outcome: coupon_matches ? :coupon_spent : :checkout, checkout_url: start_checkout)
   end
 
   private

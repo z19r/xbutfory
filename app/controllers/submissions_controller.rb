@@ -101,6 +101,9 @@ class SubmissionsController < ApplicationController
     when :granted
       redirect_to manage_submissions_path,
                   notice: "Submitted — your free Featured promotion is applied. An editor will review it shortly."
+    when :unconfigured
+      redirect_to manage_submissions_path,
+                  notice: "Submitted as a free listing — card payments aren't enabled in this environment yet."
     else # :checkout or :coupon_spent — send them to pay
       redirect_to result.checkout_url, allow_other_host: true
     end

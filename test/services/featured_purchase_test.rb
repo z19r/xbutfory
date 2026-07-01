@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class FeaturedPurchaseTest < ActiveSupport::TestCase
+  setup { Stripe.api_key = 'sk_test_dummy' }
+  teardown { Stripe.api_key = nil }
+
   def purchase(coupon: nil)
     FeaturedPurchase.new(
       entry: entries(:two),
@@ -50,5 +53,16 @@ class FeaturedPurchaseTest < ActiveSupport::TestCase
 
     assert_equal :coupon_spent, result.outcome
     assert_equal 'https://c/9', result.checkout_url
+  end
+
+  test 'without Stripe keys the paid path reports unconfigured instead of erroring' do
+    Stripe.api_key = nil
+    result = nil
+    stub_method(Stripe::Checkout::Session, :create, ->(*) { flunk 'Stripe should not be called' }) do
+      result = purchase.call
+    end
+
+    assert_equal :unconfigured, result.outcome
+    assert_equal 'free', entries(:two).reload.tier
   end
 end

@@ -1,6 +1,9 @@
 require "test_helper"
 
 class SubmissionsControllerTest < ActionDispatch::IntegrationTest
+  setup { Stripe.api_key = "sk_test_dummy" }
+  teardown { Stripe.api_key = nil }
+
   test "submit form loads with tier selector and inline preview" do
     sign_in_as(users(:member))
     get new_submission_path
