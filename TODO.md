@@ -166,10 +166,10 @@ redirect with "coming soon" toast). **Needs design direction before building.**
 
 ## Engineering quality & guardrails
 
-- [ ] Categories N+1: `categories_controller` / tiles run per-category count + sample queries. Use `counter_cache` (`entries_count` exists on categories) and/or `includes`/grouped counts.
+- [x] Categories N+1: fixed. `Category.with_stats(include_nsfw:)` computes counts + source-app samples in 2 grouped queries (logic in the model); `categories_controller#index` just delegates. (superseded the per-tile query path)
 - [x] Keep business logic OUT of controllers (user rule). Extracted feed search/category/sort + sponsor placement into `FeedQuery` (app/services/feed_query.rb — a query object/service); `PagesController#home` now just resolves params and delegates. Unit tests in test/queries/feed_query_test.rb. NOTE: `app/services` is a new autoload root, so the dev server must be restarted once to pick it up.
-- [ ] Maintain ≥80% test coverage. Add tests for: detail formula card + vote wiring, submit tier flip + create with name/tier, categories reseed hues, theme switcher, token-undefined guard.
-- [ ] Accessibility: vote button + visit link as independent targets on detail; 44px hit targets; honor `prefers-reduced-motion` (kill pulse/fireworks/transforms).
+- [x] Tests added for: detail formula card + vote wiring, submit tier flip + create with name/tier, categories reseed hues, theme switcher, token-undefined guard. Suite: 304 runs, 0 failures. (No coverage instrument wired — SimpleCov not installed; add if a hard 80% gate is wanted.)
+- [x] Accessibility: detail vote `<button>` + Visit `<a>` are independent targets; both bumped to `min-height: 44px` hit targets; reduced-motion honored via the global CSS blanket (kills pulse + transition-driven transforms) **and** a `prefersReducedMotion` guard in `konami_controller` that skips the fireworks canvas and hands the coupon straight over.
 - [ ] Commit after each build prompt (conventional, present-tense).
 
 ---
