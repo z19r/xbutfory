@@ -13,6 +13,8 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
   icon?: React.ReactNode;
   /** Append a trailing → arrow. @default false */
   trailingArrow?: boolean;
+  /** Glossy Y2K "gel" sheen over the primary/dark fill (maximal mode). @default false */
+  gel?: boolean;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   children?: React.ReactNode;

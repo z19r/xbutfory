@@ -1,93 +1,213 @@
-.l-submit {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-xl);
-  align-items: start;
+.c-submit {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-  .l-submit {
-    grid-template-columns: 1fr;
-  }
-}
-
-.l-submit__title {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: var(--type-section);
-  margin: 0 0 var(--space-xs);
-}
-
-.l-submit__dek {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin: 0 0 var(--space-lg);
-}
-
-.l-submit__dek em {
-  font-family: var(--font-serif);
-  font-style: italic;
-}
-
-.l-submit__preview {
-  position: sticky;
-  top: 80px;
-}
-
-.c-submit-form__errors {
-  background: rgba(201, 59, 27, 0.08);
-  border: 1.5px solid var(--accent);
-  border-radius: var(--radius-soft);
-  padding: var(--space-sm) var(--space-md);
-  margin-bottom: var(--space-md);
+/* "Posting as @handle" banner — replaces the old "no account needed" line. */
+.c-submit__posting {
+  margin: 16px 0 6px;
+  padding: 11px 14px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-input);
+  background: var(--surface-sunken);
   font-family: var(--font-sans);
   font-size: 13px;
+  color: var(--text-body);
+}
+
+.c-submit__posting-handle {
+  font-family: var(--font-mono);
+  font-weight: var(--fw-bold);
   color: var(--accent);
 }
 
-.c-submit-form__errors ul {
-  margin: var(--space-xxs) 0 0;
+.c-submit__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--type-section); /* 42 */
+  line-height: 1.04;
+  margin: 0 0 var(--space-3);
+  color: var(--ink);
+}
+
+.c-submit__dek {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--text-muted);
+  margin: 0 0 var(--space-14); /* 36-ish */
+}
+
+.c-submit__errors {
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-input);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  padding: var(--space-5) var(--space-6);
+  margin-bottom: var(--space-8);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--ink);
+}
+.c-submit__errors ul {
+  margin: 6px 0 0;
   padding-left: 18px;
 }
 
-.c-submit-form__field {
-  margin-bottom: var(--space-md);
+.c-submit__field {
+  margin-bottom: var(--space-8); /* 20 */
 }
 
-.c-submit-form__label {
+.c-submit__label {
   display: block;
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
+  font-size: var(--type-micro); /* 9 */
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: var(--space-xxs);
+  margin-bottom: var(--space-2); /* 6 */
 }
 
-.c-submit-form__input {
+.c-submit__input {
   width: 100%;
+  padding: 11px 14px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--surface-card);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-input);
+  box-shadow: var(--shadow-inset);
+}
+.c-submit__input::placeholder {
+  color: var(--placeholder);
+}
+.c-submit__input:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+.c-submit__textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.c-submit__select {
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Listing tiers */
+.c-submit__tiers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.c-submit__tier {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px;
+  border: 1.5px solid var(--border-input);
+  border-radius: var(--radius-input);
+  cursor: pointer;
+  background: var(--surface-card);
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+.c-submit__tier:hover {
+  border-color: var(--text-muted);
+}
+.c-submit__tier:has(.c-submit__tier-radio:checked) {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+
+.c-submit__tier-radio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.c-submit__tier-name {
   font-family: var(--font-sans);
   font-size: 14px;
-  padding: 10px 14px;
-  border: 1.5px solid var(--border-default);
-  border-radius: var(--radius-soft);
-  background: var(--paper);
+  font-weight: 600;
   color: var(--ink);
+}
+
+.c-submit__tier-desc {
+  font-family: var(--font-mono);
+  font-size: var(--type-label); /* 10 */
+  color: var(--text-muted);
+}
+
+/* CTA — ink for free, accent for featured */
+.c-submit__cta {
+  width: 100%;
+  margin-top: var(--space-8);
+  padding: 13px 18px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--on-dark);
+  background: var(--ink);
+  border: none;
+  border-radius: var(--radius-input);
+  cursor: pointer;
+  transition:
+    opacity 0.15s,
+    transform 0.15s,
+    background 0.15s;
+}
+.c-submit__cta:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+.c-submit__cta--featured {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-button);
+}
+
+.c-submit__fine {
+  font-family: var(--font-mono);
+  font-size: var(--type-label); /* 10 */
+  color: var(--text-faint);
+  text-align: center;
+  margin: var(--space-5) 0 0;
+}
+
+/* Optional promo code (e.g. the Konami free-Featured coupon). */
+.c-submit__coupon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.c-submit__coupon-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.c-submit__coupon-input {
+  flex: 1;
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-input);
+  text-transform: uppercase;
+}
+
+.c-submit__coupon-input:focus {
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-
-.c-submit-form__input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--focus-ring);
-}
-
-.c-submit-form__textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.c-submit-form__actions {
-  margin-top: var(--space-lg);
 }

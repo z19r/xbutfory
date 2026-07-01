@@ -1,0 +1,69 @@
+/* GlossyNav — maximal-mode primary navigation: a periwinkle gel bar with a
+   raised, inset-lit active tab. Mirrors design_system/components/navigation/GlossyNav.jsx. */
+.c-glossy-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--gel-nav);
+  border-top: 1px solid var(--gel-nav-top);
+  border-bottom: 1px solid var(--gel-nav-bottom);
+  box-shadow:
+    inset 0 1px 0 var(--gel-nav-sheen),
+    0 1px 3px var(--gel-nav-drop);
+}
+
+.c-glossy-nav__inner {
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  padding: 0 var(--page-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-7);
+}
+
+.c-glossy-nav__tabs {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.c-glossy-nav__tab {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: var(--fw-medium);
+  color: var(--gel-tab-ink-idle);
+  padding: 7px 16px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease);
+}
+
+.c-glossy-nav__tab:hover {
+  color: var(--gel-tab-ink);
+  text-decoration: none;
+}
+
+.c-glossy-nav__tab--active {
+  font-weight: var(--fw-bold);
+  color: var(--gel-tab-ink);
+  background: var(--gel-tab-active);
+  /* Frosted glass: blur + saturate the periwinkle gel showing through. */
+  -webkit-backdrop-filter: blur(7px) saturate(180%);
+  backdrop-filter: blur(7px) saturate(180%);
+  /* border: 1px solid var(--gel-tab-border); */
+  box-shadow: -3px 5px 0px 0px rgb(225 0 225);
+}
+
+.c-glossy-nav__note {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--gel-nav-note);
+  white-space: nowrap;
+}

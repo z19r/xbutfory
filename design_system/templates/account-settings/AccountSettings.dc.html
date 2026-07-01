@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Account — Settings" description="Logged-in account settings in the maximal style: signed-in utility bar + glossy nav, with Profile, Email & password, Notifications, Connected (RSS/API), and a Danger zone." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+@keyframes xbfy-pulse{0%,100%{opacity:1}50%{opacity:.22}}
+body{margin:0;color:var(--ink);font-family:var(--font-sans);font-size:15px;line-height:1.5;background-color:var(--paper);background-image:radial-gradient(900px 460px at 78% -4%, var(--bloom-rose), transparent 70%),radial-gradient(760px 420px at 8% 2%, var(--bloom-amber), transparent 72%),var(--dots),var(--dots),var(--grain);background-repeat:no-repeat,no-repeat,repeat,repeat,repeat;background-size:100% 600px,100% 520px,17px 17px,17px 17px,160px 160px;background-position:top center,top left,0 0,8.5px 8.5px,top left}
+input:focus,textarea:focus{outline:2px solid color-mix(in srgb, var(--accent) 40%, transparent);outline-offset:1px}
+.lbl{display:block;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--text-muted);margin-bottom:7px}
+.in{width:100%;padding:11px 13px;box-sizing:border-box;background:var(--surface-sunken);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:14px;color:var(--ink)}
+.card{background:linear-gradient(180deg,var(--surface-card),#FCFAF5);border:1px solid var(--border-card);border-radius:11px;box-shadow:var(--shadow-card);padding:24px 24px 22px}
+.ct{font-family:var(--font-display);font-size:19px;font-weight:700;margin:0 0 3px}
+.cs{font-family:var(--font-sans);font-size:13px;font-weight:300;color:var(--text-soft);margin:0 0 18px}
+.gel{display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:700;color:#fff;padding:10px 18px;border-radius:9px;border:1px solid rgba(120,10,70,.5);background:linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.04) 46%, rgba(0,0,0,.07)), var(--accent);box-shadow:var(--shadow-button), inset 0 1px 0 rgba(255,255,255,.45)}
+.ghostbtn{display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--ink);padding:9px 15px;border-radius:8px;border:1px solid var(--border-input);background:linear-gradient(180deg,#fff,#F3EDE3);box-shadow:0 1px 2px rgba(74,52,28,.06)}
+.snav{display:flex;flex-direction:column;gap:2px;position:sticky;top:18px}
+.snav a{text-decoration:none;font-family:var(--font-sans);font-size:14px;color:var(--text-muted);padding:9px 12px;border-radius:8px;border-left:2px solid transparent}
+.snav a.on{color:var(--ink);font-weight:600;background:var(--surface-card);border-left-color:var(--accent)}
+.swon{width:38px;height:22px;border-radius:11px;background:var(--accent);position:relative;flex-shrink:0;box-shadow:inset 0 1px 2px rgba(120,10,70,.4)}
+.swon::after{content:"";position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.swoff{width:38px;height:22px;border-radius:11px;background:var(--surface-rail);border:1px solid var(--border-input);position:relative;flex-shrink:0}
+.swoff::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.tog{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--border-rule)}
+.tog:last-child{border-bottom:none}
+</style>
+</helmet>
+
+<div style="background:var(--ink);color:var(--on-dark-muted)">
+  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 28px;font-family:var(--font-mono);font-size:12px;letter-spacing:.02em">
+    <span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:9px;vertical-align:middle;animation:xbfy-pulse 2.4s ease-in-out infinite"></span>est. 2026 — vol. 1, issue 26</span>
+    <span style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:4px 10px 4px 5px;color:var(--on-dark)"><span style="width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-sans);font-size:11px;font-weight:700;color:#fff;background:var(--accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.4)">A</span>@apt_4b <span style="font-size:9px;opacity:.7">▾</span></span>
+  </div>
+</div>
+
+<header style="max-width:1100px;margin:0 auto;padding:24px 28px 0">
+  <a href="#" style="text-decoration:none;font-family:var(--font-display);font-weight:700;font-size:40px;line-height:.9;letter-spacing:-.014em;color:var(--ink)">X<span style="color:var(--accent)">but</span>forY.</a>
+</header>
+
+<nav style="position:sticky;top:0;z-index:100;margin-top:18px;background:linear-gradient(180deg,#CBDCF5,#A8C0E9 55%,#8FB0E2);border-top:1px solid #E2EAF8;border-bottom:1px solid #6E8FC6;box-shadow:inset 0 1px 0 rgba(255,255,255,.65), 0 1px 3px rgba(40,70,120,.16)">
+  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 28px">
+    <div style="display:flex;gap:4px;overflow-x:auto">
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Latest</button>
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Trending</button>
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Top Voted</button>
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Categories</button>
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Random</button>
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Submit</button>
+    </div>
+    <span style="font-family:var(--font-mono);font-size:12px;color:#3A5C8C;white-space:nowrap;letter-spacing:.02em">1,024 sites indexed</span>
+  </div>
+</nav>
+
+<main style="max-width:1100px;margin:0 auto;padding:30px 28px 80px">
+  <div style="padding-bottom:13px;border-bottom:2px solid var(--ink);margin-bottom:24px">
+    <h1 style="font-family:var(--font-display);font-size:30px;font-weight:700;margin:0;line-height:1">Account settings</h1>
+    <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:7px">SIGNED IN AS @apt_4b · MEMBER SINCE JAN 2026</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:208px minmax(0,1fr);gap:30px;align-items:start">
+    <nav class="snav">
+      <a href="#profile" class="on">Profile</a>
+      <a href="#account">Email &amp; password</a>
+      <a href="#notify">Notifications</a>
+      <a href="#connected">Connected</a>
+      <a href="#danger">Danger zone</a>
+    </nav>
+
+    <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+      <section id="profile" class="card">
+        <h2 class="ct">Profile</h2>
+        <p class="cs">How you show up across the index. Your handle is your byline.</p>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+          <span style="width:60px;height:60px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-display);font-size:26px;font-weight:700;color:#fff;background:var(--accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.4), var(--shadow-card);flex-shrink:0">A</span>
+          <div><span class="ghostbtn">Upload photo</span><div style="font-family:var(--font-sans);font-size:12px;color:var(--text-soft);margin-top:7px">PNG or JPG, square, up to 2&nbsp;MB.</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <span class="lbl">HANDLE — PUBLIC, PERMANENT</span>
+            <div style="position:relative"><span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:var(--font-mono);font-size:14px;color:var(--text-faint)">@</span><input class="in" style="padding-left:30px;font-family:var(--font-mono)" value="apt_4b" /></div>
+          </div>
+          <div><span class="lbl">DISPLAY NAME</span><input class="in" value="Apartment 4B" /></div>
+        </div>
+        <div style="margin-top:16px"><span class="lbl">BIO</span><textarea class="in" style="min-height:74px;resize:vertical" placeholder="Tell builders who you are.">Hyperlocal everything. I submit the weird ones.</textarea></div>
+        <div style="display:flex;justify-content:flex-end;margin-top:20px"><span class="gel">Save profile</span></div>
+      </section>
+
+      <section id="account" class="card">
+        <h2 class="ct">Email &amp; password</h2>
+        <p class="cs">Used to sign in and to send your weekly digest. Never shown publicly.</p>
+        <div style="margin-bottom:16px">
+          <span class="lbl">EMAIL ADDRESS</span>
+          <div style="position:relative"><input class="in" style="padding-right:84px" value="hello@apt4b.co" /><span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--status-live);border:1px solid color-mix(in srgb, var(--status-live) 45%, transparent);border-radius:4px;padding:3px 7px">VERIFIED</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div><span class="lbl">CURRENT PASSWORD</span><input class="in" type="password" value="passwordhere" /></div>
+          <div><span class="lbl">NEW PASSWORD</span><input class="in" type="password" placeholder="at least 8 characters" /></div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:20px"><span class="gel">Update credentials</span></div>
+      </section>
+
+      <section id="notify" class="card">
+        <h2 class="ct">Notifications</h2>
+        <p class="cs">What lands in your inbox. The digest is the good one.</p>
+        <div class="tog"><div><div style="font-family:var(--font-sans);font-size:14px;font-weight:500">Weekly digest</div><div style="font-family:var(--font-sans);font-size:12px;font-weight:300;color:var(--text-soft)">The 10 best new sites, every Sunday.</div></div><span class="swon"></span></div>
+        <div class="tog"><div><div style="font-family:var(--font-sans);font-size:14px;font-weight:500">Replies to your submissions</div><div style="font-family:var(--font-sans);font-size:12px;font-weight:300;color:var(--text-soft)">When someone comments on a listing you posted.</div></div><span class="swon"></span></div>
+        <div class="tog"><div><div style="font-family:var(--font-sans);font-size:14px;font-weight:500">Milestone upvotes</div><div style="font-family:var(--font-sans);font-size:12px;font-weight:300;color:var(--text-soft)">When one of your sites crosses 100 · 500 · 1k votes.</div></div><span class="swoff"></span></div>
+        <div class="tog"><div><div style="font-family:var(--font-sans);font-size:14px;font-weight:500">Product news</div><div style="font-family:var(--font-sans);font-size:12px;font-weight:300;color:var(--text-soft)">Rare. Only when something actually ships.</div></div><span class="swoff"></span></div>
+      </section>
+
+      <section id="connected" class="card">
+        <h2 class="ct">Connected</h2>
+        <p class="cs">Your personal feeds and developer access.</p>
+        <div style="margin-bottom:16px">
+          <span class="lbl">YOUR RSS FEED</span>
+          <div style="position:relative"><input class="in" style="padding-right:70px;font-family:var(--font-mono);font-size:13px;color:var(--text-body)" value="https://xbutfor.app/@apt_4b.rss" readonly /><button style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;background:transparent;border:none;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--accent);text-transform:uppercase">Copy</button></div>
+        </div>
+        <div>
+          <span class="lbl">API KEY</span>
+          <div style="display:flex;gap:10px;align-items:center"><input class="in" style="font-family:var(--font-mono);font-size:13px;color:var(--text-body)" value="xby_live_••••••••••••••3f9a" readonly /><span class="ghostbtn" style="white-space:nowrap">Regenerate</span></div>
+        </div>
+      </section>
+
+      <section id="danger" class="card" style="border-color:color-mix(in srgb, var(--accent) 40%, var(--border-card));box-shadow:var(--shadow-card)">
+        <h2 class="ct" style="color:var(--accent)">Danger zone</h2>
+        <p class="cs">Deleting your account withdraws every listing you’ve submitted. This cannot be undone.</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div style="font-family:var(--font-sans);font-size:13px;color:var(--text-body)">6 listings · 4,182 votes received will be removed from the index.</div>
+          <button style="cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:600;color:var(--accent);padding:10px 18px;border-radius:9px;border:1.5px solid var(--accent);background:transparent;white-space:nowrap">Delete account</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:900}}"></script>
+</body>
+</html>

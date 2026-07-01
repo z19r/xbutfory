@@ -6,8 +6,8 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 2px 8px;
-  border-radius: var(--radius-sharp);
-  border: 1px solid var(--border-default);
+  border-radius: var(--radius-tag);
+  border: 1px solid var(--border-rule);
   color: var(--text-muted);
   white-space: nowrap;
 }

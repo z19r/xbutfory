@@ -1,0 +1,197 @@
+@keyframes codeShimmer {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(225, 29, 143, 0);
+  }
+  50% {
+    box-shadow: 0 0 22px -2px rgba(225, 29, 143, 0.45);
+  }
+}
+
+@keyframes couponPop {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.c-konami__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 7, 14, 0.22);
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.c-konami__backdrop--visible {
+  opacity: 1;
+}
+
+.c-konami__canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.c-konami__modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  background: var(--surface-card);
+  border-radius: 16px;
+  padding: 46px 40px 36px;
+  max-width: 460px;
+  width: calc(100% - 48px);
+  box-shadow: 0 26px 80px -12px rgba(23, 16, 8, 0.32);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.c-konami__modal--visible {
+  opacity: 1;
+  animation: couponPop 0.4s ease-out;
+}
+
+.c-konami__close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--text-faint);
+  padding: 0;
+}
+
+.c-konami__close:hover {
+  color: var(--ink);
+}
+
+.c-konami__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.c-konami__title {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.04;
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+
+.c-konami__title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.c-konami__body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-body);
+  margin: 0 0 24px;
+}
+
+.c-konami__body strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.c-konami__code-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.c-konami__code-row {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.c-konami__code {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  background: var(--surface-sunken);
+  border: 1.5px dashed var(--accent);
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  animation: codeShimmer 2.6s ease-in-out infinite;
+}
+
+.c-konami__copy {
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  background: transparent;
+  border: 1.5px solid var(--border-input);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+
+.c-konami__copy:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.c-konami__claim {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 8px;
+  box-shadow: 0 3px 12px -2px var(--accent-shadow);
+  transition: opacity 0.15s;
+}
+
+.c-konami__claim:hover {
+  opacity: 0.92;
+}
+
+.c-konami__fine {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-faint);
+  text-align: center;
+  margin: 14px 0 0;
+  line-height: 1.5;
+}

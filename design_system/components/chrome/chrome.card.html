@@ -1,15 +1,31 @@
-<!-- @dsCard group="Components" viewport="700x110" subtitle="MastheadBar — the full-bleed ink utility bar" name="Chrome" -->
+<!-- @dsCard group="Components" viewport="700x220" subtitle="MastheadBar — logged-out links vs AccountMenu (signed in)" name="Chrome" -->
 <!DOCTYPE html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="../../styles.css">
 <style>
-  body{margin:0;font-family:var(--font-sans);background:var(--paper)}
+  body{margin:0;font-family:var(--font-sans);background:var(--paper);color:var(--ink);padding-bottom:20px}
   .bar{background:var(--ink);color:var(--on-dark-muted)}
   .inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 24px;font-family:var(--font-mono);font-size:11px;letter-spacing:.03em}
   .live{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:8px}
-  .links{display:flex;gap:20px}
-  .strong{color:var(--on-dark)}
-  .note{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);padding:18px 24px}
+  .links{display:flex;gap:20px}.strong{color:var(--on-dark)}
+  .h{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--text-muted);padding:16px 24px 7px}
+  .acct{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:4px 10px 4px 5px;font-family:var(--font-mono);font-size:12px;color:var(--on-dark)}
+  .disc{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-sans);font-size:11px;font-weight:700;color:#fff;background:var(--accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+  .menu{margin:10px 24px 0;width:200px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:10px;box-shadow:var(--shadow-card-hover);padding:6px;margin-left:auto;margin-right:24px}
+  .ml{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--text-faint);padding:7px 10px 6px}
+  .mi{display:block;padding:8px 10px;font-family:var(--font-sans);font-size:13px;color:var(--ink);border-radius:6px}
+  .mi.q{color:var(--text-muted)}
+  .div{height:1px;background:var(--border-rule);margin:5px 4px}
+  .row{display:flex;justify-content:flex-end}
 </style></head><body>
+  <div class="h">LOGGED OUT — utility bar</div>
   <div class="bar"><div class="inner"><span><span class="live"></span>est. 2026 &mdash; vol. 1, issue 26</span><span class="links"><span>Sign in</span><span class="strong">Create account</span></span></div></div>
-  <div class="note">full-bleed ink · pulsing live dot · mono colophon left, account links right</div>
+  <div class="h">SIGNED IN — AccountMenu replaces the links</div>
+  <div class="bar"><div class="inner"><span><span class="live"></span>est. 2026 &mdash; vol. 1, issue 26</span><span class="acct"><span class="disc">A</span>@apt_4b <span style="font-size:9px;opacity:.7">&#9660;</span></span></div></div>
+  <div class="row"><div class="menu">
+    <div class="ml">SIGNED IN AS @apt_4b</div>
+    <span class="mi">Account settings</span>
+    <span class="mi">Manage submissions</span>
+    <div class="div"></div>
+    <span class="mi q">Sign out</span>
+  </div></div>
 </body></html>

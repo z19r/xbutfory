@@ -1,0 +1,26 @@
+TODO
+
+- [ ] VOL. 1, ISSUE 26 that is written at the top should be mapped like:
+  - [ ] VOL. -> Major Version
+  - [ ] ISSUE -> Minor Version
+  - [ ] COR. (not there yet, short for correction) -> Patch version if > 0
+- [ ] I don't believe sidekiq is running? - [ ]
+- [ ] THEME should be sort of hidden, like a sliding tray in waybar. Maybe just a little < or something.
+- [ ] Afterdark should only be allowed when logged in
+  - [ ] Hover/Tool tip when afterdark is disabled: 'Show NSFW (if logged out notice abouit login)'
+- [ ] RSS button isn't hooked up
+- [ ] Weird horizontal scroll sometimes
+- [ ] No emails are sending in dev mode, they should all send via letter_opener
+  - [ ] Never sent plaintext email, delete them
+- [ ] All the fake sites need to be removed and replaced with the sites in the jsob blob in @xbutfory.json
+- [ ] Modal should pop up when attempting to vote logged out, not toast
+- [ ] Weekly Digest -> if logged in, email should be prefilled, but editable
+- [ ] Submission needs to be disabled when email is not confirmed
+- [ ] The X's should be static and defined by admin only
+  - [ ] They should be shown in a typical dropdown
+  - [ ] a 'Suggest New' option should be available with a note saying it needs to be approved
+    - [ ] this needs to trigger an email to admin
+    - [ ] admin userface needs to have an option to approve or deny
+    - [ ] each needs to trigger an email to the OP
+- [ ] One line pitch should not be optional
+  - [ ] offer option to auto generate with AI/GPT

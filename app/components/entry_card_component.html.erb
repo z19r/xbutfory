@@ -34,7 +34,7 @@
         <% if @category_label %>
           <span class="c-card__tag" style="color: var(--cat-<%= @category %>); border-color: color-mix(in srgb, var(--cat-<%= @category %>) 45%, transparent)"><%= @category_label.upcase %></span>
         <% end %>
-        <span class="c-card__meta">submitted by @<%= @submitter %> · <%= @ago %></span>
+        <span class="c-card__meta">by @<%= @submitter %> &middot; <%= @ago %></span>
         <%= link_to "visit site →", @url, class: "c-card__visit #{'c-card__visit--spon' if @sponsored}", target: "_blank", rel: "noopener" %>
       </div>
     </div>

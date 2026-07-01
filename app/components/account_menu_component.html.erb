@@ -1,0 +1,33 @@
+<div class="c-account-menu" data-controller="account-menu" data-action="click@window->account-menu#closeOutside keydown.esc@window->account-menu#close">
+  <button
+    type="button"
+    class="c-account-menu__trigger"
+    data-account-menu-target="trigger"
+    data-action="account-menu#toggle"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <span class="c-account-menu__avatar" aria-hidden="true">
+      <% if avatar_thumb %>
+        <%= image_tag avatar_thumb, class: "c-account-menu__avatar-img", alt: "" %>
+      <% else %>
+        <%= initial %>
+      <% end %>
+    </span>
+    <span class="c-account-menu__handle">@<%= handle %></span>
+    <span class="c-account-menu__caret" aria-hidden="true">&#9660;</span>
+  </button>
+
+  <div class="c-account-menu__dropdown" data-account-menu-target="dropdown" hidden>
+    <div class="c-account-menu__label">SIGNED IN AS @<%= handle %></div>
+    <%= link_to "Account settings", account_settings_path, class: "c-account-menu__item" %>
+    <%= link_to "Manage submissions", manage_submissions_path, class: "c-account-menu__item" %>
+    <% if admin %>
+      <%= link_to "Moderation queue", admin_submissions_path, class: "c-account-menu__item" %>
+    <% end %>
+    <div class="c-account-menu__divider" role="separator"></div>
+    <%= button_to "Sign out", sign_out_path, method: :delete,
+          class: "c-account-menu__item c-account-menu__item--signout",
+          form_class: "c-account-menu__form" %>
+  </div>
+</div>

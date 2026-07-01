@@ -38,12 +38,11 @@
 }
 
 .c-stats__live {
+  display: inline-block;
   width: 6px;
   height: 6px;
-  display: inline-block;
-  color: var(--accent);
-  font-size: 6px;
-  line-height: 1;
+  border-radius: 50%;
+  background: var(--accent);
   animation: pulse 2.4s ease-in-out infinite;
 }
 

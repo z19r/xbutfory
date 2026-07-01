@@ -1,13 +1,15 @@
 one:
-  name: SaaS
+  name: SaaS & Productivity
   slug: saas
   color_token: cat-saas
+  short_code: SAAS
   description: Software as a service.
   entries_count: 0
 
 two:
-  name: Consumer
-  slug: consumer
-  color_token: cat-consumer
-  description: Apps for humans.
+  name: Payments & Finance
+  slug: payments
+  color_token: cat-payments
+  short_code: FINANCE
+  description: Money things, but different money things.
   entries_count: 0

@@ -1,9 +1,5 @@
 class CategoriesController < ApplicationController
   def index
-    @categories = Category.order(:name)
-    if params[:category].present?
-      @filtered_category = Category.find_by(slug: params[:category])
-      @entries = Entry.by_category(params[:category]).latest.limit(20)
-    end
+    @listings = Category.with_stats(include_nsfw: cookies[:after_dark] == '1')
   end
 end

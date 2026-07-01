@@ -1,0 +1,185 @@
+/* Account settings — header + sidenav + section cards, rendered in the app shell.
+   Mirrors design_system/templates/account-settings. */
+.l-settings__head {
+  margin-top: 26px;
+}
+
+.l-settings__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+}
+
+.l-settings__title {
+  margin: 6px 0 4px;
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  color: var(--ink);
+}
+
+.l-settings__lede {
+  margin: 0 0 14px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: var(--fw-light);
+  color: var(--text-body);
+}
+
+.l-settings__handle {
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+.l-settings__rule {
+  height: 2px;
+  background: var(--ink);
+}
+
+.l-settings {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 32px;
+  margin: 26px 0 60px;
+  align-items: start;
+}
+
+.l-settings__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: sticky;
+  top: 64px;
+}
+
+.l-settings__navlink {
+  padding: 8px 10px;
+  border-radius: 7px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: var(--fw-medium);
+  color: var(--text-body);
+  text-decoration: none;
+}
+
+.l-settings__navlink:hover {
+  background: var(--surface-rail);
+  text-decoration: none;
+}
+
+.l-settings__navlink--danger {
+  color: var(--accent);
+}
+
+.l-settings__content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.c-setcard {
+  background: var(--surface-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+  scroll-margin-top: 64px;
+}
+
+.c-setcard__title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: var(--fw-bold);
+  color: var(--ink);
+}
+
+.c-setcard__sub {
+  margin: 4px 0 18px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: var(--fw-light);
+  color: var(--text-soft);
+}
+
+.c-setcard__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.c-setcard__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.c-setcard__actions .c-btn {
+  align-self: flex-start;
+}
+
+/* Notification toggle rows */
+.c-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-rule);
+  cursor: pointer;
+}
+
+.c-toggle__name {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: var(--fw-medium);
+  color: var(--ink);
+}
+
+.c-toggle__desc {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: var(--fw-light);
+  color: var(--text-soft);
+}
+
+.c-toggle__input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.c-setcard--danger {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.c-setcard__delete {
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: var(--fw-semibold);
+  color: var(--accent);
+  padding: 10px 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: var(--radius-input);
+  background: transparent;
+}
+
+.c-setcard__delete:hover {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+@media (max-width: 760px) {
+  .l-settings {
+    grid-template-columns: 1fr;
+  }
+
+  .l-settings__nav {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

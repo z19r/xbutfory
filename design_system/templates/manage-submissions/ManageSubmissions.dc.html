@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Account — Manage Submissions" description="The logged-in member view of their own listings: status (live / pending / needs edits / withdrawn), votes, and edit / withdraw / restore actions. Submissions are account-bound." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+@keyframes xbfy-pulse{0%,100%{opacity:1}50%{opacity:.22}}
+body{margin:0;color:var(--ink);font-family:var(--font-sans);font-size:15px;line-height:1.5;background-color:var(--paper);background-image:radial-gradient(900px 460px at 78% -4%, var(--bloom-rose), transparent 70%),radial-gradient(760px 420px at 8% 2%, var(--bloom-amber), transparent 72%),var(--dots),var(--dots),var(--grain);background-repeat:no-repeat,no-repeat,repeat,repeat,repeat;background-size:100% 600px,100% 520px,17px 17px,17px 17px,160px 160px;background-position:top center,top left,0 0,8.5px 8.5px,top left}
+.pill{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.1em;padding:3px 8px;border-radius:4px;border:1px solid;white-space:nowrap}
+.card{background:linear-gradient(180deg,var(--surface-card),#FCFAF5);border:1px solid var(--border-card);border-radius:10px;box-shadow:var(--shadow-card);padding:18px 20px}
+.name{font-family:var(--font-display);font-size:19px;font-weight:700;line-height:1.15}
+.conn{font-style:italic;font-weight:400;color:var(--text-soft);font-size:.8em}
+.meta{font-family:var(--font-mono);font-size:11px;color:var(--text-muted)}
+.act{cursor:pointer;font-family:var(--font-sans);font-size:13px;font-weight:500;padding:7px 13px;border-radius:7px;border:1px solid var(--border-input);background:linear-gradient(180deg,#fff,#F3EDE3);color:var(--ink);box-shadow:0 1px 2px rgba(74,52,28,.05);white-space:nowrap}
+.act.q{background:transparent;border-color:transparent;color:var(--text-muted)}
+.vbox{font-family:var(--font-display);font-weight:700;font-size:20px;line-height:1;text-align:center}
+.vsub{font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;color:var(--text-faint-2);text-align:center}
+</style>
+</helmet>
+
+<div style="background:var(--ink);color:var(--on-dark-muted)">
+  <div style="max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 28px;font-family:var(--font-mono);font-size:12px;letter-spacing:.02em">
+    <span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:9px;vertical-align:middle;animation:xbfy-pulse 2.4s ease-in-out infinite"></span>est. 2026 — vol. 1, issue 26</span>
+    <span style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:4px 10px 4px 5px;color:var(--on-dark)"><span style="width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-sans);font-size:11px;font-weight:700;color:#fff;background:var(--accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.4)">A</span>@apt_4b <span style="font-size:9px;opacity:.7">▾</span></span>
+  </div>
+</div>
+
+<header style="max-width:1040px;margin:0 auto;padding:24px 28px 0">
+  <a href="#" style="text-decoration:none;font-family:var(--font-display);font-weight:700;font-size:40px;line-height:.9;letter-spacing:-.014em;color:var(--ink)">X<span style="color:var(--accent)">but</span>forY.</a>
+</header>
+
+<nav style="position:sticky;top:0;z-index:100;margin-top:18px;background:linear-gradient(180deg,#CBDCF5,#A8C0E9 55%,#8FB0E2);border-top:1px solid #E2EAF8;border-bottom:1px solid #6E8FC6;box-shadow:inset 0 1px 0 rgba(255,255,255,.65), 0 1px 3px rgba(40,70,120,.16)">
+  <div style="max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 28px">
+    <div style="display:flex;gap:4px;overflow-x:auto">
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Latest</button>
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Trending</button>
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Top Voted</button>
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Categories</button>
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Random</button>
+      <button style="cursor:pointer;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;font-weight:500;color:#3A4E70;padding:7px 16px;margin:6px 0;border-radius:7px;white-space:nowrap">Submit</button>
+    </div>
+    <span style="font-family:var(--font-mono);font-size:12px;color:#3A5C8C;white-space:nowrap;letter-spacing:.02em">1,024 sites indexed</span>
+  </div>
+</nav>
+
+<main style="max-width:1040px;margin:0 auto;padding:30px 28px 80px">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:13px;border-bottom:2px solid var(--ink)">
+    <div>
+      <h1 style="font-family:var(--font-display);font-size:30px;font-weight:700;margin:0;line-height:1">Your submissions</h1>
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:7px">6 LISTINGS · 4,182 VOTES RECEIVED · ALL TIED TO @apt_4b</div>
+    </div>
+    <button style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:700;color:#fff;padding:11px 18px;border-radius:9px;border:1px solid rgba(120,10,70,.5);background:linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.04) 46%, rgba(0,0,0,.07)), var(--accent);box-shadow:var(--shadow-button), inset 0 1px 0 rgba(255,255,255,.45)"><span style="font-size:18px;margin-top:-2px">+</span> Submit a new site</button>
+  </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">
+    <span style="font-family:var(--font-sans);font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;background:var(--ink);color:var(--on-dark)">All 6</span>
+    <span style="font-family:var(--font-sans);font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--surface-card);border:1px solid var(--border-input);color:var(--text-muted)">Live 3</span>
+    <span style="font-family:var(--font-sans);font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--surface-card);border:1px solid var(--border-input);color:var(--text-muted)">Pending 1</span>
+    <span style="font-family:var(--font-sans);font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--surface-card);border:1px solid var(--border-input);color:var(--text-muted)">Needs edits 1</span>
+    <span style="font-family:var(--font-sans);font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--surface-card);border:1px solid var(--border-input);color:var(--text-muted)">Withdrawn 1</span>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px;margin-top:20px">
+
+    <div class="card" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+      <div style="min-width:52px"><div class="vbox">1.1k</div><div class="vsub">VOTES</div></div>
+      <div style="flex:1;min-width:220px">
+        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:5px"><span class="pill" style="color:var(--status-live);border-color:color-mix(in srgb, var(--status-live) 45%, transparent)">● LIVE</span><span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid color-mix(in srgb, var(--cat-logistics) 45%, transparent);border-radius:4px;color:var(--cat-logistics)">SERVICES</span></div>
+        <div class="name">Uber<span class="conn"> but for </span>Horses</div>
+        <div class="meta" style="margin-top:5px">submitted 4 days ago · 2,310 site visits · ranked #2 this week</div>
+      </div>
+      <div style="display:flex;gap:8px"><span class="act">Edit</span><span class="act q">Withdraw</span></div>
+    </div>
+
+    <div class="card" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+      <div style="min-width:52px"><div class="vbox">847</div><div class="vsub">VOTES</div></div>
+      <div style="flex:1;min-width:220px">
+        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:5px"><span class="pill" style="color:var(--status-live);border-color:color-mix(in srgb, var(--status-live) 45%, transparent)">● LIVE</span><span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid color-mix(in srgb, var(--sponsor) 45%, transparent);border-radius:4px;color:var(--sponsor)">SPONSORED</span></div>
+        <div class="name">Tinder<span class="conn"> but for </span>the Building you live in</div>
+        <div class="meta" style="margin-top:5px">submitted 2 days ago · spotlight placement active until Jul 4</div>
+      </div>
+      <div style="display:flex;gap:8px"><span class="act">Edit</span><span class="act q">Withdraw</span></div>
+    </div>
+
+    <div class="card" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+      <div style="min-width:52px"><div class="vbox" style="color:var(--text-faint-2)">—</div><div class="vsub">QUEUED</div></div>
+      <div style="flex:1;min-width:220px">
+        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:5px"><span class="pill" style="color:var(--cat-social);border-color:color-mix(in srgb, var(--cat-social) 45%, transparent)">◷ PENDING REVIEW</span><span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid color-mix(in srgb, var(--cat-saas) 45%, transparent);border-radius:4px;color:var(--cat-saas)">SAAS</span></div>
+        <div class="name">Notion<span class="conn"> but for </span>Recipes</div>
+        <div class="meta" style="margin-top:5px">submitted 6 hours ago · usually reviewed within 24h</div>
+      </div>
+      <div style="display:flex;gap:8px"><span class="act">Edit</span><span class="act q">Cancel</span></div>
+    </div>
+
+    <div class="card" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;border-color:color-mix(in srgb, var(--accent) 35%, var(--border-card))">
+      <div style="min-width:52px"><div class="vbox" style="color:var(--text-faint-2)">!</div><div class="vsub">ACTION</div></div>
+      <div style="flex:1;min-width:220px">
+        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:5px"><span class="pill" style="color:var(--accent);border-color:color-mix(in srgb, var(--accent) 50%, transparent)">⚠ NEEDS EDITS</span><span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid color-mix(in srgb, var(--cat-discovery) 45%, transparent);border-radius:4px;color:var(--cat-discovery)">DISCOVER</span></div>
+        <div class="name">Kayak<span class="conn"> but for </span>Restaurant Tables</div>
+        <div class="meta" style="margin-top:5px;color:var(--accent)">Reviewer: “Great fit — please add the live URL and one more line of pitch.”</div>
+      </div>
+      <div style="display:flex;gap:8px"><span class="act">Edit &amp; resubmit</span></div>
+    </div>
+
+    <div class="card" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;opacity:.6">
+      <div style="min-width:52px"><div class="vbox" style="color:var(--text-faint-2)">312</div><div class="vsub">VOTES</div></div>
+      <div style="flex:1;min-width:220px">
+        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:5px"><span class="pill" style="color:var(--text-muted);border-color:var(--border-input)">✕ WITHDRAWN</span><span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;padding:3px 9px;border:1px solid var(--border-input);border-radius:4px;color:var(--text-muted)">REFERENCE</span></div>
+        <div class="name">IMDb<span class="conn"> but for </span>Houseplants</div>
+        <div class="meta" style="margin-top:5px">withdrawn by you on Jun 12 · hidden from the index</div>
+      </div>
+      <div style="display:flex;gap:8px"><span class="act">Restore</span></div>
+    </div>
+
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1040,&quot;height&quot;:900}}"></script>
+</body>
+</html>

@@ -1,49 +1,23 @@
+<% content_for :title, "Categories — XbutforY" %>
 <% content_for :nav_tab, "categories" %>
-<% if @filtered_category %>
-  <h1 class="l-categories__heading"><%= @filtered_category.name %></h1>
-  <p class="l-categories__dek"><%= @filtered_category.description %></p>
 
-  <div class="l-feed">
-    <% @entries.each_with_index do |entry, i| %>
-      <%= render EntryCardComponent.new(
-        x: entry.x,
-        y: entry.y,
-        votes: entry.votes_count,
-        description: entry.description,
-        submitter: entry.submitter,
-        ago: time_ago_in_words(entry.created_at) + " ago",
-        url: entry.url.presence || "#",
-        slug: entry.slug,
-        index: i + 1,
-        stamp: entry.stamp,
-        sponsored: entry.sponsored,
-        category: entry.category,
-        category_label: entry.category&.titleize
-      ) %>
-    <% end %>
+<div class="l-categories">
 
-    <% if @entries.empty? %>
-      <%= render EmptyStateComponent.new(title: "No entries in this category yet.", action: "Submit one", action_url: new_submission_path) %>
-    <% end %>
+  <div class="l-categories__heading">
+    <h1 class="l-categories__title">Browse by Category</h1>
+    <p class="l-categories__dek">7 categories &middot; pick one to filter the index</p>
   </div>
-
-  <div class="l-categories__back">
-    <%= link_to "← All categories", categories_path, class: "c-btn c-btn--secondary c-btn--md" %>
-  </div>
-<% else %>
-  <h1 class="l-categories__heading">Categories</h1>
-  <p class="l-categories__dek">Browse the index by domain.</p>
 
   <div class="l-categories__grid">
-    <% @categories.each do |cat| %>
-      <% sample_entry = Entry.by_category(cat.slug).order(votes_count: :desc).first %>
+    <% @listings.each do |listing| %>
       <%= render CategoryTileComponent.new(
-        name: cat.name,
-        slug: cat.slug,
-        count: Entry.by_category(cat.slug).count,
-        color_token: cat.color_token,
-        sample: sample_entry ? "#{sample_entry.x} but for #{sample_entry.y}" : nil
+        name: listing[:category].name,
+        slug: listing[:category].slug,
+        count: listing[:count],
+        color_token: listing[:category].color_token,
+        short_code: listing[:category].short_code,
+        sample: listing[:sample]
       ) %>
     <% end %>
   </div>
-<% end %>
+</div>

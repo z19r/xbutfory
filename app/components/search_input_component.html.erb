@@ -1,4 +1,4 @@
-<div class="c-search-input" data-controller="search-filter">
+<div class="c-search-input" data-controller="search-filter placeholder-rotator">
   <span class="c-search-input__icon" aria-hidden="true">⚲</span>
   <input
     type="text"
@@ -7,6 +7,8 @@
     value="<%= @value %>"
     autocomplete="off"
     data-search-filter-target="input"
-    data-action="input->search-filter#search"
+    data-placeholder-rotator-target="input"
+    data-placeholder-rotator-phrases-value="<%= phrases.to_json %>"
+    data-action="input->search-filter#search input->placeholder-rotator#stop focus->placeholder-rotator#stop"
   >
 </div>

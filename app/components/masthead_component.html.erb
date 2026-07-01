@@ -1,18 +1,20 @@
 <header>
   <div class="c-masthead">
     <div class="c-masthead__eyebrow">THE DIRECTORY OF</div>
-    <div class="c-masthead__mark">X<span class="c-masthead__mark-y">but</span>forY.</div>
+    <div class="c-masthead__mark">
+      <%= render WordmarkComponent.new(responsive: true, ghost: true, beta: true, interactive: true) %>
+    </div>
     <div class="c-masthead__actions">
       <% if search_slot? %>
         <%= search_slot %>
       <% else %>
         <div class="c-masthead__search-placeholder"></div>
       <% end %>
-      <button class="c-btn c-btn--rss">📡 RSS</button>
+      <button class="c-btn c-btn--rss" data-action="click->toast#showMessage" data-message="📡 RSS: point your reader at /feed.xml — fresh entries daily.">📡 RSS</button>
       <% if submit_slot? %>
         <%= submit_slot %>
       <% else %>
-        <%= link_to new_submission_path, class: "c-btn c-btn--submit" do %>
+        <%= link_to new_submission_path, class: "c-btn c-btn--submit c-btn--gel" do %>
           <span style="font-size:17px;margin-top:-1px">+</span> Submit a Site
         <% end %>
       <% end %>

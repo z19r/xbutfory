@@ -1,0 +1,32 @@
+<% content_for :title, "Edit listing — XbutforY" %>
+<% content_for :nav_tab, "none" %>
+
+<header class="l-manage__head">
+  <div class="l-manage__eyebrow">EDIT LISTING</div>
+  <h1 class="l-manage__title"><%= @entry.x %> <i>but for</i> <%= @entry.y %></h1>
+  <div class="l-manage__rule"></div>
+</header>
+
+<div class="l-edit">
+  <% if @entry.needs_edits? && @entry.reviewer_note.present? %>
+    <p class="l-edit__note">Editor asked for changes: <%= @entry.reviewer_note %></p>
+  <% end %>
+
+  <%= form_with model: @entry, url: submission_path(@entry), method: :patch, scope: :entry, class: "c-setcard__form" do %>
+    <div class="l-edit__pair">
+      <%= render FormFieldComponent.new(label: "X (the known product)", name: "entry[x]", value: @entry.x, required: true) %>
+      <%= render FormFieldComponent.new(label: "Y (the niche)", name: "entry[y]", value: @entry.y, required: true) %>
+    </div>
+    <%= render FormFieldComponent.new(label: "Display name", name: "entry[name]", value: @entry.name, placeholder: "e.g. Floormate") %>
+    <%= render FormFieldComponent.new(label: "URL", name: "entry[url]", type: "url", value: @entry.url, placeholder: "https://…") %>
+    <%= render FormFieldComponent.new(label: "Description", name: "entry[description]", as: :textarea, value: @entry.description) %>
+    <%= render FormFieldComponent.new(label: "Category", name: "entry[category]", value: @entry.category, placeholder: "dating, saas, payments…") %>
+
+    <div class="c-setcard__actions">
+      <%= render ButtonComponent.new(variant: "primary", gel: true, type: "submit") do %>
+        <%= @entry.needs_edits? ? "Save & resubmit" : "Save changes" %>
+      <% end %>
+      <%= link_to "Cancel", manage_submissions_path, class: "c-sub__action c-sub__action--muted" %>
+    </div>
+  <% end %>
+</div>

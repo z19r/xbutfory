@@ -1,0 +1,16 @@
+<p>Hey <%= @user.display_name.presence || "@#{@user.handle}" %>,</p>
+
+<p>
+  <strong><%= link_to @entry.title, entry_url(slug: @entry.slug) %></strong> just crossed
+  <strong><%= @milestone %> votes</strong>. The readers have spoken; the formula holds.
+</p>
+
+<p><%= link_to "See where it stands", entry_url(slug: @entry.slug) %></p>
+
+<p>— The XbutforY editors</p>
+
+<hr>
+<p style="font-size: 12px; color: #777">
+  You get these because milestone notifications are on. Turn them off any time in
+  <%= link_to "your settings", account_settings_url %>.
+</p>

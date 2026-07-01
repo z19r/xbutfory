@@ -1,0 +1,9 @@
+<div class="c-tag-cloud">
+  <% @tags.each do |tag| %>
+    <a
+      href="<%= tag.href %>"
+      class="c-tag-cloud__tag <%= 'c-tag-cloud__tag--heavy' if heavy?(tag.weight) %>"
+      style="font-size: <%= font_size(tag.weight) %>px; opacity: <%= opacity(tag.weight) %>;"
+    ><%= tag.label %></a>
+  <% end %>
+</div>

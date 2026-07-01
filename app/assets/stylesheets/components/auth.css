@@ -1,0 +1,199 @@
+/* Auth screens — centered paper card in the maximal style (sign in, create account).
+   Mirrors design_system/templates/{sign-in,create-account}. */
+.l-auth {
+  min-height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 22px;
+}
+
+.c-auth {
+  width: 100%;
+  max-width: 432px;
+}
+
+.c-auth--wide {
+  max-width: 468px;
+}
+
+.c-auth__mark {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.c-auth__wordmark {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.c-auth-card {
+  background: linear-gradient(
+    180deg,
+    var(--surface-card),
+    var(--surface-sunken)
+  );
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card-hover);
+  padding: 30px 30px 26px;
+}
+
+.c-auth-card__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.c-auth-card__title {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: var(--fw-bold);
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+.c-auth-card__lede {
+  margin: 0 0 22px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: var(--fw-light);
+  color: var(--text-body);
+}
+
+.c-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.c-auth-form .c-btn {
+  width: 100%;
+  justify-content: center;
+  margin-top: 6px;
+  padding: 13px 0;
+  font-size: 15px;
+}
+
+.c-auth-form__forgot {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.c-auth-form__reveal {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.c-auth-card__divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0 18px;
+}
+
+.c-auth-card__divider::before,
+.c-auth-card__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-rule);
+}
+
+.c-auth-card__divider span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+}
+
+.c-auth-card__alt {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  padding: 12px 0;
+  border: 1px solid var(--border-input);
+  border-radius: 9px;
+  background: linear-gradient(180deg, #fff, var(--paper));
+  box-shadow: 0 1px 2px rgba(74, 52, 28, 0.06);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: var(--fw-semibold);
+  color: var(--ink);
+}
+
+.c-auth-card__alt:hover {
+  text-decoration: none;
+  border-color: var(--ink);
+}
+
+.c-auth__note {
+  margin: 18px auto 0;
+  max-width: 340px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.c-auth-card__handle {
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+.c-auth-form__agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 2px 0;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: var(--fw-light);
+  color: var(--text-body);
+}
+
+.c-auth-form__agree input {
+  margin-top: 2px;
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.c-auth-card__signin {
+  margin: 18px 0 0;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.c-auth-card__signin-link {
+  font-weight: var(--fw-semibold);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* Live @handle availability hint */
+.c-handle-status.is-ok {
+  color: var(--status-live);
+}
+
+.c-handle-status.is-warn {
+  color: var(--accent);
+}

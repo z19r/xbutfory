@@ -3,7 +3,7 @@
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: .12em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 3px 8px;
   border-radius: 3px;
@@ -17,11 +17,11 @@
 }
 
 .c-stamp--sponsored {
-  color: var(--sponsored);
-  border-color: var(--sponsored);
+  color: var(--sponsor);
+  border-color: var(--sponsor);
 }
 
 .c-stamp--featured {
   color: var(--text-muted);
-  border-color: var(--border-default);
+  border-color: var(--border-rule);
 }

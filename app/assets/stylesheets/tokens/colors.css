@@ -3,71 +3,124 @@
    rationed: a single accent, seven muted category hues, two stamp colors. */
 :root {
   /* ---- Surfaces (warm paper, near-white cards) ---- */
-  --paper:            #F3EDE3; /* page background ("newsprint cream") */
-  --surface-card:     #FFFDFA; /* raised cards — the only true near-white */
-  --surface-sunken:   #FBF9F4; /* code chip, dashed preview wells */
-  --surface-rail:     #E9E1D3; /* segmented-control track */
-  --ink:              #171008; /* near-black — text, rules, dark bar, toast */
-  --on-dark:          #F3EDE3; /* paper-colored text on ink */
-  --on-dark-muted:    #C9BCA9; /* muted text on the dark utility bar */
+  --paper: #f3ede3; /* page background ("newsprint cream") */
+  --surface-card: #fffdfa; /* raised cards — the only true near-white */
+  --surface-sunken: #fbf9f4; /* code chip, dashed preview wells */
+  --surface-rail: #e9e1d3; /* segmented-control track */
+  --ink: #171008; /* near-black — text, rules, dark bar, toast */
+  --on-dark: #f3ede3; /* paper-colored text on ink */
+  --on-dark-muted: #c9bca9; /* muted text on the dark utility bar */
 
   /* ---- Text hierarchy (warm grey ramp) ---- */
-  --text-strong:      #171008; /* headlines, titles, primary copy */
-  --text-body:        #6B5F50; /* card descriptions */
-  --text-body-soft:   #5A5048; /* secondary prose ("why it works") */
-  --text-muted:       #8A7D6F; /* labels, meta, eyebrows */
-  --text-soft:        #9A8C7B; /* "but for" connective, tile samples */
-  --text-faint:       #B5AB9B; /* index numbers, counts, timestamps */
-  --text-faint-2:     #A89D90; /* VOTES label, caret rest */
-  --placeholder:      #C0B6A6; /* input placeholders */
+  --text-strong: #171008; /* headlines, titles, primary copy */
+  --text-body: #6b5f50; /* card descriptions */
+  --text-body-soft: #5a5048; /* secondary prose ("why it works") */
+  --text-muted: #8a7d6f; /* labels, meta, eyebrows */
+  --text-soft: #9a8c7b; /* "but for" connective, tile samples */
+  --text-faint: #b5ab9b; /* index numbers, counts, timestamps */
+  --text-faint-2: #a89d90; /* VOTES label, caret rest */
+  --placeholder: #c0b6a6; /* input placeholders */
 
   /* ---- Lines & borders ---- */
-  --line-strong:      #171008; /* 1.5–2px structural rules under headers */
-  --border-card:      #EDE4D5; /* resting card border */
-  --border-card-hover:#E2D6C2; /* card border on hover */
-  --border-input:     #D8CDB9; /* inputs, RSS button, search */
-  --border-soft:      #E5DCCD; /* inner dividers in panels */
-  --border-rule:      #D4C9B8; /* hairline section rules */
-  --border-nav-top:   #E0D6C4; /* faint top edge of the nav band */
+  --line-strong: #171008; /* 1.5–2px structural rules under headers */
+  --border-card: #ede4d5; /* resting card border */
+  --border-card-hover: #e2d6c2; /* card border on hover */
+  --border-input: #d8cdb9; /* inputs, RSS button, search */
+  --border-soft: #e5dccd; /* inner dividers in panels */
+  --border-rule: #d4c9b8; /* hairline section rules */
+  --border-nav-top: #e0d6c4; /* faint top edge of the nav band */
 
   /* ---- Accent (brand red) — the single themeable hue ---- */
-  --accent:           #E11D8F; /* default: hot magenta-pink (brand) */
-  --on-accent:        #FFFFFF;
-  --accent-shadow:    rgba(176,20,110,0.50); /* magenta glow under primary buttons */
+  --accent: #e11d8f; /* default: hot magenta-pink (brand) */
+  --on-accent: #ffffff;
+  --accent-shadow: rgba(
+    176,
+    20,
+    110,
+    0.5
+  ); /* magenta glow under primary buttons */
+  --focus-ring: rgba(
+    201,
+    59,
+    27,
+    0.2
+  ); /* input focus ring (accent @ 20%; no design spec) */
 
   /* Curated accent options (the directory ships a theme switch) */
-  --accent-magenta:   #E11D8F; /* default */
-  --accent-vermilion: #C93B1B;
-  --accent-teal:      #1B6E80;
-  --accent-violet:    #6A3D9E;
-  --accent-ochre:     #A07A18;
-  --accent-ink:       #171008;
+  --accent-magenta: #e11d8f; /* default */
+  --accent-vermilion: #c93b1b;
+  --accent-teal: #1b6e80;
+  --accent-violet: #6a3d9e;
+  --accent-ochre: #a07a18;
+  --accent-ink: #171008;
 
   /* ---- Stamps (rubber-stamp badges) ---- */
-  --stamp-new:        var(--accent); /* freshly launched */
-  --stamp-hot:        #B07A1A;       /* high engagement (amber) */
+  --stamp-new: var(--accent); /* freshly launched */
+  --stamp-hot: #b07a1a; /* high engagement (amber) */
 
   /* ---- Status ---- */
-  --status-live:      #2A7A56; /* "Live & launched" green */
+  --status-live: #2a7a56; /* "Live & launched" green */
 
   /* ---- Sponsored (paid placements) ---- */
-  --sponsor:      #E11D8F; /* hot magenta — the spotlight glow + emphasis */
-  --sponsor-tag:  #2E8B72; /* teal-green — the SPONSORED label */
-  --sponsor-tint: rgba(225,29,143,0.05); /* faint magenta wash on the pinned card */
+  --sponsor: #e11d8f; /* hot magenta — the spotlight glow + emphasis */
+  --sponsor-tag: #2e8b72; /* teal-green — the SPONSORED label */
+  --sponsor-tint: rgba(
+    225,
+    29,
+    143,
+    0.05
+  ); /* faint magenta wash on the pinned card */
 
   /* ---- Category hues (muted, one per section) ---- */
-  --cat-dating:       #B5472D; /* DATING   */
-  --cat-crm:          #2B5BA8; /* CRM      */
-  --cat-discovery:    #2A7A56; /* DISCOVER */
-  --cat-saas:         #6A3D9E; /* SAAS     */
-  --cat-payments:     #1B8080; /* FINANCE  */
-  --cat-social:       #A07A18; /* SOCIAL   */
-  --cat-logistics:    #9B5523; /* SERVICES */
+  --cat-dating: #b5472d; /* DATING   */
+  --cat-crm: #2b5ba8; /* CRM      */
+  --cat-discovery: #2a7a56; /* DISCOVER */
+  --cat-saas: #6a3d9e; /* SAAS     */
+  --cat-payments: #1b8080; /* FINANCE  */
+  --cat-social: #a07a18; /* SOCIAL   */
+  --cat-logistics: #9b5523; /* SERVICES */
 
   /* ---- Signature gradients ---- */
   /* Spectral hairline under the hero dek (warm→cool, left to right) */
-  --spectral: linear-gradient(90deg, var(--accent), #D98A2B 35%, #2E8B8B 70%, #3A6EA5);
+  --spectral: linear-gradient(
+    90deg,
+    var(--accent),
+    #d98a2b 35%,
+    #2e8b8b 70%,
+    #3a6ea5
+  );
   /* Hero bloom — two warm radials that fade into the paper */
-  --bloom-rose:  rgba(205,92,72,0.15);
-  --bloom-amber: rgba(222,150,88,0.10);
+  --bloom-rose: rgba(205, 92, 72, 0.15);
+  --bloom-amber: rgba(222, 150, 88, 0.1);
+
+  /* ---- Maximal mode (Y2K) chrome ----
+     Fixed, non-themeable decorative surfaces for the maximal look (see
+     readme.md "Maximal mode"). Periwinkle is DELIBERATELY off the brand accent;
+     the beta golds belong only to the BetaBurst starburst. Not driven by --accent. */
+  /* Periwinkle gel navigation (GlossyNav) */
+  --gel-nav: linear-gradient(180deg, #cbdcf5, #a8c0e9 55%, #8fb0e2);
+  --gel-nav-top: #e2eaf8; /* top hairline */
+  --gel-nav-bottom: #6e8fc6; /* bottom hairline */
+  --gel-nav-sheen: rgba(255, 255, 255, 0.65);
+  --gel-nav-drop: rgba(40, 70, 120, 0.16);
+  /* Active tab = frosted "liquid glass": translucent white so the periwinkle gel
+     shows through (paired with backdrop-filter in glossy_nav.css). */
+  --gel-tab-active: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.34)
+  );
+  --gel-tab-border: rgba(255, 255, 255, 0.75);
+  --gel-tab-shadow: rgba(40, 70, 120, 0.22);
+  --gel-tab-ink: #233a63; /* active tab text */
+  --gel-tab-ink-idle: #3a4e70; /* idle tab text */
+  --gel-nav-note: #3a5c8c; /* right-aligned count */
+  /* Periwinkle for the weighted tag cloud (== --cat-crm, kept separate for intent) */
+  --periwinkle: #2b5ba8;
+  /* BetaBurst starburst golds */
+  --beta-gold-1: #ffc24b;
+  --beta-gold-2: #f08a1d;
+  --beta-gold-3: #d2670e;
+  --beta-gold-shadow: rgba(120, 60, 0, 0.4);
+  --beta-label-shadow: rgba(140, 70, 0, 0.55);
 }

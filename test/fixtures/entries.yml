@@ -3,8 +3,8 @@ one:
   'y': the building you live in
   description: Swipe on your neighbors.
   url: https://example.com
-  submitter: apt_4b
-  category: consumer
+  user: apt_4b
+  category: dating
   stamp: new
   votes_count: 342
   slug: tinder-but-for-the-building-you-live-in
@@ -14,7 +14,40 @@ two:
   'y': lemonade stands
   description: Payments for kids.
   url: https://example.com
-  submitter: squeezed_ceo
-  category: fintech
+  user: squeezed_ceo
+  category: payments
   votes_count: 287
   slug: stripe-but-for-lemonade-stands
+
+three:
+  x: Notion
+  'y': recipes
+  description: Relational data for dinner parties.
+  url: https://example.com
+  user: hungrybuilder
+  category: saas
+  votes_count: 150
+  slug: notion-but-for-recipes
+
+pinned_sponsor:
+  x: Linear
+  'y': wedding planning
+  description: Issue tracking for seating-chart crises.
+  url: https://example.com
+  user: altar_ego
+  category: saas
+  sponsored: pinned
+  votes_count: 2300
+  slug: linear-but-for-wedding-planning
+
+spotlight_sponsor:
+  x: Slack
+  'y': your elevator
+  description: A channel for every floor of your building.
+  url: https://example.com
+  user: floor_four
+  category: dating
+  sponsored: spotlight
+  stamp: hot
+  votes_count: 847
+  slug: slack-but-for-your-elevator

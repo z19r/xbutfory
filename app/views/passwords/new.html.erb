@@ -1,0 +1,25 @@
+<% content_for :title, "Reset password — XbutforY" %>
+<div class="c-auth">
+  <div class="c-auth__mark">
+    <%= link_to root_path, class: "c-auth__wordmark", "aria-label": "XbutforY — home" do %>
+      <%= render WordmarkComponent.new(size: 34, accent_y: false) %>
+    <% end %>
+  </div>
+
+  <div class="c-auth-card">
+    <div class="c-auth-card__eyebrow">RESET PASSWORD</div>
+    <h1 class="c-auth-card__title">Forgot it? Happens.</h1>
+    <p class="c-auth-card__lede">Enter your email and we'll send a link to set a new password.</p>
+
+    <%= form_with url: password_reset_path, method: :post, class: "c-auth-form" do %>
+      <%= render FormFieldComponent.new(
+            label: "Email", name: "email", type: "email", value: params[:email],
+            placeholder: "you@domain.com", autocomplete: "email", required: true,
+          ) %>
+      <%= render ButtonComponent.new(variant: "primary", gel: true, trailing_arrow: true, type: "submit") do %>Send reset link<% end %>
+    <% end %>
+
+    <div class="c-auth-card__divider"><span>REMEMBERED IT?</span></div>
+    <%= link_to "Back to sign in", sign_in_path, class: "c-auth-card__alt" %>
+  </div>
+</div>

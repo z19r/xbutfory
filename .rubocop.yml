@@ -6,3 +6,21 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
+
+# Prettier (@prettier/plugin-ruby) is the authority on formatting; disable the
+# RuboCop cops that conflict with it (trailing commas on multiline, array bracket
+# spacing). Prettier keeps double quotes here, so Style/StringLiterals is untouched.
+Style/TrailingCommaInArguments:
+  Enabled: false
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+
+# Prettier formats Ruby strings to single quotes (rubySingleQuote); let it win.
+Style/StringLiterals:
+  Enabled: false
+Style/StringLiteralsInInterpolation:
+  Enabled: false

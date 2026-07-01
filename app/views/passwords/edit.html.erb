@@ -1,0 +1,33 @@
+<% content_for :title, "Set a new password — XbutforY" %>
+<div class="c-auth">
+  <div class="c-auth__mark">
+    <%= link_to root_path, class: "c-auth__wordmark", "aria-label": "XbutforY — home" do %>
+      <%= render WordmarkComponent.new(size: 34, accent_y: false) %>
+    <% end %>
+  </div>
+
+  <div class="c-auth-card">
+    <div class="c-auth-card__eyebrow">NEW PASSWORD</div>
+    <h1 class="c-auth-card__title">Pick a new one.</h1>
+    <p class="c-auth-card__lede">Set the password for <span class="c-auth-card__handle">@<%= @user.handle %></span>.</p>
+
+    <%= form_with url: update_password_reset_path(token: params[:token]), method: :patch, class: "c-auth-form" do %>
+      <span data-controller="password-toggle">
+        <%= render FormFieldComponent.new(
+              label: "New password", name: "password", type: "password",
+              placeholder: "at least 8 characters", autocomplete: "new-password", required: true,
+              data: { password_toggle_target: "input" },
+            ) do |field| %>
+          <% field.with_trailing do %>
+            <button type="button" class="c-auth-form__reveal" data-action="password-toggle#toggle" data-password-toggle-target="button">SHOW</button>
+          <% end %>
+        <% end %>
+      </span>
+      <%= render FormFieldComponent.new(
+            label: "Confirm password", name: "password_confirmation", type: "password",
+            placeholder: "again, to be sure", autocomplete: "new-password", required: true,
+          ) %>
+      <%= render ButtonComponent.new(variant: "primary", gel: true, trailing_arrow: true, type: "submit") do %>Update password<% end %>
+    <% end %>
+  </div>
+</div>

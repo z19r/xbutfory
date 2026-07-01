@@ -1,5 +1,6 @@
-# Ignore bundler config.
+# Ignore bundler config and any locally vendored gems.
 /.bundle
+/vendor/bundle
 
 # Ignore all environment files.
 /.env*
@@ -53,3 +54,9 @@
 .whetstone/
 .aider.conventions.md
 .windsurfrules
+
+# Overmind dev process manager socket
+.overmind.sock
+
+# SimpleCov output
+/coverage

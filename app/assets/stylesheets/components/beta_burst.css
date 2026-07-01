@@ -1,0 +1,72 @@
+/* BetaBurst — glossy 12-point amber starburst (Y2K maximal flourish).
+   The star clip-path polygon is computed from the 12-point sunburst geometry in
+   design_system/components/brand/BetaBurst.jsx (ro=50, ri=35, centered at 50,50). */
+.c-beta-burst {
+  position: absolute;
+  display: inline-block;
+  pointer-events: none;
+}
+
+.c-beta-burst__fill,
+.c-beta-burst__sheen {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(
+    50% 0%,
+    59.06% 16.19%,
+    75% 6.7%,
+    74.75% 25.25%,
+    93.3% 25%,
+    83.81% 40.94%,
+    100% 50%,
+    83.81% 59.06%,
+    93.3% 75%,
+    74.75% 74.75%,
+    75% 93.3%,
+    59.06% 83.81%,
+    50% 100%,
+    40.94% 83.81%,
+    25% 93.3%,
+    25.25% 74.75%,
+    6.7% 75%,
+    16.19% 59.06%,
+    0% 50%,
+    16.19% 40.94%,
+    6.7% 25%,
+    25.25% 25.25%,
+    25% 6.7%,
+    40.94% 16.19%
+  );
+}
+
+.c-beta-burst__fill {
+  background: radial-gradient(
+    circle at 38% 32%,
+    var(--beta-gold-1),
+    var(--beta-gold-2) 62%,
+    var(--beta-gold-3)
+  );
+  box-shadow: 0 2px 5px var(--beta-gold-shadow);
+}
+
+.c-beta-burst__sheen {
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle at 38% 30%,
+    rgba(255, 255, 255, 0.7),
+    transparent 45%
+  );
+}
+
+.c-beta-burst__label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: #fff;
+  text-shadow: 0 1px 1px var(--beta-label-shadow);
+}

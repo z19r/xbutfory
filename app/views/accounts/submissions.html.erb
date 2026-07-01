@@ -1,0 +1,71 @@
+<% content_for :title, "Your submissions — XbutforY" %>
+<% content_for :nav_tab, "none" %>
+
+<%
+  status_labels = { "live" => "Live", "pending" => "Pending", "needs_edits" => "Needs edits", "withdrawn" => "Withdrawn" }
+  filter_labels = { "all" => "All", "live" => "Live", "pending" => "Pending", "needs_edits" => "Needs edits", "withdrawn" => "Withdrawn" }
+%>
+
+<header class="l-manage__head">
+  <div class="l-manage__headrow">
+    <div>
+      <div class="l-manage__eyebrow">YOUR SUBMISSIONS</div>
+      <h1 class="l-manage__title">Manage listings</h1>
+    </div>
+    <%= render ButtonComponent.new(variant: "primary", gel: true, href: new_submission_path, icon: "+") do %>Submit a site<% end %>
+  </div>
+  <div class="l-manage__rule"></div>
+</header>
+
+<nav class="l-manage__filters" aria-label="Filter by status">
+  <% AccountsController::STATUS_FILTERS.each do |status| %>
+    <%= link_to manage_submissions_path(status == "all" ? {} : { status: status }),
+          class: "l-manage__pill #{'l-manage__pill--active' if @filter == status}" do %>
+      <%= filter_labels[status] %> <span class="l-manage__pill-count"><%= @counts[status] %></span>
+    <% end %>
+  <% end %>
+</nav>
+
+<div class="l-manage__list">
+  <% if @entries.empty? %>
+    <%= render EmptyStateComponent.new(title: "Nothing here yet.", action: "Submit your first site", action_url: new_submission_path) %>
+  <% end %>
+
+  <% @entries.each do |entry| %>
+    <article class="c-sub">
+      <div class="c-sub__votes">
+        <span class="c-sub__votes-num"><%= number_with_delimiter(entry.votes_count) %></span>
+        <span class="c-sub__votes-label">VOTES</span>
+      </div>
+
+      <div class="c-sub__body">
+        <div class="c-sub__meta">
+          <span class="c-sub__pill c-sub__pill--<%= entry.status %>"><%= status_labels[entry.status] %></span>
+          <% if entry.category.present? %><span class="c-sub__cat"><%= entry.category.titleize %></span><% end %>
+          <span class="c-sub__ago">submitted <%= time_ago_in_words(entry.created_at) %> ago</span>
+        </div>
+        <%= link_to entry_path(slug: entry.slug), class: "c-sub__title" do %>
+          <%= entry.x %> <i>but for</i> <%= entry.y %>
+        <% end %>
+        <% if entry.needs_edits? && entry.reviewer_note.present? %>
+          <p class="c-sub__note">Editor: <%= entry.reviewer_note %></p>
+        <% end %>
+      </div>
+
+      <div class="c-sub__actions">
+        <% case entry.status %>
+        <% when "live" %>
+          <%= link_to "Edit", edit_submission_path(entry), class: "c-sub__action" %>
+          <%= button_to "Withdraw", submission_status_path(entry, to: "withdrawn"), method: :patch, class: "c-sub__action c-sub__action--muted" %>
+        <% when "pending" %>
+          <%= link_to "Edit", edit_submission_path(entry), class: "c-sub__action" %>
+          <%= button_to "Cancel", submission_status_path(entry, to: "withdrawn"), method: :patch, class: "c-sub__action c-sub__action--muted" %>
+        <% when "needs_edits" %>
+          <%= link_to "Edit & resubmit", edit_submission_path(entry), class: "c-sub__action c-sub__action--accent" %>
+        <% when "withdrawn" %>
+          <%= button_to "Restore", submission_status_path(entry, to: "live"), method: :patch, class: "c-sub__action" %>
+        <% end %>
+      </div>
+    </article>
+  <% end %>
+</div>

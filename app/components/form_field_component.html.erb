@@ -1,0 +1,18 @@
+<label class="<%= root_classes %>"<%= " for=#{id.inspect}".html_safe if id %>>
+  <% if label %>
+    <span class="c-field__labelrow">
+      <span class="c-field__label"><%= label %></span>
+      <% if error? %>
+        <span class="c-field__error"><%= error %></span>
+      <% elsif label_aside? %>
+        <span class="c-field__aside"><%= label_aside %></span>
+      <% end %>
+    </span>
+  <% end %>
+  <span class="c-field__control">
+    <% if prefix %><span class="c-field__prefix" aria-hidden="true"><%= prefix %></span><% end %>
+    <%= control_tag %>
+    <% if trailing? %><span class="c-field__trailing"><%= trailing %></span><% end %>
+  </span>
+  <% if hint.present? && !error? %><span class="c-field__hint"><%= hint %></span><% end %>
+</label>

@@ -1,0 +1,37 @@
+/* Unconfirmed-email notice — a full-bleed amber strip under the nav. */
+.c-confirm-banner {
+  background: color-mix(in srgb, var(--stamp-hot) 16%, var(--paper));
+  border-bottom: 1px solid color-mix(in srgb, var(--stamp-hot) 40%, transparent);
+}
+
+.c-confirm-banner__inner {
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  padding: 9px var(--page-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-body);
+}
+
+.c-confirm-banner__action {
+  flex-shrink: 0;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-input);
+  padding: 5px 12px;
+}
+
+.c-confirm-banner__action:hover {
+  border-color: var(--ink);
+}

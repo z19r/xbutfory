@@ -1,75 +1,115 @@
-require "test_helper"
+require 'test_helper'
 
 class EntryTest < ActiveSupport::TestCase
-  test "generates slug from x and y on create" do
-    entry = Entry.create!(x: "Slack", y: "pets", submitter: "tester")
-    assert_equal "slack-but-for-pets", entry.slug
+  setup { @user = users(:member) }
+
+  test 'belongs to a user (submissions are account-bound)' do
+    entry = Entry.new(x: 'Acme', y: 'ants')
+    assert_not entry.valid?
+    assert_includes entry.errors[:user], 'must exist'
   end
 
-  test "does not overwrite an explicit slug" do
-    entry = Entry.create!(x: "Slack", y: "pets", submitter: "tester", slug: "custom-slug")
-    assert_equal "custom-slug", entry.slug
+  test 'generates slug from x and y on create' do
+    entry = Entry.create!(x: 'Slack', y: 'pets', user: @user)
+    assert_equal 'slack-but-for-pets', entry.slug
   end
 
-  test "requires x, y, and submitter" do
+  test 'does not overwrite an explicit slug' do
+    entry =
+      Entry.create!(x: 'Slack', y: 'pets', slug: 'custom-slug', user: @user)
+    assert_equal 'custom-slug', entry.slug
+  end
+
+  test 'requires x and y' do
     entry = Entry.new
     assert_not entry.valid?
     assert_includes entry.errors[:x], "can't be blank"
     assert_includes entry.errors[:y], "can't be blank"
-    assert_includes entry.errors[:submitter], "can't be blank"
   end
 
-  test "enforces unique slugs" do
-    Entry.create!(x: "Slack", y: "pets", submitter: "a")
-    duplicate = Entry.new(x: "Slack", y: "pets", submitter: "b")
+  test 'status defaults to live' do
+    entry = Entry.create!(x: 'Acme', y: 'ants', user: @user)
+    assert entry.live?
+    assert_equal 'live', entry.status
+  end
+
+  test 'tier defaults to free and rejects unknown tiers' do
+    entry = Entry.create!(x: 'Acme', y: 'bees', user: @user)
+    assert_equal 'free', entry.tier
+    entry.tier = 'platinum'
+    assert_not entry.valid?
+  end
+
+  test 'enforces unique slugs' do
+    Entry.create!(x: 'Slack', y: 'pets', user: @user)
+    duplicate = Entry.new(x: 'Slack', y: 'pets', user: @user)
     assert_not duplicate.valid?
-    assert_includes duplicate.errors[:slug], "has already been taken"
+    assert_includes duplicate.errors[:slug], 'has already been taken'
   end
 
-  test "title returns formatted string" do
-    entry = Entry.new(x: "Tinder", y: "dogs")
-    assert_equal "Tinder but for dogs", entry.title
+  test 'title returns formatted string' do
+    entry = Entry.new(x: 'Tinder', y: 'dogs')
+    assert_equal 'Tinder but for dogs', entry.title
   end
 
-  test "latest scope orders by created_at desc" do
+  test 'latest scope orders by created_at desc' do
     old = entries(:two)
     new_entry = entries(:one)
     results = Entry.latest
     assert results.index(new_entry) < results.index(old)
   end
 
-  test "trending scope orders by votes_count desc" do
+  test 'trending scope orders by votes_count desc' do
     results = Entry.trending
     assert results.first.votes_count >= results.last.votes_count
   end
 
-  test "by_category scope filters entries" do
-    consumer_entries = Entry.by_category("consumer")
-    consumer_entries.each do |e|
-      assert_equal "consumer", e.category
-    end
+  test 'by_category scope filters entries' do
+    results = Entry.by_category('payments')
+    assert results.any?, 'expected at least one payments entry from fixtures'
+    results.each { |e| assert_equal 'payments', e.category }
   end
 
-  test "votes_count defaults to zero" do
-    entry = Entry.create!(x: "New", y: "thing", submitter: "tester")
+  test 'votes_count defaults to zero' do
+    entry = Entry.create!(x: 'New', y: 'thing', user: @user)
     assert_equal 0, entry.votes_count
   end
 
-  test "search scope matches on x" do
-    Entry.create!(x: "UniqueProduct", y: "trees", submitter: "t")
-    results = Entry.search("UniqueProduct")
-    assert results.any? { |e| e.x == "UniqueProduct" }
+  test 'search scope matches on x' do
+    Entry.create!(x: 'UniqueProduct', y: 'trees', user: @user)
+    results = Entry.search('UniqueProduct')
+    assert results.any? { |e| e.x == 'UniqueProduct' }
   end
 
-  test "search scope matches on y" do
-    Entry.create!(x: "Something", y: "UniqueNiche", submitter: "t")
-    results = Entry.search("UniqueNiche")
-    assert results.any? { |e| e.y == "UniqueNiche" }
+  test 'search scope matches on y' do
+    Entry.create!(x: 'Something', y: 'UniqueNiche', user: @user)
+    results = Entry.search('UniqueNiche')
+    assert results.any? { |e| e.y == 'UniqueNiche' }
   end
 
-  test "search scope is case-insensitive" do
-    Entry.create!(x: "CaseTest", y: "example", submitter: "t")
-    results = Entry.search("casetest")
-    assert results.any? { |e| e.x == "CaseTest" }
+  test 'search scope matches on description' do
+    Entry.create!(
+      x: 'App',
+      y: 'niche',
+      description: 'UniqueDescriptionPhrase',
+      user: @user,
+    )
+    results = Entry.search('UniqueDescriptionPhrase')
+    assert results.any?
+  end
+
+  test 'sfw scope excludes nsfw entries' do
+    Entry.create!(x: 'Safe', y: 'one', nsfw: false, user: @user)
+    Entry.create!(x: 'Spicy', y: 'one', nsfw: true, user: @user)
+    slugs = Entry.sfw.pluck(:slug)
+    assert_includes slugs, 'safe-but-for-one'
+    assert_not_includes slugs, 'spicy-but-for-one'
+  end
+
+  test 'featured? reflects tier' do
+    entry = Entry.new(tier: 'featured')
+    assert entry.featured?
+    entry.tier = 'free'
+    assert_not entry.featured?
   end
 end

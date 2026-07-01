@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<% accent = UtilityBarComponent.resolve_accent(cookies[:accent]) %>
+<html style="--accent: var(--accent-<%= accent[:key] %>)">
   <head>
-    <title><%= content_for(:title) || "XbutforY" %></title>
+    <title><%= page_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= social_meta_tags %>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="XbutforY">
     <meta name="mobile-web-app-capable" content="yes">
@@ -18,19 +20,33 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
+    <%= auto_discovery_link_tag(:atom, feed_url, title: "XbutforY — Latest Submissions") %>
+
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= render UtilityBarComponent.new %>
+  <body class="<%= content_for(:body_class) %>">
+    <%= render UtilityBarComponent.new(active_accent: accent[:key], current_user: current_user) %>
     <%= render MastheadComponent.new do |masthead| %>
       <% masthead.with_search_slot do %>
         <%= render SearchInputComponent.new(value: params[:q].to_s) %>
       <% end %>
     <% end %>
-    <%= render NavTabsComponent.new(active: content_for(:nav_tab) || "latest") %>
+    <%= render GlossyNavComponent.new(
+      active: content_for(:nav_tab) || "latest",
+      note: "#{number_with_delimiter(Entry.count)} sites indexed"
+    ) %>
+
+    <% if current_user && !current_user.confirmed? %>
+      <div class="c-confirm-banner">
+        <div class="c-confirm-banner__inner">
+          <span>📨 Confirm your email (<%= current_user.email %>) to keep your account in good standing.</span>
+          <%= button_to "Resend link", resend_confirmation_path, method: :post, class: "c-confirm-banner__action" %>
+        </div>
+      </div>
+    <% end %>
 
     <main class="l-content">
       <%= yield %>
@@ -38,8 +54,24 @@
       <%= render FooterComponent.new %>
     </main>
 
-    <% if flash[:notice] %>
-      <%= render ToastComponent.new(message: flash[:notice]) %>
-    <% end %>
+    <%= render ToastComponent.new(message: flash[:notice]) %>
+
+    <div data-controller="konami">
+      <div class="c-konami__backdrop" data-konami-target="backdrop" data-action="click->konami#close" hidden></div>
+      <canvas class="c-konami__canvas" data-konami-target="canvas" hidden></canvas>
+      <div class="c-konami__modal" data-konami-target="modal" hidden>
+        <button class="c-konami__close" data-action="click->konami#close" title="close">&times;</button>
+        <div class="c-konami__label">🎆 KONAMI CODE ACCEPTED</div>
+        <h2 class="c-konami__title">One free promotion, <em>unlocked</em>.</h2>
+        <p class="c-konami__body">You clearly know your way around a keyboard. Here&rsquo;s a coupon for one <strong>Featured promotion</strong> &mdash; a homepage Spotlight slot ($1.99 value), on the house.</p>
+        <div class="c-konami__code-label">YOUR COUPON CODE</div>
+        <div class="c-konami__code-row">
+          <div class="c-konami__code">XBUTFORY-K0N4M1</div>
+          <button class="c-konami__copy" data-action="click->konami#copy">Copy</button>
+        </div>
+        <button class="c-konami__claim" data-action="click->konami#claim">Claim it &mdash; submit a site &rarr;</button>
+        <p class="c-konami__fine">redeemable on one submission &middot; expires never &middot; because you earned it</p>
+      </div>
+    </div>
   </body>
 </html>

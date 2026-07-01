@@ -16,12 +16,15 @@
         "patterns": [
           {
             "group": [
+              "components/brand/**",
               "components/cards/**",
               "components/chrome/**",
               "components/core/**",
+              "components/discovery/**",
               "components/feedback/**",
               "components/forms/**",
               "components/navigation/**",
+              "prototypes/maximal-home/**",
               "ui_kits/directory/**"
             ],
             "message": "Import design-system components from 'index.js', not component internals."
@@ -44,8 +47,16 @@
         "message": "Font not provided by the design system. Available: Newsreader, Space Mono, Outfit."
       },
       {
-        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|size|icon|trailingArrow|disabled|type|children|key|ref|className|style|children)$/]",
-        "message": "<Button> doesn't accept that prop. Declared props: variant, size, icon, trailingArrow, disabled, type, children."
+        "selector": "JSXOpeningElement[name.name='AccountMenuItem'] > JSXAttribute > JSXIdentifier[name!=/^(?:key|label|divider|key|ref|className|style|children)$/]",
+        "message": "<AccountMenuItem> doesn't accept that prop. Declared props: key, label, divider."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='BetaBurst'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|size|rotate|color|style|key|ref|className|style|children)$/]",
+        "message": "<BetaBurst> doesn't accept that prop. Declared props: label, size, rotate, color, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|size|icon|trailingArrow|gel|disabled|type|children|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: variant, size, icon, trailingArrow, gel, disabled, type, children."
       },
       {
         "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:primary|secondary|ghost|dark)$/]",
@@ -72,6 +83,10 @@
         "message": "<CodeChip> doesn't accept that prop. Declared props: children."
       },
       {
+        "selector": "JSXOpeningElement[name.name='DigestSignup'] > JSXAttribute > JSXIdentifier[name!=/^(?:title|pitch|placeholder|cta|gel|onSubmit|style|key|ref|className|style|children)$/]",
+        "message": "<DigestSignup> doesn't accept that prop. Declared props: title, pitch, placeholder, cta, gel, onSubmit, style."
+      },
+      {
         "selector": "JSXOpeningElement[name.name='EmptyState'] > JSXAttribute > JSXIdentifier[name!=/^(?:title|children|action|onAction|style|key|ref|className|style|children)$/]",
         "message": "<EmptyState> doesn't accept that prop. Declared props: title, children, action, onAction, style."
       },
@@ -90,6 +105,22 @@
       {
         "selector": "JSXOpeningElement[name.name='EntryCard'] > JSXAttribute[name.name='sponsored'] > Literal[value!=/^(?:pinned|spotlight)$/]",
         "message": "<EntryCard> sponsored must be one of 'pinned' | 'spotlight'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='FeaturedBar'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|badges|note|gel|maxWidth|style|key|ref|className|style|children)$/]",
+        "message": "<FeaturedBar> doesn't accept that prop. Declared props: label, badges, note, gel, maxWidth, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='FormField'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|hint|error|prefix|trailing|as|style|key|ref|className|style|children)$/]",
+        "message": "<FormField> doesn't accept that prop. Declared props: label, hint, error, prefix, trailing, as, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='FormField'] > JSXAttribute[name.name='as'] > Literal[value!=/^(?:input|textarea)$/]",
+        "message": "<FormField> as must be one of 'input' | 'textarea'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='GlossyNav'] > JSXAttribute > JSXIdentifier[name!=/^(?:items|active|onSelect|note|maxWidth|sticky|style|key|ref|className|style|children)$/]",
+        "message": "<GlossyNav> doesn't accept that prop. Declared props: items, active, onSelect, note, maxWidth, sticky, style."
       },
       {
         "selector": "JSXOpeningElement[name.name='MastheadBarLink'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|strong|key|ref|className|style|children)$/]",
@@ -128,8 +159,16 @@
         "message": "<Tag> category must be one of 'dating' | 'crm' | 'discovery' | 'saas' | 'payments' | 'social' | 'logistics'."
       },
       {
+        "selector": "JSXOpeningElement[name.name='TagCloudItem'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|weight|key|ref|className|style|children)$/]",
+        "message": "<TagCloudItem> doesn't accept that prop. Declared props: label, weight."
+      },
+      {
         "selector": "JSXOpeningElement[name.name='Toast'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|key|ref|className|style|children)$/]",
         "message": "<Toast> doesn't accept that prop. Declared props: children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Wordmark'] > JSXAttribute > JSXIdentifier[name!=/^(?:size|accentY|ghost|beta|betaLabel|style|key|ref|className|style|children)$/]",
+        "message": "<Wordmark> doesn't accept that prop. Declared props: size, accentY, ghost, beta, betaLabel, style."
       }
     ]
   },
@@ -145,6 +184,12 @@
   ],
   "x-omelette": {
     "components": {
+      "AccountMenuItem": {
+        "replaces": []
+      },
+      "BetaBurst": {
+        "replaces": []
+      },
       "Button": {
         "replaces": []
       },
@@ -154,10 +199,22 @@
       "CodeChip": {
         "replaces": []
       },
+      "DigestSignup": {
+        "replaces": []
+      },
       "EmptyState": {
         "replaces": []
       },
       "EntryCard": {
+        "replaces": []
+      },
+      "FeaturedBar": {
+        "replaces": []
+      },
+      "FormField": {
+        "replaces": []
+      },
+      "GlossyNav": {
         "replaces": []
       },
       "MastheadBarLink": {
@@ -181,7 +238,13 @@
       "Tag": {
         "replaces": []
       },
+      "TagCloudItem": {
+        "replaces": []
+      },
       "Toast": {
+        "replaces": []
+      },
+      "Wordmark": {
         "replaces": []
       }
     },

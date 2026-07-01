@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+echo "pre-commit: running RuboCop..."
+if ! just rubocop; then
+  echo
+  echo "pre-commit: RuboCop failed — commit aborted."
+  echo "Fix offenses or run: just rubocop -A"
+  exit 1
+fi

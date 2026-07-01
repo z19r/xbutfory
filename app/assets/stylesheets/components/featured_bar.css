@@ -1,0 +1,66 @@
+/* FeaturedBar — full-bleed "AS FEATURED ON" social-proof strip with glossy gel
+   badges and a retro validity stamp. Mirrors design_system/components/discovery/FeaturedBar.jsx.
+   Full-bleed: breaks out of the centered column to the viewport edges. */
+.c-featured-bar {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  border-top: 1px solid var(--border-rule);
+  border-bottom: 1px solid var(--border-rule);
+  background: var(--surface-sunken);
+}
+
+.c-featured-bar__inner {
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px var(--page-gutter);
+}
+
+.c-featured-bar__badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.c-featured-bar__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.c-featured-bar__badge {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: var(--fw-bold);
+  color: #fff;
+  padding: 4px 11px;
+  border-radius: 5px;
+  background: var(--accent);
+  border: 1px solid rgba(120, 10, 70, 0.4);
+  white-space: nowrap;
+}
+
+.c-featured-bar__badge--gel {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.32),
+      rgba(255, 255, 255, 0.04) 46%,
+      rgba(0, 0, 0, 0.07)
+    ),
+    var(--accent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.c-featured-bar__note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}

@@ -1,2 +1,18 @@
-#!/usr/bin/env ruby
-exec "./bin/rails", "server", *ARGV
+#!/usr/bin/env bash
+# Boot the dev stack via Procfile.dev. Prefer overmind (the house standard),
+# falling back to hivemind, then foreman, so the project runs anywhere.
+set -euo pipefail
+
+export PORT="${PORT:-3000}"
+
+if command -v overmind > /dev/null 2>&1; then
+  exec overmind start -f Procfile.dev "$@"
+elif command -v hivemind > /dev/null 2>&1; then
+  exec hivemind Procfile.dev "$@"
+else
+  if ! gem list --silent --installed foreman > /dev/null 2>&1; then
+    echo "Installing foreman..."
+    gem install foreman
+  fi
+  exec foreman start -f Procfile.dev "$@"
+fi

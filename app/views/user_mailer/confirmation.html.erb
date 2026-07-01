@@ -1,0 +1,11 @@
+<p>Welcome, @<%= @user.handle %> 👋</p>
+
+<p>One click and your XbutforY account is confirmed — it keeps the index human:</p>
+
+<p>
+  <%= link_to "Confirm my email", confirm_email_url(token: @token) %>
+</p>
+
+<p>The link is good for two days. If you didn't create this account, ignore this email.</p>
+
+<p>— The XbutforY editors</p>

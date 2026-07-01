@@ -1,0 +1,46 @@
+<% content_for :title, "Sign in — XbutforY" %>
+<div class="c-auth">
+  <div class="c-auth__mark">
+    <%= link_to root_path, class: "c-auth__wordmark", "aria-label": "XbutforY — home" do %>
+      <%= render WordmarkComponent.new(size: 34, accent_y: false) %>
+    <% end %>
+  </div>
+
+  <div class="c-auth-card">
+    <div class="c-auth-card__eyebrow">MEMBER SIGN IN</div>
+    <h1 class="c-auth-card__title">Welcome back.</h1>
+    <p class="c-auth-card__lede">Sign in to submit sites, vote, and manage your listings.</p>
+
+    <%= form_with url: sign_in_path, method: :post, class: "c-auth-form" do %>
+      <%= render FormFieldComponent.new(
+        label: "Email or @handle", name: "login", type: "text",
+        value: params[:login],
+        placeholder: "@member or you@domain.com",
+        autocomplete: "username", required: true
+      ) %>
+
+      <span data-controller="password-toggle">
+        <%= render FormFieldComponent.new(
+          label: "Password", name: "password", type: "password",
+          placeholder: "••••••••", autocomplete: "current-password", required: true,
+          data: { password_toggle_target: "input" }
+        ) do |field| %>
+          <% field.with_label_aside do %>
+            <%= link_to "Forgot?", new_password_reset_path, class: "c-auth-form__forgot" %>
+          <% end %>
+          <% field.with_trailing do %>
+            <button type="button" class="c-auth-form__reveal" data-action="password-toggle#toggle" data-password-toggle-target="button">SHOW</button>
+          <% end %>
+        <% end %>
+      </span>
+
+      <%= render ButtonComponent.new(variant: "primary", gel: true, trailing_arrow: true, type: "submit") do %>Sign in<% end %>
+    <% end %>
+
+    <div class="c-auth-card__divider"><span>NEW TO THE INDEX?</span></div>
+
+    <%= link_to "Create an account", sign_up_path, class: "c-auth-card__alt" %>
+  </div>
+
+  <p class="c-auth__note">Accounts are required to submit — every listing is tied to a member. No anonymous posting.</p>
+</div>

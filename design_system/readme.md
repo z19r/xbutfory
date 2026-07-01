@@ -25,6 +25,19 @@ was provided; if you have one, drop it in and reconcile.
   - `navigation/` — **NavTabs**
   - `chrome/` — **MastheadBar**
   - `feedback/` — **Toast**, **EmptyState**
+  - `brand/` — **Wordmark** (ghost + beta options), **BetaBurst** (glossy Y2K starburst)
+  - `discovery/` — **TagCloud** (weighted), **DigestSignup**, **FeaturedBar** (“as featured on”)
+  - `navigation/` — **GlossyNav** (maximal nav) + **NavTabs** (calm)
+  - `chrome/` — **MastheadBar**, **AccountMenu** (logged-in session control)
+  - `forms/` — **FormField** (auth/settings input) + SearchInput / SortToggle / SubmitPreview
+- **`templates/`** — DC starting points consumers copy. **Maximal is the default look.**
+  - Directory: **maximal-home** (canonical home), **directory-home** (calm alt),
+    **entry-detail**, **submit-site** (account-gated), **categories**.
+  - Accounts: **sign-in**, **create-account**, **account-settings**, **manage-submissions**.
+- **`MIGRATION.md`** — how to update an existing (old, calm, anonymous) build to this
+  one: maximal restyle + mandatory accounts. **Start here if Claude Code already shipped v1.**
+- **`prototypes/maximal-home/`** — the standalone React exploration the maximal
+  template was derived from; Tweaks toggle each Y2K flourish independently.
 - **`ui_kits/directory/`** — the directory screens. Self-contained interactive
   previews (`index.html` home · `detail.html` · `submit.html` · `categories.html`)
   plus JSX reference source (`Masthead.jsx`, `FeedScreen.jsx`, `DetailScreen.jsx`,
@@ -187,9 +200,57 @@ to match the hairline rules — and document the substitution here.
 
 ## Theming
 
-`--accent` is the single hue knob. Set it on `:root` (or a scope) to one of the five
+`--accent` is the single hue knob. Set it on `:root` (or a scope) to one of the
 options and the wordmark, buttons, stamps, underline, dots, and links all follow.
 Everything else — paper, ink, category hues — stays fixed.
+
+---
+
+## Maximal mode (Y2K) — the default look
+
+A loud early-2000s / Web 2.0 register layered on the same tokens. It is now the
+**default** brand expression for home / marketing / auth surfaces (the calm
+broadsheet remains a documented alternate — e.g. `templates/directory-home` — for
+dense product views). The canonical home is `templates/maximal-home/`;
+`prototypes/maximal-home/` is the standalone React exploration where Tweaks toggle
+each flourish. The vocabulary:
+
+- **Beta starburst** — a glossy 12-point amber sunburst (`BetaBurst`) pinned to the
+  wordmark's corner. One per view.
+- **Ghost wordmark** — a faint (7%) offset double-exposure behind the mark.
+- **Glossy periwinkle nav** — a blue gel gradient bar with a raised, inset-lit
+  active tab (vs. the calm system's hairline-underline `NavTabs`).
+- **Gel buttons** — a white-sheen + inner-shadow overlay on the accent fill.
+- **Weighted tag cloud** (`TagCloud`) — sidebar, sizes scale with popularity, in
+  periwinkle (deliberately *not* the brand accent).
+- **Weekly digest** (`DigestSignup`) and **"AS FEATURED ON"** strip (`FeaturedBar`)
+  capped with a retro `valid XHTML 1.0 · RSS 2.0` stamp.
+
+Restraint still applies: paper, ink, type registers, and the one rationed accent are
+unchanged — the maximalism is in chrome and surface treatment, not new hues. Reach
+for it on landing/marketing surfaces; keep product views calm.
+
+---
+
+## Accounts & identity
+
+**Submissions are account-bound — there is no anonymous posting.** Every listing's
+byline is the submitter's **public `@handle`**, chosen at signup, permanent, and shown
+on every entry (the input is `FormField` with `prefix="@"`).
+
+- **Signed-out:** the ink utility bar shows `Sign in · Create account`.
+- **Signed-in:** those links become **`AccountMenu`** — avatar disc + `@handle ▾`
+  opening *Account settings · Manage submissions · Sign out*.
+- **Submit & vote are gated** behind a session; `templates/submit-site` shows a
+  "Posting as @handle" banner instead of the old "no account needed" line.
+- **Surfaces:** `templates/sign-in`, `create-account`, `account-settings`
+  (Profile · Email & password · Notifications · Connected · Danger zone), and
+  `manage-submissions` (status: live · pending · needs-edits · withdrawn, with
+  edit / withdraw / restore).
+- **Data model** (for implementers): a `users` table (`handle`, `display_name`,
+  `email`, `bio`, `avatar`, prefs, `api_key`); `submissions.user_id` (NOT NULL,
+  replaces the old free-text `submitter`); a `status` enum; one vote per
+  `(user, submission)`. Full guidance in **`MIGRATION.md`**.
 
 ## Caveats / substitutions
 - **Fonts are Google-hosted** (Newsreader, Space Mono, Outfit) via `@import`, not

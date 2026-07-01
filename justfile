@@ -1,52 +1,75 @@
+# XbutforY justfile — house standard: run the dev stack via OVERMIND + Procfile.dev,
+# and use bin/rails binstubs. Never `rails server` / `bin/dev` directly.
 default:
-    @echo "Available commands:"
     @just --list
 
-# Start Rails server
+# Start the dev stack (overmind via Procfile.dev) — the blessed way to run locally.
 dev:
-    @bin/rails server
+    @overmind start -f Procfile.dev
 
-# Run all tests
+# Run the dev stack on a specific port
+dev-port port="3000":
+    @PORT={{port}} overmind start -f Procfile.dev
+
+# Run all tests (fast, no coverage report)
 test *paths:
     @bin/rails test {{paths}}
 
-# Run one test file
+# Run a single test file
 test-one path:
     @bin/rails test {{path}}
 
-# Run database migrations
+# Run tests with SimpleCov; enforces the coverage thresholds
+test-cov:
+    @COVERAGE=1 bin/rails test
+
+# Full CI pipeline (RuboCop + coverage + security audits)
+ci:
+    @bin/ci
+
+# Run RuboCop
+rubocop:
+    @bundle exec rubocop
+
+# Format with Prettier (Ruby, JS, CSS, etc.)
+fmt:
+    @npx prettier --write .
+
+# Check Prettier formatting
+fmt-check:
+    @npx prettier --check .
+
+# Database operations
 migrate:
     @bin/rails db:migrate
 
-# Seed the database
 seed:
     @bin/rails db:seed
 
-# Prepare database (create, migrate, seed)
 db-prepare:
     @bin/rails db:prepare
 
-# Reset database (drop, create, migrate, seed)
 db-reset:
     @bin/rails db:reset
 
-# Open Rails console
+# Rails console / db console / routes
 console:
     @bin/rails console
 
-# Open database console
 dbconsole:
     @bin/rails dbconsole
 
-# Show routes
 routes:
     @bin/rails routes
 
-# Install dependencies
+# Install dependencies + git hooks
 install:
     @bundle install
-    @just migrate
+    @npm install
+    @just hooks-install
 
-# Run Rails server on a specific port
-dev-port port="3000":
-    @bin/rails server -p {{port}}
+# Point git at tracked hooks in .githooks/ (.githooks/pre-commit → RuboCop)
+hooks-install:
+    @git config core.hooksPath .githooks
+    @chmod +x .githooks/pre-commit
+    @echo "Git hooks installed (.githooks/pre-commit → RuboCop)"

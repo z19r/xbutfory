@@ -1,14 +1,14 @@
 /* XbutforY spacing & layout. A loose 4px-ish rhythm — editorial, not rigid. */
 :root {
-  --space-1:  4px;
-  --space-2:  6px;
-  --space-3:  8px;
-  --space-4:  10px;
-  --space-5:  13px;
-  --space-6:  16px;
-  --space-7:  18px;
-  --space-8:  20px;
-  --space-9:  22px;
+  --space-1: 4px;
+  --space-2: 6px;
+  --space-3: 8px;
+  --space-4: 10px;
+  --space-5: 13px;
+  --space-6: 16px;
+  --space-7: 18px;
+  --space-8: 20px;
+  --space-9: 22px;
   --space-10: 24px;
   --space-12: 30px;
   --space-14: 34px;
@@ -17,10 +17,14 @@
   --space-20: 90px;
 
   /* Layout */
-  --content-max: 1040px; /* the single centered editorial column */
-  --page-gutter: 24px;   /* horizontal page padding */
-  --card-pad-y:  20px;
-  --card-pad-x:  22px;
-  --card-gap:    18px;   /* vote box ↔ card body */
-  --feed-gap:    16px;   /* between stacked cards */
+  --content-max: 1040px; /* the calm centered editorial column (inner reading width) */
+  --content-max-wide: 1200px; /* the maximal shell — feed + sidebar */
+  --shell-max: var(
+    --content-max-wide
+  ); /* chrome width, global: maximal is the default look */
+  --page-gutter: 24px; /* horizontal page padding */
+  --card-pad-y: 20px;
+  --card-pad-x: 22px;
+  --card-gap: 18px; /* vote box ↔ card body */
+  --feed-gap: 16px; /* between stacked cards */
 }

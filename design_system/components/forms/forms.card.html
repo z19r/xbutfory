@@ -1,4 +1,4 @@
-<!-- @dsCard group="Components" viewport="700x320" subtitle="SearchInput · SortToggle · SubmitPreview" name="Forms" -->
+<!-- @dsCard group="Components" viewport="700x430" subtitle="SearchInput · SortToggle · FormField · SubmitPreview" name="Forms" -->
 <!DOCTYPE html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="../../styles.css">
 <style>
@@ -14,8 +14,26 @@
   .pl{font-family:var(--font-mono);font-size:9px;color:var(--text-muted);display:block;margin-bottom:8px;letter-spacing:.07em}
   .pf{font-family:var(--font-display);font-size:25px;font-weight:700;line-height:1.2}
   .pf .conn{color:var(--text-soft);font-style:italic;font-weight:400;font-size:.66em}
+  .ff{margin-top:20px;max-width:380px}
+  .fl{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:7px}
+  .fll{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--text-muted)}
+  .fe{font-family:var(--font-mono);font-size:10px;color:var(--accent)}
+  .fwrap{position:relative}
+  .fpre{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:var(--font-mono);font-size:14px;color:var(--text-faint)}
+  .fin{width:100%;padding:11px 13px 11px 30px;box-sizing:border-box;background:var(--surface-sunken);border:1px solid var(--border-input);border-radius:8px;box-shadow:var(--shadow-inset);font-family:var(--font-sans);font-size:14px;color:var(--ink)}
+  .fin.err{border-color:var(--accent)}
+  .fhint{margin-top:6px;font-family:var(--font-sans);font-size:12px;font-weight:300;color:var(--text-soft)}
 </style></head><body>
   <div class="wrap"><input placeholder="Search the index…" /><span class="mag">&#9906;</span></div>
   <div style="display:flex;align-items:center;margin-top:6px"><span class="lbl">SORT</span><div class="rail"><span class="seg on">Newest</span><span class="seg">Hot</span><span class="seg">Top</span></div></div>
   <div class="preview"><span class="pl">LIVE PREVIEW</span><span class="pf">Tinder<span class="conn"> but for </span>Dog Parks</span></div>
+  <div class="ff">
+    <div class="fl"><span class="fll">HANDLE</span></div>
+    <div class="fwrap"><span class="fpre">@</span><input class="fin" value="apt_4b" /></div>
+    <div class="fhint">This is public — it's stamped on every site you submit.</div>
+  </div>
+  <div class="ff" style="margin-top:14px">
+    <div class="fl"><span class="fll">EMAIL</span><span class="fe">already registered</span></div>
+    <div class="fwrap"><input class="fin err" value="you@domain.com" /></div>
+  </div>
 </body></html>

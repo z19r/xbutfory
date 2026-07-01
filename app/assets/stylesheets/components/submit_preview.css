@@ -1,26 +1,28 @@
+/* The submit preview is the ONE dashed border in the system — it signals a draft/preview,
+   not a finished card. Never give it a card shadow. */
 .c-submit-preview {
-  background: var(--surface-card);
+  border: 1.5px dashed var(--placeholder);
+  background: var(--surface-sunken);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  padding: var(--space-lg);
-  text-align: center;
+  padding: var(--space-8) var(--card-pad-x);
+  margin-bottom: var(--space-9); /* 22 */
 }
 
 .c-submit-preview__label {
   display: block;
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
+  font-size: var(--type-micro); /* 9 */
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-3); /* 8 */
 }
 
 .c-submit-preview__formula {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2;
+  font-size: 27px;
+  line-height: 1.1;
   color: var(--ink);
   margin: 0;
 }
@@ -28,8 +30,10 @@
 .c-submit-preview__formula em {
   font-style: italic;
   font-weight: 400;
+  font-size: 0.66em;
+  color: var(--text-soft);
 }
 
 .c-submit-preview__formula--placeholder {
-  color: var(--border-default);
+  color: var(--placeholder);
 }
