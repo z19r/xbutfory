@@ -7,7 +7,47 @@ on:
     branches: [main, master]
 
 jobs:
+  lint:
+    name: Lint (RuboCop)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+      - name: RuboCop
+        run: bin/rubocop
+
+  gem-audit:
+    name: Gem audit (bundler-audit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+      - name: Bundler audit
+        run: bin/bundler-audit
+
+  brakeman:
+    name: Security (Brakeman)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+      - name: Brakeman
+        run: bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error
+
   test:
+    name: Tests
     runs-on: ubuntu-latest
 
     services:
@@ -44,5 +84,11 @@ jobs:
       - name: Set up database
         run: bin/rails db:schema:load
 
-      - name: Run CI
-        run: just ci
+      - name: Importmap vulnerability audit
+        run: bin/importmap audit
+
+      - name: Tests (with coverage)
+        run: just test-cov
+
+      - name: Seeds
+        run: env RAILS_ENV=test bin/rails db:seed:replant
