@@ -6,12 +6,13 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(email: params[:email].to_s.strip.downcase)
+    user = User.find_by_login(params[:login])
     if user&.authenticate(params[:password])
       sign_in(user)
       redirect_to after_sign_in_path, notice: "Signed in as @#{user.handle}."
     else
-      redirect_to sign_in_path, alert: "That email and password don't match."
+      redirect_to sign_in_path,
+                  alert: "That email or @handle and password don't match."
     end
   end
 

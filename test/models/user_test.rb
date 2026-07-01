@@ -13,8 +13,8 @@ class UserTest < ActiveSupport::TestCase
 
   test "handle must match the format" do
     assert_not build_user(handle: "No Spaces").valid?
-    assert_not build_user(handle: "ab").valid?              # too short
-    assert_not build_user(handle: "a" * 21).valid?          # too long
+    assert_not build_user(handle: "ab").valid? # too short
+    assert_not build_user(handle: "a" * 21).valid? # too long
     assert build_user(handle: "good_handle3").valid?
   end
 
@@ -57,15 +57,34 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "member", users(:member).to_param
   end
 
+  test "find_by_login resolves email" do
+    member = users(:member)
+    assert_equal member, User.find_by_login(member.email)
+    assert_equal member, User.find_by_login("  #{member.email.upcase}  ")
+  end
+
+  test "find_by_login resolves @handle with or without @" do
+    member = users(:member)
+    assert_equal member, User.find_by_login("@member")
+    assert_equal member, User.find_by_login("member")
+  end
+
+  test "find_by_login returns nil for blank input" do
+    assert_nil User.find_by_login("")
+    assert_nil User.find_by_login("   ")
+  end
+
   private
 
   def build_user(**overrides)
-    User.new({
-      handle: "newbie",
-      display_name: "New Bie",
-      email: "newbie@example.com",
-      password: "secret123",
-      password_confirmation: "secret123"
-    }.merge(overrides))
+    User.new(
+      {
+        handle: "newbie",
+        display_name: "New Bie",
+        email: "newbie@example.com",
+        password: "secret123",
+        password_confirmation: "secret123",
+      }.merge(overrides),
+    )
   end
 end

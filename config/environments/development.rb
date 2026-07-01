@@ -20,7 +20,9 @@ Rails.application.configure do
   if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
-    config.public_file_server.headers = { "cache-control" => "public, max-age=#{2.days.to_i}" }
+    config.public_file_server.headers = {
+      "cache-control" => "public, max-age=#{2.days.to_i}",
+    }
   else
     config.action_controller.perform_caching = false
   end
@@ -36,11 +38,17 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
+  # Run deliver_later inline so letter_opener fires without a queue worker.
+  config.active_job.queue_adapter = :inline
+
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
 
-  # Set localhost to be used by links generated in mailer templates (dev runs on 5000).
-  config.action_mailer.default_url_options = { host: "localhost", port: 5000 }
+  # Links in mailer templates (matches Procfile.dev PORT default).
+  config.action_mailer.default_url_options = {
+    host: "localhost",
+    port: ENV.fetch("PORT", 3000),
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

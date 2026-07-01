@@ -12,7 +12,9 @@ class EmptyStateComponentTest < ViewComponent::TestCase
   end
 
   test "renders action button when provided" do
-    render_inline(EmptyStateComponent.new(action: "Submit", action_url: "/submit"))
+    render_inline(
+      EmptyStateComponent.new(action: "Submit", action_url: "/submit"),
+    )
     assert_selector "a.c-btn[href='/submit']", text: "Submit"
   end
 

@@ -18,7 +18,7 @@
   --wm-size: clamp(44px, 6.6vw, 66px);
 }
 
-.c-wordmark[role="link"] {
+.c-wordmark[role='link'] {
   cursor: pointer;
 }
 
@@ -56,15 +56,30 @@
    Reuses .c-beta-burst__fill / __sheen / __label for the star visuals. */
 .c-wordmark__burst {
   position: absolute;
-  width: calc(var(--wm-size) * 1.18);
-  height: calc(var(--wm-size) * 1.18);
+  width: calc(var(--wm-size) * 0.7);
+  height: calc(var(--wm-size) * 0.6);
   top: calc(var(--wm-size) * -0.22);
-  right: calc(var(--wm-size) * -0.32);
+  right: calc(var(--wm-size) * -0.095);
   transform: rotate(12deg);
   pointer-events: none;
+}
+
+.c-wordmark__burst:hover {
+  transform: rotate(14deg);
 }
 
 .c-wordmark__burst .c-beta-burst__label {
   font-size: calc(var(--wm-size) * 1.18 * 0.27);
   transform: rotate(-19deg);
 }
+
+/* .c-wordmark__burst
+ {
+    position: absolute;
+    width: calc(var(--wm-size) * 0.7);
+    height: calc(var(--wm-size) * 0.6);
+    top: calc(var(--wm-size) * -0.22);
+    right: calc(var(--wm-size) * -0.095);
+    transform: rotate(12deg);
+    pointer-events: none;
+} */

@@ -13,8 +13,10 @@
 
     <%= form_with url: sign_in_path, method: :post, class: "c-auth-form" do %>
       <%= render FormFieldComponent.new(
-        label: "Email", name: "email", type: "email", value: params[:email],
-        placeholder: "you@domain.com", autocomplete: "email", required: true
+        label: "Email or @handle", name: "login", type: "text",
+        value: params[:login],
+        placeholder: "@member or you@domain.com",
+        autocomplete: "username", required: true
       ) %>
 
       <span data-controller="password-toggle">

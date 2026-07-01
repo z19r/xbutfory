@@ -14,11 +14,11 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 
-  test "valid credentials start a session" do
+  test "valid credentials start a session with email" do
     post sign_in_path,
          params: {
-           email: users(:member).email,
-           password: "password"
+           login: users(:member).email,
+           password: "password",
          }
     assert_redirected_to root_path
     # a gated action now succeeds without bouncing
@@ -26,11 +26,23 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "valid credentials start a session with @handle" do
+    post sign_in_path, params: { login: "@member", password: "password" }
+    assert_redirected_to root_path
+    get new_submission_path
+    assert_response :success
+  end
+
+  test "valid credentials start a session with handle without @" do
+    post sign_in_path, params: { login: "member", password: "password" }
+    assert_redirected_to root_path
+  end
+
   test "bad credentials are rejected" do
     post sign_in_path,
          params: {
-           email: users(:member).email,
-           password: "wrong"
+           login: users(:member).email,
+           password: "wrong",
          }
     assert_redirected_to sign_in_path
     follow_redirect!
@@ -44,8 +56,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to sign_in_path
     post sign_in_path,
          params: {
-           email: users(:member).email,
-           password: "password"
+           login: users(:member).email,
+           password: "password",
          }
     assert_redirected_to new_submission_path
   end
