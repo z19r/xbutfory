@@ -1,0 +1,6 @@
+# Recurring jobs for sidekiq-cron. Loaded by config/initializers/sidekiq.rb on
+# the Sidekiq server. Cron syntax is standard 5-field (min hour dom mon dow).
+weekly_digest:
+  cron: '0 9 * * 0' # every Sunday at 9:00am
+  class: 'WeeklyDigestJob'
+  queue: default

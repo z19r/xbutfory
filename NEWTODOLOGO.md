@@ -1,10 +1,11 @@
-TODO
+here is a TODO list. You are an expert RoR bug fixer. Iterate these TODO items until they are complete. Most of them aren't dependant on eachother, so use subagents as necessary. Each TODO item should be checked off when completely.
 
-- [ ] VOL. 1, ISSUE 26 that is written at the top should be mapped like:
-  - [ ] VOL. -> Major Version
-  - [ ] ISSUE -> Minor Version
-  - [ ] COR. (not there yet, short for correction) -> Patch version if > 0
-- [ ] I don't believe sidekiq is running? - [ ]
+If an agent fails, it should try again from the top of the list. Keep iterating this list until it's complete. If there are tasks that require significant input from me, try to use your best judgement. If you cannot/willnot use your best juudement, mark it as skipped, and put it at the bottom so that I can check it out with you when the res are complete.
+
+Any questions before you start?
+
+
+- [x] I don't believe sidekiq is running? — Migrated jobs from Solid Queue/inline to **Sidekiq** (Redis); worker in Procfile.dev; weekly digest via sidekiq-cron.
 - [ ] THEME should be sort of hidden, like a sliding tray in waybar. Maybe just a little < or something.
 - [ ] Afterdark should only be allowed when logged in
   - [ ] Hover/Tool tip when afterdark is disabled: 'Show NSFW (if logged out notice abouit login)'

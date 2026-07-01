@@ -38,8 +38,8 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
-  # Run deliver_later inline so letter_opener fires without a queue worker.
-  config.active_job.queue_adapter = :inline
+  # Active Job runs on Sidekiq (configured globally in application.rb); the
+  # Sidekiq worker in Procfile.dev processes deliver_later so letter_opener fires.
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
