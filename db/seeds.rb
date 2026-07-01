@@ -111,10 +111,74 @@ users_by_handle["apt_4b"]&.update_column(:admin, true)
 
 entries_data.each_with_index do |attrs, i|
   entry = Entry.find_or_initialize_by(slug: "#{attrs[:x]}-but-for-#{attrs[:y]}".parameterize)
-  entry.assign_attributes(attrs.except(:submitter)) # submitter column dropped; still used for user mapping
+  # votes_count is derived from real Vote rows below, not the editorial furniture.
+  entry.assign_attributes(attrs.except(:submitter, :votes_count))
   entry.user = users_by_handle.fetch(attrs[:submitter])
   entry.save!
   entry.update_columns(created_at: (entries_data.length - i).hours.ago) if entry.created_at > 1.hour.ago
 end
 
-puts "Seeded #{User.count} users, #{Category.count} categories and #{Entry.count} entries."
+# --- A voter pool + real votes ----------------------------------------------
+# Back every tally with actual, de-duplicated Vote rows so votes_count reflects
+# real votes rather than an invented integer. Source popularity is preserved by
+# scaling into a realistic range; insert_all skips the milestone callback so
+# seeding stays quiet and fast, and reset_counters makes votes_count exact.
+voter_pool = (1..240).map do |n|
+  handle = format("voter%03d", n)
+  user = User.find_or_initialize_by(handle: handle)
+  user.display_name ||= "Reader ##{n}"
+  user.email ||= "#{handle}@xbutfory.example"
+  user.password = SEED_PASSWORD if user.new_record?
+  user.save!
+  user
+end
+all_voters = (voter_pool + users_by_handle.values).uniq
+max_furniture = entries_data.map { |attrs| attrs[:votes_count].to_i }.max.to_f
+
+Vote.delete_all
+now = Time.current
+entries_data.each do |attrs|
+  entry = Entry.find_by!(slug: "#{attrs[:x]}-but-for-#{attrs[:y]}".parameterize)
+  target = [((attrs[:votes_count].to_i / max_furniture) * 220).round + rand(6), all_voters.length].min
+  next if target.zero?
+
+  rows =
+    all_voters
+      .sample(target)
+      .each_with_index
+      .map { |voter, j| { user_id: voter.id, entry_id: entry.id, created_at: (target - j).hours.ago, updated_at: now } }
+  Vote.insert_all(rows)
+end
+Entry.find_each { |entry| Entry.reset_counters(entry.id, :votes) }
+
+# --- Moderation queue fixtures ----------------------------------------------
+# A few non-live submissions so the editor queue has something to triage in dev
+# without thinning the public feed.
+moderation_data = [
+  { x: "Superhuman", y: "breakup texts", name: "Kindly", tagline: "Inbox zero for ending things.",
+    description: "Keyboard-fast, template-driven breakup messages with read receipts you can finally turn off.",
+    why: "The hardest message anyone sends deserves the speed obsession Superhuman gave the easy ones.",
+    submitter: "uncle_thread", category: "social", status: "pending" },
+  { x: "Roam", y: "dream journals", name: "Somnote", tagline: "A networked graph of last night.",
+    description: "Bidirectional links between recurring dreams, so the falling one finally connects to the teeth one.",
+    why: "Dreams are inherently associative; a graph is the only honest place to keep them.",
+    submitter: "deepstate_pm", category: "saas", status: "pending" },
+  { x: "Twitch", y: "competitive napping", name: "Snorestream", tagline: "Live, but barely.",
+    description: "Watch strangers nap in real time. Subscriber emotes are all variations of 'zzz'.",
+    why: "Slow TV proved people will watch stillness. Add a leaderboard and it's a sport.",
+    submitter: "spin_to_win", category: "social", status: "needs_edits",
+    reviewer_note: "Strong bit. Tighten the pitch to one paragraph and settle on a single category before we can list it." },
+  { x: "Substack", y: "ransom demands", name: "Payload", tagline: "Monetize your leverage.",
+    description: "Paid newsletters for people with leverage. Free tier gets the demand; paid tier gets the deadline.",
+    why: "Withdrawn by the submitter after a quiet word from counsel.",
+    submitter: "design_criminal", category: "saas", status: "withdrawn" },
+]
+
+moderation_data.each do |attrs|
+  entry = Entry.find_or_initialize_by(slug: "#{attrs[:x]}-but-for-#{attrs[:y]}".parameterize)
+  entry.assign_attributes(attrs.except(:submitter))
+  entry.user = users_by_handle.fetch(attrs[:submitter])
+  entry.save!
+end
+
+puts "Seeded #{User.count} users, #{Category.count} categories, #{Entry.count} entries and #{Vote.count} votes."
