@@ -114,4 +114,27 @@ class EntryTest < ActiveSupport::TestCase
     entry.tier = 'free'
     assert_not entry.featured?
   end
+
+  test 'rejects a url with a non-http(s) scheme' do
+    entry =
+      Entry.new(x: 'Acme', y: 'ants', user: @user, url: 'javascript:alert(1)')
+    assert_not entry.valid?
+    assert_includes entry.errors[:url], 'must start with http:// or https://'
+  end
+
+  test 'allows http(s) urls and a blank url' do
+    assert Entry.new(
+             x: 'A',
+             y: 'b',
+             user: @user,
+             url: 'https://ok.example',
+           ).valid?
+    assert Entry.new(
+             x: 'A',
+             y: 'b',
+             user: @user,
+             url: 'http://ok.example',
+           ).valid?
+    assert Entry.new(x: 'A', y: 'b', user: @user, url: '').valid?
+  end
 end

@@ -73,6 +73,26 @@ class FeaturedPurchaseTest < ActiveSupport::TestCase
     assert_equal 'https://c/9', result.checkout_url
   end
 
+  test 'a member can only redeem the konami coupon once' do
+    first = purchase(coupon: KonamiCoupon::CODE).call
+    assert_equal :granted, first.outcome
+
+    second = nil
+    stub_method(
+      Stripe::Checkout::Session,
+      :create,
+      fake_session(id: 'cs_dup', url: 'https://c/dup'),
+    ) { second = purchase(coupon: KonamiCoupon::CODE).call }
+
+    assert_equal :coupon_spent, second.outcome
+    assert_equal 1,
+                 users(:member)
+                   .payments
+                   .where(coupon_code: KonamiCoupon::CODE)
+                   .count,
+                 'the free coupon must not be granted twice'
+  end
+
   test 'without Stripe keys the paid path reports unconfigured instead of erroring' do
     Stripe.api_key = nil
     result = nil

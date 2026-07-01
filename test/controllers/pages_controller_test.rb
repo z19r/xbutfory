@@ -139,4 +139,23 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "[data-controller='konami']"
     assert_select '.c-konami__modal'
   end
+
+  test 'home feed excludes non-live entries' do
+    Entry.create!(
+      x: 'Ghostwriter',
+      y: 'unpublished drafts',
+      url: 'https://example.com',
+      user: users(:member),
+      category: 'saas',
+      status: 'pending',
+      votes_count: 9,
+    )
+
+    get root_url
+
+    assert_response :success
+    assert_not_includes response.body,
+                        'Ghostwriter',
+                        'pending listing must not appear on the public feed'
+  end
 end

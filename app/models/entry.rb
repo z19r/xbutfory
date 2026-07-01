@@ -21,6 +21,14 @@ class Entry < ApplicationRecord
   validates :x, :y, :slug, presence: true
   validates :slug, uniqueness: true
   validates :tier, inclusion: { in: TIERS }
+  # The URL is rendered straight into a `link_to` href. Constrain it to http(s)
+  # so a submitted `javascript:`/`data:` scheme can't ride into the markup.
+  validates :url,
+            format: {
+              with: %r{\Ahttps?://}i,
+              message: 'must start with http:// or https://',
+            },
+            allow_blank: true
 
   # A human submitting a listing must pitch it in one line. Enforced only when
   # the controller sets require_pitch, so seeds/imports/back-office creates are

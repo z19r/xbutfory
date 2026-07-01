@@ -7,7 +7,7 @@ class Category < ApplicationRecord
   # Categories with their entry count and a "source apps" sample (top product names),
   # computed in two queries (no N+1). Respects After Dark via include_nsfw.
   def self.with_stats(include_nsfw: false)
-    scope = include_nsfw ? Entry.all : Entry.sfw
+    scope = include_nsfw ? Entry.live : Entry.live.sfw
     counts = scope.group(:category).count
     samples =
       scope

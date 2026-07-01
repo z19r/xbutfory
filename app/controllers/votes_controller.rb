@@ -1,6 +1,4 @@
 class VotesController < ApplicationController
-  skip_forgery_protection
-
   # One vote per member per entry; clicking again toggles it off. Voting requires a
   # session — logged-out clicks get a 401 the Stimulus controller turns into a prompt.
   def create
