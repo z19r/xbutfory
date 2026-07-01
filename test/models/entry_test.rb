@@ -181,4 +181,16 @@ class EntryTest < ActiveSupport::TestCase
            ).valid?
     assert Entry.new(x: 'A', y: 'b', user: @user, url: '').valid?
   end
+
+  test 'rejects a url that smuggles a second line past the scheme' do
+    entry =
+      Entry.new(
+        x: 'A',
+        y: 'b',
+        user: @user,
+        url: "https://ok.example\njavascript:alert(1)",
+      )
+    assert_not entry.valid?
+    assert_includes entry.errors[:url], 'must start with http:// or https://'
+  end
 end

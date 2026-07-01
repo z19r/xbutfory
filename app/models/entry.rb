@@ -22,7 +22,9 @@ class Entry < ApplicationRecord
 
     # Admin publishes a queued submission and clears any review note.
     event :approve do
-      transitions from: %i[pending needs_edits], to: :live, after: :clear_reviewer_note
+      transitions from: %i[pending needs_edits],
+                  to: :live,
+                  after: :clear_reviewer_note
     end
 
     # Admin bounces it back for edits (note set by the controller).
@@ -48,11 +50,13 @@ class Entry < ApplicationRecord
   validates :x, :y, :slug, presence: true
   validates :slug, uniqueness: true
   validates :tier, inclusion: { in: TIERS }
-  # The URL is rendered straight into a `link_to` href. Constrain it to http(s)
-  # so a submitted `javascript:`/`data:` scheme can't ride into the markup.
+  # The URL is rendered straight into a `link_to` href. Constrain it to a single
+  # http(s) token — fully anchored (\A…\z) and whitespace-free so a `javascript:`
+  # scheme can't ride in and a trailing newline can't smuggle a second line past
+  # the start anchor.
   validates :url,
             format: {
-              with: %r{\Ahttps?://}i,
+              with: %r{\Ahttps?://\S+\z}i,
               message: 'must start with http:// or https://',
             },
             allow_blank: true
