@@ -15,7 +15,7 @@ Any questions before you start?
   - [x] Never sent plaintext email, delete them — removed all `.text.erb` mailer templates + the text layout; mailers are HTML-only.
 - [ ] All the fake sites need to be removed and replaced with the sites in the jsob blob in @xbutfory.json
 - [x] Modal should pop up when attempting to vote logged out, not toast — `auth_modal` Stimulus controller + dialog in layout (signed-out only); vote_controller dispatches `auth-modal:open` on 401 instead of a toast.
-- [ ] Weekly Digest -> if logged in, email should be prefilled, but editable
+- [x] Weekly Digest -> if logged in, email should be prefilled, but editable — DigestSignupComponent takes `prefill_email`; home passes `current_user&.email`. Field stays editable.
 - [x] Submission needs to be disabled when email is not confirmed — `require_confirmed_email` before_action on new/create/edit/update; unconfirmed users bounce to home with a "confirm your email" alert.
 - [~] The X's should be static and defined by admin only — **spec'd as a self-contained Ralph-loop project in `approval_flow/`** (PROMPT.md + PRD + architecture + task_list). Big multi-part feature; deferred to its own loop per your call. Run `/ralph-loop` against `approval_flow/PROMPT.md` to build it.
   - [~] They should be shown in a typical dropdown (spec'd)

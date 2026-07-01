@@ -10,6 +10,16 @@ class DigestSignupComponentTest < ViewComponent::TestCase
     assert_selector 'button.c-digest__cta', text: 'Subscribe'
   end
 
+  test 'prefills the email field when given a value' do
+    render_inline(DigestSignupComponent.new(prefill_email: 'reader@example.com'))
+    assert_selector "input.c-digest__input[value='reader@example.com']"
+  end
+
+  test 'leaves the email field empty when no prefill is given' do
+    render_inline(DigestSignupComponent.new)
+    assert_no_selector 'input.c-digest__input[value]'
+  end
+
   test 'gel cta by default; flat when gel is false' do
     render_inline(DigestSignupComponent.new)
     assert_selector '.c-digest__cta--gel'

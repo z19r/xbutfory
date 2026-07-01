@@ -7,12 +7,14 @@ class DigestSignupComponent < ViewComponent::Base
     pitch: 'The 10 best new “X but for Y” sites, every Sunday. No spam, no tracking.',
     placeholder: 'you@domain.com',
     cta: 'Subscribe',
-    gel: true
+    gel: true,
+    prefill_email: nil
   )
     @title = title
     @pitch = pitch
     @placeholder = placeholder
     @cta = cta
     @gel = gel
+    @prefill_email = prefill_email
   end
 end

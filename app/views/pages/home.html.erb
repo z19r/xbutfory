@@ -75,7 +75,7 @@
       <%= render TagCloudComponent.new(tags: @tag_cloud) %>
     </section>
 
-    <%= render DigestSignupComponent.new %>
+    <%= render DigestSignupComponent.new(prefill_email: current_user&.email) %>
 
     <section class="l-rail__card">
       <div class="l-rail__title">IN THE INDEX</div>
