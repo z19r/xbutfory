@@ -4,6 +4,8 @@ If an agent fails, it should try again from the top of the list. Keep iterating 
 
 Any questions before you start?
 
+> **STATUS (2026-07-01):** 10 of 12 items shipped on branch `fix/punch-list`, each with tests; full suite 305/0. Two items are parked at the bottom and **need you** — see "STILL NEEDS YOU" at the end.
+
 
 - [x] I don't believe sidekiq is running? — Migrated jobs from Solid Queue/inline to **Sidekiq** (Redis); worker in Procfile.dev; weekly digest via sidekiq-cron.
 - [x] THEME should be sort of hidden, like a sliding tray in waybar. Maybe just a little < or something. — accent swatches now live in a collapsed tray behind a small `‹` chevron that slides them open (theme_controller#toggleTray; rotates on open; respects reduced-motion).
@@ -25,3 +27,12 @@ Any questions before you start?
     - [~] each needs to trigger an email to the OP (spec'd)
 - [x] One line pitch should not be optional — `description` now required on submit (via `require_pitch` flag so seeds/imports stay free); form relabeled, field `required`.
   - [x] offer option to auto generate with AI/GPT — "Auto-generate with AI" button → `PitchGenerator` (Claude `claude-haiku-4-5`) via POST /pitch; graceful degrade (friendly error) when `ANTHROPIC_API_KEY` is unset.
+
+---
+
+## STILL NEEDS YOU (the two parked items)
+
+- **[~] Replace fake sites (#7 in list):** loader is built + tested (`SiteImporter`, `rake sites:import`, auto-runs from `db/seeds`). **Drop `xbutfory.json` at the repo root**, then run `rake sites:import`. Expected JSON shape is documented at the top of `app/services/site_importer.rb`.
+- **[~] Admin-managed X's + Suggest-New approval flow (#11 in list):** by your call, this big multi-part feature was written up as a self-contained Ralph-loop project in **`approval_flow/`** (PROMPT.md + PRD + architecture + task_list) rather than built inline. To build it: `/ralph-loop` against `approval_flow/PROMPT.md`.
+
+Everything else is done, tested, and committed on `fix/punch-list`.
