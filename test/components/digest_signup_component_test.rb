@@ -18,8 +18,9 @@ class DigestSignupComponentTest < ViewComponent::TestCase
     assert_no_selector ".c-digest__cta--gel"
   end
 
-  test "subscribe is wired to the controller action" do
+  test "subscribe posts to the digest endpoint and reports back via the controller" do
     render_inline(DigestSignupComponent.new)
-    assert_selector "form.c-digest__form[data-action='submit->digest-signup#subscribe']"
+    assert_selector "form.c-digest__form[action='/digest'][method='post']"
+    assert_selector "form.c-digest__form[data-action='turbo:submit-end->digest-signup#subscribed']"
   end
 end

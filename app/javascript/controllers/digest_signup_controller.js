@@ -1,14 +1,19 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Weekly-digest capture. No backend yet (Part 1 is visual): on submit we optimistically
-// confirm via the global toast and reset the field. Wire to a real endpoint later.
+// Weekly-digest capture. The form posts to DigestSubscriptionsController via Turbo;
+// we react to the result here — confirm via the global toast and reset the field.
 export default class extends Controller {
   static targets = ["email"]
 
-  subscribe(event) {
-    event.preventDefault()
-    const email = this.hasEmailTarget ? this.emailTarget.value.trim() : ""
-    if (!email) return
+  subscribed(event) {
+    if (!event.detail.success) {
+      document.dispatchEvent(
+        new CustomEvent("toast:show", {
+          detail: { message: "That email didn't look right. Try again?" }
+        })
+      )
+      return
+    }
 
     document.dispatchEvent(
       new CustomEvent("toast:show", {

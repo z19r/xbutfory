@@ -3,16 +3,15 @@
     <div class="c-digest__title"><%= @title %></div>
   <% end %>
   <p class="c-digest__pitch"><%= @pitch %></p>
-  <form class="c-digest__form" data-action="submit->digest-signup#subscribe">
-    <input
-      type="email"
-      name="email"
-      class="c-digest__input"
-      placeholder="<%= @placeholder %>"
-      autocomplete="email"
-      data-digest-signup-target="email"
-      required
-    >
+  <%= form_with url: helpers.digest_subscriptions_path,
+                class: "c-digest__form",
+                data: { action: "turbo:submit-end->digest-signup#subscribed" } do |f| %>
+    <%= f.email_field :email,
+          class: "c-digest__input",
+          placeholder: @placeholder,
+          autocomplete: "email",
+          required: true,
+          data: { digest_signup_target: "email" } %>
     <button type="submit" class="c-digest__cta <%= 'c-digest__cta--gel' if @gel %>"><%= @cta %></button>
-  </form>
+  <% end %>
 </section>

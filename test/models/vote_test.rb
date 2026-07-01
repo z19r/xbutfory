@@ -1,6 +1,8 @@
 require "test_helper"
 
 class VoteTest < ActiveSupport::TestCase
+  include ActionMailer::TestHelper
+
   test "belongs to entry and user" do
     vote = votes(:one)
     assert_instance_of Entry, vote.entry
@@ -38,5 +40,47 @@ class VoteTest < ActiveSupport::TestCase
     count_after_create = entry.reload.votes_count
     vote.destroy
     assert_equal count_after_create - 1, entry.reload.votes_count
+  end
+
+  # --- Milestone notifications ---
+
+  def milestone_owner(**attrs)
+    User.create!(
+      { handle: "owner1", email: "owner1@example.com", display_name: "Owner",
+        password: "password", milestone_notifications: true }.merge(attrs),
+    )
+  end
+
+  def entry_owned_by(owner, votes_count:)
+    Entry.create!(user: owner, x: "Uber", y: "llamas", tier: "free", votes_count: votes_count)
+  end
+
+  test "a vote that lands the tally on a milestone emails the owner" do
+    entry = entry_owned_by(milestone_owner, votes_count: 9)
+    assert_enqueued_emails 1 do
+      Vote.create!(user: users(:member), entry: entry)
+    end
+    assert_equal 10, entry.reload.votes_count
+  end
+
+  test "a vote that does not hit a milestone stays quiet" do
+    entry = entry_owned_by(milestone_owner, votes_count: 5)
+    assert_no_enqueued_emails do
+      Vote.create!(user: users(:member), entry: entry)
+    end
+  end
+
+  test "owners who opted out of milestone notifications are not emailed" do
+    entry = entry_owned_by(milestone_owner(milestone_notifications: false), votes_count: 9)
+    assert_no_enqueued_emails do
+      Vote.create!(user: users(:member), entry: entry)
+    end
+  end
+
+  test "the legacy placeholder owner is never emailed" do
+    entry = entry_owned_by(users(:legacy), votes_count: 9)
+    assert_no_enqueued_emails do
+      Vote.create!(user: users(:member), entry: entry)
+    end
   end
 end

@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   get "confirm_email/:token", to: "confirmations#show", as: :confirm_email
   post "confirm_email", to: "confirmations#create", as: :resend_confirmation
 
+  post "digest", to: "digest_subscriptions#create", as: :digest_subscriptions
+  get "digest/unsubscribe/:token", to: "digest_subscriptions#destroy", as: :digest_unsubscribe
+
   get "password/reset", to: "passwords#new", as: :new_password_reset
   post "password/reset", to: "passwords#create", as: :password_reset
   get "password/reset/:token/edit", to: "passwords#edit", as: :edit_password_reset
