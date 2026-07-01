@@ -1,2 +1,2 @@
-web: bin/rails server -p ${PORT:-3000}
+web: bin/rails server -p ${APP_PORT:-3000}
 worker: bundle exec sidekiq -C config/sidekiq.yml

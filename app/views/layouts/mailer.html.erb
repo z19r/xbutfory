@@ -1,13 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light only" />
+    <title><%= message.subject %></title>
     <style>
-      /* Email styles need to be inline */
+      /* Progressive enhancement — clients that support it get the real faces;
+         everyone else falls back to the web-safe stacks inlined below. */
+      @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,500;0,600;1,500&family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;600&display=swap');
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @media (max-width: 600px) {
+        .xy-card {
+          width: 100% !important;
+        }
+        .xy-pad {
+          padding-left: 24px !important;
+          padding-right: 24px !important;
+        }
+      }
     </style>
   </head>
-
-  <body>
-    <%= yield %>
+  <body style="margin: 0; padding: 0; background-color: #f3ede3;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f3ede3;">
+      <tr>
+        <td align="center" style="padding: 32px 16px;">
+          <table role="presentation" class="xy-card" width="560" cellpadding="0" cellspacing="0" border="0" style="width: 560px; max-width: 560px; background-color: #fbf7ef; border: 1px solid #e4dac9; border-radius: 10px;">
+            <!-- Masthead: the sacred formula, under an ink rule. -->
+            <tr>
+              <td class="xy-pad" style="padding: 26px 40px 14px 40px;">
+                <div style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 27px; line-height: 1; color: #171008; border-bottom: 2px solid #171008; padding-bottom: 14px;">
+                  X <em style="font-style: italic; color: #c93b1b;">but for</em> Y
+                </div>
+              </td>
+            </tr>
+            <!-- Content -->
+            <tr>
+              <td class="xy-pad" style="padding: 22px 40px 10px 40px; font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 16px; line-height: 1.55; color: #171008;">
+                <%= yield %>
+              </td>
+            </tr>
+            <!-- Footer furniture -->
+            <tr>
+              <td class="xy-pad" style="padding: 18px 40px 26px 40px;">
+                <div style="border-top: 1px solid #e4dac9; padding-top: 16px; font-family: 'Space Mono', 'Courier New', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #8a7a63;">
+                  XbutforY &middot; Est. 2026 &middot; a hand-curated index of &ldquo;X but for Y&rdquo;
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>

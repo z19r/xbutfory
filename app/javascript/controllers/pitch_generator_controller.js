@@ -46,6 +46,8 @@ export default class extends Controller {
   }
 
   toast(message) {
-    document.dispatchEvent(new CustomEvent('toast:show', { detail: { message } }));
+    document.dispatchEvent(
+      new CustomEvent('toast:show', { detail: { message } })
+    );
   }
 }
