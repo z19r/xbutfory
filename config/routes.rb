@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   post "digest", to: "digest_subscriptions#create", as: :digest_subscriptions
   get "digest/unsubscribe/:token", to: "digest_subscriptions#destroy", as: :digest_unsubscribe
 
+  get "sitemap.xml", to: "sitemaps#show", defaults: { format: "xml" }, as: :sitemap
+
   get "password/reset", to: "passwords#new", as: :new_password_reset
   post "password/reset", to: "passwords#create", as: :password_reset
   get "password/reset/:token/edit", to: "passwords#edit", as: :edit_password_reset

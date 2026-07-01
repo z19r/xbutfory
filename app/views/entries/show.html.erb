@@ -1,4 +1,6 @@
 <% content_for :title, "#{@entry.title} — XbutforY" %>
+<% content_for :og_type, "article" %>
+<% content_for :meta_description, @entry.description.presence || "#{@entry.title} — an “X, but for Y” launch, indexed and put to a vote on XbutforY." %>
 
 <article class="c-detail" data-controller="vote" data-vote-entry-id-value="<%= @entry.id %>" data-vote-voted-value="<%= @voted %>" data-vote-active-class="c-detail__vbtn--on">
   <%= link_to "← All entries", root_path, class: "c-detail__back" %>

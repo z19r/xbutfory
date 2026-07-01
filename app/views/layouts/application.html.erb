@@ -2,8 +2,9 @@
 <% accent = UtilityBarComponent.resolve_accent(cookies[:accent]) %>
 <html style="--accent: var(--accent-<%= accent[:key] %>)">
   <head>
-    <title><%= content_for(:title) || "XbutforY" %></title>
+    <title><%= page_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= social_meta_tags %>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="XbutforY">
     <meta name="mobile-web-app-capable" content="yes">
