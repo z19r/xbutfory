@@ -73,13 +73,17 @@ class SiteImporter
         user.email = 'curated@xbutfory.example'
         user.display_name = 'XbutforY'
         user.password = SecureRandom.hex(16)
+        user.state = 'confirmed'
         user.confirmed_at = Time.current
       end
   end
 
   def create_entry!(attrs)
     x = attrs['x']
-    product = x.present? ? Product.for_name(x, url: attrs['x_url']) : nil
+    product =
+      if x.present?
+        Product.for_name(x, url: attrs['x_url'], approved: true)
+      end
 
     curator.entries.create!(
       x: x,

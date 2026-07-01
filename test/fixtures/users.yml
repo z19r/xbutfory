@@ -42,6 +42,7 @@ member:
   password_digest: <%= password %>
   api_key: <%= SecureRandom.hex(24) %>
   confirmed_at: <%= 3.days.ago %>
+  state: confirmed
 
 unconfirmed:
   handle: unconfirmed

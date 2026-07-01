@@ -1,9 +1,31 @@
 class User < ApplicationRecord
+  include AASM
+
   has_secure_password
 
   has_many :entries, dependent: :restrict_with_exception
   has_many :votes, dependent: :destroy
   has_many :payments, dependent: :destroy
+
+  # Account lifecycle. `confirm` stamps confirmed_at; suspension is an admin
+  # action a confirmed account can be pulled into and out of.
+  aasm column: :state do
+    state :unconfirmed, initial: true
+    state :confirmed
+    state :suspended
+
+    event :confirm do
+      transitions from: :unconfirmed, to: :confirmed, after: :stamp_confirmed_at
+    end
+
+    event :suspend do
+      transitions from: %i[confirmed unconfirmed], to: :suspended
+    end
+
+    event :reinstate do
+      transitions from: :suspended, to: :confirmed
+    end
+  end
 
   has_one_attached :avatar
 
@@ -30,14 +52,6 @@ class User < ApplicationRecord
   # Email-confirmation token (2 days); embeds the email so it's void if the address changes.
   generates_token_for :email_confirmation, expires_in: 2.days do
     email
-  end
-
-  def confirmed?
-    confirmed_at.present?
-  end
-
-  def confirm!
-    update_column(:confirmed_at, Time.current) unless confirmed?
   end
 
   # Public @handle: lowercase letters, digits, underscores; 3–20 chars; permanent.
@@ -81,6 +95,11 @@ class User < ApplicationRecord
   end
 
   private
+
+  # Record when the email was confirmed (audit); AASM persists it with the state.
+  def stamp_confirmed_at
+    self.confirmed_at = Time.current
+  end
 
   def normalize_handle
     self.handle = handle.to_s.strip.downcase.presence

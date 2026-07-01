@@ -41,6 +41,7 @@ class SiteImporterTest < ActiveSupport::TestCase
     airbnb = Product.find_by!(name: 'Airbnb')
     assert_equal 'https://airbnb.com', airbnb.url
     assert_equal 'airbnb', airbnb.slug
+    assert airbnb.approved?, 'curated X\'s are approved on import'
 
     swimply = Entry.find_by!(x: 'Airbnb', y: 'swimming pools')
     assert_equal airbnb, swimply.product

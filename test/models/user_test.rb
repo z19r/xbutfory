@@ -5,6 +5,36 @@ class UserTest < ActiveSupport::TestCase
     assert users(:member).valid?
   end
 
+  test 'new users start unconfirmed' do
+    assert build_user.unconfirmed?
+    assert_not build_user.confirmed?
+  end
+
+  test 'confirm transitions to confirmed and stamps confirmed_at' do
+    user = build_user(email: 'newbie@example.com', handle: 'newbie')
+    user.save!
+    assert_nil user.confirmed_at
+
+    user.confirm!
+
+    assert user.confirmed?
+    assert_not_nil user.confirmed_at
+  end
+
+  test 'a confirmed account cannot confirm again' do
+    assert_not users(:member).may_confirm?
+  end
+
+  test 'suspend and reinstate move between confirmed and suspended' do
+    user = users(:member)
+    user.suspend!
+    assert user.suspended?
+    assert_not user.confirmed?
+
+    user.reinstate!
+    assert user.confirmed?
+  end
+
   test 'requires a handle' do
     user = build_user(handle: nil)
     assert_not user.valid?
