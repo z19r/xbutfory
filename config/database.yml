@@ -84,18 +84,30 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+# With DATABASE_URL set (Render), primary/cache/cable all share that one
+# database — Solid Cache/Cable tables are namespaced, so they coexist.
+# Without it (Kamal + Postgres accessory), each config gets its own
+# database via the POSTGRES_* env.
 production:
   primary: &primary_production
     <<: *default
+<% if ENV["DATABASE_URL"] %>
+    url: <%= ENV["DATABASE_URL"] %>
+<% else %>
     host: <%= ENV.fetch("DB_HOST", "localhost") %>
     database: <%= ENV.fetch("POSTGRES_DB", "xbutfory_production") %>
     username: <%= ENV.fetch("POSTGRES_USER", "xbutfory") %>
     password: <%= ENV["POSTGRES_PASSWORD"] %>
+<% end %>
   cache:
     <<: *primary_production
+<% unless ENV["DATABASE_URL"] %>
     database: xbutfory_production_cache
+<% end %>
     migrations_paths: db/cache_migrate
   cable:
     <<: *primary_production
+<% unless ENV["DATABASE_URL"] %>
     database: xbutfory_production_cable
+<% end %>
     migrations_paths: db/cable_migrate
