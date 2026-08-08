@@ -1,6 +1,4 @@
-class Admin::SubmissionsController < ApplicationController
-  before_action :require_admin
-
+class Admin::SubmissionsController < Admin::BaseController
   STATUSES = %w[pending needs_edits live withdrawn].freeze
 
   def index

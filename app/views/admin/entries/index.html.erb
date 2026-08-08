@@ -1,0 +1,92 @@
+<% content_for :title, "Listings — XbutforY back office" %>
+<% content_for :nav_tab, "none" %>
+<%
+  status_labels = {
+    "live" => "Live", "pending" => "Pending",
+    "needs_edits" => "Needs edits", "withdrawn" => "Withdrawn"
+  }
+%>
+
+<%= render "admin/shared/nav", title: "Listings", section: :entries %>
+
+<%= form_with url: admin_entries_path, method: :get, class: "l-admin__filterbar" do %>
+  <input type="search" name="q" value="<%= @query %>" placeholder="Search X, Y or pitch…"
+         class="l-admin__search" aria-label="Search listings">
+  <select name="status" class="l-admin__select" aria-label="Filter by status">
+    <option value="">Any status</option>
+    <% Admin::EntriesController::STATUSES.each do |s| %>
+      <option value="<%= s %>" <%= "selected" if @status == s %>><%= status_labels[s] %></option>
+    <% end %>
+  </select>
+  <select name="tier" class="l-admin__select" aria-label="Filter by tier">
+    <option value="">Any tier</option>
+    <% Entry::TIERS.each do |t| %>
+      <option value="<%= t %>" <%= "selected" if @tier == t %>><%= t.titleize %></option>
+    <% end %>
+  </select>
+  <%= render ButtonComponent.new(variant: "secondary", size: "sm", type: "submit") do %>Filter<% end %>
+<% end %>
+
+<div class="l-manage__list">
+  <% if @entries.empty? %>
+    <p class="l-admin__empty">Nothing matches. Either the filter is too clever or the site is.</p>
+  <% end %>
+
+  <% @entries.each do |entry| %>
+    <article class="c-sub">
+      <div class="c-sub__votes">
+        <span class="c-sub__votes-num"><%= number_with_delimiter(entry.votes_count) %></span>
+        <span class="c-sub__votes-label">VOTES</span>
+      </div>
+
+      <div class="c-sub__body">
+        <div class="c-sub__meta">
+          <span class="c-sub__pill c-sub__pill--<%= entry.status %>"><%= status_labels[entry.status] %></span>
+          <% if entry.featured? %><span class="c-sub__pill c-sub__pill--featured">FEATURED</span><% end %>
+          <% if entry.sponsored.present? %>
+            <span class="c-sub__pill c-sub__pill--sponsored"><%= entry.sponsored.upcase %></span>
+          <% end %>
+          <% if entry.nsfw? %><span class="c-sub__pill c-sub__pill--withdrawn">AFTER DARK</span><% end %>
+          <span class="c-sub__ago">by @<%= entry.user.handle %> &middot; <%= time_ago_in_words(entry.created_at) %> ago</span>
+        </div>
+        <%= link_to entry_path(entry.slug), class: "c-sub__title" do %>
+          <%= entry.x %> <i>but for</i> <%= entry.y %>
+        <% end %>
+        <% if entry.description.present? %>
+          <p class="l-admin__desc"><%= entry.description %></p>
+        <% end %>
+      </div>
+
+      <div class="c-sub__actions l-admin__actions">
+        <% if entry.may_withdraw? %>
+          <%= button_to "Pull listing", pull_admin_entry_path(entry.id), method: :patch,
+                class: "c-sub__action c-sub__action--muted" %>
+        <% end %>
+        <% if entry.may_restore? %>
+          <%= button_to "Restore", restore_admin_entry_path(entry.id), method: :patch,
+                class: "c-sub__action c-sub__action--accent" %>
+        <% end %>
+        <% if entry.featured? %>
+          <%= button_to "Unfeature", unfeature_admin_entry_path(entry.id), method: :patch,
+                class: "c-sub__action" %>
+        <% else %>
+          <%= button_to "Feature", feature_admin_entry_path(entry.id), method: :patch,
+                class: "c-sub__action" %>
+        <% end %>
+        <details class="l-admin__reqedits">
+          <summary class="c-sub__action">Sponsor slot</summary>
+          <div class="l-admin__reqform">
+            <%= button_to "Pin to top", promote_admin_entry_path(entry.id, placement: "pinned"),
+                  method: :patch, class: "c-sub__action" %>
+            <%= button_to "Spotlight", promote_admin_entry_path(entry.id, placement: "spotlight"),
+                  method: :patch, class: "c-sub__action" %>
+            <% if entry.sponsored.present? %>
+              <%= button_to "Clear slot", promote_admin_entry_path(entry.id, placement: "none"),
+                    method: :patch, class: "c-sub__action c-sub__action--muted" %>
+            <% end %>
+          </div>
+        </details>
+      </div>
+    </article>
+  <% end %>
+</div>

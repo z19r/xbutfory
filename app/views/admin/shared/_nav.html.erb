@@ -1,0 +1,18 @@
+<header class="l-manage__head">
+  <div class="l-manage__eyebrow">BACK OFFICE</div>
+  <h1 class="l-manage__title"><%= title %></h1>
+  <div class="l-manage__rule"></div>
+</header>
+
+<nav class="l-manage__filters l-admin__nav" aria-label="Admin sections">
+  <%= link_to "Dashboard", admin_root_path,
+        class: "l-manage__pill #{'l-manage__pill--active' if section == :dashboard}" %>
+  <%= link_to "Queue", admin_submissions_path,
+        class: "l-manage__pill #{'l-manage__pill--active' if section == :submissions}" %>
+  <%= link_to "Listings", admin_entries_path,
+        class: "l-manage__pill #{'l-manage__pill--active' if section == :entries}" %>
+  <%= link_to "Members", admin_users_path,
+        class: "l-manage__pill #{'l-manage__pill--active' if section == :users}" %>
+  <%= link_to "Money", admin_payments_path,
+        class: "l-manage__pill #{'l-manage__pill--active' if section == :payments}" %>
+</nav>
