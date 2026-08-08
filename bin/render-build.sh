@@ -6,9 +6,12 @@ set -o errexit
 
 bundle install
 
+# SECRET_KEY_BASE_DUMMY lets asset tasks boot the app without decrypting
+# credentials (same trick the Rails 8 Dockerfile uses) — the real
+# RAILS_MASTER_KEY is still required at runtime.
 mkdir -p public/assets
-bundle exec rails assets:clean
-bundle exec rails assets:precompile
+SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:clean
+SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 bundle exec rails tmp:clear
 bundle exec rails log:clear
