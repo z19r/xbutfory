@@ -18,7 +18,7 @@
 # them before each deploy goes live.
 
 projects:
-  - name: Z19R
+  - name: xbutfory
     environments:
       - name: production
         databases:
