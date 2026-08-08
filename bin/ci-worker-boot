@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#
+# Boots the real Sidekiq worker and fails unless it is still alive after
+# BOOT_SECONDS. The unit and system suites never start a worker, so an
+# initializer that only breaks under Sidekiq — an app/ constant referenced
+# before Zeitwerk is ready, a bad Redis URL, an unparseable cron schedule —
+# passes every other check and only surfaces on deploy.
+
+set -uo pipefail
+
+BOOT_SECONDS="${BOOT_SECONDS:-30}"
+LOG="$(mktemp)"
+
+timeout "$BOOT_SECONDS" bundle exec sidekiq -C config/sidekiq.yml \
+  >"$LOG" 2>&1
+status=$?
+
+fail() {
+  echo "$1"
+  echo '--- sidekiq output ---'
+  cat "$LOG"
+  exit 1
+}
+
+# A healthy worker is killed by timeout: 124 from timeout itself, or 143
+# (128 + SIGTERM) when sidekiq traps the signal and exits on its own.
+if [ "$status" -ne 124 ] && [ "$status" -ne 143 ]; then
+  fail "Sidekiq exited with status ${status} instead of staying up."
+fi
+
+if grep -qiE 'uninitialized constant|NameError|LoadError' "$LOG"; then
+  fail 'Sidekiq logged a boot error.'
+fi
+
+# Positive assertion: proves it got through the initializers rather than
+# merely surviving long enough to be killed.
+if ! grep -q 'Booted Rails' "$LOG"; then
+  fail 'Sidekiq never reported booting Rails.'
+fi
+
+echo "Sidekiq stayed up for ${BOOT_SECONDS}s."
+cat "$LOG"
