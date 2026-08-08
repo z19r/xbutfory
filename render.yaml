@@ -48,6 +48,12 @@ services:
         value: xbutfory.onrender.com
       - key: WEB_CONCURRENCY
         value: 2
+      # Mailgun SMTP credentials (postmaster@mg.xbutfory.com + its password);
+      # created in the Mailgun dashboard under Sending -> Domain settings.
+      - key: MAILGUN_SMTP_LOGIN
+        sync: false
+      - key: MAILGUN_SMTP_PASSWORD
+        sync: false
 
   - type: worker
     name: xbutfory-worker
@@ -68,3 +74,8 @@ services:
         sync: false
       - key: APP_HOST
         value: xbutfory.onrender.com
+      # The worker is what actually delivers mail (email jobs run here).
+      - key: MAILGUN_SMTP_LOGIN
+        sync: false
+      - key: MAILGUN_SMTP_PASSWORD
+        sync: false
