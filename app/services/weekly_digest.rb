@@ -2,7 +2,7 @@
 # DigestSubscription subscribers plus confirmed members who kept digest_opt_in.
 #
 # Kept deliberately thin: it decides *what* goes out and *to whom*; the mailer
-# owns rendering and Solid Queue owns delivery (deliver_later).
+# owns rendering and Sidekiq owns delivery (one DigestEmailJob per recipient).
 class WeeklyDigest
   # New, live listings from the last week make the cut — most-voted first.
   WINDOW = 1.week
@@ -15,13 +15,10 @@ class WeeklyDigest
     entries = entries_since(now - WINDOW)
     return 0 if entries.empty?
 
+    entry_ids = entries.map(&:id)
     count = 0
     each_recipient do |email, token|
-      DigestMailer.weekly(
-        email: email,
-        entries: entries,
-        unsubscribe_token: token,
-      ).deliver_later
+      DigestEmailJob.perform_async(email, entry_ids, token)
       count += 1
     end
     count

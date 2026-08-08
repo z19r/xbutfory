@@ -60,3 +60,7 @@
 
 # SimpleCov output
 /coverage
+
+# Local tooling state (never commit)
+.tokensave/
+.claude/.headroom_wrap_marker.json

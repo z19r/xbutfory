@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class VoteTest < ActiveSupport::TestCase
-  include ActionMailer::TestHelper
-
   test 'belongs to entry and user' do
     vote = votes(:one)
     assert_instance_of Entry, vote.entry
@@ -68,7 +66,7 @@ class VoteTest < ActiveSupport::TestCase
 
   test 'a vote that lands the tally on a milestone emails the owner' do
     entry = entry_owned_by(milestone_owner, votes_count: 9)
-    assert_enqueued_emails 1 do
+    assert_difference -> { MilestoneEmailJob.jobs.size }, 1 do
       Vote.create!(user: users(:member), entry: entry)
     end
     assert_equal 10, entry.reload.votes_count
@@ -76,7 +74,7 @@ class VoteTest < ActiveSupport::TestCase
 
   test 'a vote that does not hit a milestone stays quiet' do
     entry = entry_owned_by(milestone_owner, votes_count: 5)
-    assert_no_enqueued_emails do
+    assert_no_difference -> { MilestoneEmailJob.jobs.size } do
       Vote.create!(user: users(:member), entry: entry)
     end
   end
@@ -87,14 +85,14 @@ class VoteTest < ActiveSupport::TestCase
         milestone_owner(milestone_notifications: false),
         votes_count: 9,
       )
-    assert_no_enqueued_emails do
+    assert_no_difference -> { MilestoneEmailJob.jobs.size } do
       Vote.create!(user: users(:member), entry: entry)
     end
   end
 
   test 'the legacy placeholder owner is never emailed' do
     entry = entry_owned_by(users(:legacy), votes_count: 9)
-    assert_no_enqueued_emails do
+    assert_no_difference -> { MilestoneEmailJob.jobs.size } do
       Vote.create!(user: users(:member), entry: entry)
     end
   end

@@ -9,7 +9,7 @@ class PasswordsController < ApplicationController
   # Always reports success (don't leak which emails exist).
   def create
     user = User.find_by(email: params[:email].to_s.strip.downcase)
-    UserMailer.password_reset(user).deliver_later if user
+    PasswordResetEmailJob.perform_async(user.id) if user
     redirect_to sign_in_path,
                 notice:
                   'If that email is registered, a reset link is on its way.'

@@ -10,7 +10,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test 'creating an account signs the new member in and sends a confirmation email' do
     assert_difference 'User.count', 1 do
-      assert_enqueued_emails 1 do
+      assert_difference -> { ConfirmationEmailJob.jobs.size }, 1 do
         post sign_up_path,
              params: {
                handle: 'freshmint',

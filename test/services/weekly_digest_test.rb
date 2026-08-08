@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class WeeklyDigestTest < ActiveSupport::TestCase
-  include ActionMailer::TestHelper
-
   def make_entry(created_at:, **attrs)
     Entry.create!(
       {
@@ -33,7 +31,7 @@ class WeeklyDigestTest < ActiveSupport::TestCase
     DigestSubscription.create!(email: 'reader@example.com')
     users(:member).update!(confirmed_at: Time.current, digest_opt_in: true)
 
-    assert_enqueued_emails 2 do
+    assert_difference -> { DigestEmailJob.jobs.size }, 2 do
       assert_equal 2, WeeklyDigest.deliver_all
     end
   end
@@ -42,13 +40,17 @@ class WeeklyDigestTest < ActiveSupport::TestCase
     Vote.delete_all
     Entry.delete_all
     DigestSubscription.create!(email: 'reader@example.com')
-    assert_no_enqueued_emails { assert_equal 0, WeeklyDigest.deliver_all }
+    assert_no_difference -> { DigestEmailJob.jobs.size } do
+      assert_equal 0, WeeklyDigest.deliver_all
+    end
   end
 
   test 'a confirmed member who opted out is skipped' do
     make_entry(created_at: 1.day.ago)
     users(:member).update!(confirmed_at: Time.current, digest_opt_in: false)
 
-    assert_no_enqueued_emails { WeeklyDigest.deliver_all }
+    assert_no_difference -> { DigestEmailJob.jobs.size } do
+      WeeklyDigest.deliver_all
+    end
   end
 end

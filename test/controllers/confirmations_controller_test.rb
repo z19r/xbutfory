@@ -18,7 +18,7 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
 
   test 'resend enqueues a confirmation email for unconfirmed members' do
     sign_in_as(users(:unconfirmed))
-    assert_enqueued_emails 1 do
+    assert_difference -> { ConfirmationEmailJob.jobs.size }, 1 do
       post resend_confirmation_path
     end
   end
@@ -26,6 +26,8 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
   test 'resend does nothing for already-confirmed members' do
     users(:member).update!(confirmed_at: Time.current)
     sign_in_as(users(:member))
-    assert_no_enqueued_emails { post resend_confirmation_path }
+    assert_no_difference -> { ConfirmationEmailJob.jobs.size } do
+      post resend_confirmation_path
+    end
   end
 end

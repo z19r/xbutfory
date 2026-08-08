@@ -4,6 +4,7 @@ require_relative 'support/simplecov' if ENV['COVERAGE']
 
 require_relative '../config/environment'
 require 'rails/test_help'
+require 'sidekiq/testing'
 
 # Zero-dependency singleton-method stubbing (minitest 6 split out minitest/mock).
 # `impl` is returned for any args, or invoked when it responds to #call.
@@ -37,6 +38,10 @@ module ActiveSupport
 
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
+
+    # Native Sidekiq workers queue into per-class fake arrays
+    # (Sidekiq::Testing.fake!); start every test from an empty queue.
+    setup { Sidekiq::Job.clear_all }
 
     include StubbingHelpers
 

@@ -15,20 +15,13 @@ class MilestoneNotifier
   def check
     count = @entry.reload.votes_count
     return unless THRESHOLDS.include?(count)
+    return unless self.class.notifiable?(@entry.user)
 
-    owner = @entry.user
-    return unless notifiable?(owner)
-
-    MilestoneMailer.reached(
-      user: owner,
-      entry: @entry,
-      milestone: count,
-    ).deliver_later
+    MilestoneEmailJob.perform_async(@entry.id, count)
   end
 
-  private
-
-  def notifiable?(owner)
+  # Shared with MilestoneEmailJob, which re-checks at perform time.
+  def self.notifiable?(owner)
     owner.present? && owner.milestone_notifications? && owner.handle != 'legacy'
   end
 end
