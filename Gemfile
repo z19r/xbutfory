@@ -54,6 +54,12 @@ gem 'stripe', '~> 13.0'
 # State machines for entry/product/user/payment lifecycles [https://github.com/aasm/aasm]
 gem 'aasm', '~> 5.5'
 
+# Error tracking — web + Sidekiq report to one DSN; dormant without one
+# [https://github.com/getsentry/sentry-ruby]
+gem 'sentry-rails', '~> 5.22'
+gem 'sentry-ruby', '~> 5.22'
+gem 'sentry-sidekiq', '~> 5.22'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
