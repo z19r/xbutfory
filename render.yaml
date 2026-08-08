@@ -3,7 +3,8 @@
 # Rack::Attack, and anything else on REDIS_URL.
 #
 # Apply: Render dashboard -> New -> Blueprint -> point at this repo.
-# The only manual input is RAILS_MASTER_KEY (sync: false prompts for it).
+# Secrets are entered once on the xbutfory-common env group (sync: false
+# prompts); both services pull it via fromGroup.
 #
 # Solid Cache / Solid Cable ride the same Postgres database as the app on
 # Render (their tables are namespaced; database.yml maps all three configs
@@ -31,6 +32,7 @@ services:
     # Migrates primary + cache + cable before the new version takes traffic.
     preDeployCommand: ./bin/rails db:prepare
     envVars:
+      - fromGroup: xbutfory-common
       - key: DATABASE_URL
         fromDatabase:
           name: xbutfory-db
@@ -40,16 +42,34 @@ services:
           type: keyvalue
           name: xbutfory-redis
           property: connectionString
-      - key: RAILS_MASTER_KEY
-        sync: false
-      # Until the custom domain is attached, mail/OG links point at the
-      # onrender host; flip to xbutfory.com with the domain cutover.
-      - key: APP_HOST
-        value: xbutfory.onrender.com
       - key: WEB_CONCURRENCY
         value: 2
-      # Mailgun SMTP credentials (postmaster@mg.xbutfory.com + its password);
-      # created in the Mailgun dashboard under Sending -> Domain settings.
+
+  - type: worker
+    name: xbutfory-worker
+    runtime: docker
+    plan: starter
+    dockerCommand: bundle exec sidekiq
+    envVars:
+      - fromGroup: xbutfory-common
+      - key: DATABASE_URL
+        fromDatabase:
+          name: xbutfory-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: xbutfory-redis
+          property: connectionString
+
+# Everything shared by web + worker lives here; secrets are sync: false so
+# Render prompts once and both services see the same value.
+envVarGroups:
+  - name: xbutfory-common
+    envVars:
+      - key: RAILS_MASTER_KEY
+        sync: false
+      # Mailgun SMTP credentials for the xbutfory.com sending domain.
       - key: MAILGUN_SMTP_LOGIN
         sync: false
       - key: MAILGUN_SMTP_PASSWORD
@@ -59,33 +79,6 @@ services:
         sync: false
       - key: SENTRY_ENABLE_LOGS
         value: 'true'
-
-  - type: worker
-    name: xbutfory-worker
-    runtime: docker
-    plan: starter
-    dockerCommand: bundle exec sidekiq
-    envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: xbutfory-db
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          type: keyvalue
-          name: xbutfory-redis
-          property: connectionString
-      - key: RAILS_MASTER_KEY
-        sync: false
+      # Mail/OG links point at the live custom domain.
       - key: APP_HOST
-        value: xbutfory.onrender.com
-      # The worker is what actually delivers mail (email jobs run here).
-      - key: MAILGUN_SMTP_LOGIN
-        sync: false
-      - key: MAILGUN_SMTP_PASSWORD
-        sync: false
-      # Sidekiq reports to the same Sentry project as web.
-      - key: SENTRY_DSN
-        sync: false
-      - key: SENTRY_ENABLE_LOGS
-        value: 'true'
+        value: xbutfory.com
