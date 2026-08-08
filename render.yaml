@@ -1,6 +1,12 @@
-# Render Blueprint for XbutforY. Web + Sidekiq worker share the Rails 8
-# Dockerfile image; managed Postgres; Key Value (Valkey) carries Sidekiq,
-# Rack::Attack, and anything else on REDIS_URL.
+# Render Blueprint for XbutforY, grouped under the Z19R project (production
+# environment). Everything is pinned to virginia.
+#
+# Redis layout follows the Z19R convention (see markbin-dot-net):
+#   REDIS_SIDEKIQ_URL -> this project's own Key Value instance, queue only
+#     (noeviction: Sidekiq jobs must never be evicted under memory pressure).
+#   REDIS_URL         -> the shared cross-project cache Redis; this project
+#     owns DB 4 on it (redis://<shared-host>:6379/4, entered on the env
+#     group). Rack::Attack throttle counters live here.
 #
 # Apply: Render dashboard -> New -> Blueprint -> point at this repo.
 # Secrets are entered once on the xbutfory-common env group (sync: false
@@ -11,74 +17,89 @@
 # to DATABASE_URL when it's present). bin/rails db:prepare migrates all of
 # them before each deploy goes live.
 
-databases:
-  - name: xbutfory-db
-    plan: basic-256mb
-    postgresMajorVersion: '17'
+projects:
+  - name: Z19R
+    environments:
+      - name: production
+        databases:
+          - name: xbutfory-db
+            plan: basic-256mb
+            region: virginia
+            postgresMajorVersion: '17'
+            ipAllowList: []
 
-services:
-  - type: keyvalue
-    name: xbutfory-redis
-    # Paid plan on purpose: the free tier is non-persistent, and losing the
-    # Sidekiq queue on restart means losing enqueued mail.
-    plan: starter
-    ipAllowList: [] # private-network access only
+        services:
+          - type: keyvalue
+            name: xbutfory-redis-sidekiq
+            # Paid plan on purpose: the free tier is non-persistent, and
+            # losing the Sidekiq queue on restart means losing enqueued mail.
+            plan: starter
+            region: virginia
+            maxmemoryPolicy: noeviction
+            ipAllowList: [] # private-network access only
 
-  - type: web
-    name: xbutfory
-    runtime: docker
-    plan: starter
-    healthCheckPath: /up
-    # Migrates primary + cache + cable before the new version takes traffic.
-    preDeployCommand: ./bin/rails db:prepare
-    envVars:
-      - fromGroup: xbutfory-common
-      - key: DATABASE_URL
-        fromDatabase:
-          name: xbutfory-db
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          type: keyvalue
-          name: xbutfory-redis
-          property: connectionString
-      - key: WEB_CONCURRENCY
-        value: 2
+          - type: web
+            name: xbutfory
+            runtime: docker
+            plan: starter
+            region: virginia
+            healthCheckPath: /up
+            # Migrates primary + cache + cable before going live.
+            preDeployCommand: ./bin/rails db:prepare
+            envVars:
+              - fromGroup: xbutfory-common
+              - key: DATABASE_URL
+                fromDatabase:
+                  name: xbutfory-db
+                  property: connectionString
+              - key: REDIS_SIDEKIQ_URL
+                fromService:
+                  type: keyvalue
+                  name: xbutfory-redis-sidekiq
+                  property: connectionString
+              - key: WEB_CONCURRENCY
+                value: 2
 
-  - type: worker
-    name: xbutfory-worker
-    runtime: docker
-    plan: starter
-    dockerCommand: bundle exec sidekiq
-    envVars:
-      - fromGroup: xbutfory-common
-      - key: DATABASE_URL
-        fromDatabase:
-          name: xbutfory-db
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          type: keyvalue
-          name: xbutfory-redis
-          property: connectionString
+          - type: worker
+            name: xbutfory-worker
+            runtime: docker
+            plan: starter
+            region: virginia
+            dockerCommand: bundle exec sidekiq
+            envVars:
+              - fromGroup: xbutfory-common
+              - key: DATABASE_URL
+                fromDatabase:
+                  name: xbutfory-db
+                  property: connectionString
+              - key: REDIS_SIDEKIQ_URL
+                fromService:
+                  type: keyvalue
+                  name: xbutfory-redis-sidekiq
+                  property: connectionString
 
-# Everything shared by web + worker lives here; secrets are sync: false so
-# Render prompts once and both services see the same value.
-envVarGroups:
-  - name: xbutfory-common
-    envVars:
-      - key: RAILS_MASTER_KEY
-        sync: false
-      # Mailgun SMTP credentials for the xbutfory.com sending domain.
-      - key: MAILGUN_SMTP_LOGIN
-        sync: false
-      - key: MAILGUN_SMTP_PASSWORD
-        sync: false
-      # Sentry error tracking (initializer is dormant without a DSN).
-      - key: SENTRY_DSN
-        sync: false
-      - key: SENTRY_ENABLE_LOGS
-        value: 'true'
-      # Mail/OG links point at the live custom domain.
-      - key: APP_HOST
-        value: xbutfory.com
+        # Everything shared by web + worker lives here; secrets are
+        # sync: false so Render prompts once and both services see the
+        # same value.
+        envVarGroups:
+          - name: xbutfory-common
+            envVars:
+              - key: RAILS_MASTER_KEY
+                sync: false
+              # Shared Z19R cache Redis, DB 4 for this project:
+              # redis://<shared-host>:6379/4
+              - key: REDIS_URL
+                sync: false
+              # Mailgun SMTP credentials for the xbutfory.com sending domain.
+              - key: MAILGUN_SMTP_LOGIN
+                sync: false
+              - key: MAILGUN_SMTP_PASSWORD
+                sync: false
+              # Sentry error tracking (initializer is dormant without a DSN).
+              - key: SENTRY_DSN
+                sync: false
+              - key: SENTRY_ENABLE_LOGS
+                value: 'true'
+              # Mail/OG links point at the live custom domain.
+              - key: APP_HOST
+                value: xbutfory.com

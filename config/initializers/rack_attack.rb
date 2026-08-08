@@ -5,9 +5,11 @@
 # (which costs actual money per call). Limits are generous for humans and
 # hostile to scripts.
 class Rack::Attack
-  # Redis in production (already there for Sidekiq); in-memory elsewhere.
-  # The default solid_cache store would work but puts throttle bookkeeping
-  # on Postgres for no reason.
+  # Production throttle counters live on the shared Z19R cache Redis
+  # (REDIS_URL — this project owns DB 4 on it; Sidekiq runs on its own
+  # instance via REDIS_SIDEKIQ_URL). In-memory elsewhere. The default
+  # solid_cache store would work but puts throttle bookkeeping on
+  # Postgres for no reason.
   cache.store =
     if Rails.env.production?
       ActiveSupport::Cache::RedisCacheStore.new(
