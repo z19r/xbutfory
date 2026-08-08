@@ -130,3 +130,56 @@ jobs:
 
       - name: System tests
         run: bin/rails test:system
+
+  # The unit and system jobs never start a worker, so an initializer that only
+  # breaks under Sidekiq sails through them (see the to_prepare comment in
+  # config/initializers/sidekiq.rb). This boots the real worker and fails if it
+  # does not stay up.
+  worker-boot:
+    name: Worker boot (Sidekiq)
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: xbutfory_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/xbutfory_test
+      REDIS_SIDEKIQ_URL: redis://localhost:6379/0
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+
+      - name: Set up database
+        run: bin/rails db:schema:load
+
+      - name: Boot the Sidekiq worker
+        run: bin/ci-worker-boot
