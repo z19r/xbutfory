@@ -39,7 +39,7 @@ projects:
             ipAllowList: [] # private-network access only
 
           - type: web
-            name: xbutfory
+            name: xbutfory-web
             runtime: docker
             plan: starter
             region: virginia
