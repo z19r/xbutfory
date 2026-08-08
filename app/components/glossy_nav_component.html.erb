@@ -6,6 +6,8 @@
           href="<%= tab.path %>"
           class="c-glossy-nav__tab <%= 'c-glossy-nav__tab--active' if tab.key == @active %>"
           <%= 'aria-current="page"'.html_safe if tab.key == @active %>
+          data-umami-event="Nav tab clicked"
+          data-umami-event-tab="<%= tab.key %>"
         ><%= tab.label %></a>
       <% end %>
     </div>

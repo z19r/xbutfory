@@ -13,6 +13,6 @@
           autocomplete: "email",
           required: true,
           data: { digest_signup_target: "email" } %>
-    <button type="submit" class="c-digest__cta <%= 'c-digest__cta--gel' if @gel %>"><%= @cta %></button>
+    <button type="submit" class="c-digest__cta <%= 'c-digest__cta--gel' if @gel %>" data-umami-event="Digest signup submitted"><%= @cta %></button>
   <% end %>
 </section>

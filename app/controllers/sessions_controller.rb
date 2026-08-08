@@ -9,8 +9,10 @@ class SessionsController < ApplicationController
     user = User.find_by_login(params[:login])
     if user&.authenticate(params[:password])
       sign_in(user)
+      SentryMetrics.count('auth.login', success: 'true')
       redirect_to after_sign_in_path, notice: "Signed in as @#{user.handle}."
     else
+      SentryMetrics.count('auth.login', success: 'false')
       redirect_to sign_in_path,
                   alert: "That email or @handle and password don't match."
     end
@@ -18,6 +20,7 @@ class SessionsController < ApplicationController
 
   def destroy
     sign_out
+    SentryMetrics.count('auth.logout')
     redirect_to root_path, notice: 'Signed out.'
   end
 end

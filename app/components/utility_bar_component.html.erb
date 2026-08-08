@@ -28,9 +28,9 @@
         <% end %>
         </span>
       </span>
-      <span data-controller="after-dark">
+      <span data-controller="after-dark" data-after-dark-signed-in-value="<%= current_user.present? %>">
         <% if current_user %>
-          <button class="c-utility-bar__after-dark" data-after-dark-target="button" data-action="click->after-dark#toggle">🌙 After Dark</button>
+          <button class="c-utility-bar__after-dark" data-after-dark-target="button" data-action="click->after-dark#toggle" data-umami-event="After Dark toggled">🌙 After Dark</button>
         <% else %>
           <button
             class="c-utility-bar__after-dark c-utility-bar__after-dark--locked"
@@ -44,8 +44,8 @@
       <% if current_user %>
         <%= render AccountMenuComponent.new(handle: current_user.handle, admin: current_user.admin?, avatar_thumb: current_user.avatar_thumb) %>
       <% else %>
-        <a href="/sign_in" class="c-utility-bar__link">Sign in</a>
-        <a href="/sign_up" class="c-utility-bar__link c-utility-bar__link--strong">Create account</a>
+        <a href="/sign_in" class="c-utility-bar__link" data-umami-event="Sign in clicked" data-umami-event-placement="utility-bar">Sign in</a>
+        <a href="/sign_up" class="c-utility-bar__link c-utility-bar__link--strong" data-umami-event="Create account clicked" data-umami-event-placement="utility-bar">Create account</a>
       <% end %>
     </span>
   </div>

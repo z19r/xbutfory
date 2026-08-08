@@ -13,9 +13,12 @@ class PaymentsController < ApplicationController
       # The intent is persisted inside fulfill!'s row lock — no dirty-record
       # pre-update that could poison with_lock.
       payment.fulfill!(payment_intent: session.payment_intent)
+      SentryMetrics.count('checkout.success', source: 'return')
+      flash[:umami_event] = 'Payment completed'
       redirect_to manage_submissions_path,
                   notice: 'Payment received — your listing is now Featured. 🎉'
     else
+      SentryMetrics.count('checkout.unconfirmed')
       redirect_to manage_submissions_path,
                   alert:
                     "We couldn't confirm that payment yet. If you were charged, your listing will update shortly."
@@ -23,6 +26,7 @@ class PaymentsController < ApplicationController
   end
 
   def cancel
+    SentryMetrics.count('checkout.cancelled')
     redirect_to manage_submissions_path,
                 notice:
                   'Checkout cancelled — your listing is live as a free entry. You can upgrade any time.'

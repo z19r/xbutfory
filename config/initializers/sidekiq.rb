@@ -9,6 +9,11 @@ redis_url =
 Sidekiq.configure_server do |config|
   config.redis = { url: redis_url }
 
+  # Carpet every job with Sentry metrics (start/complete/fail + duration).
+  config.server_middleware do |chain|
+    chain.add SentryMetricsSidekiqMiddleware
+  end
+
   # Load recurring jobs (weekly digest, etc.) from config/schedule.yml.
   schedule_file = Rails.root.join('config/schedule.yml')
   if File.exist?(schedule_file)

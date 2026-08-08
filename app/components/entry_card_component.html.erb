@@ -3,7 +3,7 @@
     <div class="c-card__ribbon"><span>★ PINNED SPONSOR</span><span class="c-card__ribbon-r2">FEATURED PLACEMENT</span></div>
   <% end %>
   <div class="c-card__row">
-    <button class="<%= vote_classes %>" aria-label="Vote for <%= @x %> but for <%= @y %>" data-vote-target="button" data-action="click->vote#toggle">
+    <button class="<%= vote_classes %>" aria-label="Vote for <%= @x %> but for <%= @y %>" data-vote-target="button" data-action="click->vote#toggle" data-umami-event="Vote clicked">
       <span class="c-card__caret">▲</span>
       <span class="c-card__num" data-vote-target="count"><%= @votes %></span>
       <span class="c-card__vlbl">VOTES</span>
@@ -35,7 +35,7 @@
           <span class="c-card__tag" style="color: var(--cat-<%= @category %>); border-color: color-mix(in srgb, var(--cat-<%= @category %>) 45%, transparent)"><%= @category_label.upcase %></span>
         <% end %>
         <span class="c-card__meta">by @<%= @submitter %> &middot; <%= @ago %></span>
-        <%= link_to "visit site →", @url, class: "c-card__visit #{'c-card__visit--spon' if @sponsored}", target: "_blank", rel: "noopener" %>
+        <%= link_to "visit site →", @url, class: "c-card__visit #{'c-card__visit--spon' if @sponsored}", target: "_blank", rel: "noopener", data: { umami_event: "Visit site clicked", umami_event_sponsored: @sponsored.to_s, umami_event_placement: "card" } %>
       </div>
     </div>
   </div>

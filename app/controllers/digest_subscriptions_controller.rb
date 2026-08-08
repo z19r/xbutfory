@@ -6,6 +6,7 @@ class DigestSubscriptionsController < ApplicationController
       DigestSubscription.find_or_initialize_by(email: normalized_email)
 
     if subscription.persisted? || subscription.save
+      SentryMetrics.count('digest.subscribed')
       respond_to do |format|
         format.turbo_stream { head :no_content }
         format.html do
@@ -14,6 +15,7 @@ class DigestSubscriptionsController < ApplicationController
         end
       end
     else
+      SentryMetrics.count('digest.subscribe_failed')
       respond_to do |format|
         format.turbo_stream { head :unprocessable_entity }
         format.html do
@@ -29,6 +31,7 @@ class DigestSubscriptionsController < ApplicationController
       DigestSubscription.find_by_token_for(:unsubscribe, params[:token])
     subscription&.destroy
     @unsubscribed = subscription.present?
+    SentryMetrics.count('digest.unsubscribed', found: @unsubscribed.to_s)
   end
 
   private

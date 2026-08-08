@@ -17,8 +17,18 @@ class SubmissionsController < ApplicationController
 
     @entry.require_pitch = true
     unless @entry.save
+      SentryMetrics.count('submission.create_failed')
       return render :new, status: :unprocessable_entity
     end
+
+    SentryMetrics.count(
+      'submission.created',
+      wants_featured: wants_featured.to_s,
+      status: @entry.status,
+      category: @entry.category.to_s.presence || 'none',
+    )
+    flash[:umami_event] = 'Listing submitted'
+    flash[:umami_data] = { tier: wants_featured ? 'featured' : 'free' }
 
     if wants_featured
       checkout_featured(@entry)
@@ -38,8 +48,13 @@ class SubmissionsController < ApplicationController
     @entry.require_pitch = true
     if @entry.save
       @entry.resubmit! if was_needs_edits && @entry.may_resubmit? # edit & resubmit
+      SentryMetrics.count(
+        'submission.updated',
+        resubmitted: was_needs_edits.to_s,
+      )
       redirect_to manage_submissions_path, notice: 'Listing updated.'
     else
+      SentryMetrics.count('submission.update_failed')
       render :edit, status: :unprocessable_entity
     end
   end
@@ -54,8 +69,10 @@ class SubmissionsController < ApplicationController
 
     if event && entry.public_send(:"may_#{event}?")
       entry.public_send(:"#{event}!")
+      SentryMetrics.count('submission.transition', event: event.to_s)
       redirect_to manage_submissions_path, notice: transition_notice(params[:to])
     else
+      SentryMetrics.count('submission.transition_denied')
       redirect_to manage_submissions_path,
                   alert: "That status change isn't allowed."
     end
@@ -116,6 +133,8 @@ class SubmissionsController < ApplicationController
         success_url: "#{checkout_success_url}?session_id={CHECKOUT_SESSION_ID}",
         cancel_url: checkout_cancel_url,
       ).call
+
+    SentryMetrics.count('checkout.outcome', outcome: result.outcome.to_s)
 
     case result.outcome
     when :granted

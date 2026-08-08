@@ -46,7 +46,7 @@
     <div class="c-submit__field" data-controller="pitch-generator">
       <div class="c-submit__label-row">
         <%= f.label :description, "One-line pitch", class: "c-submit__label" %>
-        <button type="button" class="c-submit__ai-btn" data-pitch-generator-target="button" data-action="pitch-generator#generate">Auto-generate with AI</button>
+        <button type="button" class="c-submit__ai-btn" data-pitch-generator-target="button" data-action="pitch-generator#generate" data-umami-event="Pitch auto-generate clicked">Auto-generate with AI</button>
       </div>
       <%= f.text_area :description, rows: 2, required: true, class: "c-submit__input c-submit__textarea", placeholder: "What it does, in a sentence.", data: { pitch_generator_target: "field" } %>
     </div>
@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    <%= f.submit (@entry.featured? ? "Launch for $1.99 →" : "Submit for free →"), class: "c-submit__cta", data: { tier_target: "cta" } %>
+    <%= f.submit (@entry.featured? ? "Launch for $1.99 →" : "Submit for free →"), class: "c-submit__cta", data: { tier_target: "cta", umami_event: "Submit listing submitted" } %>
     <p class="c-submit__fine">tied to your handle &middot; no spam &middot; takes 30 seconds</p>
   <% end %>
 </section>
