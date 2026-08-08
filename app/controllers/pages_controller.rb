@@ -23,6 +23,14 @@ class PagesController < ApplicationController
     @total_votes = Entry.live.sum(:votes_count)
     @categories_count = Category.count
     @tag_cloud = tag_cloud(include_nsfw: @after_dark)
+
+    SentryMetrics.count(
+      'feed.viewed',
+      sort: @sort,
+      searched: @query.present?.to_s,
+      filtered: @filter_category.present?.to_s,
+      after_dark: @after_dark.to_s,
+    )
   end
 
   private

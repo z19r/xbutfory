@@ -6,20 +6,27 @@ module Webhooks
 
     def create
       event = verified_event
-      return head :bad_request unless event
+      unless event
+        SentryMetrics.count('webhook.stripe.rejected')
+        return head :bad_request
+      end
 
       session = event.data.object
+
+      SentryMetrics.count('webhook.stripe.received', event_type: event.type)
 
       case event.type
       when 'checkout.session.completed'
         Payment.find_by(stripe_session_id: session.id)&.fulfill!(
           payment_intent: session.payment_intent,
         )
+        SentryMetrics.count('checkout.success', source: 'webhook')
       when 'checkout.session.expired'
         # An abandoned checkout closes out the pending row; the entry never
         # left the free tier, so there's nothing to demote.
         payment = Payment.find_by(stripe_session_id: session.id)
         payment&.with_lock { payment.fail! if payment.pending? }
+        SentryMetrics.count('checkout.expired')
       end
 
       head :ok
@@ -33,7 +40,8 @@ module Webhooks
       secret = Rails.configuration.x.stripe.webhook_secret
 
       Stripe::Webhook.construct_event(payload, signature, secret)
-    rescue JSON::ParserError, Stripe::SignatureVerificationError
+    rescue JSON::ParserError, Stripe::SignatureVerificationError => e
+      SentryMetrics.record_rescue(e, source: 'Webhooks::StripeController#create')
       nil
     end
   end

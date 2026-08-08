@@ -7,7 +7,7 @@
 
   <div class="c-detail__head">
     <div class="c-detail__vcol">
-      <button class="c-detail__vbtn <%= 'c-detail__vbtn--on' if @voted %>" data-vote-target="button" data-action="click->vote#toggle" aria-label="Upvote <%= @entry.title %>">
+      <button class="c-detail__vbtn <%= 'c-detail__vbtn--on' if @voted %>" data-vote-target="button" data-action="click->vote#toggle" aria-label="Upvote <%= @entry.title %>" data-umami-event="Vote clicked" data-umami-event-placement="detail">
         <span class="c-detail__caret">&#9650;</span>
       </button>
       <div class="c-detail__vnum" data-vote-target="count"><%= @entry.votes_count %></div>
@@ -29,7 +29,7 @@
       <% end %>
 
       <div class="c-detail__acts">
-        <%= link_to "Visit #{@entry.name.presence || 'site'} ↗", @entry.url.presence || "#", class: "c-detail__visit", target: "_blank", rel: "noopener" %>
+        <%= link_to "Visit #{@entry.name.presence || 'site'} ↗", @entry.url.presence || "#", class: "c-detail__visit", target: "_blank", rel: "noopener", data: { umami_event: "Visit site clicked", umami_event_placement: "detail" } %>
         <span class="c-detail__by">by @<%= @entry.user.handle %></span>
       </div>
     </div>

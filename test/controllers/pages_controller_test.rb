@@ -114,12 +114,47 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_match(/TestNSFW but for visible/, response.body)
   end
 
+  test 'shows nsfw entries to a signed-in member with no cookie yet' do
+    Entry.create!(x: 'TestNSFW', y: 'default', nsfw: true, user: users(:member))
+    sign_in_as(users(:member))
+    get root_url
+    assert_response :success
+    assert_match(/TestNSFW but for default/, response.body)
+  end
+
+  test 'hides nsfw entries when a member has opted out of after dark' do
+    Entry.create!(x: 'TestNSFW', y: 'optout', nsfw: true, user: users(:member))
+    sign_in_as(users(:member))
+    cookies[:after_dark] = '0'
+    get root_url
+    assert_response :success
+    assert_no_match(/TestNSFW but for optout/, response.body)
+  end
+
   test 'ignores the after_dark cookie for signed-out visitors' do
     Entry.create!(x: 'TestNSFW', y: 'hidden', nsfw: true, user: users(:member))
     cookies[:after_dark] = '1'
     get root_url
     assert_response :success
     assert_no_match(/TestNSFW but for hidden/, response.body)
+  end
+
+  test 'omits the startupbar widget outside production' do
+    get root_url
+    assert_no_match(/startupbar\.co/, response.body)
+    assert_no_match(/data-startupbar/, response.body)
+  end
+
+  test 'renders the startupbar widget and reserves its strip when enabled' do
+    ENV['STARTUPBAR_PREVIEW'] = '1'
+    get root_url
+    assert_select "script[src='https://startupbar.co/widget/loader.js']" \
+                    '[data-startup-id=?]',
+                  ApplicationHelper::STARTUPBAR_ID
+    # The data attribute is what flips --startupbar-h to 36px.
+    assert_match(/<html[^>]*data-startupbar/, response.body)
+  ensure
+    ENV.delete('STARTUPBAR_PREVIEW')
   end
 
   test 'the after dark toggle is locked for signed-out visitors' do

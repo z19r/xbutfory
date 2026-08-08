@@ -18,6 +18,7 @@ class MilestoneNotifier
     return unless self.class.notifiable?(@entry.user)
     return unless claim(count)
 
+    SentryMetrics.count('milestone.reached', threshold: count.to_s)
     MilestoneEmailJob.perform_async(@entry.id, count)
   end
 

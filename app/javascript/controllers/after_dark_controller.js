@@ -1,24 +1,29 @@
 import { Controller } from '@hotwired/stimulus';
+import { queueToast } from 'lib/pending_toast';
 
 export default class extends Controller {
   static targets = ['button'];
+  static values = { signedIn: Boolean };
 
   connect() {
-    this.active = this.isActive();
+    this.active = this.signedInValue && this.isActive();
     this.render();
   }
 
   toggle() {
     this.active = !this.active;
-    document.cookie = `after_dark=${this.active ? '1' : ''}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+    const value = this.active ? '1' : '0';
+    document.cookie = `after_dark=${value}; path=/; max-age=${
+      60 * 60 * 24 * 365
+    }; SameSite=Lax`;
 
     const message = this.active
       ? '🔞 After Dark unlocked. You asked for it. No judgment.'
       : '😇 Back to the safe-for-work zone.';
 
-    document.dispatchEvent(
-      new CustomEvent('toast:show', { detail: { message, duration: 4500 } })
-    );
+    // The reload below throws away the current body, so hand the toast to the
+    // next page instead of dispatching it here.
+    queueToast(message, 4500);
 
     this.render();
     Turbo.visit(window.location.href, { action: 'replace' });
@@ -30,8 +35,9 @@ export default class extends Controller {
     document.dispatchEvent(new CustomEvent('auth-modal:open'));
   }
 
+  // Members are opted in until they explicitly turn it off.
   isActive() {
-    return document.cookie.split('; ').some((c) => c === 'after_dark=1');
+    return !document.cookie.split('; ').some((c) => c === 'after_dark=0');
   }
 
   render() {

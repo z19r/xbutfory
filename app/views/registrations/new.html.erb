@@ -53,7 +53,7 @@
         <span>I agree to keep my submissions real, on-topic, and genuinely <i>“X but for Y.”</i></span>
       </label>
 
-      <%= render ButtonComponent.new(variant: "primary", gel: true, trailing_arrow: true, type: "submit") do %>Create account<% end %>
+      <%= render ButtonComponent.new(variant: "primary", gel: true, trailing_arrow: true, type: "submit", data: { umami_event: "Create account submitted" }) do %>Create account<% end %>
     <% end %>
 
     <p class="c-auth-card__signin">Already a member? <%= link_to "Sign in →", sign_in_path, class: "c-auth-card__signin-link" %></p>

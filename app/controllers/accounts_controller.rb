@@ -48,6 +48,7 @@ class AccountsController < ApplicationController
 
   def regenerate_api_key
     current_user.update_column(:api_key, SecureRandom.hex(24))
+    SentryMetrics.count('account.api_key_regenerated')
     redirect_to account_settings_path, notice: '🔑 New API key generated.'
   end
 
@@ -60,6 +61,7 @@ class AccountsController < ApplicationController
     user.entries.update_all(user_id: legacy.id, status: 'withdrawn') if legacy
     user.destroy
     sign_out
+    SentryMetrics.count('account.deleted')
     redirect_to root_path,
                 notice:
                   'Your account is gone. Your listings have been withdrawn.'

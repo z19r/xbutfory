@@ -51,7 +51,7 @@
   flex-direction: column;
   gap: 2px;
   position: sticky;
-  top: 64px;
+  top: calc(64px + var(--startupbar-h));
 }
 
 .l-settings__navlink {

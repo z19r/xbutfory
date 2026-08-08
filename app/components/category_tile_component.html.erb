@@ -1,4 +1,4 @@
-<%= link_to root_path(category: @slug), class: "c-category-tile" do %>
+<%= link_to root_path(category: @slug), class: "c-category-tile", data: { umami_event: "Category tile clicked", umami_event_category: @slug } do %>
   <span class="c-category-tile__chip" style="border-color: <%= chip_color %>; color: <%= chip_color %>;"><%= short_code %></span>
   <h3 class="c-category-tile__name"><%= @name %></h3>
   <span class="c-category-tile__count"><%= @count %> entries</span>

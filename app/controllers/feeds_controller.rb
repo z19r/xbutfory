@@ -5,6 +5,7 @@ class FeedsController < ApplicationController
   # latest safe-for-work entries.
   def show
     @entries = Entry.sfw.latest.includes(:user).limit(FEED_LIMIT)
+    SentryMetrics.count('feed.rss')
     render formats: [:atom]
   end
 end

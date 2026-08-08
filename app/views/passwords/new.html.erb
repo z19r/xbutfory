@@ -16,7 +16,7 @@
             label: "Email", name: "email", type: "email", value: params[:email],
             placeholder: "you@domain.com", autocomplete: "email", required: true,
           ) %>
-      <%= render ButtonComponent.new(variant: "primary", gel: true, trailing_arrow: true, type: "submit") do %>Send reset link<% end %>
+      <%= render ButtonComponent.new(variant: "primary", gel: true, trailing_arrow: true, type: "submit", data: { umami_event: "Password reset requested" }) do %>Send reset link<% end %>
     <% end %>
 
     <div class="c-auth-card__divider"><span>REMEMBERED IT?</span></div>

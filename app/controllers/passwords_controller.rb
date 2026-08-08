@@ -9,7 +9,10 @@ class PasswordsController < ApplicationController
   # Always reports success (don't leak which emails exist).
   def create
     user = User.find_by(email: params[:email].to_s.strip.downcase)
-    PasswordResetEmailJob.perform_async(user.id) if user
+    if user
+      PasswordResetEmailJob.perform_async(user.id)
+      SentryMetrics.count('auth.password_reset_requested')
+    end
     redirect_to sign_in_path,
                 notice:
                   'If that email is registered, a reset link is on its way.'
@@ -20,6 +23,7 @@ class PasswordsController < ApplicationController
 
   def update
     if @user.update(password_params)
+      SentryMetrics.count('auth.password_reset_completed')
       redirect_to sign_in_path,
                   notice: 'Password updated — sign in with your new one.'
     else

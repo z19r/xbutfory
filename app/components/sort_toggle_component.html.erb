@@ -8,6 +8,8 @@
         aria-checked="<%= opt.key == @active %>"
         data-sort-key="<%= opt.key %>"
         data-action="click->sort#select"
+        data-umami-event="Sort changed"
+        data-umami-event-sort="<%= opt.key %>"
       >
         <%= opt.label %>
       </button>

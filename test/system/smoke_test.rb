@@ -19,6 +19,20 @@ class SmokeTest < ApplicationSystemTestCase
     assert_selector "form[action='#{sign_out_path}']", visible: :all
   end
 
+  test 'the After Dark toast survives the reload the toggle triggers' do
+    sign_in_through_ui(users(:member))
+    visit root_path
+
+    # Marker on the body element only: the toggle's Turbo visit replaces the
+    # body, so its disappearance is the signal that the reload has landed.
+    page.execute_script("document.body.dataset.preVisit = '1'")
+    click_on '🌙 After Dark'
+    assert_no_selector 'body[data-pre-visit]'
+
+    # Members start opted in, so the first click is the opt-out.
+    assert_selector '#toast.c-toast--visible', text: 'safe-for-work'
+  end
+
   test 'typing X and Y updates the live submit preview' do
     sign_in_through_ui(users(:member))
     visit new_submission_path

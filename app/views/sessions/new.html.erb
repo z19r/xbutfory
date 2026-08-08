@@ -34,7 +34,7 @@
         <% end %>
       </span>
 
-      <%= render ButtonComponent.new(variant: "primary", gel: true, trailing_arrow: true, type: "submit") do %>Sign in<% end %>
+      <%= render ButtonComponent.new(variant: "primary", gel: true, trailing_arrow: true, type: "submit", data: { umami_event: "Sign in submitted" }) do %>Sign in<% end %>
     <% end %>
 
     <div class="c-auth-card__divider"><span>NEW TO THE INDEX?</span></div>

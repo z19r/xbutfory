@@ -1,0 +1,13 @@
+<%#
+  Ties a signed-in member's Umami events to a stable Distinct ID so their
+  actions join up across sessions and devices.
+%>
+<% if umami_enabled? && current_user %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof umami !== 'undefined') {
+        umami.identify('<%= j(current_user.analytics_distinct_id) %>', <%= raw current_user.analytics_properties.to_json %>);
+      }
+    });
+  </script>
+<% end %>

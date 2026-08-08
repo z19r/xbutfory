@@ -59,11 +59,25 @@ class Payment < ApplicationRecord
 
   private
 
+  # Fires once per settlement (both the paid and free/coupon paths run through
+  # here), so it's the single source of truth for the "listing went Featured"
+  # metric regardless of whether the return page or the webhook won the race.
   def promote_entry
     entry.update!(tier: 'featured')
+    SentryMetrics.count(
+      'payment.settled',
+      status: status,
+      amount_cents: amount_cents.to_i.zero? ? 'free' : 'paid',
+    )
+    SentryMetrics.distribution(
+      'payment.amount',
+      amount_cents.to_i / 100.0,
+      unit: 'none',
+    )
   end
 
   def demote_entry
     entry.update!(tier: 'free')
+    SentryMetrics.count('payment.refunded')
   end
 end

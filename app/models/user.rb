@@ -94,6 +94,24 @@ class User < ApplicationRecord
     handle
   end
 
+  # Umami: stable Distinct ID that links a member's events across sessions and
+  # devices. The @handle is permanent, so it's a safe, low-cardinality key.
+  def analytics_distinct_id
+    handle
+  end
+
+  # Umami: properties sent on identify. Kept to non-sensitive, low-cardinality
+  # fields — no email.
+  def analytics_properties
+    {
+      handle: handle,
+      state: state,
+      confirmed: confirmed?,
+      admin: admin?,
+      created_at: created_at&.iso8601,
+    }
+  end
+
   private
 
   # Record when the email was confirmed (audit); AASM persists it with the state.

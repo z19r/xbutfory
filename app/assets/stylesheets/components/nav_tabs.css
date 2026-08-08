@@ -1,6 +1,6 @@
 .c-nav-tabs {
   position: sticky;
-  top: 0;
+  top: var(--startupbar-h);
   z-index: 100;
   background: var(--paper);
   border-top: 1px solid var(--border-nav-top);

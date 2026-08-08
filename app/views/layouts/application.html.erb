@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <% accent = UtilityBarComponent.resolve_accent(cookies[:accent]) %>
-<html style="--accent: var(--accent-<%= accent[:key] %>)">
+<html style="--accent: var(--accent-<%= accent[:key] %>)"<%= " data-startupbar" if startupbar_enabled? %>>
   <head>
     <title><%= page_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -25,7 +25,14 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <% if ENV["UMAMI_WEBSITE_ID"].present? %>
+    <% if startupbar_enabled? %>
+      <script
+        async
+        src="https://startupbar.co/widget/loader.js"
+        data-startup-id="<%= ApplicationHelper::STARTUPBAR_ID %>"
+      ></script>
+    <% end %>
+    <% if umami_enabled? %>
       <script
         defer
         src="https://cloud.umami.is/script.js"
@@ -35,6 +42,18 @@
   </head>
 
   <body class="<%= content_for(:body_class) %>">
+    <%= render "shared/umami_identify" %>
+    <%# Server-set conversions (submitted a listing, completed a payment) get
+        fired client-side once the page with the flash loads. %>
+    <% if umami_enabled? && flash[:umami_event].present? %>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          if (typeof umami !== 'undefined') {
+            umami.track('<%= j(flash[:umami_event]) %>', <%= raw (flash[:umami_data] || {}).to_json %>);
+          }
+        });
+      </script>
+    <% end %>
     <%= render UtilityBarComponent.new(active_accent: accent[:key], current_user: current_user) %>
     <%= render MastheadComponent.new do |masthead| %>
       <% masthead.with_search_slot do %>
@@ -74,9 +93,9 @@
         <div class="c-konami__code-label">YOUR COUPON CODE</div>
         <div class="c-konami__code-row">
           <div class="c-konami__code">XBUTFORY-K0N4M1</div>
-          <button class="c-konami__copy" data-action="click->konami#copy">Copy</button>
+          <button class="c-konami__copy" data-action="click->konami#copy" data-umami-event="Konami coupon copied">Copy</button>
         </div>
-        <button class="c-konami__claim" data-action="click->konami#claim">Claim it &mdash; submit a site &rarr;</button>
+        <button class="c-konami__claim" data-action="click->konami#claim" data-umami-event="Konami coupon claimed">Claim it &mdash; submit a site &rarr;</button>
         <p class="c-konami__fine">redeemable on one submission &middot; expires never &middot; because you earned it</p>
       </div>
     </div>
@@ -101,8 +120,8 @@
           <h2 class="c-auth-modal__title" id="auth-modal-title">You need an account to <em>vote</em>.</h2>
           <p class="c-auth-modal__body">Votes are the whole point of the ballot, so we tie them to a name. Sign in, or make an account &mdash; it takes a second.</p>
           <div class="c-auth-modal__actions">
-            <%= link_to "Sign in", sign_in_path, class: "c-auth-modal__btn c-auth-modal__btn--solid" %>
-            <%= link_to "Create account", sign_up_path, class: "c-auth-modal__btn c-auth-modal__btn--ghost" %>
+            <%= link_to "Sign in", sign_in_path, class: "c-auth-modal__btn c-auth-modal__btn--solid", data: { umami_event: "Sign in clicked", umami_event_placement: "vote-gate" } %>
+            <%= link_to "Create account", sign_up_path, class: "c-auth-modal__btn c-auth-modal__btn--ghost", data: { umami_event: "Create account clicked", umami_event_placement: "vote-gate" } %>
           </div>
         </div>
       </div>

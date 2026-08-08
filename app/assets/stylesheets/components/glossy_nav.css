@@ -2,7 +2,7 @@
    raised, inset-lit active tab. Mirrors design_system/components/navigation/GlossyNav.jsx. */
 .c-glossy-nav {
   position: sticky;
-  top: 0;
+  top: var(--startupbar-h);
   z-index: 100;
   background: var(--gel-nav);
   border-top: 1px solid var(--gel-nav-top);

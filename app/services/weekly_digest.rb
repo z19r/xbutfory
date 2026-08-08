@@ -21,6 +21,8 @@ class WeeklyDigest
       DigestEmailJob.perform_async(email, entry_ids, token)
       count += 1
     end
+    SentryMetrics.gauge('digest.recipients', count, unit: 'none')
+    SentryMetrics.gauge('digest.entries', entries.size, unit: 'none')
     count
   end
 

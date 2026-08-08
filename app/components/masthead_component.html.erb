@@ -10,11 +10,11 @@
       <% else %>
         <div class="c-masthead__search-placeholder"></div>
       <% end %>
-      <a class="c-btn c-btn--rss" href="/feed.xml" title="Subscribe — Atom/RSS feed, fresh entries daily">📡 RSS</a>
+      <a class="c-btn c-btn--rss" href="/feed.xml" title="Subscribe — Atom/RSS feed, fresh entries daily" data-umami-event="RSS clicked">📡 RSS</a>
       <% if submit_slot? %>
         <%= submit_slot %>
       <% else %>
-        <%= link_to new_submission_path, class: "c-btn c-btn--submit c-btn--gel" do %>
+        <%= link_to new_submission_path, class: "c-btn c-btn--submit c-btn--gel", data: { umami_event: "Submit a Site clicked", umami_event_placement: "masthead" } do %>
           <span style="font-size:17px;margin-top:-1px">+</span> Submit a Site
         <% end %>
       <% end %>
