@@ -59,6 +59,15 @@ projects:
                   property: connectionString
               - key: WEB_CONCURRENCY
                 value: 2
+              # Thruster fronts Puma (Dockerfile CMD is bin/thrust).
+              # Thruster listens on HTTP_PORT for Render's traffic and
+              # sets the child PORT to TARGET_PORT, so Puma binds 3000.
+              - key: PORT
+                value: '10000'
+              - key: HTTP_PORT
+                value: '10000'
+              - key: TARGET_PORT
+                value: '3000'
 
           - type: worker
             name: xbutfory-worker
@@ -78,9 +87,10 @@ projects:
                   name: xbutfory-redis-sidekiq
                   property: connectionString
 
-        # Everything shared by web + worker lives here; secrets are
-        # sync: false so Render prompts once and both services see the
-        # same value.
+        # The Z19R-standard common group (mirrors markbin-dot-net's; no
+        # PostHog ever, ActiveRecord encryption keys only if/when the app
+        # encrypts columns). Secrets are sync: false so Render prompts
+        # once and both services see the same value.
         envVarGroups:
           - name: xbutfory-common
             envVars:
@@ -90,16 +100,36 @@ projects:
               # redis://<shared-host>:6379/4
               - key: REDIS_URL
                 sync: false
-              # Mailgun SMTP credentials for the xbutfory.com sending domain.
-              - key: MAILGUN_SMTP_LOGIN
+              # jemalloc for reduced memory/latency (also set in the
+              # Dockerfile; kept here for parity across Z19R projects).
+              - key: LD_PRELOAD
+                value: '/usr/lib/x86_64-linux-gnu/libjemalloc.so.2'
+              # Host for links generated in mailer templates.
+              - key: MAILER_HOST
+                value: xbutfory.com
+              # Mailgun API delivery: sending key + verified domain.
+              - key: MAILGUN_API_KEY
                 sync: false
-              - key: MAILGUN_SMTP_PASSWORD
-                sync: false
+              - key: MAILGUN_HOST
+                value: xbutfory.com
+              - key: MAILGUN_UN
+                value: emailsenderuserguy@xbutfory.com
               # Sentry error tracking (initializer is dormant without a DSN).
               - key: SENTRY_DSN
                 sync: false
               - key: SENTRY_ENABLE_LOGS
                 value: 'true'
-              # Mail/OG links point at the live custom domain.
+              # Stripe (Featured listing tier — wired up as the next feature).
+              - key: STRIPE_PUBLISHABLE_KEY
+                sync: false
+              - key: STRIPE_SECRET_KEY
+                sync: false
+              - key: STRIPE_WEBHOOK_SECRET
+                sync: false
+              # Umami analytics (layout renders the script when set).
+              - key: UMAMI_WEBSITE_ID
+                value: d4db2804-b24b-4d2b-8d89-229ede6cacf1
+              # Mail/OG links point at the live custom domain (legacy
+              # fallback; MAILER_HOST is the standard var).
               - key: APP_HOST
                 value: xbutfory.com
