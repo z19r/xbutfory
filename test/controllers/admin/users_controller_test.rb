@@ -100,6 +100,29 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert editor.reload.admin?
   end
 
+  test 'members index filters by state' do
+    users(:member) # confirmed; the rest of the fixtures are unconfirmed
+    sign_in_as(users(:editor))
+    get admin_users_path(state: 'confirmed')
+    assert_response :success
+    assert_select '.c-sub', 1
+  end
+
+  test 'suspend is a no-op on an already-suspended member' do
+    user = users(:member)
+    user.suspend!
+    sign_in_as(users(:editor))
+    patch suspend_admin_user_path(user)
+    assert user.reload.suspended?
+  end
+
+  test 'reinstate is a no-op on a member in good standing' do
+    user = users(:member)
+    sign_in_as(users(:editor))
+    patch reinstate_admin_user_path(user)
+    assert user.reload.confirmed?
+  end
+
   test 'suspended members cannot sign in' do
     user = users(:member)
     user.suspend!

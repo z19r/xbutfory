@@ -44,6 +44,25 @@ class Admin::SubmissionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'Fix the title.', entry.reviewer_note
   end
 
+  test 'approve is a no-op on an already-live entry' do
+    entry = users(:member).entries.create!(x: 'Live', y: 'already')
+    sign_in_as(users(:editor))
+    patch approve_admin_submission_path(entry)
+    assert_redirected_to admin_submissions_path
+    assert entry.reload.live?
+  end
+
+  test 'request changes is a no-op on a withdrawn entry' do
+    entry =
+      users(:member).entries.create!(x: 'Gone', y: 'now', status: 'withdrawn')
+    sign_in_as(users(:editor))
+    patch request_changes_admin_submission_path(entry),
+          params: {
+            reviewer_note: 'Too late.',
+          }
+    assert entry.reload.withdrawn?
+  end
+
   test 'non-admins cannot approve' do
     entry =
       users(:member).entries.create!(x: 'Pend', y: 'review', status: 'pending')

@@ -32,7 +32,8 @@ class SmokeTest < ApplicationSystemTestCase
     # body, so its disappearance is the signal that the reload has landed.
     page.execute_script("document.body.dataset.preVisit = '1'")
     click_on '🌙 After Dark'
-    assert_no_selector 'body[data-pre-visit]'
+    # Generous wait: CI runners can take several seconds to land the visit.
+    assert_no_selector 'body[data-pre-visit]', wait: 10
 
     # Members start opted in, so the first click is the opt-out.
     assert_selector '#toast.c-toast--visible', text: 'safe-for-work'

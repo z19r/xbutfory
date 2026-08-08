@@ -6,9 +6,16 @@ class RateLimitingTest < ActionDispatch::IntegrationTest
   setup do
     Rack::Attack.enabled = true
     Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+    # Pin the clock: throttle counters live in per-period time buckets, so a
+    # slow runner straddling a bucket boundary mid-loop resets the count and
+    # the Nth request sails through. Frozen time keeps one bucket for all N.
+    freeze_time
   end
 
-  teardown { Rack::Attack.enabled = false }
+  teardown do
+    Rack::Attack.enabled = false
+    unfreeze_time
+  end
 
   test 'hammering sign-in from one IP gets throttled' do
     11.times do

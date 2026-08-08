@@ -85,6 +85,30 @@ class Admin::EntriesControllerTest < ActionDispatch::IntegrationTest
     assert_nil entry.reload.sponsored
   end
 
+  test 'listings index filters by tier' do
+    users(:member).entries.create!(x: 'Uber', y: 'goats', tier: 'featured')
+    users(:member).entries.create!(x: 'Lyft', y: 'llamas')
+    sign_in_as(users(:editor))
+    get admin_entries_path(tier: 'featured')
+    assert_response :success
+    assert_select '.c-sub', 1
+  end
+
+  test 'pull is a no-op on an already-withdrawn listing' do
+    entry =
+      users(:member).entries.create!(x: 'Uber', y: 'goats', status: 'withdrawn')
+    sign_in_as(users(:editor))
+    patch pull_admin_entry_path(entry.id)
+    assert entry.reload.withdrawn?
+  end
+
+  test 'restore is a no-op on a live listing' do
+    entry = users(:member).entries.create!(x: 'Uber', y: 'goats')
+    sign_in_as(users(:editor))
+    patch restore_admin_entry_path(entry.id)
+    assert entry.reload.live?
+  end
+
   test 'non-admins cannot pull listings' do
     entry = users(:member).entries.create!(x: 'Uber', y: 'goats')
     sign_in_as(users(:member))
