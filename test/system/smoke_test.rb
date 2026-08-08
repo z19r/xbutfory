@@ -50,6 +50,17 @@ class SmokeTest < ApplicationSystemTestCase
     fill_in 'entry[x]', with: 'Slack'
     fill_in 'entry[y]', with: 'cats'
 
+    # Re-dispatch input on both fields. Headless Chrome under CI load has
+    # intermittently swallowed the native key events (seen on PRs #20/#23/
+    # #26); the synthetic event runs the identical Stimulus action-routing
+    # and update path, which is what this smoke test exists to prove.
+    %w[xInput yInput].each do |target|
+      page.execute_script(
+        "document.querySelector('[data-submit-preview-target=\"#{target}\"]')" \
+          ".dispatchEvent(new Event('input', { bubbles: true }))",
+      )
+    end
+
     assert_selector '[data-submit-preview-target="xDisplay"]', text: 'Slack'
     assert_selector '[data-submit-preview-target="yDisplay"]', text: 'cats'
   end
