@@ -23,6 +23,10 @@ test-one path:
 test-cov:
     @COVERAGE=1 bin/rails test
 
+# Browser smoke tests (headless Chrome)
+test-system:
+    @bin/rails test:system
+
 # Full CI pipeline (RuboCop + coverage + security audits)
 ci:
     @bin/ci

@@ -4,8 +4,11 @@ require 'simplecov'
 
 BUSINESS_GROUPS = %w[Models Services Controllers].freeze
 FRONTEND_GROUPS = %w[Components].freeze
-BUSINESS_MIN = 90
-FRONTEND_MIN = 65
+# Floors sit just under measured reality (business ~97-100, components 100,
+# branch ~87) so a regression fails fast without inviting gate-chasing.
+BUSINESS_MIN = 95
+FRONTEND_MIN = 90
+BRANCH_MIN = 85
 
 SimpleCov.start 'rails' do
   enable_coverage :branch
@@ -48,6 +51,12 @@ SimpleCov.at_exit do
   if frontend_pct.nil? || frontend_pct < FRONTEND_MIN
     failures << "components #{frontend_pct&.round(1) || 'n/a'}% " \
       "(need #{FRONTEND_MIN}%)"
+  end
+
+  branch_pct = result.coverage_statistics[:branch]&.percent
+  if branch_pct.nil? || branch_pct < BRANCH_MIN
+    failures << "branch #{branch_pct&.round(1) || 'n/a'}% " \
+      "(need #{BRANCH_MIN}%)"
   end
 
   next if failures.empty?
