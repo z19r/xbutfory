@@ -185,3 +185,24 @@ redirect with "coming soon" toast). **Needs design direction before building.**
 5. Auth/accounts → **blocked** pending designs (user supplying). Tracked in ZTODO.
 
 > Questions/designs for the user live in **ZTODO.md**. This file is my execution backlog.
+
+## LAUNCH CHECKLIST (Phase 6 — ops steps, in order)
+
+Repo work is done (PRs #6-#11). What remains needs Zack's accounts:
+
+1. **Credentials** (`bin/rails credentials:edit`):
+   - `sentry.dsn` — then throwaway raise in staging to confirm ingest
+   - `mailgun.smtp_login` / `mailgun.smtp_password`
+   - `stripe.secret_key` / `stripe.publishable_key` / `stripe.webhook_secret`
+2. **DNS**: Mailgun SPF+DKIM on `mg.xbutfory.com`; DMARC (`p=none`) on
+   `xbutfory.com`; A record -> server IP; Cloudflare SSL mode "Full".
+3. **Stripe**: register `https://xbutfory.com/webhooks/stripe` for
+   `checkout.session.completed` + `checkout.session.expired`; e2e a $1.99
+   test-mode purchase via `stripe listen` before flipping live keys.
+4. **Deploy**: fill the three `<REPLACE:*>` values in `config/deploy.yml`
+   (server IP, registry user x2); export `KAMAL_REGISTRY_PASSWORD` +
+   `POSTGRES_PASSWORD`; `kamal setup`.
+5. **Post-deploy**: `/up` healthy; mail flows verified (confirmation,
+   reset, milestone, digest); Sentry receiving; sitemap + `/feed.xml`
+   sanity; Postgres backup cron; uptime monitor.
+6. **Content**: curated seeds pass; masthead version bump for launch issue.

@@ -54,6 +54,10 @@ gem 'stripe', '~> 13.0'
 # State machines for entry/product/user/payment lifecycles [https://github.com/aasm/aasm]
 gem 'aasm', '~> 5.5'
 
+# Request throttling on auth/submit/vote/AI endpoints
+# [https://github.com/rack/rack-attack]
+gem 'rack-attack', '~> 6.7'
+
 # Error tracking — web + Sidekiq report to one DSN; dormant without one
 # [https://github.com/getsentry/sentry-ruby]
 gem 'sentry-rails', '~> 5.22'

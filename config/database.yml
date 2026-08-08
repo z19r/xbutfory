@@ -87,9 +87,10 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: xbutfory_production
-    username: xbutfory
-    password: <%= ENV["XBUTFORY_SCAFFOLD_DATABASE_PASSWORD"] %>
+    host: <%= ENV.fetch("DB_HOST", "localhost") %>
+    database: <%= ENV.fetch("POSTGRES_DB", "xbutfory_production") %>
+    username: <%= ENV.fetch("POSTGRES_USER", "xbutfory") %>
+    password: <%= ENV["POSTGRES_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: xbutfory_production_cache
