@@ -57,6 +57,9 @@ gem 'aasm', '~> 5.5'
 # Request throttling on auth/submit/vote/AI endpoints
 # [https://github.com/rack/rack-attack]
 gem 'rack-attack', '~> 6.7'
+# RedisCacheStore backing rack-attack's throttle counters in production.
+# Sidekiq only brings redis-client, which Rails' cache store can't use.
+gem 'redis', '>= 4.0.1'
 
 # Error tracking — web + Sidekiq report to one DSN; dormant without one
 # [https://github.com/getsentry/sentry-ruby]
