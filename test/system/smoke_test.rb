@@ -43,6 +43,10 @@ class SmokeTest < ApplicationSystemTestCase
     sign_in_through_ui(users(:member))
     visit new_submission_path
 
+    # The controller stamps this on connect; typing before the input->update
+    # bindings exist would leave the preview stuck on the placeholder.
+    assert_selector '[data-preview-ready]'
+
     fill_in 'entry[x]', with: 'Slack'
     fill_in 'entry[y]', with: 'cats'
 
