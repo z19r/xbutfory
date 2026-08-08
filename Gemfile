@@ -63,9 +63,11 @@ gem 'redis', '>= 4.0.1'
 
 # Error tracking — web + Sidekiq report to one DSN; dormant without one
 # [https://github.com/getsentry/sentry-ruby]
-gem 'sentry-rails', '~> 5.22'
-gem 'sentry-ruby', '~> 5.22'
-gem 'sentry-sidekiq', '~> 5.22'
+gem 'sentry-rails', '~> 6.3'
+gem 'sentry-ruby', '~> 6.3'
+gem 'sentry-sidekiq', '~> 6.3'
+# Sampling profiler backing Sentry profiling (config.profiler_class)
+gem 'vernier'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
