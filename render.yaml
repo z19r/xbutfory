@@ -1,0 +1,70 @@
+# Render Blueprint for XbutforY. Web + Sidekiq worker share the Rails 8
+# Dockerfile image; managed Postgres; Key Value (Valkey) carries Sidekiq,
+# Rack::Attack, and anything else on REDIS_URL.
+#
+# Apply: Render dashboard -> New -> Blueprint -> point at this repo.
+# The only manual input is RAILS_MASTER_KEY (sync: false prompts for it).
+#
+# Solid Cache / Solid Cable ride the same Postgres database as the app on
+# Render (their tables are namespaced; database.yml maps all three configs
+# to DATABASE_URL when it's present). bin/rails db:prepare migrates all of
+# them before each deploy goes live.
+
+databases:
+  - name: xbutfory-db
+    plan: basic-256mb
+    postgresMajorVersion: '17'
+
+services:
+  - type: keyvalue
+    name: xbutfory-redis
+    # Paid plan on purpose: the free tier is non-persistent, and losing the
+    # Sidekiq queue on restart means losing enqueued mail.
+    plan: starter
+    ipAllowList: [] # private-network access only
+
+  - type: web
+    name: xbutfory
+    runtime: docker
+    plan: starter
+    healthCheckPath: /up
+    # Migrates primary + cache + cable before the new version takes traffic.
+    preDeployCommand: ./bin/rails db:prepare
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: xbutfory-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: xbutfory-redis
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      # Until the custom domain is attached, mail/OG links point at the
+      # onrender host; flip to xbutfory.com with the domain cutover.
+      - key: APP_HOST
+        value: xbutfory.onrender.com
+      - key: WEB_CONCURRENCY
+        value: 2
+
+  - type: worker
+    name: xbutfory-worker
+    runtime: docker
+    plan: starter
+    dockerCommand: bundle exec sidekiq
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: xbutfory-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: xbutfory-redis
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: APP_HOST
+        value: xbutfory.onrender.com

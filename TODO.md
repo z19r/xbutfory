@@ -199,9 +199,14 @@ Repo work is done (PRs #6-#11). What remains needs Zack's accounts:
 3. **Stripe**: register `https://xbutfory.com/webhooks/stripe` for
    `checkout.session.completed` + `checkout.session.expired`; e2e a $1.99
    test-mode purchase via `stripe listen` before flipping live keys.
-4. **Deploy**: fill the three `<REPLACE:*>` values in `config/deploy.yml`
-   (server IP, registry user x2); export `KAMAL_REGISTRY_PASSWORD` +
-   `POSTGRES_PASSWORD`; `kamal setup`.
+4. **Deploy (Render)**: dashboard -> New -> Blueprint -> this repo
+   (`render.yaml`: web + sidekiq worker + Postgres + Key Value). Only
+   manual input: `RAILS_MASTER_KEY`. After the custom domain is attached,
+   flip `APP_HOST` to `xbutfory.com`. DNS note: Render apex uses
+   CNAME-flattening to `xbutfory.onrender.com`, not an A record.
+   (`config/deploy.yml` remains as the Kamal/VPS alternative — fill its
+   `<REPLACE:*>` values + export `KAMAL_REGISTRY_PASSWORD` /
+   `POSTGRES_PASSWORD`, then `kamal setup`.)
 5. **Post-deploy**: `/up` healthy; mail flows verified (confirmation,
    reset, milestone, digest); Sentry receiving; sitemap + `/feed.xml`
    sanity; Postgres backup cron; uptime monitor.
