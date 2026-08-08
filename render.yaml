@@ -1,5 +1,6 @@
 # Render Blueprint for XbutforY, grouped under the Z19R project (production
-# environment). Everything is pinned to virginia.
+# environment). Everything is pinned to virginia. Native Ruby runtime
+# (bin/render-build.sh builds; Thruster fronts Puma), not Docker.
 #
 # Redis layout follows the Z19R convention (see markbin-dot-net):
 #   REDIS_SIDEKIQ_URL -> this project's own Key Value instance, queue only
@@ -40,10 +41,13 @@ projects:
 
           - type: web
             name: xbutfory-web
-            runtime: docker
+            runtime: ruby
             plan: starter
             region: virginia
             healthCheckPath: /up
+            buildCommand: './bin/render-build.sh'
+            # Thruster fronts Puma (gzip, asset caching, X-Sendfile).
+            startCommand: 'bundle exec thrust bundle exec puma -C config/puma.rb'
             # Migrates primary + cache + cable before going live.
             preDeployCommand: ./bin/rails db:prepare
             envVars:
@@ -59,7 +63,6 @@ projects:
                   property: connectionString
               - key: WEB_CONCURRENCY
                 value: 2
-              # Thruster fronts Puma (Dockerfile CMD is bin/thrust).
               # Thruster listens on HTTP_PORT for Render's traffic and
               # sets the child PORT to TARGET_PORT, so Puma binds 3000.
               - key: PORT
@@ -71,10 +74,11 @@ projects:
 
           - type: worker
             name: xbutfory-worker
-            runtime: docker
+            runtime: ruby
             plan: starter
             region: virginia
-            dockerCommand: bundle exec sidekiq
+            buildCommand: './bin/render-build.sh'
+            startCommand: 'bundle exec sidekiq'
             envVars:
               - fromGroup: xbutfory-common
               - key: DATABASE_URL
