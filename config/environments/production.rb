@@ -51,7 +51,8 @@ Rails.application.configure do
   # Replace the default in-process memory cache store with a durable alternative.
   config.cache_store = :solid_cache_store
 
-  # Active Job runs on Sidekiq (configured globally in application.rb).
+  # Background work runs on native Sidekiq workers (app/jobs); mail is
+  # delivered from those workers via the SMTP settings below.
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
