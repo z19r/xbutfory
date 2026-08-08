@@ -23,6 +23,11 @@ class SmokeTest < ApplicationSystemTestCase
     sign_in_through_ui(users(:member))
     visit root_path
 
+    # The "· ON" suffix is written by the Stimulus controller's connect, so
+    # waiting for it proves the click below lands after the action is bound.
+    # Without this the click can fire first and silently do nothing.
+    assert_selector '.c-utility-bar__after-dark', text: 'ON'
+
     # Marker on the body element only: the toggle's Turbo visit replaces the
     # body, so its disappearance is the signal that the reload has landed.
     page.execute_script("document.body.dataset.preVisit = '1'")
