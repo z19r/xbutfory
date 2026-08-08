@@ -16,6 +16,7 @@ class MilestoneNotifier
     count = @entry.reload.votes_count
     return unless THRESHOLDS.include?(count)
     return unless self.class.notifiable?(@entry.user)
+    return unless claim(count)
 
     MilestoneEmailJob.perform_async(@entry.id, count)
   end
@@ -23,5 +24,17 @@ class MilestoneNotifier
   # Shared with MilestoneEmailJob, which re-checks at perform time.
   def self.notifiable?(owner)
     owner.present? && owner.milestone_notifications? && owner.handle != 'legacy'
+  end
+
+  private
+
+  # Atomically advances the entry's milestone high-water mark. Exactly one of
+  # any concurrent checks wins the conditional UPDATE, so a threshold can
+  # never email twice.
+  def claim(count)
+    Entry
+      .where(id: @entry.id)
+      .where(last_milestone: ...count)
+      .update_all(last_milestone: count) == 1
   end
 end

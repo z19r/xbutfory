@@ -8,11 +8,18 @@ module Webhooks
       event = verified_event
       return head :bad_request unless event
 
-      if event.type == 'checkout.session.completed'
-        session = event.data.object
+      session = event.data.object
+
+      case event.type
+      when 'checkout.session.completed'
         Payment.find_by(stripe_session_id: session.id)&.fulfill!(
           payment_intent: session.payment_intent,
         )
+      when 'checkout.session.expired'
+        # An abandoned checkout closes out the pending row; the entry never
+        # left the free tier, so there's nothing to demote.
+        payment = Payment.find_by(stripe_session_id: session.id)
+        payment&.with_lock { payment.fail! if payment.pending? }
       end
 
       head :ok

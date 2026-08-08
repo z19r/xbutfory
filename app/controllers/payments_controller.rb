@@ -7,9 +7,12 @@ class PaymentsController < ApplicationController
   def success
     payment =
       current_user.payments.find_by(stripe_session_id: params[:session_id])
+    session = payment && checkout_session(payment)
 
-    if payment && checkout_paid?(payment)
-      payment.fulfill!
+    if session&.payment_status == 'paid'
+      # The intent is persisted inside fulfill!'s row lock — no dirty-record
+      # pre-update that could poison with_lock.
+      payment.fulfill!(payment_intent: session.payment_intent)
       redirect_to manage_submissions_path,
                   notice: 'Payment received — your listing is now Featured. 🎉'
     else
@@ -27,11 +30,9 @@ class PaymentsController < ApplicationController
 
   private
 
-  def checkout_paid?(payment)
-    session = Stripe::Checkout::Session.retrieve(payment.stripe_session_id)
-    payment.update(stripe_payment_intent: session.payment_intent)
-    session.payment_status == 'paid'
+  def checkout_session(payment)
+    Stripe::Checkout::Session.retrieve(payment.stripe_session_id)
   rescue Stripe::StripeError
-    false
+    nil
   end
 end

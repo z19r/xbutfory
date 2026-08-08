@@ -44,13 +44,17 @@ class Payment < ApplicationRecord
     paid? || free?
   end
 
-  # Idempotent: settle the purchase and promote its entry to Featured. Kept as
+  # Idempotent and race-safe: settle the purchase and promote its entry to
+  # Featured. The row lock reloads state, so the success return and the
+  # webhook can both fire (even concurrently) and only one settles. Kept as
   # the public API for the webhook and coupon flows; drives the state machine.
   def fulfill!(status: 'paid', payment_intent: nil)
-    return if settled?
+    with_lock do
+      next if settled?
 
-    self.stripe_payment_intent = payment_intent if payment_intent
-    status.to_s == 'free' ? grant! : pay!
+      self.stripe_payment_intent = payment_intent if payment_intent
+      status.to_s == 'free' ? grant! : pay!
+    end
   end
 
   private

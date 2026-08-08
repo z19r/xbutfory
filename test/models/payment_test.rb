@@ -52,6 +52,17 @@ class PaymentTest < ActiveSupport::TestCase
     assert_nil payment.reload.stripe_payment_intent
   end
 
+  test 'fulfilling a stale copy of a settled payment is a no-op' do
+    payment = pending_payment
+    stale = Payment.find(payment.id)
+    payment.fulfill!
+
+    stale.fulfill!(payment_intent: 'pi_dupe') # still believes it's pending
+
+    assert_equal 'paid', payment.reload.status
+    assert_nil payment.reload.stripe_payment_intent
+  end
+
   test 'a coupon grant settles as free' do
     payment = pending_payment(status: 'free')
     assert payment.settled?
