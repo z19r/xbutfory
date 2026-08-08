@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
-# Sidekiq connects to Redis at REDIS_URL (defaults to localhost:6379).
-redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379/0')
+# Z19R convention (see markbin-dot-net): REDIS_SIDEKIQ_URL is this
+# project's queue instance; REDIS_URL is the shared cache Redis and must
+# not carry Sidekiq state. Dev/test fall through to localhost.
+redis_url =
+  ENV.fetch('REDIS_SIDEKIQ_URL', ENV.fetch('REDIS_URL', 'redis://localhost:6379/0'))
 
 Sidekiq.configure_server do |config|
   config.redis = { url: redis_url }
