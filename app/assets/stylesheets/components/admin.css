@@ -56,3 +56,132 @@
   outline: none;
   border-color: var(--ink);
 }
+
+/* --- Back-office chrome: nav, stats, filters, recent-activity columns --- */
+
+.l-admin__nav {
+  margin-bottom: 22px;
+}
+
+.l-admin__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 0 0 26px;
+}
+
+.l-admin__stat {
+  padding: 14px 16px;
+  border-top: 2px solid var(--ink);
+}
+
+.l-admin__stat-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: var(--fw-bold);
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.l-admin__stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+}
+
+.l-admin__filterbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+
+.l-admin__search,
+.l-admin__select {
+  padding: 8px 12px;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-input);
+  box-shadow: var(--shadow-inset);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.l-admin__search {
+  flex: 1 1 220px;
+}
+
+.l-admin__search:focus,
+.l-admin__select:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+.l-admin__aside {
+  margin: 0 0 18px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: var(--fw-light);
+  color: var(--text-soft);
+}
+
+.l-admin__columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+.l-admin__col-title {
+  margin: 0 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.16em;
+  color: var(--ink);
+}
+
+.l-admin__recent {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.l-admin__recent-row {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border-rule);
+}
+
+.l-admin__recent-main {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: var(--fw-bold);
+  color: var(--ink);
+}
+
+.l-admin__recent-main i {
+  color: var(--text-soft);
+  font-weight: var(--fw-medium);
+}
+
+.l-admin__recent-meta {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-faint);
+}
+
+/* Tier + sponsor marks on back-office rows. */
+.c-sub__pill--featured {
+  color: var(--sponsor-tag);
+}
+
+.c-sub__pill--sponsored {
+  color: var(--sponsor);
+}

@@ -10,7 +10,11 @@ module Authentication
   def current_user
     return @current_user if defined?(@current_user)
 
-    @current_user = Current.user = User.find_by(id: session[:user_id])
+    user = User.find_by(id: session[:user_id])
+    # A suspension ends existing sessions too — a banned member is signed out
+    # on their next request, not just blocked at the sign-in door.
+    user = nil if user&.suspended?
+    @current_user = Current.user = user
   end
 
   def user_signed_in?

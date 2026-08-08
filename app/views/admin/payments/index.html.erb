@@ -1,0 +1,67 @@
+<% content_for :title, "Money — XbutforY back office" %>
+<% content_for :nav_tab, "none" %>
+
+<%= render "admin/shared/nav", title: "Money", section: :payments %>
+
+<section class="l-admin__stats" aria-label="Revenue totals">
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_to_currency(@revenue_total_cents / 100.0) %></span>
+    <span class="l-admin__stat-label">SETTLED, ALL TIME</span>
+  </div>
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_to_currency(@revenue_month_cents / 100.0) %></span>
+    <span class="l-admin__stat-label">SETTLED, THIS MONTH</span>
+  </div>
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_to_currency(@refunded_cents / 100.0) %></span>
+    <span class="l-admin__stat-label">REFUNDED</span>
+  </div>
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_with_delimiter(@counts.values.sum) %></span>
+    <span class="l-admin__stat-label">PAYMENTS TOTAL</span>
+  </div>
+</section>
+
+<p class="l-admin__aside">
+  Refunds happen in the Stripe dashboard first; the button here only keeps the
+  ledger honest and drops the listing back to free.
+</p>
+
+<div class="l-manage__list">
+  <% if @payments.empty? %>
+    <p class="l-admin__empty">No payments yet. The ledger is patient.</p>
+  <% end %>
+
+  <% @payments.each do |payment| %>
+    <article class="c-sub">
+      <div class="c-sub__votes">
+        <span class="c-sub__votes-num"><%= number_to_currency(payment.amount_cents / 100.0, unit: "$", precision: 2) %></span>
+        <span class="c-sub__votes-label"><%= payment.currency.upcase %></span>
+      </div>
+
+      <div class="c-sub__body">
+        <div class="c-sub__meta">
+          <span class="c-sub__pill c-sub__pill--<%= payment.settled? ? 'live' : (payment.refunded? ? 'needs_edits' : 'pending') %>">
+            <%= payment.status.upcase %>
+          </span>
+          <% if payment.coupon_code.present? %>
+            <span class="c-sub__cat">COUPON: <%= payment.coupon_code %></span>
+          <% end %>
+          <span class="c-sub__ago">@<%= payment.user.handle %> &middot; <%= payment.created_at.strftime("%b %-d, %Y") %></span>
+        </div>
+        <div class="c-sub__title"><%= payment.entry.x %> <i>but for</i> <%= payment.entry.y %></div>
+        <% if payment.stripe_payment_intent.present? %>
+          <p class="l-admin__desc"><%= payment.stripe_payment_intent %></p>
+        <% end %>
+      </div>
+
+      <div class="c-sub__actions l-admin__actions">
+        <% if payment.may_refund? %>
+          <%= button_to "Mark refunded", refund_admin_payment_path(payment), method: :patch,
+                class: "c-sub__action c-sub__action--muted",
+                form: { data: { turbo_confirm: "Already refunded in Stripe? This flips the ledger and unfeatures the listing." } } %>
+        <% end %>
+      </div>
+    </article>
+  <% end %>
+</div>

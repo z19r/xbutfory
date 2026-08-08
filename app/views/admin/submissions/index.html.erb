@@ -4,11 +4,7 @@
   labels = { "pending" => "Pending", "needs_edits" => "Needs edits", "live" => "Live", "withdrawn" => "Withdrawn" }
 %>
 
-<header class="l-manage__head">
-  <div class="l-manage__eyebrow">EDITORIAL</div>
-  <h1 class="l-manage__title">Moderation queue</h1>
-  <div class="l-manage__rule"></div>
-</header>
+<%= render "admin/shared/nav", title: "Moderation queue", section: :submissions %>
 
 <nav class="l-manage__filters" aria-label="Filter by status">
   <% Admin::SubmissionsController::STATUSES.each do |status| %>

@@ -71,6 +71,16 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :api_key, presence: true, uniqueness: true
 
+  # Back-office member lookup: @handle, email or display name, any fragment.
+  scope :search,
+        ->(q) do
+          term = "%#{sanitize_sql_like(q)}%"
+          where(
+            'handle ILIKE :t OR email ILIKE :t OR display_name ILIKE :t',
+            t: term,
+          )
+        end
+
   # The placeholder owner for migrated anonymous entries.
   def self.legacy
     find_by(handle: 'legacy')
