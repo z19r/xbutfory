@@ -9,8 +9,9 @@ Rails.application.configure do
   # While tests run files are not watched, reloading is not necessary.
   config.enable_reloading = false
 
-  # Use the Active Job test adapter (not Sidekiq) so job/email assertions run
-  # without a Redis-backed queue.
+  # First-party jobs are native Sidekiq workers exercised via
+  # Sidekiq::Testing.fake! (test_helper). The ActiveJob test adapter covers
+  # the framework's own jobs (ActiveStorage) without a Redis-backed queue.
   config.active_job.queue_adapter = :test
 
   # Eager loading loads your entire application. When running a single test locally,

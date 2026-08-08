@@ -14,7 +14,7 @@ class ConfirmationsController < ApplicationController
   # Resend the confirmation email to the signed-in, still-unconfirmed member.
   def create
     if current_user && !current_user.confirmed?
-      UserMailer.confirmation(current_user).deliver_later
+      ConfirmationEmailJob.perform_async(current_user.id)
     end
     redirect_back fallback_location: root_path,
                   notice: 'Confirmation email on its way.'

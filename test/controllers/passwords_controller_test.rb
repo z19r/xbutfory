@@ -8,14 +8,14 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'requesting a reset for a known email enqueues the mail' do
-    assert_enqueued_emails 1 do
+    assert_difference -> { PasswordResetEmailJob.jobs.size }, 1 do
       post password_reset_path, params: { email: users(:member).email }
     end
     assert_redirected_to sign_in_path
   end
 
   test 'requesting a reset for an unknown email is silent (no leak, no mail)' do
-    assert_no_enqueued_emails do
+    assert_no_difference -> { PasswordResetEmailJob.jobs.size } do
       post password_reset_path, params: { email: 'nobody@example.com' }
     end
     assert_redirected_to sign_in_path

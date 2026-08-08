@@ -8,7 +8,7 @@ class RegistrationsController < ApplicationController
   def create
     user = User.new(registration_params)
     if user.save
-      UserMailer.confirmation(user).deliver_later
+      ConfirmationEmailJob.perform_async(user.id)
       sign_in(user)
       redirect_to root_path,
                   notice:

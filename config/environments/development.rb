@@ -38,8 +38,8 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
-  # Active Job runs on Sidekiq (configured globally in application.rb); the
-  # Sidekiq worker in Procfile.dev processes deliver_later so letter_opener fires.
+  # Mail delivery is enqueued as native Sidekiq email jobs (app/jobs); the
+  # Sidekiq worker in Procfile.dev performs them so letter_opener fires.
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false

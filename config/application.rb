@@ -19,8 +19,12 @@ module XbutforyScaffold
     # This box ships ImageMagick, not libvips, so process avatar variants with it.
     config.active_storage.variant_processor = :mini_magick
 
-    # Background jobs run on Sidekiq (Redis) in every environment — the house
-    # standard. Do not switch this to Solid Queue or the inline/async adapters.
+    # All first-party background work runs on native Sidekiq workers
+    # (app/jobs, `include Sidekiq::Job`) — no ActiveJob, no deliver_later.
+    # ActiveJob itself stays loaded only because framework internals
+    # (ActiveStorage analysis/purge, Turbo broadcasts) depend on it; pin its
+    # adapter to Sidekiq so even those run through Redis. Do not switch this
+    # to Solid Queue or the inline/async adapters.
     config.active_job.queue_adapter = :sidekiq
 
     # Configuration for the application, engines, and railties goes here.
