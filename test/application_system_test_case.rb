@@ -4,8 +4,18 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # External hosts are blocked (resolved to localhost so requests fail fast):
   # Google Fonts' late display=swap reflow shifts the layout seconds into a
   # slow CI run, and Selenium clicks/keys computed against the pre-swap
-  # geometry land on nothing — the source of every smoke-test flake to date.
-  # Fallback fonts render immediately and the page never reflows.
+  # geometry land on nothing. Fallback fonts render immediately and the page
+  # never reflows.
+  #
+  # The backgrounding flags fix a separate, longer-running flake. A headless
+  # window counts as occluded, so Chrome deprioritises its renderer; when CI
+  # is loaded, the synthesised key and pointer events are then silently
+  # dropped. WebDriver still reports success — it focuses the element and
+  # returns — so a click produces no click event at all and fill_in leaves
+  # the field empty, with no error to retry on. Captured directly in CI:
+  # activeElement was the focused input while its value stayed "", and the
+  # After Dark click logged no trusted click event in the capture phase,
+  # while Stimulus bindings were provably live the whole time.
   driven_by :selenium,
             using: :headless_chrome,
             screen_size: [1400, 900] do |options|
@@ -16,6 +26,9 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
         'MAP startupbar.co 127.0.0.1,' \
         'MAP cloud.umami.is 127.0.0.1',
     )
+    options.add_argument('--disable-renderer-backgrounding')
+    options.add_argument('--disable-backgrounding-occluded-windows')
+    options.add_argument('--disable-background-timer-throttling')
   end
 
   # TEMPORARY (flake investigation): record navigations and Turbo visits into
