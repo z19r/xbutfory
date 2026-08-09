@@ -62,6 +62,20 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     warn "nav recorder unavailable: #{e.message}"
   end
 
+  # TEMPORARY (flake investigation): any failing system test dumps the click
+  # and Turbo lifecycle log, so a no-op click is visible wherever it happens
+  # — including inside sign_in_through_ui.
+  teardown do
+    next if passed?
+
+    warn "\n===== NAV/CLICK LOG (#{name}) =====\n"
+    warn page.evaluate_script('window.name').to_s.tr('|', "\n")
+    warn "\nURL: #{page.current_url}"
+    warn "\n===== END LOG =====\n"
+  rescue StandardError => e
+    warn "log dump unavailable: #{e.message}"
+  end
+
   # Sign in through the real form — system tests exercise the whole UI stack,
   # so no request-level shortcuts here.
   def sign_in_through_ui(user, password: 'password')
