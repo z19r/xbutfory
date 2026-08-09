@@ -28,17 +28,17 @@
   --card-gap: 18px; /* vote box ↔ card body */
   --feed-gap: 16px; /* between stacked cards */
 
-  /* The StartupBar widget pins a 36px bar to the top of the viewport. It only
-     renders in production, so the reserved space is 0 unless the layout marks
-     the document with data-startupbar.
+  /* The StartupBar widget pins a bar to the top of the viewport. This offsets
+     our sticky bars by its height. Do NOT also pad the body: the widget's
+     loader applies its own body padding and ours stacks on top of it, leaving
+     a doubled dead strip. Its auto-shift does not find our sticky nav (there
+     is no <header> element to match), which is why we shift it here.
 
-     This offsets our sticky bars only. Do NOT also pad the body: the widget's
-     loader applies its own 36px body padding and ours stacks on top of it,
-     leaving a 72px dead strip. Its auto-shift does not find our sticky nav
-     (there is no <header> element to match), which is why we shift it here. */
+     The height is measured from that body padding at runtime by
+     startupbar_offset_controller, because the widget is a third-party embed:
+     asking for it (Rails.env.production?) is not the same as it rendering. A
+     hard-coded reservation left the nav floating below a bar that was blocked,
+     failed to load, or had nothing to show. 0 is the correct default — it is
+     what the page looks like whenever no bar is present. */
   --startupbar-h: 0px;
-}
-
-:root[data-startupbar] {
-  --startupbar-h: 36px;
 }

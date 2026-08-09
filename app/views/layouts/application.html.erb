@@ -41,7 +41,9 @@
     <% end %>
   </head>
 
-  <body class="<%= content_for(:body_class) %>">
+  <%# The offset controller only has work to do when we asked for the widget;
+      without it --startupbar-h stays 0 and the nav sits flush with the top. %>
+  <body class="<%= content_for(:body_class) %>" <%= tag.attributes(data: { controller: ("startupbar-offset" if startupbar_enabled?) }) %>>
     <%= render "shared/umami_identify" %>
     <%# Server-set conversions (submitted a listing, completed a payment) get
         fired client-side once the page with the flash loads. %>
