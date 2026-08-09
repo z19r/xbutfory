@@ -25,6 +25,13 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     (() => {
       const log = (m) => { try { window.name = (window.name || '') + '|' + m; } catch (e) {} };
       log('LOAD:' + location.pathname + location.search);
+      window.addEventListener('error', (e) => log(
+        'JSERROR:' + (e.message || '') + '@' + (e.filename || '') + ':' + (e.lineno || '')
+      ), true);
+      window.addEventListener('unhandledrejection', (e) => log(
+        'REJECTION:' + ((e.reason && (e.reason.message || e.reason)) || '')
+      ));
+      log('TURBO:' + (typeof window.Turbo));
       ['turbo:visit', 'turbo:before-render', 'turbo:load', 'turbo:before-fetch-request']
         .forEach((n) => document.addEventListener(n, (e) => {
           log(n + ':' + ((e.detail && e.detail.url) || ''));

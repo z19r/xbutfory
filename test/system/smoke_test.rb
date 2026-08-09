@@ -31,9 +31,20 @@ class SmokeTest < ApplicationSystemTestCase
     # Marker on the body element only: the toggle's Turbo visit replaces the
     # body, so its disappearance is the signal that the reload has landed.
     page.execute_script("document.body.dataset.preVisit = '1'")
+    before_rect = button_rect
     click_on '🌙 After Dark'
     # Generous wait: CI runners can take several seconds to land the visit.
-    assert_no_selector 'body[data-pre-visit]', wait: 10
+    begin
+      assert_no_selector 'body[data-pre-visit]', wait: 10
+    rescue Minitest::Assertion => e
+      warn "\n===== AFTER DARK FLAKE DIAGNOSTICS =====\n"
+      warn "RECT BEFORE CLICK: #{before_rect.inspect}"
+      warn "RECT AFTER:        #{button_rect.inspect}"
+      warn(page.evaluate_script(AFTER_DARK_STATE_JS).inspect)
+      warn "\nNAV LOG: #{page.evaluate_script('window.name')}"
+      warn "\n===== END DIAGNOSTICS =====\n"
+      raise e
+    end
 
     # Members start opted in, so the first click is the opt-out.
     assert_selector '#toast.c-toast--visible', text: 'safe-for-work'
@@ -65,6 +76,47 @@ class SmokeTest < ApplicationSystemTestCase
   end
 
   private
+
+  RECT_JS = <<~JS.freeze
+    (() => {
+      const b = document.querySelector('.c-utility-bar__after-dark');
+      if (!b) return '<<missing>>';
+      const r = b.getBoundingClientRect();
+      return { x: Math.round(r.x), y: Math.round(r.y),
+               w: Math.round(r.width), h: Math.round(r.height),
+               text: b.textContent,
+               atCenter: (() => {
+                 const el = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+                 return el ? el.className + '|' + el.tagName : '<<none>>';
+               })() };
+    })()
+  JS
+
+  AFTER_DARK_STATE_JS = <<~JS.freeze
+    (() => {
+      const b = document.querySelector('.c-utility-bar__after-dark');
+      const before = b ? b.textContent : '<<missing>>';
+      // Does a synthetic click route through Stimulus? If this toggles the
+      // label, the binding is live and the real click simply missed.
+      if (b) b.click();
+      return {
+        turbo: typeof window.Turbo,
+        cookie: document.cookie,
+        labelBeforeSyntheticClick: before,
+        labelAfterSyntheticClick: b ? b.textContent : '<<missing>>',
+        preVisitMarker: document.body.dataset.preVisit || '<<gone>>',
+        url: location.pathname + location.search,
+        buttonCount: document.querySelectorAll('.c-utility-bar__after-dark').length,
+        action: b ? b.getAttribute('data-action') : null
+      };
+    })()
+  JS
+
+  def button_rect
+    page.evaluate_script(RECT_JS)
+  rescue StandardError => e
+    { rect_failed: e.message }
+  end
 
   # TEMPORARY (flake investigation): assert the preview, and on failure dump
   # everything needed to tell the two remaining hypotheses apart — an empty
