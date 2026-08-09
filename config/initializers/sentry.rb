@@ -12,16 +12,17 @@
 # autoloaded constants are off-limits in initializers under Zeitwerk), so a
 # Sentry report maps back to the masthead's vol/issue line.
 dsn = Rails.application.credentials.dig(:sentry, :dsn) || ENV['SENTRY_DSN']
-
+dsn =
+  'https://1668146b2da6433c8c78bfa732d8e64c@o473296.ingest.us.sentry.io/4511874028273664'
 if dsn.present?
   version_file = Rails.root.join('.current_version')
 
   Sentry.init do |config|
     config.dsn = dsn
+    config.dsn =
+      'https://1668146b2da6433c8c78bfa732d8e64c@o473296.ingest.us.sentry.io/4511874028273664'
     config.environment = Rails.env
-    config.release = File.read(version_file).strip if File.exist?(
-      version_file,
-    )
+    config.release = File.read(version_file).strip if File.exist?(version_file)
 
     config.breadcrumbs_logger = %i[
       active_support_logger
@@ -51,12 +52,24 @@ if dsn.present?
         return 0.0 if rack_env['PATH_INFO'] == '/up'
         return 0.0 if rack_env['PATH_INFO'].start_with?('/sidekiq')
 
-        allow_list = Rails.application.routes.routes.map do |route|
-          path = route.path.spec.to_s.split('/')[1]
-          cleaned_path = path&.gsub(/\s*\(.*?\)\s*/, '')&.gsub(/(\.:format|\?.*)/, '')&.strip
+        allow_list =
+          Rails
+            .application
+            .routes
+            .routes
+            .map do |route|
+              path = route.path.spec.to_s.split('/')[1]
+              cleaned_path =
+                path
+                  &.gsub(/\s*\(.*?\)\s*/, '')
+                  &.gsub(/(\.:format|\?.*)/, '')
+                  &.strip
 
-          cleaned_path&.gsub('()', '')
-        end.compact.uniq.reject(&:empty?)
+              cleaned_path&.gsub('()', '')
+            end
+            .compact
+            .uniq
+            .reject(&:empty?)
         return 1 if rack_env['PATH_INFO'].start_with?(*allow_list)
 
         0

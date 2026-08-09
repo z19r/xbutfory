@@ -32,7 +32,7 @@ class SmokeTest < ApplicationSystemTestCase
     # body, so its disappearance is the signal that the reload has landed.
     page.execute_script("document.body.dataset.preVisit = '1'")
     before_rect = button_rect
-    click_on '🌙 After Dark'
+    click_and_confirm '🌙 After Dark'
     # Generous wait: CI runners can take several seconds to land the visit.
     begin
       assert_no_selector 'body[data-pre-visit]', wait: 10
@@ -60,6 +60,14 @@ class SmokeTest < ApplicationSystemTestCase
 
     fill_in 'entry[x]', with: 'Slack'
     fill_in 'entry[y]', with: 'cats'
+
+    # Did the keystrokes actually land? WebDriver returns success either way.
+    typed = page.evaluate_script(
+      "[document.querySelector('#entry_x').value," \
+        "document.querySelector('#entry_y').value].join('|')",
+    )
+    warn "\n===== DROPPED KEYS: #{typed.inspect} #{env_probe.inspect}\n" if
+      typed != 'Slack|cats'
 
     # Re-dispatch input on both fields. Headless Chrome under CI load has
     # intermittently swallowed the native key events (seen on PRs #20/#23/

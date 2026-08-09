@@ -89,6 +89,60 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     warn "log dump unavailable: #{e.message}"
   end
 
+  # TEMPORARY (flake investigation): the browser state at the instant an
+  # interaction goes missing. WebDriver reports success either way, so this is
+  # the only way to see which precondition differs on a dropped event.
+  ENV_PROBE_JS = <<~JS.freeze
+    (() => ({
+      visibility: document.visibilityState,
+      hasFocus: document.hasFocus(),
+      activeElement: document.activeElement
+        ? document.activeElement.tagName + '#' + (document.activeElement.id || '')
+        : null,
+      inner: window.innerWidth + 'x' + window.innerHeight,
+      outer: window.outerWidth + 'x' + window.outerHeight,
+      scroll: window.scrollX + ',' + window.scrollY,
+      dpr: window.devicePixelRatio,
+      readyState: document.readyState
+    }))()
+  JS
+
+  def env_probe
+    page.evaluate_script(ENV_PROBE_JS)
+  rescue StandardError => e
+    { probe_failed: e.message }
+  end
+
+  def click_count
+    page.evaluate_script("(window.name || '').split('CLICK:').length - 1")
+  rescue StandardError
+    -1
+  end
+
+  # Click, then confirm the browser actually dispatched a click. If it did
+  # not, dump every precondition plus the window handles — WebDriver raises
+  # nothing here, so without this the loss is invisible.
+  def click_and_confirm(locator, **opts)
+    before_env = env_probe
+    before_count = click_count
+    handles = page.driver.browser.window_handles.length
+
+    click_on locator, **opts
+
+    landed = false
+    20.times do
+      break landed = true if click_count > before_count
+
+      sleep 0.05
+    end
+    return if landed
+
+    warn "\n===== DROPPED CLICK (#{locator.inspect}) =====\n"
+    warn "handles=#{handles} before=#{before_env.inspect}"
+    warn "after=#{env_probe.inspect}"
+    warn "===== END DROPPED CLICK =====\n"
+  end
+
   # Sign in through the real form — system tests exercise the whole UI stack,
   # so no request-level shortcuts here.
   def sign_in_through_ui(user, password: 'password')
@@ -96,7 +150,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     fill_in 'login', with: user.email
     fill_in 'password', with: password
     # Scoped: the top nav's SIGN IN link also smart-matches "Sign in".
-    within('.c-auth-form') { click_on 'Sign in' }
+    within('.c-auth-form') { click_and_confirm 'Sign in' }
+    warn "post-fill env: #{env_probe.inspect}" unless ENV['QUIET_PROBE']
     # Block until the redirect lands (signed-in nav carries the sign-out
     # form, hidden inside the account dropdown) — otherwise a caller's next
     # visit can interrupt the in-flight POST and drop the session.
