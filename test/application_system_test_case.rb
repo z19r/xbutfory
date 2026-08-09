@@ -32,11 +32,25 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
         'REJECTION:' + ((e.reason && (e.reason.message || e.reason)) || '')
       ));
       log('TURBO:' + (typeof window.Turbo));
-      ['turbo:visit', 'turbo:before-render', 'turbo:load', 'turbo:before-fetch-request']
-        .forEach((n) => document.addEventListener(n, (e) => {
-          log(n + ':' + ((e.detail && e.detail.url) || ''));
-        }));
-      window.addEventListener('beforeunload', () => log('UNLOAD'));
+      const t0 = performance.now();
+      const at = () => '@' + Math.round(performance.now() - t0) + 'ms';
+      [
+        'turbo:click', 'turbo:before-visit', 'turbo:visit', 'turbo:before-cache',
+        'turbo:before-render', 'turbo:render', 'turbo:load',
+        'turbo:before-fetch-request', 'turbo:before-fetch-response',
+        'turbo:fetch-request-error', 'turbo:frame-missing'
+      ].forEach((n) => document.addEventListener(n, (e) => {
+        log(n + ':' + ((e.detail && e.detail.url) || '') + at());
+      }));
+      // What does a real click actually hit? Capture phase, so nothing can
+      // stop this from seeing the event Chrome dispatched.
+      window.addEventListener('click', (e) => {
+        const el = e.target;
+        log('CLICK:' + (el.tagName || '?') + '.' + (el.className || '') +
+            '[' + Math.round(e.clientX) + ',' + Math.round(e.clientY) + ']' +
+            (e.isTrusted ? 'trusted' : 'synthetic') + at());
+      }, true);
+      window.addEventListener('beforeunload', () => log('UNLOAD' + at()));
     })();
   JS
 
