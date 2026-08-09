@@ -1,0 +1,91 @@
+<% content_for :title, "Back office — XbutforY" %>
+<% content_for :nav_tab, "none" %>
+
+<%= render "admin/shared/nav", title: "The desk", section: :dashboard %>
+
+<section class="l-admin__stats" aria-label="Site totals">
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_with_delimiter(@entry_counts["live"].to_i) %></span>
+    <span class="l-admin__stat-label">LIVE LISTINGS</span>
+  </div>
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_with_delimiter(@entry_counts["pending"].to_i) %></span>
+    <span class="l-admin__stat-label">IN THE QUEUE</span>
+  </div>
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_with_delimiter(@new_today) %></span>
+    <span class="l-admin__stat-label">NEW TODAY</span>
+  </div>
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_with_delimiter(@total_votes) %></span>
+    <span class="l-admin__stat-label">VOTES CAST</span>
+  </div>
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_with_delimiter(@user_counts.values.sum) %></span>
+    <span class="l-admin__stat-label">MEMBERS</span>
+  </div>
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_with_delimiter(@user_counts["suspended"].to_i) %></span>
+    <span class="l-admin__stat-label">SUSPENDED</span>
+  </div>
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_to_currency(@revenue_total_cents / 100.0) %></span>
+    <span class="l-admin__stat-label">REVENUE, ALL TIME</span>
+  </div>
+  <div class="l-admin__stat">
+    <span class="l-admin__stat-num"><%= number_to_currency(@revenue_month_cents / 100.0) %></span>
+    <span class="l-admin__stat-label">REVENUE, THIS MONTH</span>
+  </div>
+</section>
+
+<div class="l-admin__columns">
+  <section class="l-admin__col" aria-label="Latest listings">
+    <h2 class="l-admin__col-title">LATEST LISTINGS</h2>
+    <ul class="l-admin__recent">
+      <% @recent_entries.each do |entry| %>
+        <li class="l-admin__recent-row">
+          <span class="l-admin__recent-main"><%= entry.x %> <i>but for</i> <%= entry.y %></span>
+          <span class="l-admin__recent-meta">
+            <%= entry.status %> &middot; @<%= entry.user.handle %> &middot;
+            <%= time_ago_in_words(entry.created_at) %> ago
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+
+  <section class="l-admin__col" aria-label="Newest members">
+    <h2 class="l-admin__col-title">NEWEST MEMBERS</h2>
+    <ul class="l-admin__recent">
+      <% @recent_users.each do |user| %>
+        <li class="l-admin__recent-row">
+          <span class="l-admin__recent-main">@<%= user.handle %></span>
+          <span class="l-admin__recent-meta">
+            <%= user.state %> &middot; <%= user.email %> &middot;
+            <%= time_ago_in_words(user.created_at) %> ago
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+
+  <section class="l-admin__col" aria-label="Latest payments">
+    <h2 class="l-admin__col-title">LATEST PAYMENTS</h2>
+    <ul class="l-admin__recent">
+      <% if @recent_payments.empty? %>
+        <li class="l-admin__empty">No money yet. The ledger is patient.</li>
+      <% end %>
+      <% @recent_payments.each do |payment| %>
+        <li class="l-admin__recent-row">
+          <span class="l-admin__recent-main">
+            <%= number_to_currency(payment.amount_cents / 100.0) %> — <%= payment.entry.title %>
+          </span>
+          <span class="l-admin__recent-meta">
+            <%= payment.status %> &middot; @<%= payment.user.handle %> &middot;
+            <%= time_ago_in_words(payment.created_at) %> ago
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+</div>

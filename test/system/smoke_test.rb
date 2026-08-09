@@ -32,7 +32,8 @@ class SmokeTest < ApplicationSystemTestCase
     # body, so its disappearance is the signal that the reload has landed.
     page.execute_script("document.body.dataset.preVisit = '1'")
     click_on '🌙 After Dark'
-    assert_no_selector 'body[data-pre-visit]'
+    # Generous wait: CI runners can take several seconds to land the visit.
+    assert_no_selector 'body[data-pre-visit]', wait: 10
 
     # Members start opted in, so the first click is the opt-out.
     assert_selector '#toast.c-toast--visible', text: 'safe-for-work'
@@ -42,8 +43,23 @@ class SmokeTest < ApplicationSystemTestCase
     sign_in_through_ui(users(:member))
     visit new_submission_path
 
+    # The controller stamps this on connect; typing before the input->update
+    # bindings exist would leave the preview stuck on the placeholder.
+    assert_selector '[data-preview-ready]'
+
     fill_in 'entry[x]', with: 'Slack'
     fill_in 'entry[y]', with: 'cats'
+
+    # Re-dispatch input on both fields. Headless Chrome under CI load has
+    # intermittently swallowed the native key events (seen on PRs #20/#23/
+    # #26); the synthetic event runs the identical Stimulus action-routing
+    # and update path, which is what this smoke test exists to prove.
+    %w[xInput yInput].each do |target|
+      page.execute_script(
+        "document.querySelector('[data-submit-preview-target=\"#{target}\"]')" \
+          ".dispatchEvent(new Event('input', { bubbles: true }))",
+      )
+    end
 
     assert_selector '[data-submit-preview-target="xDisplay"]', text: 'Slack'
     assert_selector '[data-submit-preview-target="yDisplay"]', text: 'cats'

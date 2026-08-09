@@ -9,6 +9,9 @@ export default class extends Controller {
   // for anyone typing before the JS lands.
   connect() {
     this.update();
+    // Readiness marker so the system test can wait for the action bindings
+    // before typing; keystrokes sent pre-connect reach no listener.
+    this.element.dataset.previewReady = '1';
   }
 
   update() {

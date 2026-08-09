@@ -63,11 +63,35 @@ Rails.application.routes.draw do
         as: :update_password_reset
 
   namespace :admin do
-    root to: 'submissions#index'
+    root to: 'dashboard#show'
     resources :submissions, only: [:index] do
       member do
         patch :approve
         patch :request_changes
+      end
+    end
+    resources :entries, only: [:index] do
+      member do
+        patch :pull
+        patch :restore
+        patch :feature
+        patch :unfeature
+        patch :promote
+      end
+    end
+    resources :users, only: [:index] do
+      member do
+        patch :suspend
+        patch :reinstate
+        patch :reset_email
+        patch :toggle_admin
+        post :send_password_reset
+        post :resend_confirmation
+      end
+    end
+    resources :payments, only: [:index] do
+      member do
+        patch :refund
       end
     end
   end

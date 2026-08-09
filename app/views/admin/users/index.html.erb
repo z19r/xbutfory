@@ -1,0 +1,82 @@
+<% content_for :title, "Members — XbutforY back office" %>
+<% content_for :nav_tab, "none" %>
+<%
+  state_labels = {
+    "unconfirmed" => "Unconfirmed",
+    "confirmed" => "Confirmed",
+    "suspended" => "Suspended"
+  }
+%>
+
+<%= render "admin/shared/nav", title: "Members", section: :users %>
+
+<%= form_with url: admin_users_path, method: :get, class: "l-admin__filterbar" do %>
+  <input type="search" name="q" value="<%= @query %>" placeholder="Search @handle, email or name…"
+         class="l-admin__search" aria-label="Search members">
+  <select name="state" class="l-admin__select" aria-label="Filter by state">
+    <option value="">Any state</option>
+    <% Admin::UsersController::STATES.each do |s| %>
+      <option value="<%= s %>" <%= "selected" if @state == s %>><%= state_labels[s] %></option>
+    <% end %>
+  </select>
+  <%= render ButtonComponent.new(variant: "secondary", size: "sm", type: "submit") do %>Filter<% end %>
+<% end %>
+
+<div class="l-manage__list">
+  <% if @users.empty? %>
+    <p class="l-admin__empty">No members match. They may not exist. We checked.</p>
+  <% end %>
+
+  <% @users.each do |user| %>
+    <article class="c-sub l-admin__member">
+      <div class="c-sub__votes">
+        <span class="c-sub__votes-num"><%= number_with_delimiter(user.entries.size) %></span>
+        <span class="c-sub__votes-label">LISTINGS</span>
+      </div>
+
+      <div class="c-sub__body">
+        <div class="c-sub__meta">
+          <span class="c-sub__pill c-sub__pill--<%= user.state == 'confirmed' ? 'live' : (user.state == 'suspended' ? 'needs_edits' : 'pending') %>">
+            <%= state_labels[user.state] %>
+          </span>
+          <% if user.admin? %><span class="c-sub__pill c-sub__pill--featured">ADMIN</span><% end %>
+          <span class="c-sub__ago">joined <%= time_ago_in_words(user.created_at) %> ago</span>
+        </div>
+        <div class="c-sub__title">@<%= user.handle %></div>
+        <p class="l-admin__desc"><%= user.email %><% if user.display_name.present? %> &middot; <%= user.display_name %><% end %></p>
+      </div>
+
+      <div class="c-sub__actions l-admin__actions">
+        <% if user.may_suspend? && user != current_user %>
+          <%= button_to "Suspend", suspend_admin_user_path(user), method: :patch,
+                class: "c-sub__action c-sub__action--muted",
+                form: { data: { turbo_confirm: "Ban @#{user.handle} and pull their listings?" } } %>
+        <% end %>
+        <% if user.may_reinstate? %>
+          <%= button_to "Reinstate", reinstate_admin_user_path(user), method: :patch,
+                class: "c-sub__action c-sub__action--accent" %>
+        <% end %>
+        <%= button_to "Send password reset", send_password_reset_admin_user_path(user),
+              method: :post, class: "c-sub__action" %>
+        <% unless user.confirmed? %>
+          <%= button_to "Re-send confirmation", resend_confirmation_admin_user_path(user),
+              method: :post, class: "c-sub__action" %>
+        <% end %>
+        <details class="l-admin__reqedits">
+          <summary class="c-sub__action">Change email</summary>
+          <%= form_with url: reset_email_admin_user_path(user), method: :patch, class: "l-admin__reqform" do %>
+            <input type="email" name="email" required placeholder="new@address.com"
+                   class="l-admin__note-input" aria-label="New email address">
+            <%= render ButtonComponent.new(variant: "secondary", size: "sm", type: "submit") do %>Update &amp; re-confirm<% end %>
+          <% end %>
+        </details>
+        <% if user != current_user %>
+          <%= button_to (user.admin? ? "Revoke admin" : "Make admin"),
+                toggle_admin_admin_user_path(user), method: :patch,
+                class: "c-sub__action c-sub__action--muted",
+                form: { data: { turbo_confirm: "Flip the admin bit for @#{user.handle}?" } } %>
+        <% end %>
+      </div>
+    </article>
+  <% end %>
+</div>

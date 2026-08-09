@@ -7,7 +7,11 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by_login(params[:login])
-    if user&.authenticate(params[:password])
+    if user&.suspended? && user.authenticate(params[:password])
+      SentryMetrics.count('auth.login', success: 'suspended')
+      redirect_to sign_in_path,
+                  alert: 'This account is suspended. Contact the editors.'
+    elsif user&.authenticate(params[:password])
       sign_in(user)
       SentryMetrics.count('auth.login', success: 'true')
       redirect_to after_sign_in_path, notice: "Signed in as @#{user.handle}."
