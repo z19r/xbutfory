@@ -61,7 +61,71 @@ class SmokeTest < ApplicationSystemTestCase
       )
     end
 
-    assert_selector '[data-submit-preview-target="xDisplay"]', text: 'Slack'
-    assert_selector '[data-submit-preview-target="yDisplay"]', text: 'cats'
+    assert_preview_shows 'Slack', 'cats'
+  end
+
+  private
+
+  # TEMPORARY (flake investigation): assert the preview, and on failure dump
+  # everything needed to tell the two remaining hypotheses apart — an empty
+  # input (keystrokes lost) versus a re-rendered page (typed state discarded).
+  def assert_preview_shows(x, y)
+    assert_selector '[data-submit-preview-target="xDisplay"]', text: x
+    assert_selector '[data-submit-preview-target="yDisplay"]', text: y
+  rescue Minitest::Assertion => e
+    warn "\n===== SUBMIT PREVIEW FLAKE DIAGNOSTICS =====\n"
+    warn(dump_preview_state.inspect)
+    warn "\nNAV LOG: #{page.evaluate_script('window.name')}"
+    warn "\nFORM HTML:\n#{page.evaluate_script(FORM_HTML_JS)}"
+    warn "\n===== END DIAGNOSTICS =====\n"
+    raise e
+  end
+
+  FORM_HTML_JS = <<~JS.freeze
+    (() => {
+      const f = document.querySelector('.c-submit__form');
+      return f ? f.outerHTML.slice(0, 2000) : '<<no form>>';
+    })()
+  JS
+
+  DUMP_STATE_JS = <<~JS.freeze
+    (() => {
+      const q = (s) => document.querySelector(s);
+      const x = q('[data-submit-preview-target="xInput"]');
+      const yEl = q('[data-submit-preview-target="yInput"]');
+      const root = q('[data-controller~="submit-preview"]');
+      // Does a fresh synthetic input still route through Stimulus? If the
+      // display changes here, the bindings are live and the inputs were empty.
+      let routed = null;
+      if (x) {
+        const before = q('[data-submit-preview-target="xDisplay"]').textContent;
+        x.value = 'PROBE';
+        x.dispatchEvent(new Event('input', { bubbles: true }));
+        const after = q('[data-submit-preview-target="xDisplay"]').textContent;
+        routed = (after === 'PROBE');
+        x.value = '';
+      }
+      return {
+        url: location.pathname + location.search,
+        readyState: document.readyState,
+        previewReady: root ? String(root.dataset.previewReady) : '<<no root>>',
+        xValue: x ? x.value : '<<missing>>',
+        yValue: yEl ? yEl.value : '<<missing>>',
+        xAction: x ? x.getAttribute('data-action') : null,
+        inputCount: document.querySelectorAll('[data-submit-preview-target="xInput"]').length,
+        displayCount: document.querySelectorAll('[data-submit-preview-target="xDisplay"]').length,
+        activeElement: document.activeElement
+          ? document.activeElement.tagName + '#' + (document.activeElement.id || '')
+          : null,
+        navigations: performance.getEntriesByType('navigation').length,
+        stimulusRoutesEvents: routed
+      };
+    })()
+  JS
+
+  def dump_preview_state
+    page.evaluate_script(DUMP_STATE_JS)
+  rescue StandardError => e
+    { dump_failed: e.message }
   end
 end

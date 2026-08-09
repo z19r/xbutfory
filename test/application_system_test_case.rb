@@ -18,6 +18,29 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     )
   end
 
+  # TEMPORARY (flake investigation): record navigations and Turbo visits into
+  # window.name, which survives same-origin navigation, so a failing test can
+  # show whether the page was re-rendered underneath it.
+  NAV_RECORDER_JS = <<~JS.freeze
+    (() => {
+      const log = (m) => { try { window.name = (window.name || '') + '|' + m; } catch (e) {} };
+      log('LOAD:' + location.pathname + location.search);
+      ['turbo:visit', 'turbo:before-render', 'turbo:load', 'turbo:before-fetch-request']
+        .forEach((n) => document.addEventListener(n, (e) => {
+          log(n + ':' + ((e.detail && e.detail.url) || ''));
+        }));
+      window.addEventListener('beforeunload', () => log('UNLOAD'));
+    })();
+  JS
+
+  setup do
+    page.driver.browser.execute_cdp(
+      'Page.addScriptToEvaluateOnNewDocument', source: NAV_RECORDER_JS
+    )
+  rescue StandardError => e
+    warn "nav recorder unavailable: #{e.message}"
+  end
+
   # Sign in through the real form — system tests exercise the whole UI stack,
   # so no request-level shortcuts here.
   def sign_in_through_ui(user, password: 'password')
