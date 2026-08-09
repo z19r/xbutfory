@@ -67,3 +67,24 @@
   color: var(--gel-nav-note);
   white-space: nowrap;
 }
+
+/* Phone widths: one scrollable tab row instead of a wrapped pile; the index
+   count is desktop furniture and yields its space to the tabs. */
+@media (max-width: 700px) {
+  .c-glossy-nav__note {
+    display: none;
+  }
+
+  .c-glossy-nav__tabs {
+    flex-wrap: nowrap;
+    width: 100%;
+    overflow-x: auto;
+    /* room for the active tab's raised shadow inside the scroll container */
+    padding: 6px 0;
+    scrollbar-width: none;
+  }
+
+  .c-glossy-nav__tabs::-webkit-scrollbar {
+    display: none;
+  }
+}

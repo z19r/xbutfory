@@ -50,6 +50,20 @@
   flex-shrink: 0;
 }
 
+/* Phone widths: the links row is wider than the viewport and `overflow-x: clip`
+   on <html> silently chops it off — tighten and let it wrap instead. */
+@media (max-width: 480px) {
+  .c-utility-bar__links {
+    gap: 8px;
+    flex-shrink: 1;
+    flex-wrap: wrap;
+  }
+
+  .c-utility-bar__after-dark {
+    padding: 4px 8px;
+  }
+}
+
 .c-utility-bar__theme {
   display: inline-flex;
   align-items: center;
