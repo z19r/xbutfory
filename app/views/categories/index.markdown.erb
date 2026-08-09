@@ -1,0 +1,8 @@
+# Browse by Category
+<% @listings.each do |listing| %>
+## <%= listing[:category].name %>
+
+<%= listing[:count] %> <%= 'entry'.pluralize(listing[:count]) %><%= " · #{listing[:sample]}" if listing[:sample].present? %>
+
+[Browse ↗](<%= root_url(category: listing[:category].slug) %>)
+<% end %>

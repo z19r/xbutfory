@@ -1,0 +1,20 @@
+# <%= @entry.x %> *but for* <%= @entry.y %>
+
+<% if @entry.tagline.present? %><%= @entry.tagline %>
+
+<% end %>**▲ <%= @entry.votes_count %> votes** · submitted <%= time_ago_in_words(@entry.created_at) %> ago by @<%= @entry.user.handle %><%= " · #{@category.name}" if @category %>
+<% if @entry.description.present? %>
+## The Pitch
+
+<%= @entry.description %>
+<% end %><% if @entry.why.present? %>
+## Why It Works
+
+<%= @entry.why %>
+<% end %>
+## The Formula
+
+`<%= @entry.x %> × <%= @entry.y %>`
+<% if @entry.url.present? %>
+[Visit <%= @entry.name.presence || 'site' %> ↗](<%= @entry.url %>)
+<% end %>

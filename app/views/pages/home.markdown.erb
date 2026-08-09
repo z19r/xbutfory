@@ -1,0 +1,10 @@
+# XbutforY
+
+*The daily-updated index of "X, but for Y" launches. You know the formula.*
+
+**<%= @new_today %> new today** · <%= @total_entries %> entries · <%= @total_votes %> votes · <%= @categories_count %> categories
+
+## Latest
+<% @entries.each do |entry| %>
+- **[<%= entry.x %> *but for* <%= entry.y %>](<%= entry_url(entry.slug) %>)**<%= " — #{entry.description}" if entry.description.present? %> (▲ <%= entry.votes_count %>)
+<% end %>
