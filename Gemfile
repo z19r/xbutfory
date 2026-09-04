@@ -28,7 +28,7 @@ gem 'solid_cache'
 gem 'solid_cable'
 
 # Background jobs run on Sidekiq (Redis-backed) — the house standard.
-gem 'sidekiq', '~> 7.3'
+gem 'sidekiq', '~> 8.0'
 # Sidekiq 7 calls TimedStack#pop(timeout); connection_pool 3.0 removed that
 # positional arg, so pin to the 2.x line until we move to Sidekiq 8.
 gem 'connection_pool', '~> 3.0'
