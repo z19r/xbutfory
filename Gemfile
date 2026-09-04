@@ -46,14 +46,14 @@ gem 'kamal', require: false
 gem 'thruster', require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 2.0'
 
 # Mail delivery via the Mailgun API (Z19R standard — see markbin-dot-net;
 # delivery_method :mailgun in production.rb) [https://github.com/mailgun/mailgun-ruby]
 gem 'mailgun-ruby', '~> 1.4.0'
 
 # Payments for the Featured listing tier [https://github.com/stripe/stripe-ruby]
-gem 'stripe', '~> 13.0'
+gem 'stripe', '~> 19.6'
 
 # State machines for entry/product/user/payment lifecycles [https://github.com/aasm/aasm]
 gem 'aasm', '~> 5.5'
