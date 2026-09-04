@@ -31,7 +31,7 @@ gem 'solid_cable'
 gem 'sidekiq', '~> 7.3'
 # Sidekiq 7 calls TimedStack#pop(timeout); connection_pool 3.0 removed that
 # positional arg, so pin to the 2.x line until we move to Sidekiq 8.
-gem 'connection_pool', '~> 2.5'
+gem 'connection_pool', '~> 3.0'
 # Cron-style recurring jobs for Sidekiq (weekly digest, cleanup, etc.)
 # >= 2.4 avoids the XSS advisory GHSA-xv9c-mjw8-79gf (CVE-2025-67202).
 gem 'sidekiq-cron', '~> 2.4'
@@ -56,7 +56,7 @@ gem 'mailgun-ruby', '~> 1.4.0'
 gem 'stripe', '~> 19.6'
 
 # State machines for entry/product/user/payment lifecycles [https://github.com/aasm/aasm]
-gem 'aasm', '~> 5.5'
+gem 'aasm', '~> 6.0'
 
 # Request throttling on auth/submit/vote/AI endpoints
 # [https://github.com/rack/rack-attack]
