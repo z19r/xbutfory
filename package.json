@@ -16,6 +16,6 @@
   "devDependencies": {
     "@prettier/plugin-ruby": "^4.0.4",
     "eslint": "^10.9.1",
-    "prettier": "^3.0.0"
+    "prettier": "^3.9.6"
   }
 }
