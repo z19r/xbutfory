@@ -56,7 +56,7 @@ gem 'mailgun-ruby', '~> 1.4.0'
 gem 'stripe', '~> 19.6'
 
 # State machines for entry/product/user/payment lifecycles [https://github.com/aasm/aasm]
-gem 'aasm', '~> 5.5'
+gem 'aasm', '~> 6.0'
 
 # Request throttling on auth/submit/vote/AI endpoints
 # [https://github.com/rack/rack-attack]
