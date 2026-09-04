@@ -79,7 +79,7 @@ jobs:
           bundler-cache: true
 
       - name: Install just
-        uses: extractions/setup-just@v2
+        uses: extractions/setup-just@v4
 
       - name: Set up database
         run: bin/rails db:schema:load
