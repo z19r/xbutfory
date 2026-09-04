@@ -53,7 +53,7 @@ gem 'image_processing', '~> 1.2'
 gem 'mailgun-ruby', '~> 1.4.0'
 
 # Payments for the Featured listing tier [https://github.com/stripe/stripe-ruby]
-gem 'stripe', '~> 13.0'
+gem 'stripe', '~> 19.6'
 
 # State machines for entry/product/user/payment lifecycles [https://github.com/aasm/aasm]
 gem 'aasm', '~> 5.5'
