@@ -22,13 +22,12 @@ if dsn.present?
     config.release = File.read(version_file).strip if File.exist?(
       version_file,
     )
-
     config.breadcrumbs_logger = %i[
       active_support_logger
       sentry_logger
       sidekiq_logger
-      active_record_logger
       http_logger
+    ]
     ]
 
     config.enabled_patches += %i[sidekiq_cron]
