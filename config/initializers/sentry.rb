@@ -28,7 +28,6 @@ if dsn.present?
       sidekiq_logger
       http_logger
     ]
-    ]
 
     config.enabled_patches += %i[sidekiq_cron]
     config.excluded_exceptions += %w[
