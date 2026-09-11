@@ -22,10 +22,12 @@ if dsn.present?
     config.release = File.read(version_file).strip if File.exist?(
       version_file,
     )
+
     config.breadcrumbs_logger = %i[
       active_support_logger
       sentry_logger
       sidekiq_logger
+      active_record_logger
       http_logger
     ]
 
@@ -62,6 +64,7 @@ if dsn.present?
 
     config.profiles_sample_rate = 1
 
+    config.enable_logs = ENV.fetch('SENTRY_ENABLE_LOGS', 'true') == 'true'
     config.send_default_pii = true
     config.profiler_class = Sentry::Vernier::Profiler
 
