@@ -65,7 +65,7 @@ gem 'rack-attack', '~> 6.7'
 # Sidekiq only brings redis-client, which Rails' cache store can't use.
 gem 'redis', '>= 4.0.1'
 # Rails 8.1.3.1 trips over json 3.x on Ruby 3.4 in controller/session paths.
-gem 'json', '3.0.1'
+gem 'json', '= 2.21.2'
 
 # Error tracking — web + Sidekiq report to one DSN; dormant without one
 # [https://github.com/getsentry/sentry-ruby]
