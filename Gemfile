@@ -28,7 +28,7 @@ gem 'solid_cache'
 gem 'solid_cable'
 
 # Background jobs run on Sidekiq (Redis-backed) — the house standard.
-gem 'sidekiq', '~> 8.0'
+gem 'sidekiq', '~> 8.1'
 # Sidekiq 7 calls TimedStack#pop(timeout); connection_pool 3.0 removed that
 # positional arg, so pin to the 2.x line until we move to Sidekiq 8.
 gem 'connection_pool', '~> 3.0'
@@ -64,6 +64,8 @@ gem 'rack-attack', '~> 6.7'
 # RedisCacheStore backing rack-attack's throttle counters in production.
 # Sidekiq only brings redis-client, which Rails' cache store can't use.
 gem 'redis', '>= 4.0.1'
+# Rails 8.1.3.1 trips over json 3.x on Ruby 3.4 in controller/session paths.
+gem 'json', '= 2.21.2'
 
 # Error tracking — web + Sidekiq report to one DSN; dormant without one
 # [https://github.com/getsentry/sentry-ruby]
