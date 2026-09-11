@@ -64,7 +64,6 @@ if dsn.present?
 
     config.profiles_sample_rate = 1
 
-    config.enable_logs = ENV.fetch('SENTRY_ENABLE_LOGS', 'true') == 'true'
     config.send_default_pii = true
     config.profiler_class = Sentry::Vernier::Profiler
 
